@@ -88,14 +88,12 @@ public class FollowupRegisterProvider implements RecyclerViewProvider<FollowupRe
 
     @Override
     public void getFooterView(RecyclerView.ViewHolder viewHolder, int currentPageCount, int totalPageCount, boolean hasNext, boolean hasPrevious) {
-        FooterViewHolder footerViewHolder = (FooterViewHolder) viewHolder;
-        footerViewHolder.pageInfoView.setText(MessageFormat.format(context.getString(org.smartregister.R.string.str_page_info), currentPageCount, totalPageCount));
-
-        footerViewHolder.nextPageView.setVisibility(hasNext ? View.VISIBLE : View.INVISIBLE);
-        footerViewHolder.previousPageView.setVisibility(hasPrevious ? View.VISIBLE : View.INVISIBLE);
-
-        footerViewHolder.nextPageView.setOnClickListener(paginationClickListener);
-        footerViewHolder.previousPageView.setOnClickListener(paginationClickListener);
+        FooterViewHolder holder = (FooterViewHolder) viewHolder;
+        holder.nextPageView.setVisibility(hasNext ? View.VISIBLE : View.INVISIBLE);
+        holder.pageInfoView.setText(MessageFormat.format(context.getString(org.smartregister.R.string.str_page_info), currentPageCount, totalPageCount));
+        holder.previousPageView.setVisibility(hasPrevious ? View.VISIBLE : View.INVISIBLE);
+        holder.previousPageView.setOnClickListener(paginationClickListener);
+        holder.nextPageView.setOnClickListener(paginationClickListener);
     }
 
     @Override
@@ -120,8 +118,8 @@ public class FollowupRegisterProvider implements RecyclerViewProvider<FollowupRe
 
     @Override
     public RegisterViewHolder createViewHolder(ViewGroup parent) {
-        View view = inflater.inflate(R.layout.followup_register_list_row_item, parent, false);
-        return new RegisterViewHolder(view);
+        View v = inflater.inflate(R.layout.followup_register_list_row_item, parent, false);
+        return new RegisterViewHolder(v);
     }
 
     @Override
@@ -136,15 +134,15 @@ public class FollowupRegisterProvider implements RecyclerViewProvider<FollowupRe
     }
 
     class RegisterViewHolder extends RecyclerView.ViewHolder {
-        TextView patientName;
-        TextView textViewVillage;
-        TextView textViewGender;
-        Button dueButton;
-        View patientColumn;
-        View registerColumns;
-        View dueWrapper;
+        public TextView patientName;
+        public TextView textViewVillage;
+        public TextView textViewGender;
+        public Button dueButton;
+        public View patientColumn;
+        public View registerColumns;
+        public View dueWrapper;
 
-        RegisterViewHolder(View itemView) {
+        public RegisterViewHolder(View itemView) {
             super(itemView);
 
             patientName = itemView.findViewById(R.id.patient_name_age);
@@ -158,9 +156,9 @@ public class FollowupRegisterProvider implements RecyclerViewProvider<FollowupRe
     }
 
     public class FooterViewHolder extends RecyclerView.ViewHolder {
-        TextView pageInfoView;
-        Button previousPageView;
-        Button nextPageView;
+        public TextView pageInfoView;
+        public Button previousPageView;
+        public Button nextPageView;
 
         FooterViewHolder(View view) {
             super(view);

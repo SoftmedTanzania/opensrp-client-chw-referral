@@ -95,8 +95,8 @@ public class BaseFollowupRegisterFragment extends BaseRegisterFragment implement
 
 
     @Override
-    public void setAdvancedSearchFormData(HashMap<String, String> hashMap) {
-//        implement search here
+    protected String getDefaultSortQuery() {
+        return presenter().getDefaultSortQuery();
     }
 
     @Override
@@ -105,8 +105,8 @@ public class BaseFollowupRegisterFragment extends BaseRegisterFragment implement
     }
 
     @Override
-    protected String getDefaultSortQuery() {
-        return presenter().getDefaultSortQuery();
+    public void setAdvancedSearchFormData(HashMap<String, String> hashMap) {
+//        implement search here
     }
 
     @Override
@@ -126,6 +126,11 @@ public class BaseFollowupRegisterFragment extends BaseRegisterFragment implement
         }
     }
 
+    @Override
+    public void showNotFoundPopup(String s) {
+//        implement dialog
+    }
+
     protected void openProfile(CommonPersonObjectClient client) {
         BaseReferralProfileActivity.startProfileActivity(getActivity(), new MemberObject(client));
     }
@@ -134,9 +139,5 @@ public class BaseFollowupRegisterFragment extends BaseRegisterFragment implement
 //        implement
     }
 
-    @Override
-    public void showNotFoundPopup(String s) {
-//        implement dialog
-    }
 
 }

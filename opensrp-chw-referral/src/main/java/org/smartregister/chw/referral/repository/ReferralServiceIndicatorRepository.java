@@ -9,7 +9,6 @@ import net.sqlcipher.database.SQLiteDatabase;
 
 import org.smartregister.chw.referral.ReferralLibrary;
 import org.smartregister.chw.referral.domain.ReferralServiceIndicatorObject;
-import org.smartregister.commonregistry.CommonPersonObject;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.repository.BaseRepository;
 import org.smartregister.repository.Repository;

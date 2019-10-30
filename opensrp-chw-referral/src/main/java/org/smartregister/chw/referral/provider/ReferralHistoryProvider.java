@@ -39,11 +39,11 @@ public class ReferralHistoryProvider extends RecyclerView.Adapter<ReferralHistor
     }
 
     class HistoryViewHolder extends RecyclerView.ViewHolder {
-        TextView facilityName;
-        TextView reasonForReferral;
-        TextView appointmentDate;
+        public TextView facilityName;
+        public TextView reasonForReferral;
+        public TextView appointmentDate;
 
-        HistoryViewHolder(View itemView) {
+        public HistoryViewHolder(View itemView) {
             super(itemView);
 
             facilityName = itemView.findViewById(R.id.facility_titleview);

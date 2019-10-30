@@ -54,7 +54,6 @@
                 style="@style/CustomFontTextViewStyle.ClientList.Medium"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="HIV"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 android:textColor="@android:color/black"
                 android:textSize="@dimen/register_member_village_size" />
@@ -71,7 +70,6 @@
                 style="@style/CustomFontTextViewStyle.ClientList.Medium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Lugalo Hospital"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 android:textColor="@android:color/black"
                 android:textSize="@dimen/register_member_village_size" />
@@ -90,7 +88,6 @@
                 style="@style/CustomFontTextViewStyle.ClientList.Light"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="Lavingtone #445"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 android:textColor="@android:color/black"
                 android:textSize="@dimen/register_member_village_size" />
@@ -107,7 +104,6 @@
                 style="@style/CustomFontTextViewStyle.ClientList.Light"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Male"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 android:textColor="@android:color/black"
                 android:textSize="@dimen/register_member_village_size" />
@@ -118,7 +114,7 @@
     <LinearLayout
         android:visibility="visible"
         android:id="@+id/due_button_wrapper"
-        android:layout_width="@dimen/call_widget_padding_bottom"
+        android:layout_width="@dimen/fab_margin"
         android:layout_height="@dimen/register_list_item_height"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"

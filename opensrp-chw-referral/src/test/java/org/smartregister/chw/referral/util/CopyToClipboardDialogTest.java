@@ -16,7 +16,7 @@ import org.mockito.MockitoAnnotations;
 public class CopyToClipboardDialogTest {
 
     @Mock
-    CopyToClipboardDialog copyToClipboardDialog;
+    private CopyToClipboardDialog copyToClipboardDialog;
 
     @Mock
     private Context context;

@@ -118,8 +118,6 @@ public class BaseReferralRegisterFragment extends BaseRegisterFragment implement
         }
         if (view.getTag() instanceof CommonPersonObjectClient && view.getTag(R.id.VIEW_ID) == CLICK_VIEW_NORMAL) {
             openProfile((CommonPersonObjectClient) view.getTag());
-        } else if (view.getTag() instanceof CommonPersonObjectClient && view.getTag(R.id.VIEW_ID) == FOLLOW_UP_VISIT) {
-            openFollowUpVisit((CommonPersonObjectClient) view.getTag());
         }
     }
 

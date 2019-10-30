@@ -122,7 +122,7 @@ public class BaseIssueReferralModelTest {
                         break;
                     default:
                         Timber.i("field not found");
-
+                        break;
                 }
             }
 
