@@ -30,7 +30,7 @@ public class BaseIssueReferralActivityTest {
 
     @Test
     public void presenter() {
-        Assert.assertNotNull(spy.presenter());
+//        Assert.assertNotNull(spy.presenter());
         Assert.assertThat(spy.presenter(), instanceOf(BaseIssueReferralContract.Presenter.class));
     }
 

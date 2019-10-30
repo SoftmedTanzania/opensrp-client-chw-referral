@@ -10,12 +10,10 @@ import java.util.List;
 
 public class BaseReferralRegisterPresenter implements BaseReferralRegisterContract.Presenter, BaseReferralRegisterContract.InteractorCallBack {
     protected WeakReference<BaseReferralRegisterContract.View> viewReference;
-    protected BaseReferralRegisterContract.Interactor interactor;
     protected BaseReferralRegisterContract.Model model;
 
-    public BaseReferralRegisterPresenter(BaseReferralRegisterContract.View view, BaseReferralRegisterContract.Model model, BaseReferralRegisterContract.Interactor interactor) {
+    public BaseReferralRegisterPresenter(BaseReferralRegisterContract.View view, BaseReferralRegisterContract.Model model) {
         viewReference = new WeakReference<>(view);
-        this.interactor = interactor;
         this.model = model;
     }
 

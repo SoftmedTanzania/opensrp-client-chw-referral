@@ -6,9 +6,6 @@ import org.junit.Test;
 import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Created by cozej4 on 2019-10-26.
  *
@@ -23,20 +20,6 @@ public class BaseReferralRegisterModelTest {
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
-    }
-
-    @Test
-    public void registerViewConfigurations() {
-        List<String> viewIdentifiers = new ArrayList<>();
-        model.registerViewConfigurations(viewIdentifiers);
-        assert true : "No error occurred";
-    }
-
-    @Test
-    public void unregisterViewConfiguration() {
-        List<String> viewIdentifiers = new ArrayList<>();
-        model.unregisterViewConfiguration(viewIdentifiers);
-        assert true : "No error occurred";
     }
 
     @Test

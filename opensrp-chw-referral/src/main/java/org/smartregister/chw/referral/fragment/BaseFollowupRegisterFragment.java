@@ -37,10 +37,18 @@ public class BaseFollowupRegisterFragment extends BaseRegisterFragment implement
     public void setupViews(android.view.View view) {
         super.setupViews(view);
 
-        // Update top left icon
-        qrCodeScanImageView = view.findViewById(org.smartregister.R.id.scanQrCode);
-        if (qrCodeScanImageView != null) {
-            qrCodeScanImageView.setVisibility(android.view.View.GONE);
+
+        // Update title name
+        CustomFontTextView titleView = view.findViewById(R.id.txt_title_label);
+        if (titleView != null) {
+            titleView.setVisibility(android.view.View.VISIBLE);
+            titleView.setText(getString(R.string.followup_referral));
+            titleView.setFontVariant(FontVariant.REGULAR);
+        }
+
+        ImageView logo = view.findViewById(org.smartregister.R.id.opensrp_logo_image_view);
+        if (logo != null) {
+            logo.setVisibility(android.view.View.GONE);
         }
 
         // Update Search bar
@@ -52,23 +60,23 @@ public class BaseFollowupRegisterFragment extends BaseRegisterFragment implement
             getSearchView().setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_action_search, 0, 0, 0);
         }
 
+        // Update top left icon
+        qrCodeScanImageView = view.findViewById(org.smartregister.R.id.scanQrCode);
+        if (qrCodeScanImageView != null) {
+            qrCodeScanImageView.setVisibility(android.view.View.GONE);
+        }
+
         // Update sort filter
         TextView filterView = view.findViewById(org.smartregister.R.id.filter_text_view);
         if (filterView != null) {
             filterView.setText(getString(R.string.sort));
         }
+    }
 
-        // Update title name
-        ImageView logo = view.findViewById(org.smartregister.R.id.opensrp_logo_image_view);
-        if (logo != null) {
-            logo.setVisibility(android.view.View.GONE);
-        }
-
-        CustomFontTextView titleView = view.findViewById(R.id.txt_title_label);
-        if (titleView != null) {
-            titleView.setVisibility(android.view.View.VISIBLE);
-            titleView.setText(getString(R.string.followup_referral));
-            titleView.setFontVariant(FontVariant.REGULAR);
+    @Override
+    public void setUniqueID(String s) {
+        if (getSearchView() != null) {
+            getSearchView().setText(s);
         }
     }
 
@@ -85,12 +93,6 @@ public class BaseFollowupRegisterFragment extends BaseRegisterFragment implement
         presenter = new BaseReferralRegisterFragmentPresenter(this, new BaseReferralRegisterFragmentModel(), null);
     }
 
-    @Override
-    public void setUniqueID(String s) {
-        if (getSearchView() != null) {
-            getSearchView().setText(s);
-        }
-    }
 
     @Override
     public void setAdvancedSearchFormData(HashMap<String, String> hashMap) {

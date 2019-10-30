@@ -30,10 +30,10 @@ public class ReferralServiceRepository extends BaseRepository {
     private static final String SERVICE_NAME_SW = "name_sw";
     private static final String SERVICE_IDENTIFIER = "identifier";
     private static final String IS_ACTIVE = "is_active";
-    private static final String _ID = "id";
+    private static final String ID = "id";
     private static final String DETAILS_COLUMN = "details";
 
-    private static final String[] TABLE_COLUMNS = {_ID, SERVICE_NAME_EN, SERVICE_NAME_SW, SERVICE_IDENTIFIER, IS_ACTIVE};
+    private static final String[] TABLE_COLUMNS = {ID, SERVICE_NAME_EN, SERVICE_NAME_SW, SERVICE_IDENTIFIER, IS_ACTIVE};
 
 
     public ReferralServiceRepository(Repository repository) {
@@ -47,16 +47,13 @@ public class ReferralServiceRepository extends BaseRepository {
             if (database == null) {
                 return null;
             }
-            String selection = _ID + " = ? " + COLLATE_NOCASE;
+            String selection = ID + " = ? " + COLLATE_NOCASE;
             String[] selectionArgs = new String[]{_id};
-
             cursor = database.query(TABLE_NAME, TABLE_COLUMNS, selection, selectionArgs, null, null, null);
-
             if (cursor != null && cursor.getCount() > 0 && cursor.moveToFirst()) {
                 //improve this query mechanism
                 CommonPersonObjectClient commonPersonObjectClient = new CommonPersonObjectClient("", null, "");
                 commonPersonObjectClient.setColumnmaps(ReferralLibrary.getInstance().context().commonrepository(TABLE_NAME).sqliteRowToMap(cursor));
-
                 return new ReferralServiceObject(commonPersonObjectClient);
             }
         } catch (Exception e) {
@@ -67,7 +64,6 @@ public class ReferralServiceRepository extends BaseRepository {
             }
         }
         return null;
-
     }
 
     public List<ReferralServiceObject> getReferralServices() {
@@ -110,7 +106,7 @@ public class ReferralServiceRepository extends BaseRepository {
 
     private ContentValues createValuesFor(ReferralServiceObject referralServiceObject) {
         ContentValues values = new ContentValues();
-        values.put(_ID, referralServiceObject.getId());
+        values.put(ID, referralServiceObject.getId());
         values.put(SERVICE_NAME_EN, referralServiceObject.getNameEn());
         values.put(SERVICE_NAME_SW, referralServiceObject.getNameSw());
         values.put(SERVICE_IDENTIFIER, referralServiceObject.getIdentifier());

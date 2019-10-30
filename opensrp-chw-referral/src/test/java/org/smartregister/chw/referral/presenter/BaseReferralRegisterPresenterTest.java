@@ -7,7 +7,6 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.smartregister.chw.referral.contract.BaseReferralRegisterContract;
-import org.smartregister.chw.referral.presenter.BaseReferralRegisterPresenter;
 
 
 @PrepareForTest(BaseReferralRegisterPresenter.class)
@@ -30,11 +29,11 @@ public class BaseReferralRegisterPresenterTest {
     }
 
     @Test
-    public void getView(){
-        BaseReferralRegisterPresenter presenterWithNullView = new BaseReferralRegisterPresenter(null,model,interactor);
+    public void getView() {
+        BaseReferralRegisterPresenter presenterWithNullView = new BaseReferralRegisterPresenter(null, model);
         Assert.assertNull(presenterWithNullView.getView());
 
-        BaseReferralRegisterPresenter presenter = new BaseReferralRegisterPresenter(view,model,interactor);
+        BaseReferralRegisterPresenter presenter = new BaseReferralRegisterPresenter(view, model);
         Assert.assertNotNull(presenter.getView());
     }
 

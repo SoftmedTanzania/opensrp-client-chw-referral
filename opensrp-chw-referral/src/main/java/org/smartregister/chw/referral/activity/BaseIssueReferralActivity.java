@@ -73,7 +73,6 @@ public class BaseIssueReferralActivity extends AppCompatActivity implements Base
     protected TextView textViewGender;
     protected TextView textViewLocation;
     protected TextView textViewUniqueID;
-    ActivityReferralRegistrationBinding mBinding;
     private AbstractIssueReferralModel viewModel;
     private MaterialSpinner spinnerService;
     private LinearLayout linearLayoutIndicators;
@@ -96,7 +95,7 @@ public class BaseIssueReferralActivity extends AppCompatActivity implements Base
         // this viewModel must extend #AbstractIssueReferralModel and implements BaseIssueReferralContract.Model
         viewModel = ViewModelProviders.of(this).get(presenter.getViewModel());
 
-        mBinding = DataBindingUtil.setContentView(
+        ActivityReferralRegistrationBinding mBinding = DataBindingUtil.setContentView(
                 this, R.layout.activity_referral_registration);
         mBinding.setViewModel(viewModel);
 

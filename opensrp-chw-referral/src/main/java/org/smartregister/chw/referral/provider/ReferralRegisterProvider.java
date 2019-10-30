@@ -41,7 +41,7 @@ public class ReferralRegisterProvider implements RecyclerViewProvider<ReferralRe
     private Context context;
     private Set<org.smartregister.configurableviews.model.View> visibleColumns;
 
-    public ReferralRegisterProvider(Context context, View.OnClickListener paginationClickListener, View.OnClickListener onClickListener, Set visibleColumns, CommonRepository commonRepository) {
+    public ReferralRegisterProvider(Context context, View.OnClickListener paginationClickListener, View.OnClickListener onClickListener, Set visibleColumns) {
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.paginationClickListener = paginationClickListener;
         this.onClickListener = onClickListener;

@@ -46,15 +46,6 @@ public class FollowupRegisterProvider implements RecyclerViewProvider<FollowupRe
         this.onClickListener = onClickListener;
         this.visibleColumns = visibleColumns;
         this.context = context;
-
-    }
-
-    @Override
-    public void getView(Cursor cursor, SmartRegisterClient smartRegisterClient, RegisterViewHolder registerViewHolder) {
-        CommonPersonObjectClient pc = (CommonPersonObjectClient) smartRegisterClient;
-        if (visibleColumns.isEmpty()) {
-            populatePatientColumn(pc, registerViewHolder);
-        }
     }
 
     private void populatePatientColumn(CommonPersonObjectClient pc, final RegisterViewHolder viewHolder) {
@@ -62,39 +53,36 @@ public class FollowupRegisterProvider implements RecyclerViewProvider<FollowupRe
             String fname = getName(
                     Utils.getValue(pc.getColumnmaps(), DBConstants.KEY.FIRST_NAME, true),
                     Utils.getValue(pc.getColumnmaps(), DBConstants.KEY.MIDDLE_NAME, true));
+            String patientName = getName(fname, Utils.getValue(pc.getColumnmaps(), DBConstants.KEY.LAST_NAME, true));
 
             String dobString = Utils.getValue(pc.getColumnmaps(), DBConstants.KEY.DOB, false);
             int age = new Period(new DateTime(dobString), new DateTime()).getYears();
 
-            String patientName = getName(fname, Utils.getValue(pc.getColumnmaps(), DBConstants.KEY.LAST_NAME, true));
             viewHolder.patientName.setText(patientName + ", " + age);
-            viewHolder.textViewGender.setText(Utils.getValue(pc.getColumnmaps(), DBConstants.KEY.GENDER, true));
             viewHolder.textViewVillage.setText(Utils.getValue(pc.getColumnmaps(), DBConstants.KEY.VILLAGE_TOWN, true));
+            viewHolder.textViewGender.setText(Utils.getValue(pc.getColumnmaps(), DBConstants.KEY.GENDER, true));
             viewHolder.patientColumn.setOnClickListener(onClickListener);
             viewHolder.patientColumn.setTag(pc);
             viewHolder.patientColumn.setTag(R.id.VIEW_ID, BaseReferralRegisterFragment.CLICK_VIEW_NORMAL);
 
+            viewHolder.registerColumns.setOnClickListener(onClickListener);
             viewHolder.dueButton.setOnClickListener(onClickListener);
             viewHolder.dueButton.setTag(pc);
             viewHolder.dueButton.setTag(R.id.VIEW_ID, BaseReferralRegisterFragment.FOLLOW_UP_VISIT);
-            viewHolder.registerColumns.setOnClickListener(onClickListener);
 
-            viewHolder.registerColumns.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    viewHolder.patientColumn.performClick();
-                }
-            });
-
-            viewHolder.registerColumns.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    viewHolder.dueButton.performClick();
-                }
-            });
+            viewHolder.registerColumns.setOnClickListener(v -> viewHolder.dueButton.performClick());
+            viewHolder.registerColumns.setOnClickListener(v -> viewHolder.patientColumn.performClick());
 
         } catch (Exception e) {
             Timber.e(e);
+        }
+    }
+
+    @Override
+    public void getView(Cursor cursor, SmartRegisterClient smartRegisterClient, RegisterViewHolder registerViewHolder) {
+        CommonPersonObjectClient pc = (CommonPersonObjectClient) smartRegisterClient;
+        if (visibleColumns.isEmpty()) {
+            populatePatientColumn(pc, registerViewHolder);
         }
     }
 
@@ -147,17 +135,16 @@ public class FollowupRegisterProvider implements RecyclerViewProvider<FollowupRe
         return viewHolder instanceof FooterViewHolder;
     }
 
-    public class RegisterViewHolder extends RecyclerView.ViewHolder {
-        public TextView patientName;
-        public TextView textViewVillage;
-        public TextView textViewGender;
-        public Button dueButton;
-        public View patientColumn;
+    class RegisterViewHolder extends RecyclerView.ViewHolder {
+        TextView patientName;
+        TextView textViewVillage;
+        TextView textViewGender;
+        Button dueButton;
+        View patientColumn;
+        View registerColumns;
+        View dueWrapper;
 
-        public View registerColumns;
-        public View dueWrapper;
-
-        public RegisterViewHolder(View itemView) {
+        RegisterViewHolder(View itemView) {
             super(itemView);
 
             patientName = itemView.findViewById(R.id.patient_name_age);
@@ -171,16 +158,15 @@ public class FollowupRegisterProvider implements RecyclerViewProvider<FollowupRe
     }
 
     public class FooterViewHolder extends RecyclerView.ViewHolder {
-        public TextView pageInfoView;
-        public Button nextPageView;
-        public Button previousPageView;
+        TextView pageInfoView;
+        Button previousPageView;
+        Button nextPageView;
 
-        public FooterViewHolder(View view) {
+        FooterViewHolder(View view) {
             super(view);
-
             nextPageView = view.findViewById(org.smartregister.R.id.btn_next_page);
-            previousPageView = view.findViewById(org.smartregister.R.id.btn_previous_page);
             pageInfoView = view.findViewById(org.smartregister.R.id.txt_page_info);
+            previousPageView = view.findViewById(org.smartregister.R.id.btn_previous_page);
         }
     }
 }

@@ -13,6 +13,8 @@ import org.smartregister.chw.referral.domain.MemberObject;
 import org.smartregister.chw.referral.domain.ReferralServiceObject;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
 
+import timber.log.Timber;
+
 import static org.mockito.Mockito.verify;
 
 /**
@@ -78,129 +80,7 @@ public class BaseIssueReferralModelTest {
 
         JSONObject form = null;
         try {
-            form = new JSONObject("{\n" +
-                    "  \"count\": \"1\",\n" +
-                    "  \"encounter_type\": \"Referral Registration\",\n" +
-                    "  \"entity_id\": \"\",\n" +
-                    "  \"relational_id\": \"\",\n" +
-                    "  \"metadata\": {\n" +
-                    "    \"start\": {\n" +
-                    "      \"openmrs_entity_parent\": \"\",\n" +
-                    "      \"openmrs_entity\": \"concept\",\n" +
-                    "      \"openmrs_data_type\": \"start\",\n" +
-                    "      \"openmrs_entity_id\": \"163137AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\"\n" +
-                    "    },\n" +
-                    "    \"end\": {\n" +
-                    "      \"openmrs_entity_parent\": \"\",\n" +
-                    "      \"openmrs_entity\": \"concept\",\n" +
-                    "      \"openmrs_data_type\": \"end\",\n" +
-                    "      \"openmrs_entity_id\": \"163138AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\"\n" +
-                    "    },\n" +
-                    "    \"today\": {\n" +
-                    "      \"openmrs_entity_parent\": \"\",\n" +
-                    "      \"openmrs_entity\": \"encounter\",\n" +
-                    "      \"openmrs_entity_id\": \"encounter_date\"\n" +
-                    "    },\n" +
-                    "    \"deviceid\": {\n" +
-                    "      \"openmrs_entity_parent\": \"\",\n" +
-                    "      \"openmrs_entity\": \"concept\",\n" +
-                    "      \"openmrs_data_type\": \"deviceid\",\n" +
-                    "      \"openmrs_entity_id\": \"163149AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\"\n" +
-                    "    },\n" +
-                    "    \"subscriberid\": {\n" +
-                    "      \"openmrs_entity_parent\": \"\",\n" +
-                    "      \"openmrs_entity\": \"concept\",\n" +
-                    "      \"openmrs_data_type\": \"subscriberid\",\n" +
-                    "      \"openmrs_entity_id\": \"163150AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\"\n" +
-                    "    },\n" +
-                    "    \"simserial\": {\n" +
-                    "      \"openmrs_entity_parent\": \"\",\n" +
-                    "      \"openmrs_entity\": \"concept\",\n" +
-                    "      \"openmrs_data_type\": \"simserial\",\n" +
-                    "      \"openmrs_entity_id\": \"163151AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\"\n" +
-                    "    },\n" +
-                    "    \"phonenumber\": {\n" +
-                    "      \"openmrs_entity_parent\": \"\",\n" +
-                    "      \"openmrs_entity\": \"concept\",\n" +
-                    "      \"openmrs_data_type\": \"phonenumber\",\n" +
-                    "      \"openmrs_entity_id\": \"163152AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\"\n" +
-                    "    },\n" +
-                    "    \"encounter_location\": \"\",\n" +
-                    "    \"look_up\": {\n" +
-                    "      \"entity_id\": \"\",\n" +
-                    "      \"value\": \"\"\n" +
-                    "    }\n" +
-                    "  },\n" +
-                    "  \"step1\": {\n" +
-                    "    \"title\": \"Referral form\",\n" +
-                    "    \"fields\": [\n" +
-                    "      {\n" +
-                    "        \"key\": \"chw_referral_hf\",\n" +
-                    "        \"openmrs_entity_parent\": \"\",\n" +
-                    "        \"openmrs_entity\": \"concept\",\n" +
-                    "        \"openmrs_entity_id\": \"chw_referral_hf\",\n" +
-                    "        \"type\": \"edit_text\"\n" +
-                    "      },\n" +
-                    "      {\n" +
-                    "        \"key\": \"chw_referral_reason\",\n" +
-                    "        \"openmrs_entity_parent\": \"\",\n" +
-                    "        \"openmrs_entity\": \"concept\",\n" +
-                    "        \"openmrs_entity_id\": \"chw_referral_reason\",\n" +
-                    "        \"type\": \"edit_text\"\n" +
-                    "      },\n" +
-                    "      {\n" +
-                    "        \"key\": \"chw_referral_service\",\n" +
-                    "        \"openmrs_entity_parent\": \"\",\n" +
-                    "        \"openmrs_entity\": \"concept\",\n" +
-                    "        \"openmrs_entity_id\": \"chw_referral_service\",\n" +
-                    "        \"type\": \"edit_text\"\n" +
-                    "      },\n" +
-                    "      {\n" +
-                    "        \"key\": \"chw_referral_date\",\n" +
-                    "        \"openmrs_entity_parent\": \"\",\n" +
-                    "        \"openmrs_entity\": \"concept\",\n" +
-                    "        \"openmrs_entity_id\": \"chw_referral_date\",\n" +
-                    "        \"type\": \"edit_text\"\n" +
-                    "      },\n" +
-                    "      {\n" +
-                    "        \"key\": \"is_emergency_referral\",\n" +
-                    "        \"openmrs_entity_parent\": \"\",\n" +
-                    "        \"openmrs_entity\": \"concept\",\n" +
-                    "        \"openmrs_entity_id\": \"is_emergency_referral\",\n" +
-                    "        \"type\": \"edit_text\"\n" +
-                    "      },\n" +
-                    "      {\n" +
-                    "        \"key\": \"danger_signs_indicator_ids\",\n" +
-                    "        \"openmrs_entity_parent\": \"\",\n" +
-                    "        \"openmrs_entity\": \"concept\",\n" +
-                    "        \"openmrs_entity_id\": \"danger_signs_indicator_ids\",\n" +
-                    "        \"type\": \"edit_text\"\n" +
-                    "      },\n" +
-                    "      {\n" +
-                    "        \"key\": \"referral_type\",\n" +
-                    "        \"openmrs_entity_parent\": \"\",\n" +
-                    "        \"openmrs_entity\": \"concept\",\n" +
-                    "        \"openmrs_entity_id\": \"referral_type\",\n" +
-                    "        \"type\": \"edit_text\"\n" +
-                    "      },\n" +
-                    "      {\n" +
-                    "        \"key\": \"referral_status\",\n" +
-                    "        \"openmrs_entity_parent\": \"\",\n" +
-                    "        \"openmrs_entity\": \"concept\",\n" +
-                    "        \"openmrs_entity_id\": \"referral_status\",\n" +
-                    "        \"type\": \"edit_text\"\n" +
-                    "      },\n" +
-                    "      {\n" +
-                    "        \"key\": \"referral_appointment_date\",\n" +
-                    "        \"openmrs_entity_parent\": \"\",\n" +
-                    "        \"openmrs_entity\": \"concept\",\n" +
-                    "        \"openmrs_entity_id\": \"referral_appointment_date\",\n" +
-                    "        \"type\": \"edit_text\"\n" +
-                    "      }\n" +
-                    "\n" +
-                    "    ]\n" +
-                    "  }\n" +
-                    "}");
+            form = new JSONObject("{\"count\":\"1\",\"encounter_type\":\"Referral Registration\",\"entity_id\":\"\",\"relational_id\":\"\",\"metadata\":{\"start\":{\"openmrs_entity_parent\":\"\",\"openmrs_entity\":\"concept\",\"openmrs_data_type\":\"start\",\"openmrs_entity_id\":\"163137AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\"},\"end\":{\"openmrs_entity_parent\":\"\",\"openmrs_entity\":\"concept\",\"openmrs_data_type\":\"end\",\"openmrs_entity_id\":\"163138AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\"},\"today\":{\"openmrs_entity_parent\":\"\",\"openmrs_entity\":\"encounter\",\"openmrs_entity_id\":\"encounter_date\"},\"deviceid\":{\"openmrs_entity_parent\":\"\",\"openmrs_entity\":\"concept\",\"openmrs_data_type\":\"deviceid\",\"openmrs_entity_id\":\"163149AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\"},\"subscriberid\":{\"openmrs_entity_parent\":\"\",\"openmrs_entity\":\"concept\",\"openmrs_data_type\":\"subscriberid\",\"openmrs_entity_id\":\"163150AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\"},\"simserial\":{\"openmrs_entity_parent\":\"\",\"openmrs_entity\":\"concept\",\"openmrs_data_type\":\"simserial\",\"openmrs_entity_id\":\"163151AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\"},\"phonenumber\":{\"openmrs_entity_parent\":\"\",\"openmrs_entity\":\"concept\",\"openmrs_data_type\":\"phonenumber\",\"openmrs_entity_id\":\"163152AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\"},\"encounter_location\":\"\",\"look_up\":{\"entity_id\":\"\",\"value\":\"\"}},\"step1\":{\"title\":\"Referral form\",\"fields\":[{\"key\":\"chw_referral_hf\",\"openmrs_entity_parent\":\"\",\"openmrs_entity\":\"concept\",\"openmrs_entity_id\":\"chw_referral_hf\",\"type\":\"edit_text\"},{\"key\":\"chw_referral_reason\",\"openmrs_entity_parent\":\"\",\"openmrs_entity\":\"concept\",\"openmrs_entity_id\":\"chw_referral_reason\",\"type\":\"edit_text\"},{\"key\":\"chw_referral_service\",\"openmrs_entity_parent\":\"\",\"openmrs_entity\":\"concept\",\"openmrs_entity_id\":\"chw_referral_service\",\"type\":\"edit_text\"},{\"key\":\"chw_referral_date\",\"openmrs_entity_parent\":\"\",\"openmrs_entity\":\"concept\",\"openmrs_entity_id\":\"chw_referral_date\",\"type\":\"edit_text\"},{\"key\":\"is_emergency_referral\",\"openmrs_entity_parent\":\"\",\"openmrs_entity\":\"concept\",\"openmrs_entity_id\":\"is_emergency_referral\",\"type\":\"edit_text\"},{\"key\":\"danger_signs_indicator_ids\",\"openmrs_entity_parent\":\"\",\"openmrs_entity\":\"concept\",\"openmrs_entity_id\":\"danger_signs_indicator_ids\",\"type\":\"edit_text\"},{\"key\":\"referral_type\",\"openmrs_entity_parent\":\"\",\"openmrs_entity\":\"concept\",\"openmrs_entity_id\":\"referral_type\",\"type\":\"edit_text\"},{\"key\":\"referral_status\",\"openmrs_entity_parent\":\"\",\"openmrs_entity\":\"concept\",\"openmrs_entity_id\":\"referral_status\",\"type\":\"edit_text\"},{\"key\":\"referral_appointment_date\",\"openmrs_entity_parent\":\"\",\"openmrs_entity\":\"concept\",\"openmrs_entity_id\":\"referral_appointment_date\",\"type\":\"edit_text\"}]}}");
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -240,6 +120,9 @@ public class BaseIssueReferralModelTest {
                     case "referral_appointment_date":
                         Assert.assertEquals(model.MEMBER_OBJECT.getReferralAppointmentDate(), jsonObject1.optString("value"));
                         break;
+                    default:
+                        Timber.i("field not found");
+
                 }
             }
 

@@ -25,15 +25,13 @@ public class BaseReferralHistoryActivity extends AppCompatActivity implements Ba
     protected TextView textViewGender;
     protected TextView textViewLocation;
     protected TextView textViewUniqueID;
-    private RecyclerView historyRecyclerView;
-    private BaseReferralHistoryContract.Presenter baseferralHistoryPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_base_referral_history);
         MEMBER_OBJECT = (MemberObject) getIntent().getSerializableExtra(Constants.ACTIVITY_PAYLOAD.MEMBER_OBJECT);
-        baseferralHistoryPresenter = presenter();
+        BaseReferralHistoryContract.Presenter baseferralHistoryPresenter = presenter();
         setupViews();
 
         baseferralHistoryPresenter.fillClientData(MEMBER_OBJECT);
@@ -49,7 +47,7 @@ public class BaseReferralHistoryActivity extends AppCompatActivity implements Ba
         textViewLocation = findViewById(R.id.textview_address);
         textViewUniqueID = findViewById(R.id.textview_id);
 
-        historyRecyclerView = findViewById(R.id.referral_history_recycler_view);
+        RecyclerView historyRecyclerView = findViewById(R.id.referral_history_recycler_view);
         historyRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         historyRecyclerView.setHasFixedSize(true);
     }

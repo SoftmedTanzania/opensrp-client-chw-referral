@@ -1,7 +1,6 @@
 package org.smartregister.chw.referral.util;
 
 import android.content.Context;
-import android.view.View;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -17,13 +16,10 @@ import org.mockito.MockitoAnnotations;
 public class CopyToClipboardDialogTest {
 
     @Mock
-    Context context;
-
-    @Mock
-    View view;
-
-    @Mock
     CopyToClipboardDialog copyToClipboardDialog;
+
+    @Mock
+    private Context context;
 
     @Before
     public void setUp() throws Exception {

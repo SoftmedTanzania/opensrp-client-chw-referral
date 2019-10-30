@@ -41,15 +41,6 @@ public class BaseReferralRegisterFragmentPresenterTest {
     }
 
     @Test
-    public void processViewConfigurations() {
-        baseReferralRegisterFragmentPresenter.processViewConfigurations();
-
-        baseReferralRegisterFragmentPresenter = new BaseReferralRegisterFragmentPresenter(view, model, "identifier");
-        baseReferralRegisterFragmentPresenter.processViewConfigurations();
-        assert true:"No errors occured during the test";
-    }
-
-    @Test
     public void initializeQueries() {
         baseReferralRegisterFragmentPresenter.initializeQueries("");
         verify(baseReferralRegisterFragmentPresenter.getView()).countExecute();

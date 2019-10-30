@@ -41,24 +41,21 @@ public class ReferralServiceIndicatorRepository extends BaseRepository {
     }
 
     public ReferralServiceIndicatorObject getServiceIndicatorById(String _id) {
-        SQLiteDatabase database = getReadableDatabase();
-        CommonPersonObject personObject;
         Cursor cursor = null;
+        SQLiteDatabase database = getReadableDatabase();
         try {
             if (database == null) {
                 return null;
             }
-            String selection = _ID + " = ? " + COLLATE_NOCASE;
+            String selection = _ID + " = ? COLLATE NOCASE ";
             String[] selectionArgs = new String[]{_id};
 
             cursor = database.query(TABLE_NAME, TABLE_COLUMNS, selection, selectionArgs, null, null, null);
 
             if (cursor != null && cursor.getCount() > 0 && cursor.moveToFirst()) {
-
-                //TODO coze: improve this query mechanism
+                // improve this query mechanism
                 CommonPersonObjectClient commonPersonObjectClient = new CommonPersonObjectClient("", null, "");
                 commonPersonObjectClient.setColumnmaps(ReferralLibrary.getInstance().context().commonrepository(TABLE_NAME).sqliteRowToMap(cursor));
-
                 return new ReferralServiceIndicatorObject(commonPersonObjectClient);
             }
         } catch (Exception e) {

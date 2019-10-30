@@ -17,7 +17,6 @@ import org.smartregister.chw.referral.R;
 import org.smartregister.chw.referral.contract.BaseReferralRegisterContract;
 import org.smartregister.chw.referral.fragment.BaseFollowupRegisterFragment;
 import org.smartregister.chw.referral.fragment.BaseReferralRegisterFragment;
-import org.smartregister.chw.referral.interactor.BaseReferralRegisterInteractor;
 import org.smartregister.chw.referral.listener.ReferralBottomNavigationListener;
 import org.smartregister.chw.referral.model.BaseReferralRegisterModel;
 import org.smartregister.chw.referral.presenter.BaseReferralRegisterPresenter;
@@ -61,6 +60,7 @@ public class BaseReferralRegisterActivity extends BaseRegisterActivity implement
 
     @Override
     public void startFormActivity(String formName, String entityId, String metaData) {
+        //Implement
     }
 
     protected String getLocationID() {
@@ -91,7 +91,7 @@ public class BaseReferralRegisterActivity extends BaseRegisterActivity implement
 
     @Override
     protected void onActivityResultExtended(int requestCode, int resultCode, Intent data) {
-
+        //Implement
     }
 
     @Override
@@ -135,7 +135,7 @@ public class BaseReferralRegisterActivity extends BaseRegisterActivity implement
 
     @Override
     protected void initializePresenter() {
-        presenter = new BaseReferralRegisterPresenter(this, new BaseReferralRegisterModel(), new BaseReferralRegisterInteractor());
+        presenter = new BaseReferralRegisterPresenter(this, new BaseReferralRegisterModel());
     }
 
     @Override
