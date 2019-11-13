@@ -13,14 +13,14 @@ import org.joda.time.Period;
 import org.smartregister.chw.referral.R;
 import org.smartregister.chw.referral.contract.BaseReferralHistoryContract;
 import org.smartregister.chw.referral.domain.MemberObject;
-import org.smartregister.chw.referral.presenter.BaseferralHistoryPresenter;
+import org.smartregister.chw.referral.presenter.BaseReferralHistoryPresenter;
 import org.smartregister.chw.referral.util.Constants;
 
 import java.util.Collection;
 import java.util.Locale;
 
 public class BaseReferralHistoryActivity extends AppCompatActivity implements BaseReferralHistoryContract.View {
-    protected MemberObject MEMBER_OBJECT;
+    protected MemberObject memberObject;
     protected TextView textViewName;
     protected TextView textViewGender;
     protected TextView textViewLocation;
@@ -30,11 +30,11 @@ public class BaseReferralHistoryActivity extends AppCompatActivity implements Ba
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_base_referral_history);
-        MEMBER_OBJECT = (MemberObject) getIntent().getSerializableExtra(Constants.ACTIVITY_PAYLOAD.MEMBER_OBJECT);
+        memberObject = (MemberObject) getIntent().getSerializableExtra(Constants.ACTIVITY_PAYLOAD.MEMBER_OBJECT);
         BaseReferralHistoryContract.Presenter baseferralHistoryPresenter = presenter();
         setupViews();
 
-        baseferralHistoryPresenter.fillClientData(MEMBER_OBJECT);
+        baseferralHistoryPresenter.fillClientData(memberObject);
     }
 
     public void setupViews() {
@@ -64,7 +64,7 @@ public class BaseReferralHistoryActivity extends AppCompatActivity implements Ba
 
     @Override
     public BaseReferralHistoryContract.Presenter presenter() {
-        return new BaseferralHistoryPresenter(MEMBER_OBJECT, this);
+        return new BaseReferralHistoryPresenter(memberObject, this);
     }
 
     @Override

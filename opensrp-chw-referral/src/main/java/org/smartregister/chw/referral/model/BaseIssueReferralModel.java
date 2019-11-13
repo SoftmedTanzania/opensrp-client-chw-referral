@@ -4,7 +4,11 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.support.annotation.VisibleForTesting;
 
+import com.google.gson.Gson;
+import com.vijay.jsonwizard.constants.JsonFormConstants;
+
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.smartregister.chw.referral.ReferralLibrary;
 import org.smartregister.chw.referral.domain.MemberObject;
@@ -17,7 +21,6 @@ import org.smartregister.cursoradapter.SmartRegisterQueryBuilder;
 import org.smartregister.domain.Location;
 import org.smartregister.repository.LocationRepository;
 
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,6 +42,7 @@ public class BaseIssueReferralModel extends AbstractIssueReferralModel {
             liveData.setValue(locationRepository.getAllLocations());
             return liveData;
         } catch (Exception e) {
+            Timber.e(e);
             return null;
         }
     }
@@ -54,7 +58,7 @@ public class BaseIssueReferralModel extends AbstractIssueReferralModel {
                     try {
                         servicesList.add(referralServiceRepository.getReferralServiceById(serviceId));
                     } catch (Exception e) {
-                        e.printStackTrace();
+                        Timber.e(e);
                     }
                 }
             } else {
@@ -66,6 +70,7 @@ public class BaseIssueReferralModel extends AbstractIssueReferralModel {
 
             return liveData;
         } catch (Exception e) {
+            Timber.e(e);
             return null;
         }
     }
@@ -94,44 +99,61 @@ public class BaseIssueReferralModel extends AbstractIssueReferralModel {
     @Override
     public JSONObject getFormWithValuesAsJson(String formName, String entityId, String currentLocationId, MemberObject memberObject) throws Exception {
         JSONObject jsonForm = JsonFormUtils.getFormAsJson(formName);
-        JsonFormUtils.getRegistrationForm(jsonForm, entityId, currentLocationId);
+        JsonFormUtils.addFormMetadata(jsonForm, entityId, currentLocationId);
 
-        JSONObject formWithValues = setFormValues(jsonForm, memberObject);
-
-        return formWithValues;
+        return setFormValues(jsonForm, memberObject);
     }
 
     @VisibleForTesting
     public JSONObject setFormValues(JSONObject form, MemberObject memberObject) {
         try {
-            JSONArray fieldsArray = form.getJSONObject("step1").getJSONArray("fields");
-
-            for (int i = 0; i < fieldsArray.length(); i++) {
-                JSONObject fieldObject = fieldsArray.getJSONObject(i);
-                String key = fieldObject.getString("key");
-                Method[] methods = memberObject.getClass().getMethods();
-                for (Method method : methods) {
-                    try {
-                        //removing _ from key since fields on the form make use snake case naming scheme while MEMBER object makes use of camel case naming standard
-                        key = key.replace("_", "");
-
-                        if (method.getName().toLowerCase().contains("get" + key.toLowerCase())) {
-                            Timber.i("Method Name = %s", method.getName());
-                            fieldObject.put("value", method.invoke(memberObject).toString());
-                        }
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
+            JSONArray fieldsArray = form.getJSONObject(JsonFormConstants.STEP1).getJSONArray("fields");
+            setFieldValues(fieldsArray, memberObject);
+            setValuesForFollowingStepsIfTheyExist(form, memberObject, 2);
 
             Timber.i("Form JSON = %s", form.toString());
-
         } catch (Exception e) {
-            e.printStackTrace();
+            Timber.e(e);
         }
         return form;
 
+    }
+
+    //This method checks if the form has more steps and sets values to them
+    private void setValuesForFollowingStepsIfTheyExist(JSONObject form, MemberObject memberObject, int stepNumber) {
+        String key = "step" + stepNumber;
+        if (form.has(key)) {
+            JSONArray fieldsArray;
+            try {
+                fieldsArray = form.getJSONObject(key).getJSONArray("fields");
+                setFieldValues(fieldsArray, memberObject);
+                setValuesForFollowingStepsIfTheyExist(form, memberObject, ++stepNumber);
+            } catch (JSONException e) {
+                Timber.e(e);
+            }
+        }
+    }
+
+    private void setFieldValues(JSONArray fieldsArray, MemberObject memberObject) {
+
+        JSONObject memberJSONObject = null;
+        try {
+            memberJSONObject = new JSONObject(new Gson().toJson(memberObject));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        for (int i = 0; i < fieldsArray.length(); i++) {
+            JSONObject fieldObject;
+            try {
+                fieldObject = fieldsArray.getJSONObject(i);
+                String key = fieldObject.getString("key");
+                if (memberJSONObject != null) {
+                    fieldObject.put("value", memberJSONObject.getString(key));
+                }
+            } catch (JSONException e) {
+                Timber.e(e);
+            }
+        }
     }
 
 }

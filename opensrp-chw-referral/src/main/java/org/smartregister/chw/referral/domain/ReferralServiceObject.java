@@ -13,7 +13,7 @@ public class ReferralServiceObject implements Serializable {
     private boolean isActive;
 
     public ReferralServiceObject(CommonPersonObjectClient client) {
-        id = client.getColumnmaps().get("id");
+        id = client.getColumnmaps().get(DBConstants.KEY.ID);
         nameEn = client.getColumnmaps().get(DBConstants.KEY.REFERRAL_SERVICE_NAME_EN) != null ? client.getColumnmaps().get(DBConstants.KEY.REFERRAL_SERVICE_NAME_EN) : "";
         nameSw = client.getColumnmaps().get(DBConstants.KEY.REFERRAL_SERVICE_NAME_SW) != null ? client.getColumnmaps().get(DBConstants.KEY.REFERRAL_SERVICE_NAME_SW) : "";
         identifier = client.getColumnmaps().get(DBConstants.KEY.REFERRAL_SERVICE_IDENTIFIER) != null ? client.getColumnmaps().get(DBConstants.KEY.REFERRAL_SERVICE_IDENTIFIER) : "";

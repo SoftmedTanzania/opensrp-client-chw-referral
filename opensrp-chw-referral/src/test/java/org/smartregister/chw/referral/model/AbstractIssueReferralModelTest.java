@@ -58,13 +58,13 @@ public class AbstractIssueReferralModelTest {
     public void saveDataToMemberObject() {
 
         model.saveDataToMemberObject();
-        Assert.assertNull(model.MEMBER_OBJECT);
+        Assert.assertNull(model.memberObject);
 
         Assert.assertNotNull(client);
 
         MemberObject MEMBER_OBJECT = new MemberObject(client);
         Assert.assertNotNull(MEMBER_OBJECT);
-        model.MEMBER_OBJECT = MEMBER_OBJECT;
+        model.memberObject = MEMBER_OBJECT;
         model.setReferralReason("referral reason");
         model.setIsEmergency(true);
 
@@ -84,12 +84,12 @@ public class AbstractIssueReferralModelTest {
         model.referralServiceIndicators = selectedIndicators;
 
         model.saveDataToMemberObject();
-        Assert.assertEquals("2019-10-26", model.MEMBER_OBJECT.getReferralAppointmentDate());
-        Assert.assertTrue(model.MEMBER_OBJECT.getIsEmergencyReferral());
-        Assert.assertEquals("23", model.MEMBER_OBJECT.getChwReferralService());
-        Assert.assertEquals("testuuid", model.MEMBER_OBJECT.getChwReferralHf());
-        Assert.assertEquals("[\"test-indicator-uuid\"]", model.MEMBER_OBJECT.getDangerSignsIndicatorIds());
-        Assert.assertEquals("referral reason", model.MEMBER_OBJECT.getChwReferralReason());
+        Assert.assertEquals("2019-10-26", model.memberObject.getReferralAppointmentDate());
+        Assert.assertTrue(model.memberObject.getIsEmergencyReferral());
+        Assert.assertEquals("23", model.memberObject.getChwReferralService());
+        Assert.assertEquals("testuuid", model.memberObject.getChwReferralHf());
+        Assert.assertEquals("[\"test-indicator-uuid\"]", model.memberObject.getDangerSignsIndicatorIds());
+        Assert.assertEquals("referral reason", model.memberObject.getChwReferralReason());
 
     }
 }

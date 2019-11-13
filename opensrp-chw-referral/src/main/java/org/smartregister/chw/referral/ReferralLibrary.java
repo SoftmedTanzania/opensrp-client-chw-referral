@@ -18,8 +18,6 @@ import org.smartregister.sync.ClientProcessorForJava;
 import org.smartregister.sync.helper.ECSyncHelper;
 import org.smartregister.util.AssetHandler;
 
-import java.util.UUID;
-
 import id.zelory.compressor.Compressor;
 import timber.log.Timber;
 
@@ -158,15 +156,15 @@ public class ReferralLibrary {
                 testFacilityA.setId("1");
 
                 LocationProperty property = new LocationProperty();
-                property.setUid(UUID.randomUUID().toString());
+                property.setUid("7ffffb69-4717-4b5a-8007-15960582828f");
                 property.setParentId("");
                 property.setName("Facility A");
                 testFacilityA.setProperties(property);
 
                 locationRepository.addOrUpdate(testFacilityA);
             }
-        }catch (NullPointerException e){
-            e.printStackTrace();
+        } catch (NullPointerException e) {
+            Timber.e(e);
         }
 
     }

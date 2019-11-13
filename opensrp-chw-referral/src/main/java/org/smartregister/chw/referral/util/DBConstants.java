@@ -18,9 +18,8 @@ public class DBConstants {
         public static final String VILLAGE_TOWN = "village_town";
         public static final String DATE_REMOVED = "date_removed";
         public static final String GENDER = "gender";
-        public static final String RELATIONALID = "relationalid";
         public static final String DETAILS = "details";
-        public static final String RELATIONAL_ID = "relational_id";
+        public static final String RELATIONAL_ID = "relationalid";
         public static final String FAMILY_HEAD = "family_head";
         public static final String PRIMARY_CARE_GIVER = "primary_caregiver";
         public static final String FAMILY_NAME = "family_name";
@@ -39,8 +38,8 @@ public class DBConstants {
         public static final String REFERRAL_SERVICE_NAME_EN = "name_en";
         public static final String REFERRAL_SERVICE_NAME_SW = "name_sw";
         public static final String REFERRAL_SERVICE_IDENTIFIER = "identifier";
-        public static final String IS_ACTIVE= "isActive";
-        public static final String IS_CLOSED= "is_closed";
+        public static final String IS_ACTIVE = "isActive";
+        public static final String IS_CLOSED = "is_closed";
 
     }
 }

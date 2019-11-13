@@ -2,7 +2,6 @@ package org.smartregister.chw.referral.presenter;
 
 import android.text.TextUtils;
 import android.util.Log;
-import android.widget.Toast;
 
 import org.apache.commons.lang3.tuple.Triple;
 import org.jetbrains.annotations.Nullable;
@@ -11,6 +10,9 @@ import org.smartregister.chw.referral.ReferralLibrary;
 import org.smartregister.chw.referral.contract.BaseIssueReferralContract;
 import org.smartregister.chw.referral.domain.MemberObject;
 import org.smartregister.chw.referral.model.AbstractIssueReferralModel;
+import org.smartregister.chw.referral.util.Constants;
+import org.smartregister.chw.referral.util.DBConstants;
+import org.smartregister.util.Utils;
 
 import java.lang.ref.WeakReference;
 import java.util.List;
@@ -19,7 +21,7 @@ import timber.log.Timber;
 
 public class BaseIssueReferralPresenter implements BaseIssueReferralContract.Presenter, BaseIssueReferralContract.InteractorCallBack {
     protected BaseIssueReferralContract.Interactor interactor;
-    private MemberObject MEMBER_OBJECT;
+    private MemberObject memberObject;
     private String baseEntityID;
     private WeakReference<BaseIssueReferralContract.View> viewReference;
     private Class<? extends AbstractIssueReferralModel> viewModelClass;
@@ -40,7 +42,7 @@ public class BaseIssueReferralPresenter implements BaseIssueReferralContract.Pre
     @Override
     public String getMainCondition() {
         try {
-            return "ec_family_member.base_entity_id = '" + MEMBER_OBJECT.getBaseEntityId() + "'";
+            return Constants.TABLES.FAMILY_MEMBER + "." + DBConstants.KEY.BASE_ENTITY_ID + " = '" + memberObject.getBaseEntityId() + "'";
         } catch (Exception e) {
             Timber.e(e);
         }
@@ -50,7 +52,7 @@ public class BaseIssueReferralPresenter implements BaseIssueReferralContract.Pre
 
     @Override
     public String getMainTable() {
-        return "ec_family_member";
+        return Constants.TABLES.FAMILY_MEMBER;
     }
 
     @Override
@@ -62,7 +64,7 @@ public class BaseIssueReferralPresenter implements BaseIssueReferralContract.Pre
 
     @Override
     public void initializeMemberObject(MemberObject memberObject) {
-        this.MEMBER_OBJECT = memberObject;
+        this.memberObject = memberObject;
     }
 
 
@@ -127,7 +129,7 @@ public class BaseIssueReferralPresenter implements BaseIssueReferralContract.Pre
         if (TextUtils.isEmpty(memberObject.getChwReferralHf()) || memberObject.getChwReferralHf() == null) {
             try {
                 message = getView().getCurrentContext().getResources().getString(R.string.missing_facility);
-                makeToast(message);
+                Utils.showToast(ReferralLibrary.getInstance().context().applicationContext(), message);
             } catch (Exception e) {
                 Timber.e(e);
             }
@@ -136,7 +138,7 @@ public class BaseIssueReferralPresenter implements BaseIssueReferralContract.Pre
         } else if (TextUtils.isEmpty(memberObject.getChwReferralService()) || memberObject.getChwReferralService() == null) {
             try {
                 message = getView().getCurrentContext().getResources().getString(R.string.missing_services);
-                makeToast(message);
+                Utils.showToast(ReferralLibrary.getInstance().context().applicationContext(), message);
             } catch (Exception e) {
                 Timber.e(e);
             }
@@ -144,16 +146,6 @@ public class BaseIssueReferralPresenter implements BaseIssueReferralContract.Pre
 
         } else
             return true;
-    }
-
-    private void makeToast(String message) {
-        try {
-            Toast.makeText(ReferralLibrary.getInstance().context().applicationContext(),
-                    message,
-                    Toast.LENGTH_LONG).show();
-        } catch (Exception e) {
-            Timber.e(e);
-        }
     }
 
     public String getBaseEntityID() {

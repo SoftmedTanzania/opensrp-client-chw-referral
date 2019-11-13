@@ -33,7 +33,7 @@ public class BaseReferralRegisterModel implements BaseReferralRegisterContract.M
     @Override
     public JSONObject getFormAsJson(String formName, String entityId, String currentLocationId) throws Exception {
         JSONObject jsonObject = JsonFormUtils.getFormAsJson(formName);
-        JsonFormUtils.getRegistrationForm(jsonObject, entityId, currentLocationId);
+        JsonFormUtils.addFormMetadata(jsonObject, entityId, currentLocationId);
 
         return jsonObject;
     }

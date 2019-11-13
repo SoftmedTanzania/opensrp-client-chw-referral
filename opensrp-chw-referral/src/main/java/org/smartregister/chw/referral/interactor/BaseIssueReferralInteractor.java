@@ -43,7 +43,7 @@ public class BaseIssueReferralInteractor implements BaseIssueReferralContract.In
             try {
                 saveRegistration(jsonString);
             } catch (Exception e) {
-                e.printStackTrace();
+                Timber.e(e);
             }
 
             appExecutors.mainThread().execute(callBack::onRegistrationSaved);

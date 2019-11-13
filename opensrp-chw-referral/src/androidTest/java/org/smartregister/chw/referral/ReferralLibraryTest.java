@@ -12,6 +12,7 @@ import org.smartregister.CoreLibrary;
 import org.smartregister.repository.Repository;
 
 import refutils.ReflectionHelper;
+import timber.log.Timber;
 
 /**
  * Created by cozej4 on 2019-10-27.
@@ -32,9 +33,9 @@ public class ReferralLibraryTest extends BaseTest {
         try {
             Assert.assertNull(helper.getField("instance"));
         } catch (NoSuchFieldException e) {
-            e.printStackTrace();
+            Timber.e(e);
         } catch (IllegalAccessException e) {
-            e.printStackTrace();
+            Timber.e(e);
         }
 
 
@@ -58,11 +59,11 @@ public class ReferralLibraryTest extends BaseTest {
     public void tearDown() {
         ReflectionHelper helper = new ReflectionHelper(ReferralLibrary.class);
         try {
-            helper.setField("instance",null);
+            helper.setField("instance", null);
         } catch (NoSuchFieldException e) {
-            e.printStackTrace();
+            Timber.e(e);
         } catch (IllegalAccessException e) {
-            e.printStackTrace();
+            Timber.e(e);
         }
     }
 }

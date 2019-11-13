@@ -32,6 +32,7 @@ import org.smartregister.AllConstants;
 import org.smartregister.chw.referral.R;
 import org.smartregister.chw.referral.ReferralLibrary;
 import org.smartregister.chw.referral.contract.BaseIssueReferralContract;
+import org.smartregister.chw.referral.databinding.ActivityReferralRegistrationBinding;
 import org.smartregister.chw.referral.domain.MemberObject;
 import org.smartregister.chw.referral.domain.ReferralServiceIndicatorObject;
 import org.smartregister.chw.referral.interactor.BaseIssueReferralInteractor;
@@ -44,7 +45,6 @@ import org.smartregister.commonregistry.CommonPersonObject;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.commonregistry.CommonRepository;
 import org.smartregister.domain.Location;
-import org.smartregister.chw.referral.databinding.ActivityReferralRegistrationBinding;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -65,10 +65,10 @@ import timber.log.Timber;
 
 public class BaseIssueReferralActivity extends AppCompatActivity implements BaseIssueReferralContract.View {
     protected BaseIssueReferralContract.Presenter presenter;
-    protected String BASE_ENTITY_ID;
-    protected List<String> SERVICE_IDS;
-    protected String ACTION;
-    protected String FORM_NAME;
+    protected String baseEntityId;
+    protected List<String> serviceIds;
+    protected String action;
+    protected String formName;
     protected TextView textViewName;
     protected TextView textViewGender;
     protected TextView textViewLocation;
@@ -83,10 +83,10 @@ public class BaseIssueReferralActivity extends AppCompatActivity implements Base
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.BASE_ENTITY_ID = this.getIntent().getStringExtra("BASE_ENTITY_ID");
-        this.SERVICE_IDS = this.getIntent().getStringArrayListExtra(Constants.ACTIVITY_PAYLOAD.REFERRAL_SERVICE_IDS);
-        this.ACTION = this.getIntent().getStringExtra("ACTION");
-        this.FORM_NAME = this.getIntent().getStringExtra("REFERRAL_FORM_NAME");
+        this.baseEntityId = this.getIntent().getStringExtra(Constants.ACTIVITY_PAYLOAD.BASE_ENTITY_ID);
+        this.serviceIds = this.getIntent().getStringArrayListExtra(Constants.ACTIVITY_PAYLOAD.REFERRAL_SERVICE_IDS);
+        this.action = this.getIntent().getStringExtra(Constants.ACTIVITY_PAYLOAD.ACTION);
+        this.formName = this.getIntent().getStringExtra(Constants.ACTIVITY_PAYLOAD.REFERRAL_FORM_NAME);
 
         //initializing the presenter
         presenter = presenter();
@@ -104,14 +104,13 @@ public class BaseIssueReferralActivity extends AppCompatActivity implements Base
         getMemberObject();
 
         try {
-            presenter.initializeMemberObject(viewModel.MEMBER_OBJECT);
+            presenter.initializeMemberObject(viewModel.memberObject);
         } catch (Exception e) {
-            e.printStackTrace();
             Timber.e(e);
         }
 
         setupViews();
-        presenter.fillClientData(viewModel.MEMBER_OBJECT);
+        presenter.fillClientData(viewModel.memberObject);
         initializeServices();
         initializeIndicators();
         initializeHealthFacilitiesList();
@@ -120,7 +119,7 @@ public class BaseIssueReferralActivity extends AppCompatActivity implements Base
 
     @Override
     public BaseIssueReferralContract.Presenter presenter() {
-        return new BaseIssueReferralPresenter(BASE_ENTITY_ID, this, BaseIssueReferralModel.class, new BaseIssueReferralInteractor());
+        return new BaseIssueReferralPresenter(baseEntityId, this, BaseIssueReferralModel.class, new BaseIssueReferralInteractor());
     }
 
     @Override
@@ -130,12 +129,12 @@ public class BaseIssueReferralActivity extends AppCompatActivity implements Base
 
     @Override
     public void setProfileViewWithData() {
-        int age = new Period(new DateTime(viewModel.MEMBER_OBJECT.getAge()), new DateTime()).getYears();
-        textViewName.setText(String.format(Locale.getDefault(), "%s %s %s, %d", viewModel.MEMBER_OBJECT.getFirstName(),
-                viewModel.MEMBER_OBJECT.getMiddleName(), viewModel.MEMBER_OBJECT.getLastName(), age));
-        textViewGender.setText(viewModel.MEMBER_OBJECT.getGender());
-        textViewLocation.setText(viewModel.MEMBER_OBJECT.getAddress());
-        textViewUniqueID.setText(viewModel.MEMBER_OBJECT.getUniqueId());
+        int age = new Period(new DateTime(viewModel.memberObject.getAge()), new DateTime()).getYears();
+        textViewName.setText(String.format(Locale.getDefault(), "%s %s %s, %d", viewModel.memberObject.getFirstName(),
+                viewModel.memberObject.getMiddleName(), viewModel.memberObject.getLastName(), age));
+        textViewGender.setText(viewModel.memberObject.getGender());
+        textViewLocation.setText(viewModel.memberObject.getAddress());
+        textViewUniqueID.setText(viewModel.memberObject.getUniqueId());
     }
 
     protected String getLocationID() {
@@ -158,14 +157,14 @@ public class BaseIssueReferralActivity extends AppCompatActivity implements Base
         buttonSave.setOnClickListener(view -> {
             try {
                 viewModel.saveDataToMemberObject();
-                if (presenter.validateValues(viewModel.MEMBER_OBJECT)) {
-                    JSONObject jsonForm = viewModel.getFormWithValuesAsJson(FORM_NAME, BASE_ENTITY_ID, getLocationID(), viewModel.MEMBER_OBJECT);
+                if (presenter.validateValues(viewModel.memberObject)) {
+                    JSONObject jsonForm = viewModel.getFormWithValuesAsJson(formName, baseEntityId, getLocationID(), viewModel.memberObject);
                     presenter.saveForm(jsonForm.toString());
                     Toast.makeText(this, getResources().getString(R.string.successful_issued_referral), Toast.LENGTH_SHORT).show();
                     finish();
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                Timber.e(e);
             }
         });
 
@@ -203,7 +202,7 @@ public class BaseIssueReferralActivity extends AppCompatActivity implements Base
         Timber.i("Setup Services Called");
 
         //observing viewModel to obtain referral services list, this allows the ui to be updated if any changes are to be made to the viewModel live data
-        viewModel.getReferralServicesList(SERVICE_IDS).observe(this, referralServiceObjects -> {
+        viewModel.getReferralServicesList(serviceIds).observe(this, referralServiceObjects -> {
             //Initializing providers/adapters using the observed data
             ReferralServicesProvider referralServicesProvider = new ReferralServicesProvider(BaseIssueReferralActivity.this, Objects.requireNonNull(referralServiceObjects));
             spinnerService.setAdapter(referralServicesProvider);
@@ -218,7 +217,7 @@ public class BaseIssueReferralActivity extends AppCompatActivity implements Base
                                 viewModel.selectedReferralService.set(referralServiceObjects.get(i));
                             }
                         } catch (NullPointerException e) {
-                            e.printStackTrace();
+                            Timber.e(e);
                             //if viewModel selectedReferralService is NUll then update it
                             viewModel.selectedReferralService.set(referralServiceObjects.get(i));
                         } finally {
@@ -245,7 +244,7 @@ public class BaseIssueReferralActivity extends AppCompatActivity implements Base
                     spinnerService.setClickable(false);
                 }
             } catch (NullPointerException e) {
-                e.printStackTrace();
+                Timber.e(e);
             }
         });
     }
@@ -321,10 +320,9 @@ public class BaseIssueReferralActivity extends AppCompatActivity implements Base
                 CommonPersonObject personObject = commonRepository.readAllcommonforCursorAdapter(cursor);
                 CommonPersonObjectClient commonPersonObjectClient = new CommonPersonObjectClient(personObject.getCaseId(), personObject.getDetails(), "");
                 commonPersonObjectClient.setColumnmaps(personObject.getColumnmaps());
-                viewModel.MEMBER_OBJECT = new MemberObject(commonPersonObjectClient);
+                viewModel.memberObject = new MemberObject(commonPersonObjectClient);
             }
         } catch (Exception e) {
-            e.printStackTrace();
             Timber.e(e);
         } finally {
             if (cursor != null) {

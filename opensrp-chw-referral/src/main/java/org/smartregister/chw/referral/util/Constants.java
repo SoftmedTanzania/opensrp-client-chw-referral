@@ -27,6 +27,7 @@ public interface Constants {
         String REFERRAL_SERVICE = "ec_referral_service";
         String REFERRA_SERVICE_INDICATOR = "ec_referral_service_indicator";
         String REFERRAL_FOLLOW_UP = "ec_referral_follow_up_visit";
+        String FAMILY_MEMBER = "ec_family_member";
     }
 
     interface ACTIVITY_PAYLOAD {

@@ -22,15 +22,7 @@ public class BaseReferralCallWidgetDialogListener implements View.OnClickListene
         int i = v.getId();
         if (i == R.id.malaria_call_close) {
             callDialogFragment.dismiss();
-        } else if (i == R.id.referral_call_head_phone) {
-            try {
-                String phoneNumber = (String) v.getTag();
-                Util.launchDialer(callDialogFragment.getActivity(), callDialogFragment, phoneNumber);
-                callDialogFragment.dismiss();
-            } catch (Exception e) {
-                Timber.e(e);
-            }
-        } else if (i == R.id.call_referral_client_phone) {
+        } else if (i == R.id.referral_call_head_phone || i == R.id.call_referral_client_phone) {
             try {
                 String phoneNumber = (String) v.getTag();
                 Util.launchDialer(callDialogFragment.getActivity(), callDialogFragment, phoneNumber);

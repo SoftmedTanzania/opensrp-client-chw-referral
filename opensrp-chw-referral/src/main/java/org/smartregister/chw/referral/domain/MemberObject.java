@@ -1,5 +1,7 @@
 package org.smartregister.chw.referral.domain;
 
+import com.google.gson.annotations.SerializedName;
+
 import org.smartregister.chw.referral.util.DBConstants;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
 
@@ -22,14 +24,37 @@ public class MemberObject implements Serializable {
     private String familyBaseEntityId;
     private String familyName;
     private String phoneNumber;
+
+    @SerializedName("chw_referral_hf")
     private String chwReferralHf;
+
+    @SerializedName("chw_referral_reason")
     private String chwReferralReason;
+
+
+    @SerializedName("chw_referral_service")
     private String chwReferralService;
+
+
+    @SerializedName("chw_referral_date")
     private String chwReferralDate;
+
+
+    @SerializedName("danger_signs_indicator_ids")
     private String dangerSignsIndicatorIds;
+
+
+    @SerializedName("referral_type")
     private String referralType;
+
+    @SerializedName("referral_status")
     private String referralStatus;
+
+    @SerializedName("referral_appointment_date")
     private String referralAppointmentDate;
+
+
+    @SerializedName("is_emergency_referral")
     private boolean isEmergencyReferral;
     private boolean isClosed;
 
@@ -45,8 +70,8 @@ public class MemberObject implements Serializable {
         relationalId = client.getColumnmaps().get(DBConstants.KEY.RELATIONAL_ID);
         primaryCareGiver = client.getColumnmaps().get(DBConstants.KEY.PRIMARY_CARE_GIVER);
         familyHead = client.getColumnmaps().get(DBConstants.KEY.FAMILY_HEAD);
-        familyBaseEntityId = client.getColumnmaps().get(DBConstants.KEY.RELATIONALID);
-        relationalid = client.getColumnmaps().get(DBConstants.KEY.RELATIONALID);
+        familyBaseEntityId = client.getColumnmaps().get(DBConstants.KEY.RELATIONAL_ID);
+        relationalid = client.getColumnmaps().get(DBConstants.KEY.RELATIONAL_ID);
         details = client.getColumnmaps().get(DBConstants.KEY.DETAILS);
         isEmergencyReferral = Boolean.parseBoolean(client.getColumnmaps().get(DBConstants.KEY.IS_EMERGENCY_REFERRAL));
         familyName = client.getColumnmaps().get(DBConstants.KEY.FAMILY_NAME);

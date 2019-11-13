@@ -34,6 +34,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import timber.log.Timber;
+
 
 public class BaseReferralProfileActivity extends BaseProfileActivity implements BaseReferralProfileContract.View, BaseReferralProfileContract.InteractorCallBack {
     protected MemberObject MEMBER_OBJECT;
@@ -202,7 +204,7 @@ public class BaseReferralProfileActivity extends BaseProfileActivity implements 
         try {
             JSONArray idsArray = new JSONArray(MEMBER_OBJECT.getDangerSignsIndicatorIds());
 
-            StringBuilder referralIndicatorsStringBuilder = new StringBuilder("");
+            StringBuilder referralIndicatorsStringBuilder = new StringBuilder();
             for (int i = 0; i < idsArray.length(); i++) {
                 referralIndicatorsStringBuilder.append(" - ");
                 referralIndicatorsStringBuilder.append(profilePresenter.getIndicatorNameById(idsArray.getString(i)));
@@ -211,7 +213,7 @@ public class BaseReferralProfileActivity extends BaseProfileActivity implements 
             textViewIndicators.setText(referralIndicatorsStringBuilder.toString());
 
         } catch (Exception e) {
-            e.printStackTrace();
+            Timber.e(e);
         }
 
         textViewReferralServiceName.setText(MEMBER_OBJECT.getChwReferralService());

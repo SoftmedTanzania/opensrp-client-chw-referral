@@ -21,7 +21,7 @@ import java.util.Objects;
 import timber.log.Timber;
 
 public abstract class AbstractIssueReferralModel extends ViewModel implements BaseIssueReferralContract.Model {
-    public MemberObject MEMBER_OBJECT;
+    public MemberObject memberObject;
     public ObservableField<ReferralServiceObject> selectedReferralService = new ObservableField<>();
     public List<ReferralServiceIndicatorObject> referralServiceIndicators;
     public long appointmentDateTimestamp;
@@ -60,19 +60,19 @@ public abstract class AbstractIssueReferralModel extends ViewModel implements Ba
 
     public void saveDataToMemberObject() {
         try {
-            MEMBER_OBJECT.setReferralStatus(Constants.REFERRAL_STATUS.PENDING);
-            MEMBER_OBJECT.setChwReferralReason(referralReason.get());
-            MEMBER_OBJECT.setEmergencyReferral(Objects.requireNonNull(isEmergency.get()));
-            MEMBER_OBJECT.setChwReferralService(Objects.requireNonNull(selectedReferralService.get()).getId());
-            MEMBER_OBJECT.setChwReferralHf(referralFacilityUuid);
+            memberObject.setReferralStatus(Constants.REFERRAL_STATUS.PENDING);
+            memberObject.setChwReferralReason(referralReason.get());
+            memberObject.setEmergencyReferral(Objects.requireNonNull(isEmergency.get()));
+            memberObject.setChwReferralService(Objects.requireNonNull(selectedReferralService.get()).getId());
+            memberObject.setChwReferralHf(referralFacilityUuid);
 
-            MEMBER_OBJECT.setReferralAppointmentDate(appointmentDate.get());
+            memberObject.setReferralAppointmentDate(appointmentDate.get());
 
             SimpleDateFormat formatter = new SimpleDateFormat("dd MMM yyyy", Locale.getDefault());
             String referralDateString = formatter.format((Calendar.getInstance().getTime()));
 
-            MEMBER_OBJECT.setChwReferralDate(referralDateString);
-            MEMBER_OBJECT.setReferralType(Constants.REFERRAL_TYPE.COMMUNITY_TO_FACILITY_REFERRAL);
+            memberObject.setChwReferralDate(referralDateString);
+            memberObject.setReferralType(Constants.REFERRAL_TYPE.COMMUNITY_TO_FACILITY_REFERRAL);
 
             List<String> selectedIndicators = new ArrayList<>();
             try {
@@ -84,7 +84,7 @@ public abstract class AbstractIssueReferralModel extends ViewModel implements Ba
                 Timber.e(e);
             }
 
-            MEMBER_OBJECT.setDangerSignsIndicatorIds(new Gson().toJson(selectedIndicators));
+            memberObject.setDangerSignsIndicatorIds(new Gson().toJson(selectedIndicators));
         } catch (NullPointerException e) {
             Timber.e(e);
         }

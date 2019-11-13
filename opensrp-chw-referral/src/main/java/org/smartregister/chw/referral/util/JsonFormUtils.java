@@ -111,7 +111,7 @@ public class JsonFormUtils extends org.smartregister.util.JsonFormUtils {
         return userLocationId;
     }
 
-    public static void getRegistrationForm(JSONObject jsonObject, String entityId, String
+    public static void addFormMetadata(JSONObject jsonObject, String entityId, String
             currentLocationId) throws JSONException {
         jsonObject.getJSONObject(METADATA).put(ENCOUNTER_LOCATION, currentLocationId);
         jsonObject.put(org.smartregister.util.JsonFormUtils.ENTITY_ID, entityId);

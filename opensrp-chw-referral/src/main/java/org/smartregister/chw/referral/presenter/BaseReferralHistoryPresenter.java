@@ -8,11 +8,11 @@ import java.lang.ref.WeakReference;
 
 import timber.log.Timber;
 
-public class BaseferralHistoryPresenter implements BaseReferralHistoryContract.Presenter {
+public class BaseReferralHistoryPresenter implements BaseReferralHistoryContract.Presenter {
     private MemberObject MEMBER_OBJECT;
     private WeakReference<BaseReferralHistoryContract.View> viewReference;
 
-    public BaseferralHistoryPresenter(MemberObject MEMBER_OBJECT, BaseReferralHistoryContract.View view) {
+    public BaseReferralHistoryPresenter(MemberObject MEMBER_OBJECT, BaseReferralHistoryContract.View view) {
         viewReference = new WeakReference<>(view);
         this.MEMBER_OBJECT = MEMBER_OBJECT;
     }
