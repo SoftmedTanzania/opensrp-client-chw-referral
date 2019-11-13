@@ -120,7 +120,9 @@ public class BaseIssueReferralModel extends AbstractIssueReferralModel {
     }
 
     //This method checks if the form has more steps and sets values to them
-    private void setValuesForFollowingStepsIfTheyExist(JSONObject form, MemberObject memberObject, int stepNumber) {
+    private void setValuesForFollowingStepsIfTheyExist(JSONObject form, MemberObject memberObject, int number) {
+
+        int stepNumber  = number;
         String key = "step" + stepNumber;
         if (form.has(key)) {
             JSONArray fieldsArray;

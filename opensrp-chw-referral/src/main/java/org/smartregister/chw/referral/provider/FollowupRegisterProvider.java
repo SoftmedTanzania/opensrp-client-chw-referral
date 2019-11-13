@@ -136,35 +136,34 @@ public class FollowupRegisterProvider implements RecyclerViewProvider<FollowupRe
     class RegisterViewHolder extends RecyclerView.ViewHolder {
         public TextView patientName;
         public TextView textViewVillage;
-        public TextView textViewGender;
         public Button dueButton;
         public View patientColumn;
-        public View registerColumns;
         public View dueWrapper;
+        public View registerColumns;
+        public TextView textViewGender;
 
         public RegisterViewHolder(View itemView) {
             super(itemView);
-
-            patientName = itemView.findViewById(R.id.patient_name_age);
+            dueWrapper = itemView.findViewById(R.id.due_button_wrapper);
+            patientColumn = itemView.findViewById(R.id.patient_column);
             textViewVillage = itemView.findViewById(R.id.text_view_village);
             textViewGender = itemView.findViewById(R.id.text_view_gender);
             dueButton = itemView.findViewById(R.id.due_button);
-            patientColumn = itemView.findViewById(R.id.patient_column);
+            patientName = itemView.findViewById(R.id.patient_name_age);
             registerColumns = itemView.findViewById(R.id.register_columns);
-            dueWrapper = itemView.findViewById(R.id.due_button_wrapper);
         }
     }
 
     public class FooterViewHolder extends RecyclerView.ViewHolder {
-        public TextView pageInfoView;
         public Button previousPageView;
+        public TextView pageInfoView;
         public Button nextPageView;
 
         FooterViewHolder(View view) {
             super(view);
-            nextPageView = view.findViewById(org.smartregister.R.id.btn_next_page);
             pageInfoView = view.findViewById(org.smartregister.R.id.txt_page_info);
             previousPageView = view.findViewById(org.smartregister.R.id.btn_previous_page);
+            nextPageView = view.findViewById(org.smartregister.R.id.btn_next_page);
         }
     }
 }
