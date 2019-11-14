@@ -1,5 +1,7 @@
 package org.smartregister.chw.referral.model;
 
+import com.vijay.jsonwizard.constants.JsonFormConstants;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -85,11 +87,11 @@ public class BaseIssueReferralModelTest {
             Timber.e(e);
         }
 
-        JSONObject formWithValues = model.setFormValues(form, model.memberObject);
+        JSONObject formWithValues = model.setFormValues(form, JsonFormConstants.STEP1, model.memberObject);
 
         try {
-            for(int j=1;j<=3;j++){
-                JSONArray fields = formWithValues.getJSONObject("step"+j).getJSONArray("fields");
+            for (int j = 1; j <= 3; j++) {
+                JSONArray fields = formWithValues.getJSONObject("step" + j).getJSONArray("fields");
 
                 for (int i = 0; i < fields.length(); i++) {
                     JSONObject jsonObject1 = fields.getJSONObject(i);
