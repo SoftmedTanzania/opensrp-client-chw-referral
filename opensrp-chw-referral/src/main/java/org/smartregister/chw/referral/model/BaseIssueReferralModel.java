@@ -16,6 +16,7 @@ import org.smartregister.chw.referral.domain.ReferralServiceIndicatorObject;
 import org.smartregister.chw.referral.domain.ReferralServiceObject;
 import org.smartregister.chw.referral.repository.ReferralServiceIndicatorRepository;
 import org.smartregister.chw.referral.repository.ReferralServiceRepository;
+import org.smartregister.chw.referral.util.DBConstants;
 import org.smartregister.chw.referral.util.JsonFormUtils;
 import org.smartregister.cursoradapter.SmartRegisterQueryBuilder;
 import org.smartregister.domain.Location;
@@ -93,7 +94,7 @@ public class BaseIssueReferralModel extends AbstractIssueReferralModel {
     }
 
     protected String[] mainColumns(String tableName) {
-        return new String[]{tableName + ".relationalid", tableName + "." + "base_entity_id", tableName + "." + "first_name", tableName + "." + "middle_name", tableName + "." + "last_name", tableName + "." + "unique_id", tableName + "." + "gender", tableName + "." + "dob", tableName + "." + "dod"};
+        return new String[]{tableName + "." + DBConstants.KEY.RELATIONAL_ID, tableName + "." + DBConstants.KEY.BASE_ENTITY_ID, tableName + "." + DBConstants.KEY.FIRST_NAME, tableName + "." + DBConstants.KEY.MIDDLE_NAME, tableName + "." + DBConstants.KEY.LAST_NAME, tableName + "." + DBConstants.KEY.UNIQUE_ID, tableName + "." + DBConstants.KEY.GENDER, tableName + "." + DBConstants.KEY.DOB, tableName + "." + DBConstants.KEY.DOD};
     }
 
     @Override
@@ -107,9 +108,8 @@ public class BaseIssueReferralModel extends AbstractIssueReferralModel {
     @VisibleForTesting
     public JSONObject setFormValues(JSONObject form, MemberObject memberObject) {
         try {
-            JSONArray fieldsArray = form.getJSONObject(JsonFormConstants.STEP1).getJSONArray("fields");
+            JSONArray fieldsArray = form.getJSONObject(JsonFormConstants.STEP1).getJSONArray(JsonFormConstants.FIELDS);
             setFieldValues(fieldsArray, memberObject);
-            setValuesForFollowingStepsIfTheyExist(form, memberObject, 2);
 
             Timber.i("Form JSON = %s", form.toString());
         } catch (Exception e) {
@@ -119,36 +119,19 @@ public class BaseIssueReferralModel extends AbstractIssueReferralModel {
 
     }
 
-    //This method checks if the form has more steps and sets values to them
-    private void setValuesForFollowingStepsIfTheyExist(JSONObject form, MemberObject memberObject, int number) {
-
-        int stepNumber  = number;
-        String key = "step" + stepNumber;
-        if (form.has(key)) {
-            JSONArray fieldsArray;
-            try {
-                fieldsArray = form.getJSONObject(key).getJSONArray("fields");
-                setFieldValues(fieldsArray, memberObject);
-                setValuesForFollowingStepsIfTheyExist(form, memberObject, ++stepNumber);
-            } catch (JSONException e) {
-                Timber.e(e);
-            }
-        }
-    }
-
     private void setFieldValues(JSONArray fieldsArray, MemberObject memberObject) {
 
         JSONObject memberJSONObject = null;
         try {
             memberJSONObject = new JSONObject(new Gson().toJson(memberObject));
         } catch (JSONException e) {
-            e.printStackTrace();
+            Timber.e(e);
         }
         for (int i = 0; i < fieldsArray.length(); i++) {
             JSONObject fieldObject;
             try {
                 fieldObject = fieldsArray.getJSONObject(i);
-                String key = fieldObject.getString("key");
+                String key = fieldObject.getString(JsonFormConstants.KEY);
                 if (memberJSONObject != null) {
                     fieldObject.put("value", memberJSONObject.getString(key));
                 }
