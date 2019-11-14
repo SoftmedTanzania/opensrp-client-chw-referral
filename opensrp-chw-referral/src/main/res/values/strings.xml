@@ -1,3 +1,76 @@
 <resources>
     <string name="app_name">opensrp-chw-referral</string>
+    <string name="error_unable_to_start_form">An error occurred when starting the form</string>
+    <string name="error_unable_to_save_form">An error occurred when saving the form</string>
+    <string name="issued_referrals">Referrals Issued</string>
+    <string name="followup_referral">Followup Referrals</string>
+    <string name="issue_referral">Issue Referrals</string>
+
+    <!-- menu -->
+    <string name="add_member">Add Member</string>
+    <string name="sort">Sort</string>
+    <string name="home">Home</string>
+    <string name="add_family">Add family</string>
+    <string name="scan_qr">Scan QR</string>
+    <string name="job_aids">Job Aids</string>
+    <string name="saving_dialog_title">Saving</string>
+    <string name="interpunct" translatable="false">\u00b7</string>
+    <string name="referral_followup_visit">FOLLOWUP\nVISIT</string>
+    <string name="record_followup">Record follow-up</string>
+    <string name="return_to_previous">Return all Referral Clients</string>
+    <string name="last_visit_40_days_ago">Last visit %1$s ago</string>
+    <string name="view_medical_history">View medical history</string>
+    <string name="view_upcoming_services">View upcoming services</string>
+    <string name="family_has_nothing_due">Family has nothing due</string>
+    <string name="go_to_family_s_profile">Go to family\'s profile</string>
+    <string name="family_has_services_due">Family has services due</string>
+    <string name="primary_care_giver">Primary care giver</string>
+    <string name="family_head">FAMILY HEAD</string>
+    <string name="family_has_service_overdue"><![CDATA[Family has <font color=#FF0000>services overdue</font></b>]]></string>
+    <string name="vaccine_service_upcoming"><![CDATA[%1$s <font color=#7f7f7f>upcoming (%2$s)</font></b>]]></string>
+    <string name="vaccine_service_overdue"><![CDATA[%1$s <font color=#f04646>overdue (%2$s)</font></b>]]></string>
+    <string name="vaccine_service_due"><![CDATA[%1$s <font color=#000000>due (%2$s)</font></b>]]></string>
+    <string name="call_referral_client">Call Referral Client</string>
+    <string name="head_of_family">Head of family</string>
+    <string name="referral_client">Referral Client</string>
+    <string name="copy_to_clipboard">Copy to clipboard</string>
+    <string name="copied_phone_number">PhoneNumber copied to clipboard</string>
+    <string name="call">Call</string>
+    <string name="record_anc">Record ANC visit</string>
+    <string name="record_anc_visit_not_done">ANC visit not done</string>
+    <string name="action_sent_referrals">Referrals</string>
+    <string name="action_received_followup_referrals">Followups</string>
+
+
+    <string name="referral_status_pending">PENDING</string>
+    <string name="referral_status_successful">SUCCESSFUL</string>
+    <string name="referral_status_failed">FAILED</string>
+
+    <string name="referral_information">Referral Information</string>
+    <string name="referral_details">Referral Details</string>
+    <string name="visit_facility">Visit Facility</string>
+    <string name="referral_services">Referral Services</string>
+    <string name="visit_facility_hint">Enter facility name</string>
+    <string name="emergency_referral_title_label">Emergency Referral</string>
+    <string name="appointment_date_label">Appointment Date</string>
+    <string name="other_info">Other Information</string>
+    <string name="referral_reason">Referral Reason</string>
+    <string name="danger_signs">Danger Signs</string>
+    <string name="button_refer_client">Refer Client</string>
+
+    <string name="issue_new_referral">Issue New Referral</string>
+    <string name="view_referral_history">View Referral history</string>
+
+    <string name="referral_feedback">Referral Feedback</string>
+    <string name="hint_missing_reasons">Reasons for missing the appointment</string>
+    <string name="client_condition">Client\'s condition during visit</string>
+    <string name="village_title_label">Village</string>
+    <string name="referral_date_label">Referral Date</string>
+    <string name="gender">Gender</string>
+    <string name="patient_name_age">Patient Name, Age</string>
+    <string name="missing_facility">Please fill in the referral facility</string>
+    <string name="missing_services">Please fill in the referral service</string>
+    <string name="wrong_facility">Please fill in the correct referral facility</string>
+    <string name="successful_issued_referral">Referral Saved Successful</string>
+
 </resources>
