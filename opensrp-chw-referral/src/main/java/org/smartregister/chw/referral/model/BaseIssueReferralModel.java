@@ -102,13 +102,13 @@ public class BaseIssueReferralModel extends AbstractIssueReferralModel {
         JSONObject jsonForm = JsonFormUtils.getFormAsJson(formName);
         JsonFormUtils.addFormMetadata(jsonForm, entityId, currentLocationId);
 
-        return setFormValues(jsonForm, memberObject);
+        return setFormValues(jsonForm, JsonFormConstants.STEP1, memberObject);
     }
 
     @VisibleForTesting
-    public JSONObject setFormValues(JSONObject form, MemberObject memberObject) {
+    public JSONObject setFormValues(JSONObject form, String step, MemberObject memberObject) {
         try {
-            JSONArray fieldsArray = form.getJSONObject(JsonFormConstants.STEP1).getJSONArray(JsonFormConstants.FIELDS);
+            JSONArray fieldsArray = form.getJSONObject(step).getJSONArray(JsonFormConstants.FIELDS);
             setFieldValues(fieldsArray, memberObject);
 
             Timber.i("Form JSON = %s", form.toString());
@@ -133,7 +133,7 @@ public class BaseIssueReferralModel extends AbstractIssueReferralModel {
                 fieldObject = fieldsArray.getJSONObject(i);
                 String key = fieldObject.getString(JsonFormConstants.KEY);
                 if (memberJSONObject != null) {
-                    fieldObject.put("value", memberJSONObject.getString(key));
+                    fieldObject.put(JsonFormConstants.VALUE, memberJSONObject.getString(key));
                 }
             } catch (JSONException e) {
                 Timber.e(e);
