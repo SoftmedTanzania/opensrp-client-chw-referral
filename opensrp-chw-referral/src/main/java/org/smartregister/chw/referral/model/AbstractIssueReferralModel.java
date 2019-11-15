@@ -63,28 +63,44 @@ public abstract class AbstractIssueReferralModel extends ViewModel implements Ba
             memberObject.setReferralStatus(Constants.REFERRAL_STATUS.PENDING);
             memberObject.setChwReferralReason(referralReason.get());
             memberObject.setEmergencyReferral(Objects.requireNonNull(isEmergency.get()));
-            memberObject.setChwReferralService(Objects.requireNonNull(selectedReferralService.get()).getId());
+            memberObject.setChwReferralService(Objects.requireNonNull(selectedReferralService.get()).getNameEn());
+            memberObject.setChwReferralServiceId(Objects.requireNonNull(selectedReferralService.get()).getId());
             memberObject.setChwReferralHf(referralFacilityUuid);
 
-            memberObject.setReferralAppointmentDate(appointmentDate.get());
-
             SimpleDateFormat formatter = new SimpleDateFormat("dd MMM yyyy", Locale.getDefault());
-            String referralDateString = formatter.format((Calendar.getInstance().getTime()));
+            String todaysDate = formatter.format((Calendar.getInstance().getTime()));
 
-            memberObject.setChwReferralDate(referralDateString);
+
+            if (Objects.requireNonNull(isEmergency.get())) {
+                memberObject.setReferralAppointmentDate(todaysDate);
+            } else {
+                memberObject.setReferralAppointmentDate(appointmentDate.get());
+            }
+
+
+            memberObject.setChwReferralDate(todaysDate);
             memberObject.setReferralType(Constants.REFERRAL_TYPE.COMMUNITY_TO_FACILITY_REFERRAL);
 
             List<String> selectedIndicators = new ArrayList<>();
+            StringBuilder problemsStringBuilder = new StringBuilder();
             try {
                 for (ReferralServiceIndicatorObject referralServiceIndicatorObject : referralServiceIndicators) {
-                    if (referralServiceIndicatorObject.isChecked())
+                    if (referralServiceIndicatorObject.isChecked()) {
+                        problemsStringBuilder.append(referralServiceIndicatorObject.getNameEn());
+                        problemsStringBuilder.append(",");
                         selectedIndicators.add(referralServiceIndicatorObject.getId());
+                    }
                 }
             } catch (NullPointerException e) {
                 Timber.e(e);
             }
 
-            memberObject.setDangerSignsIndicatorIds(new Gson().toJson(selectedIndicators));
+            memberObject.setProblemIds(new Gson().toJson(selectedIndicators));
+
+            String problems = problemsStringBuilder.toString();
+            if (problems.length() > 0)
+                problems = problems.substring(0, problems.length() - 1);
+            memberObject.setProblems(problems);
         } catch (NullPointerException e) {
             Timber.e(e);
         }

@@ -4,7 +4,6 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.smartregister.chw.referral.domain.MemberObject;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
 
 public class MemberObjectTest {
@@ -92,16 +91,19 @@ public class MemberObjectTest {
         memberObject.setPhoneNumber("0789998899");
         Assert.assertEquals("0789998899", memberObject.getPhoneNumber());
     }
+
     @Test
     public void getBaseEntityId() {
         memberObject.setBaseEntityId("6238d8aa-6632-47f9-8a88-26bfedd942c2");
         Assert.assertEquals("6238d8aa-6632-47f9-8a88-26bfedd942c2", memberObject.getBaseEntityId());
     }
+
     @Test
     public void getPrimaryCareGiver() {
         memberObject.setPrimaryCareGiver("John Oliver");
         Assert.assertEquals("John Oliver", memberObject.getPrimaryCareGiver());
     }
+
     @Test
     public void getFamilyName() {
         memberObject.setFamilyName("Oliver's Family");

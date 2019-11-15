@@ -61,9 +61,10 @@
     <string name="issue_new_referral">Issue New Referral</string>
     <string name="view_referral_history">View Referral history</string>
 
-    <string name="referral_feedback">Referral Feedback</string>
-    <string name="hint_missing_reasons">Reasons for missing the appointment</string>
-    <string name="client_condition">Client\'s condition during visit</string>
+    <string name="followup_feedback">Followup Feedback</string>
+    <string name="feedback">Feedback</string>
+    <string name="hint_missing_reasons">Please choose a feedback</string>
+    <string name="other_followup_feedback_information">Other information e.g condition</string>
     <string name="village_title_label">Village</string>
     <string name="referral_date_label">Referral Date</string>
     <string name="gender">Gender</string>
@@ -72,5 +73,7 @@
     <string name="missing_services">Please fill in the referral service</string>
     <string name="wrong_facility">Please fill in the correct referral facility</string>
     <string name="successful_issued_referral">Referral Saved Successful</string>
+    <string name="missing_client_condition_during_visit">Please fill in the client condition during the visit</string>
+    <string name="missing_feedback">Please select feedback</string>
 
 </resources>

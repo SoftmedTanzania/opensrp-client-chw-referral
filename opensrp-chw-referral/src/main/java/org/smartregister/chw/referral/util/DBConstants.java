@@ -29,17 +29,23 @@ public class DBConstants {
         public static final String REFERRAL_HF = "chw_referral_hf";
         public static final String REFERRAL_REASON = "chw_referral_reason";
         public static final String REFERRAL_SERVICE = "chw_referral_service";
+        public static final String REFERRAL_SERVICE_ID = "chw_referral_service_id";
         public static final String REFERRAL_APPOINTMENT_DATE = "referral_appointment_date";
         public static final String REFERRAL_DATE = "chw_referral_date";
         public static final String IS_EMERGENCY_REFERRAL = "is_emergency_referral";
-        public static final String DANGER_SIGNS_INDICATOR_IDS = "danger_signs_indicator_ids";
+        public static final String PROBLEMS_IDS = "problems_ids";
         public static final String REFERRAL_TYPE = "referral_type";
         public static final String REFERRAL_STATUS = "referral_status";
-        public static final String REFERRAL_SERVICE_NAME_EN = "name_en";
-        public static final String REFERRAL_SERVICE_NAME_SW = "name_sw";
+        public static final String NAME_EN = "name_en";
+        public static final String NAME_SW = "name_sw";
         public static final String REFERRAL_SERVICE_IDENTIFIER = "identifier";
         public static final String IS_ACTIVE = "isActive";
         public static final String IS_CLOSED = "is_closed";
+
+
+        public static final String OTHER_FOLLOWUP_FEEDBACK_INFORMATION = "other_followup_feedback_information";
+        public static final String CHW_FOLLOWUP_FEEDBACK_ID = "chw_followup_feedback_id";
+        public static final String CHW_FOLLOWUP_DATE = "chw_followup_date";
 
     }
 }

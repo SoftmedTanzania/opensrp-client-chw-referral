@@ -7,25 +7,20 @@ import org.smartregister.commonregistry.CommonPersonObjectClient;
 
 import java.io.Serializable;
 
-public class ReferralServiceIndicatorObject implements Serializable {
-    @SerializedName("indicatorId")
+public class FollowupFeedbackObject implements Serializable {
     private String id;
-    private String relationalId;
 
-    @SerializedName("indicatorName")
+    @SerializedName("name_en")
     private String nameEn;
 
-    @SerializedName("indicatorNameSw")
+    @SerializedName("name_sw")
     private String nameSw;
 
+    @SerializedName("is_active")
     private boolean isActive;
 
-    //Only used in selection of indicators from UI
-    private boolean isChecked = false;
-
-    public ReferralServiceIndicatorObject(CommonPersonObjectClient client) {
+    public FollowupFeedbackObject(CommonPersonObjectClient client) {
         id = client.getColumnmaps().get(DBConstants.KEY.ID);
-        relationalId = client.getColumnmaps().get(DBConstants.KEY.RELATIONAL_ID);
         nameEn = client.getColumnmaps().get(DBConstants.KEY.NAME_EN) != null ? client.getColumnmaps().get(DBConstants.KEY.NAME_EN) : "";
         nameSw = client.getColumnmaps().get(DBConstants.KEY.NAME_SW) != null ? client.getColumnmaps().get(DBConstants.KEY.NAME_SW) : "";
         isActive = Boolean.parseBoolean(client.getColumnmaps().get(DBConstants.KEY.IS_ACTIVE));
@@ -37,14 +32,6 @@ public class ReferralServiceIndicatorObject implements Serializable {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public String getRelationalId() {
-        return relationalId;
-    }
-
-    public void setRelationalId(String relationalId) {
-        this.relationalId = relationalId;
     }
 
     public String getNameEn() {
@@ -69,13 +56,5 @@ public class ReferralServiceIndicatorObject implements Serializable {
 
     public void setActive(boolean active) {
         isActive = active;
-    }
-
-    public boolean isChecked() {
-        return isChecked;
-    }
-
-    public void setChecked(boolean checked) {
-        isChecked = checked;
     }
 }

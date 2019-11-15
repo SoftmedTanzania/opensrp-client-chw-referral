@@ -5,7 +5,6 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.smartregister.chw.referral.contract.BaseReferralProfileContract;
 import org.smartregister.chw.referral.domain.MemberObject;
-import org.smartregister.chw.referral.presenter.BaseReferralProfilePresenter;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
 
 import static org.mockito.Mockito.never;

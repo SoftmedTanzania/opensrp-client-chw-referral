@@ -11,16 +11,14 @@ import android.view.View;
 import android.view.Window;
 import android.widget.TextView;
 
-
 import org.smartregister.chw.referral.R;
 
 import timber.log.Timber;
 
 public class CopyToClipboardDialog extends Dialog implements View.OnClickListener {
-    private Context context;
-
     @VisibleForTesting
     String content;
+    private Context context;
 
     public CopyToClipboardDialog(@NonNull Context context) {
         super(context);

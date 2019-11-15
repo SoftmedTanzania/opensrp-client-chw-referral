@@ -6,8 +6,10 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.smartregister.Context;
 import org.smartregister.CoreLibrary;
+import org.smartregister.chw.referral.domain.FollowupFeedbackObject;
 import org.smartregister.chw.referral.domain.ReferralServiceIndicatorObject;
 import org.smartregister.chw.referral.domain.ReferralServiceObject;
+import org.smartregister.chw.referral.repository.FollowupFeedbackRepository;
 import org.smartregister.chw.referral.repository.ReferralServiceIndicatorRepository;
 import org.smartregister.chw.referral.repository.ReferralServiceRepository;
 import org.smartregister.domain.Location;
@@ -112,7 +114,8 @@ public class ReferralLibrary {
     }
 
     /**
-     * Use this method when testing purposes only.
+     * Use this method for testing purposes ONLY.
+     * It seeds various data required by the module
      * It should be replaced by data synchronized from the server
      */
     public void seedSampleReferralServicesAndIndicators() {
@@ -120,6 +123,7 @@ public class ReferralLibrary {
         ReferralServiceRepository referralServiceRepository = new ReferralServiceRepository(repository);
         ReferralServiceIndicatorRepository indicatorRepository = new ReferralServiceIndicatorRepository(repository);
         LocationRepository locationRepository = new LocationRepository(repository);
+        FollowupFeedbackRepository followupFeedbackRepository = new FollowupFeedbackRepository(repository);
 
         if (context != null && referralServiceRepository.getReferralServices() == null) {
             //seeding referral services and indicators
@@ -164,6 +168,22 @@ public class ReferralLibrary {
                 locationRepository.addOrUpdate(testFacilityA);
             }
         } catch (NullPointerException e) {
+            Timber.e(e);
+        }
+
+        try {
+            if (followupFeedbackRepository.getFollowupFeedbacks().size() == 0) {
+                String followupFeedbackJsonString = AssetHandler.readFileFromAssetsFolder("ec_referral_feedback.json", context.applicationContext());
+
+                JSONArray followupFeedbackJSONArrayList = new JSONArray(followupFeedbackJsonString);
+
+                for (int i = 0; i < followupFeedbackJSONArrayList.length(); i++) {
+                    JSONObject feedbackObj = followupFeedbackJSONArrayList.getJSONObject(i);
+                    FollowupFeedbackObject followupFeedbackObject = new Gson().fromJson(feedbackObj.toString(), FollowupFeedbackObject.class);
+                    followupFeedbackRepository.saveFollowupFeedback(followupFeedbackObject);
+                }
+            }
+        } catch (Exception e) {
             Timber.e(e);
         }
 

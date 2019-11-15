@@ -86,9 +86,9 @@ public class AbstractIssueReferralModelTest {
         model.saveDataToMemberObject();
         Assert.assertEquals("2019-10-26", model.memberObject.getReferralAppointmentDate());
         Assert.assertTrue(model.memberObject.getIsEmergencyReferral());
-        Assert.assertEquals("23", model.memberObject.getChwReferralService());
+        Assert.assertEquals("23", model.memberObject.getChwReferralServiceId());
         Assert.assertEquals("testuuid", model.memberObject.getChwReferralHf());
-        Assert.assertEquals("[\"test-indicator-uuid\"]", model.memberObject.getDangerSignsIndicatorIds());
+        Assert.assertEquals("[\"test-indicator-uuid\"]", model.memberObject.getProblemIds());
         Assert.assertEquals("referral reason", model.memberObject.getChwReferralReason());
 
     }

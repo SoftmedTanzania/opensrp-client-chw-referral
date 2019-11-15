@@ -122,7 +122,7 @@
       "id": 4,
       "nameEn": "Antenatal Care",
       "nameSw": "Wajawazito",
-      "identifier": "anc",
+      "identifier": "ANC",
       "isActive": true,
       "indicators": [
         {
@@ -173,7 +173,7 @@
       "id": 5,
       "nameEn": "Postnatal Care",
       "nameSw": "Wanaonyonyesha",
-      "identifier": "pnc",
+      "identifier": "PNC",
       "isActive": true,
       "indicators": [
         {
@@ -224,7 +224,7 @@
       "id": 6,
       "nameEn": "Circumcision Service",
       "nameSw": "Huduma ya tohara",
-      "identifier": "circumcision",
+      "identifier": "Circumcision",
       "isActive": true,
       "indicators": []
     },
@@ -297,7 +297,7 @@
       "id": 8,
       "nameEn": "Legal Support Services",
       "nameSw": "Msaada wa kisheria",
-      "identifier": "legal_support_services",
+      "identifier": "Legal Support",
       "isActive": true,
       "indicators": []
     },
@@ -305,7 +305,7 @@
       "id": 9,
       "nameEn": "Support Groups",
       "nameSw": "Vikundi vya kusaidiana",
-      "identifier": "support_groups",
+      "identifier": "Support Groups",
       "isActive": true,
       "indicators": []
     },
@@ -321,7 +321,7 @@
       "id": 11,
       "nameEn": "Elderly Centers",
       "nameSw": "Vituo vya wazee ",
-      "identifier": "elderly_centers",
+      "identifier": "Elderly",
       "isActive": true,
       "indicators": []
     },
@@ -373,7 +373,7 @@
       "id": 13,
       "nameEn": "Family Planning",
       "nameSw": "Family Planning",
-      "identifier": "fp",
+      "identifier": "FP",
       "isActive": true,
       "indicators": [
         {

@@ -6,20 +6,22 @@ import org.junit.Test;
 import org.mockito.Mockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.rule.PowerMockRule;
+
 @PrepareForTest(BaseReferralFloatingMenu.class)
 public class BaseReferralFloatingMenuTest {
     @Rule
     public PowerMockRule rule = new PowerMockRule();
 
     @Test
-    public void testInitialization(){
+    public void testInitialization() {
         BaseReferralFloatingMenu baseReferralFloatingMenu = Mockito.spy(new BaseReferralFloatingMenu(null, null));
         Assert.assertNotNull(baseReferralFloatingMenu);
 
-        baseReferralFloatingMenu = Mockito.spy(new BaseReferralFloatingMenu(null, null,0));
+        baseReferralFloatingMenu = Mockito.spy(new BaseReferralFloatingMenu(null, null, 0));
         Assert.assertNotNull(baseReferralFloatingMenu);
 
     }
+
     @Test
     public void getPhoneNumber() {
         BaseReferralFloatingMenu baseReferralFloatingMenu = Mockito.spy(new BaseReferralFloatingMenu(null, "John", "0744112211", "Doe", "0744112244"));
