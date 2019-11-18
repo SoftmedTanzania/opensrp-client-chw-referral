@@ -6,7 +6,6 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
-import org.smartregister.chw.referral.activity.BaseIssueReferralActivity;
 import org.smartregister.chw.referral.contract.BaseIssueReferralContract;
 
 import static org.hamcrest.CoreMatchers.instanceOf;

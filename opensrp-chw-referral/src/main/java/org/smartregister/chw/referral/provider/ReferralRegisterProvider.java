@@ -71,7 +71,7 @@ public class ReferralRegisterProvider implements RecyclerViewProvider<ReferralRe
             viewHolder.textViewGender.setText(Utils.getValue(pc.getColumnmaps(), DBConstants.KEY.GENDER, true));
             viewHolder.textViewVillage.setText(Utils.getValue(pc.getColumnmaps(), DBConstants.KEY.VILLAGE_TOWN, true));
             viewHolder.textViewService.setText(Utils.getValue(pc.getColumnmaps(), DBConstants.KEY.REFERRAL_SERVICE, true));
-            viewHolder.textViewFacility.setText(Utils.getValue(pc.getColumnmaps(), DBConstants.KEY.REFERRAL_SERVICE, true));
+            viewHolder.textViewFacility.setText(Utils.getValue(pc.getColumnmaps(), DBConstants.KEY.REFERRAL_HF, true));
 
 
             viewHolder.patientColumn.setOnClickListener(onClickListener);

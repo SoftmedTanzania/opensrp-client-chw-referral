@@ -112,7 +112,7 @@ public class BaseIssueReferralModelTest {
                             Assert.assertEquals(model.memberObject.getIsEmergencyReferral(), jsonObject1.optBoolean("value"));
                             break;
                         case "danger_signs_indicator_ids":
-                            Assert.assertEquals(model.memberObject.getDangerSignsIndicatorIds(), jsonObject1.optString("value"));
+                            Assert.assertEquals(model.memberObject.getProblemIds(), jsonObject1.optString("value"));
                             break;
                         case "referral_type":
                             Assert.assertEquals(model.memberObject.getReferralType(), jsonObject1.optString("value"));

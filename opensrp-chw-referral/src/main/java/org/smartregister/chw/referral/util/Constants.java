@@ -35,6 +35,7 @@ public interface Constants {
         String MEMBER_OBJECT = "MEMBER_OBJECT";
         String ACTION = "ACTION";
         String REFERRAL_FORM_NAME = "REFERRAL_FORM_NAME";
+        String REFERRAL_FOLLOWUP_FORM_NAME = "REFERRAL_FOLLOWUP_FORM_NAME";
         String REFERRAL_SERVICE_IDS = "REFERRAL_SERVICE_IDS";
 
     }

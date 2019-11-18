@@ -35,13 +35,19 @@ public class MemberObject implements Serializable {
     @SerializedName("chw_referral_service")
     private String chwReferralService;
 
+    @SerializedName("chw_referral_service_id")
+    private String chwReferralServiceId;
+
 
     @SerializedName("chw_referral_date")
     private String chwReferralDate;
 
 
-    @SerializedName("danger_signs_indicator_ids")
-    private String dangerSignsIndicatorIds;
+    @SerializedName("problems")
+    private String problems;
+
+    @SerializedName("problems_ids")
+    private String problemIds;
 
 
     @SerializedName("referral_type")
@@ -78,9 +84,9 @@ public class MemberObject implements Serializable {
         phoneNumber = client.getColumnmaps().get(DBConstants.KEY.PHONE_NUMBER);
         chwReferralHf = client.getColumnmaps().get(DBConstants.KEY.REFERRAL_HF);
         chwReferralReason = client.getColumnmaps().get(DBConstants.KEY.REFERRAL_REASON);
-        chwReferralService = client.getColumnmaps().get(DBConstants.KEY.REFERRAL_SERVICE);
+        chwReferralServiceId = client.getColumnmaps().get(DBConstants.KEY.REFERRAL_SERVICE_ID);
         chwReferralDate = client.getColumnmaps().get(DBConstants.KEY.REFERRAL_DATE);
-        dangerSignsIndicatorIds = client.getColumnmaps().get(DBConstants.KEY.DANGER_SIGNS_INDICATOR_IDS);
+        problemIds = client.getColumnmaps().get(DBConstants.KEY.PROBLEMS_IDS);
         referralType = client.getColumnmaps().get(DBConstants.KEY.REFERRAL_TYPE);
         referralStatus = client.getColumnmaps().get(DBConstants.KEY.REFERRAL_STATUS);
         referralAppointmentDate = client.getColumnmaps().get(DBConstants.KEY.REFERRAL_APPOINTMENT_DATE);
@@ -239,12 +245,28 @@ public class MemberObject implements Serializable {
         this.chwReferralDate = chwReferralDate;
     }
 
-    public String getDangerSignsIndicatorIds() {
-        return dangerSignsIndicatorIds;
+    public String getChwReferralServiceId() {
+        return chwReferralServiceId;
     }
 
-    public void setDangerSignsIndicatorIds(String dangerSignsIndicatorIds) {
-        this.dangerSignsIndicatorIds = dangerSignsIndicatorIds;
+    public void setChwReferralServiceId(String chwReferralServiceId) {
+        this.chwReferralServiceId = chwReferralServiceId;
+    }
+
+    public String getProblems() {
+        return problems;
+    }
+
+    public void setProblems(String problems) {
+        this.problems = problems;
+    }
+
+    public String getProblemIds() {
+        return problemIds;
+    }
+
+    public void setProblemIds(String problemIds) {
+        this.problemIds = problemIds;
     }
 
     public String getReferralType() {

@@ -1,31 +1,29 @@
 package org.smartregister.chw.referral.domain;
 
+import com.google.gson.annotations.SerializedName;
+
 import org.smartregister.chw.referral.util.DBConstants;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
 
 import java.io.Serializable;
 
-public class ReferralServiceObject implements Serializable {
+public class FollowupFeedbackObject implements Serializable {
     private String id;
+
+    @SerializedName("name_en")
     private String nameEn;
+
+    @SerializedName("name_sw")
     private String nameSw;
-    private String identifier;
+
+    @SerializedName("is_active")
     private boolean isActive;
 
-    public ReferralServiceObject(CommonPersonObjectClient client) {
+    public FollowupFeedbackObject(CommonPersonObjectClient client) {
         id = client.getColumnmaps().get(DBConstants.KEY.ID);
-        nameEn = client.getColumnmaps().get(DBConstants.KEY.NAME_EN) != null ? client.getColumnmaps().get(DBConstants.KEY.NAME_EN) : "";
         nameSw = client.getColumnmaps().get(DBConstants.KEY.NAME_SW) != null ? client.getColumnmaps().get(DBConstants.KEY.NAME_SW) : "";
-        identifier = client.getColumnmaps().get(DBConstants.KEY.REFERRAL_SERVICE_IDENTIFIER) != null ? client.getColumnmaps().get(DBConstants.KEY.REFERRAL_SERVICE_IDENTIFIER) : "";
+        nameEn = client.getColumnmaps().get(DBConstants.KEY.NAME_EN) != null ? client.getColumnmaps().get(DBConstants.KEY.NAME_EN) : "";
         isActive = Boolean.parseBoolean(client.getColumnmaps().get(DBConstants.KEY.IS_ACTIVE));
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public String getNameEn() {
@@ -44,12 +42,12 @@ public class ReferralServiceObject implements Serializable {
         this.nameSw = nameSw;
     }
 
-    public String getIdentifier() {
-        return identifier;
+    public String getId() {
+        return id;
     }
 
-    public void setIdentifier(String identifier) {
-        this.identifier = identifier;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public boolean isActive() {

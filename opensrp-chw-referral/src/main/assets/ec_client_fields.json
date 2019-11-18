@@ -127,6 +127,77 @@
           }
         }
       ]
+    },
+    {
+      "name": "ec_referral_followup",
+      "columns": [
+        {
+          "column_name": "base_entity_id",
+          "type": "Event",
+          "json_mapping": {
+            "field": "baseEntityId"
+          }
+        },
+        {
+          "column_name": "chw_followup_feedback_id",
+          "type": "Event",
+          "json_mapping": {
+            "field": "obs.fieldCode",
+            "concept": "chw_followup_feedback_id"
+          }
+        },
+        {
+          "column_name": "chw_followup_feedback",
+          "type": "Event",
+          "json_mapping": {
+            "field": "obs.fieldCode",
+            "concept": "chw_followup_feedback"
+          }
+        },
+        {
+          "column_name": "other_followup_feedback_information",
+          "type": "Event",
+          "json_mapping": {
+            "field": "obs.fieldCode",
+            "concept": "other_followup_feedback_information"
+          }
+        },
+        {
+          "column_name": "chw_followup_date",
+          "type": "Event",
+          "data_type": "date",
+          "json_mapping": {
+            "field": "obs.fieldCode",
+            "concept": "chw_followup_date"
+          }
+        }
+      ]
+    },
+    {
+      "name": "ec_followup_feedback",
+      "columns": [
+        {
+          "column_name": "name_en",
+          "type": "Event",
+          "json_mapping": {
+            "field": "obs.fieldCode"
+          }
+        },
+        {
+          "column_name": "name_sw",
+          "type": "Event",
+          "json_mapping": {
+            "field": "obs.fieldCode"
+          }
+        },
+        {
+          "column_name": "is_active",
+          "type": "Event",
+          "json_mapping": {
+            "field": "obs.fieldCode"
+          }
+        }
+      ]
     }
   ]
 }

@@ -26,8 +26,8 @@ public class ReferralServiceIndicatorObject implements Serializable {
     public ReferralServiceIndicatorObject(CommonPersonObjectClient client) {
         id = client.getColumnmaps().get(DBConstants.KEY.ID);
         relationalId = client.getColumnmaps().get(DBConstants.KEY.RELATIONAL_ID);
-        nameEn = client.getColumnmaps().get(DBConstants.KEY.REFERRAL_SERVICE_NAME_EN) != null ? client.getColumnmaps().get(DBConstants.KEY.REFERRAL_SERVICE_NAME_EN) : "";
-        nameSw = client.getColumnmaps().get(DBConstants.KEY.REFERRAL_SERVICE_NAME_SW) != null ? client.getColumnmaps().get(DBConstants.KEY.REFERRAL_SERVICE_NAME_SW) : "";
+        nameEn = client.getColumnmaps().get(DBConstants.KEY.NAME_EN) != null ? client.getColumnmaps().get(DBConstants.KEY.NAME_EN) : "";
+        nameSw = client.getColumnmaps().get(DBConstants.KEY.NAME_SW) != null ? client.getColumnmaps().get(DBConstants.KEY.NAME_SW) : "";
         isActive = Boolean.parseBoolean(client.getColumnmaps().get(DBConstants.KEY.IS_ACTIVE));
     }
 

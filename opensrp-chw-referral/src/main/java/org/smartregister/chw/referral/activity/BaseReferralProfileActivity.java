@@ -38,7 +38,7 @@ import timber.log.Timber;
 
 
 public class BaseReferralProfileActivity extends BaseProfileActivity implements BaseReferralProfileContract.View, BaseReferralProfileContract.InteractorCallBack {
-    protected MemberObject MEMBER_OBJECT;
+    protected MemberObject memberObject;
     protected BaseReferralProfileContract.Presenter profilePresenter;
     protected TextView textViewName;
     protected TextView textViewFacilityName;
@@ -130,11 +130,11 @@ public class BaseReferralProfileActivity extends BaseProfileActivity implements 
         textViewAncVisitNotDone = findViewById(R.id.textview_anc_visit_not_done);
         textViewAncVisitNotDone.setOnClickListener(this);
 
-        MEMBER_OBJECT = (MemberObject) getIntent().getSerializableExtra(Constants.REFERRAL_MEMBER_OBJECT.MEMBER_OBJECT);
+        memberObject = (MemberObject) getIntent().getSerializableExtra(Constants.REFERRAL_MEMBER_OBJECT.MEMBER_OBJECT);
 
         initializePresenter();
 
-        profilePresenter.fillProfileData(MEMBER_OBJECT);
+        profilePresenter.fillProfileData(memberObject);
 
 
         setupViews();
@@ -164,14 +164,14 @@ public class BaseReferralProfileActivity extends BaseProfileActivity implements 
     @Override
     protected void initializePresenter() {
         showProgressBar(true);
-        profilePresenter = new BaseReferralProfilePresenter(this, new BaseReferralProfileInteractor(), MEMBER_OBJECT);
+        profilePresenter = new BaseReferralProfilePresenter(this, new BaseReferralProfileInteractor(), memberObject);
         fetchProfileData();
         profilePresenter.refreshProfileBottom();
     }
 
     public void initializeFloatingMenu() {
-        if (StringUtils.isNotBlank(MEMBER_OBJECT.getPhoneNumber()) || StringUtils.isNotBlank(familyHeadPhoneNumber)) {
-            baseReferralFloatingMenu = new BaseReferralFloatingMenu(this, clientName, MEMBER_OBJECT.getPhoneNumber(), familyHeadName, familyHeadPhoneNumber);
+        if (StringUtils.isNotBlank(memberObject.getPhoneNumber()) || StringUtils.isNotBlank(familyHeadPhoneNumber)) {
+            baseReferralFloatingMenu = new BaseReferralFloatingMenu(this, clientName, memberObject.getPhoneNumber(), familyHeadName, familyHeadPhoneNumber);
             baseReferralFloatingMenu.setGravity(Gravity.BOTTOM | Gravity.RIGHT);
             LinearLayout.LayoutParams linearLayoutParams = new LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.MATCH_PARENT,
@@ -182,27 +182,27 @@ public class BaseReferralProfileActivity extends BaseProfileActivity implements 
 
     @Override
     public void setProfileViewWithData() {
-        int age = new Period(new DateTime(MEMBER_OBJECT.getAge()), new DateTime()).getYears();
-        textViewName.setText(String.format(Locale.getDefault(), "%s %s %s, %d", MEMBER_OBJECT.getFirstName(),
-                MEMBER_OBJECT.getMiddleName(), MEMBER_OBJECT.getLastName(), age));
-        textViewGender.setText(MEMBER_OBJECT.getGender());
-        textViewLocation.setText(MEMBER_OBJECT.getAddress());
-        textViewUniqueID.setText(MEMBER_OBJECT.getUniqueId());
+        int age = new Period(new DateTime(memberObject.getAge()), new DateTime()).getYears();
+        textViewName.setText(String.format(Locale.getDefault(), "%s %s %s, %d", memberObject.getFirstName(),
+                memberObject.getMiddleName(), memberObject.getLastName(), age));
+        textViewGender.setText(memberObject.getGender());
+        textViewLocation.setText(memberObject.getAddress());
+        textViewUniqueID.setText(memberObject.getUniqueId());
 
-        textViewFacilityName.setText(MEMBER_OBJECT.getChwReferralHf());
-        textViewReferralDate.setText(MEMBER_OBJECT.getChwReferralDate());
-        textViewReasonForReferral.setText(MEMBER_OBJECT.getChwReferralReason());
-        textViewAppointmentDate.setText(MEMBER_OBJECT.getReferralAppointmentDate());
+        textViewFacilityName.setText(memberObject.getChwReferralHf());
+        textViewReferralDate.setText(memberObject.getChwReferralDate());
+        textViewReasonForReferral.setText(memberObject.getChwReferralReason());
+        textViewAppointmentDate.setText(memberObject.getReferralAppointmentDate());
 
-        if (StringUtils.isNotBlank(MEMBER_OBJECT.getFamilyHead()) && MEMBER_OBJECT.getFamilyHead().equals(MEMBER_OBJECT.getBaseEntityId())) {
+        if (StringUtils.isNotBlank(memberObject.getFamilyHead()) && memberObject.getFamilyHead().equals(memberObject.getBaseEntityId())) {
             findViewById(R.id.family_head).setVisibility(View.VISIBLE);
         }
-        if (StringUtils.isNotBlank(MEMBER_OBJECT.getPrimaryCareGiver()) && MEMBER_OBJECT.getPrimaryCareGiver().equals(MEMBER_OBJECT.getBaseEntityId())) {
+        if (StringUtils.isNotBlank(memberObject.getPrimaryCareGiver()) && memberObject.getPrimaryCareGiver().equals(memberObject.getBaseEntityId())) {
             findViewById(R.id.primary_caregiver).setVisibility(View.VISIBLE);
         }
 
         try {
-            JSONArray idsArray = new JSONArray(MEMBER_OBJECT.getDangerSignsIndicatorIds());
+            JSONArray idsArray = new JSONArray(memberObject.getProblemIds());
 
             StringBuilder referralIndicatorsStringBuilder = new StringBuilder();
             for (int i = 0; i < idsArray.length(); i++) {
@@ -216,7 +216,7 @@ public class BaseReferralProfileActivity extends BaseProfileActivity implements 
             Timber.e(e);
         }
 
-        textViewReferralServiceName.setText(MEMBER_OBJECT.getChwReferralService());
+        textViewReferralServiceName.setText(memberObject.getChwReferralService());
     }
 
     @Override

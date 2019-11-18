@@ -1,17 +1,19 @@
 package org.smartregister.chw.referral.presenter;
 
+import org.junit.Assert;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.smartregister.chw.referral.contract.BaseFollowupContract;
 import org.smartregister.chw.referral.domain.MemberObject;
-import org.smartregister.chw.referral.presenter.BaseFollowupPresenter;
+import org.smartregister.chw.referral.domain.ReferralFollowupObject;
+import org.smartregister.chw.referral.model.BaseReferralFollowupModel;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
 
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
-public class BaseFollowupPresenterTest {
+public class BaseReferralFollowupPresenterTest {
     @Mock
     private CommonPersonObjectClient commonPersonObjectClient = Mockito.mock(CommonPersonObjectClient.class);
 
@@ -21,10 +23,11 @@ public class BaseFollowupPresenterTest {
     @Mock
     private BaseFollowupContract.Interactor interactor = Mockito.mock(BaseFollowupContract.Interactor.class);
 
+
     @Mock
     private MemberObject memberObject = new MemberObject(commonPersonObjectClient);
 
-    private BaseFollowupPresenter followupPresenter = new BaseFollowupPresenter(view, interactor, memberObject);
+    private BaseReferralFollowupPresenter followupPresenter = new BaseReferralFollowupPresenter(view, BaseReferralFollowupModel.class, interactor);
 
 
     @Test
@@ -38,4 +41,23 @@ public class BaseFollowupPresenterTest {
         followupPresenter.fillProfileData(null);
         verify(view, never()).setProfileViewWithData();
     }
+
+    @Test
+    public void saveForm() {
+        followupPresenter.saveForm(null);
+        verify(interactor).saveFollowup(null, followupPresenter);
+    }
+
+    @Test
+    public void validateValues() {
+        ReferralFollowupObject referralFollowupObject = new ReferralFollowupObject();
+        Assert.assertFalse(followupPresenter.validateValues(referralFollowupObject));
+
+        referralFollowupObject.setOtherFollowupFeedbackInformation("client is doing well");
+        Assert.assertFalse(followupPresenter.validateValues(referralFollowupObject));
+
+        referralFollowupObject.setChwFollowupFeedback("He forgot the appointment");
+        Assert.assertTrue(followupPresenter.validateValues(referralFollowupObject));
+    }
 }
+

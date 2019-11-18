@@ -9,18 +9,18 @@ import java.lang.ref.WeakReference;
 import timber.log.Timber;
 
 public class BaseReferralHistoryPresenter implements BaseReferralHistoryContract.Presenter {
-    private MemberObject MEMBER_OBJECT;
+    private MemberObject memberObject;
     private WeakReference<BaseReferralHistoryContract.View> viewReference;
 
-    public BaseReferralHistoryPresenter(MemberObject MEMBER_OBJECT, BaseReferralHistoryContract.View view) {
+    public BaseReferralHistoryPresenter(MemberObject memberObject, BaseReferralHistoryContract.View view) {
         viewReference = new WeakReference<>(view);
-        this.MEMBER_OBJECT = MEMBER_OBJECT;
+        this.memberObject = memberObject;
     }
 
     @Override
     public String getMainCondition() {
         try {
-            return "ec_referral.base_entity_id = '" + MEMBER_OBJECT.getBaseEntityId() + "'";
+            return "ec_referral.base_entity_id = '" + memberObject.getBaseEntityId() + "'";
         } catch (Exception e) {
             Timber.e(e);
         }

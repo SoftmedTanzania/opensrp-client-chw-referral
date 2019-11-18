@@ -66,7 +66,7 @@ public class AbstractIssueReferralModelTest {
         Assert.assertNotNull(MEMBER_OBJECT);
         model.memberObject = MEMBER_OBJECT;
         model.setReferralReason("referral reason");
-        model.setIsEmergency(true);
+        model.setIsEmergency(false);
 
         ReferralServiceObject referralServiceObject = new ReferralServiceObject(client);
         referralServiceObject.setId("23");
@@ -85,10 +85,10 @@ public class AbstractIssueReferralModelTest {
 
         model.saveDataToMemberObject();
         Assert.assertEquals("2019-10-26", model.memberObject.getReferralAppointmentDate());
-        Assert.assertTrue(model.memberObject.getIsEmergencyReferral());
-        Assert.assertEquals("23", model.memberObject.getChwReferralService());
+        Assert.assertFalse(model.memberObject.getIsEmergencyReferral());
+        Assert.assertEquals("23", model.memberObject.getChwReferralServiceId());
         Assert.assertEquals("testuuid", model.memberObject.getChwReferralHf());
-        Assert.assertEquals("[\"test-indicator-uuid\"]", model.memberObject.getDangerSignsIndicatorIds());
+        Assert.assertEquals("[\"test-indicator-uuid\"]", model.memberObject.getProblemIds());
         Assert.assertEquals("referral reason", model.memberObject.getChwReferralReason());
 
     }

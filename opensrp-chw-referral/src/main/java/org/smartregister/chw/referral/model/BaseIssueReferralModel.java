@@ -82,6 +82,7 @@ public class BaseIssueReferralModel extends AbstractIssueReferralModel {
             ReferralServiceIndicatorRepository indicatorRepository = new ReferralServiceIndicatorRepository(ReferralLibrary.getInstance().getRepository());
             return indicatorRepository.getServiceIndicatorsByServiceId(serviceId);
         } catch (Exception e) {
+            Timber.e(e);
             return null;
         }
     }
