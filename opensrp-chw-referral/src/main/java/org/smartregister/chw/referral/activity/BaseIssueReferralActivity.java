@@ -159,6 +159,7 @@ public class BaseIssueReferralActivity extends AppCompatActivity implements Base
                 viewModel.saveDataToMemberObject();
                 if (presenter.validateValues(viewModel.memberObject)) {
                     JSONObject jsonForm = viewModel.getFormWithValuesAsJson(formName, baseEntityId, getLocationID(), viewModel.memberObject);
+                    jsonForm.put(Constants.FOCUS, "Testing Focus");
                     presenter.saveForm(jsonForm.toString());
                     Toast.makeText(this, getResources().getString(R.string.successful_issued_referral), Toast.LENGTH_SHORT).show();
                     finish();

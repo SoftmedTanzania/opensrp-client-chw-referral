@@ -2,18 +2,14 @@ package org.smartregister.chw.referral.interactor;
 
 import android.support.annotation.VisibleForTesting;
 
-import com.google.gson.Gson;
-
 import org.smartregister.chw.referral.ReferralLibrary;
 import org.smartregister.chw.referral.contract.BaseIssueReferralContract;
 import org.smartregister.chw.referral.util.AppExecutors;
-import org.smartregister.chw.referral.util.JsonFormUtils;
-import org.smartregister.chw.referral.util.Util;
-import org.smartregister.clientandeventmodel.Event;
-import org.smartregister.repository.AllSharedPreferences;
+import org.smartregister.chw.referral.util.ReferralUtil;
+import org.smartregister.location.helper.LocationHelper;
 
-import java.util.Objects;
-import java.util.UUID;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import timber.log.Timber;
 
@@ -39,7 +35,6 @@ public class BaseIssueReferralInteractor implements BaseIssueReferralContract.In
     public void saveRegistration(final String jsonString, final BaseIssueReferralContract.InteractorCallBack callBack) {
 
         Runnable runnable = () -> {
-            // save it
             try {
                 saveRegistration(jsonString);
             } catch (Exception e) {
@@ -52,16 +47,9 @@ public class BaseIssueReferralInteractor implements BaseIssueReferralContract.In
     }
 
     @VisibleForTesting
-    void saveRegistration(final String jsonString) throws Exception {
-
-        AllSharedPreferences allSharedPreferences = ReferralLibrary.getInstance().context().allSharedPreferences();
-        Event baseEvent = JsonFormUtils.processJsonForm(allSharedPreferences, jsonString);
-
-        Objects.requireNonNull(baseEvent).setEventId(UUID.randomUUID().toString());
-
-        Timber.i("Referral Event = %s", new Gson().toJson(baseEvent));
-
-        Util.processEvent(allSharedPreferences, baseEvent);
+    private void saveRegistration(final String jsonString) throws Exception {
+        ReferralUtil.createReferralEventAndTask(ReferralLibrary.getInstance().context().allSharedPreferences(),
+                jsonString, Arrays.asList("MOH Jhpiego Facility Name" , "Village"));//TODO remove hard corded allowed locations location
     }
 
 }

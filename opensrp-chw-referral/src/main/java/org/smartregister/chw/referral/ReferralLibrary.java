@@ -16,6 +16,8 @@ import org.smartregister.domain.Location;
 import org.smartregister.domain.LocationProperty;
 import org.smartregister.repository.LocationRepository;
 import org.smartregister.repository.Repository;
+import org.smartregister.repository.TaskNotesRepository;
+import org.smartregister.repository.TaskRepository;
 import org.smartregister.sync.ClientProcessorForJava;
 import org.smartregister.sync.helper.ECSyncHelper;
 import org.smartregister.util.AssetHandler;
@@ -28,6 +30,7 @@ public class ReferralLibrary {
 
     private final Context context;
     private final Repository repository;
+    private static TaskRepository taskRepository;
 
     private int applicationVersion;
     private int databaseVersion;
@@ -187,5 +190,11 @@ public class ReferralLibrary {
             Timber.e(e);
         }
 
+    }
+    public TaskRepository getTaskRepository() {
+        if (taskRepository == null) {
+            taskRepository = new TaskRepository(getRepository(), new TaskNotesRepository(getRepository()));
+        }
+        return taskRepository;
     }
 }
