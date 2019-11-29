@@ -1,7 +1,7 @@
 package org.smartregister.chw.referral.sample.activity;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 import org.smartregister.chw.referral.activity.BaseIssueReferralActivity;
 
