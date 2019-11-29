@@ -1,6 +1,6 @@
 package org.smartregister.chw.referral.presenter;
 
-import android.support.annotation.VisibleForTesting;
+import androidx.annotation.VisibleForTesting;
 
 import org.apache.commons.lang3.tuple.Triple;
 import org.smartregister.chw.referral.contract.BaseReferralRegisterContract;

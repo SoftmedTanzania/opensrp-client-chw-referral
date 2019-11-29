@@ -1,7 +1,7 @@
 package org.smartregister.chw.referral.presenter;
 
 import android.content.Context;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.widget.Toast;
 
 import org.smartregister.chw.referral.R;

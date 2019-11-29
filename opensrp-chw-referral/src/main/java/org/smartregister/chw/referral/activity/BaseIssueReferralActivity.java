@@ -1,16 +1,16 @@
 package org.smartregister.chw.referral.activity;
 
 import android.annotation.SuppressLint;
-import android.arch.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.database.Cursor;
-import android.databinding.DataBindingUtil;
-import android.databinding.Observable;
+import androidx.databinding.DataBindingUtil;
+import androidx.databinding.Observable;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;

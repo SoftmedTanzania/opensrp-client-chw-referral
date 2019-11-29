@@ -1,6 +1,6 @@
 package org.smartregister.chw.referral.interactor;
 
-import android.support.annotation.VisibleForTesting;
+import androidx.annotation.VisibleForTesting;
 
 import com.google.gson.Gson;
 

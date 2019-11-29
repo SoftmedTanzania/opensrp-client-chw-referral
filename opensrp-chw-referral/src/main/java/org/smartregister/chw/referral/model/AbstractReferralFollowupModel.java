@@ -1,7 +1,7 @@
 package org.smartregister.chw.referral.model;
 
-import android.arch.lifecycle.ViewModel;
-import android.databinding.ObservableField;
+import androidx.lifecycle.ViewModel;
+import androidx.databinding.ObservableField;
 
 import org.smartregister.chw.referral.contract.BaseFollowupContract;
 import org.smartregister.chw.referral.domain.FollowupFeedbackObject;
