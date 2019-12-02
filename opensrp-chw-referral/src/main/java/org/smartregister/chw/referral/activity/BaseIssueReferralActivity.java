@@ -17,6 +17,8 @@ import com.google.gson.Gson;
 
 import org.joda.time.DateTime;
 import org.joda.time.Period;
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.smartregister.AllConstants;
 import org.smartregister.chw.referral.R;
@@ -32,6 +34,7 @@ import org.smartregister.chw.referral.model.AbstractIssueReferralModel;
 import org.smartregister.chw.referral.model.BaseIssueReferralModel;
 import org.smartregister.chw.referral.presenter.BaseIssueReferralPresenter;
 import org.smartregister.chw.referral.util.Constants;
+import org.smartregister.chw.referral.util.JsonFormUtils;
 import org.smartregister.commonregistry.CommonPersonObject;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.commonregistry.CommonRepository;
@@ -93,8 +96,21 @@ public class BaseIssueReferralActivity extends AppCompatActivity implements Base
 
         setupViews();
         presenter.fillClientData(viewModel.memberObject);
-        initializeServices();
-        initializeHealthFacilitiesList();
+
+        JSONObject jsonForm = null;
+        try {
+            jsonForm = JsonFormUtils.getFormAsJson(formName);
+            JsonFormUtils.addFormMetadata(jsonForm, baseEntityId, getLocationID());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        if (jsonForm != null) {
+            injectReferralProblems(jsonForm);
+            initializeHealthFacilitiesList(jsonForm);
+
+            Timber.i("Form with injected values = "+jsonForm);
+        }
     }
 
 
@@ -144,13 +160,29 @@ public class BaseIssueReferralActivity extends AppCompatActivity implements Base
 
     }
 
-    private void initializeServices() {
-        Timber.i("Setup Services Called");
+    private void injectReferralProblems(JSONObject form) {
+        Timber.i("Setup Services Problems Called");
 
         //observing viewModel to obtain referral services list, this allows the ui to be updated if any changes are to be made to the viewModel live data
         viewModel.getReferralServicesList(serviceId).observe(this, referralServiceObjects -> {
             //Initializing providers/adapters using the observed data
-
+            JSONArray fields = null;
+            try {
+                fields = form.getJSONObject("steps").getJSONArray("fields");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            JSONObject problems = null;
+            for (int i = 0; i < fields.length(); i++) {
+                try {
+                    if (fields.getJSONObject(i).getString("name").equals("problems")) {
+                        problems = fields.getJSONObject(i);
+                        return;
+                    }
+                } catch (Exception e) {
+                    Timber.e(e);
+                }
+            }
             List<NeatFormOption> problemsOptions = new ArrayList<>();
 
             List<ReferralServiceIndicatorObject> indicatorsByServiceId = viewModel.getIndicatorsByServiceId(Objects.requireNonNull(viewModel.selectedReferralService.get()).getId());
@@ -166,13 +198,38 @@ public class BaseIssueReferralActivity extends AppCompatActivity implements Base
                 option.neatFormMetaData = metaData;
                 problemsOptions.add(option);
             }
+            try {
+                problems.put("options", new JSONArray(new Gson().toJson(problemsOptions)));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         });
     }
 
-    private void initializeHealthFacilitiesList() {
+    private void initializeHealthFacilitiesList(JSONObject form) {
         //observing viewModel to obtain health facility list that the CHW can refer a client to
         viewModel.getHealthFacilities().observe(this, locations -> {
             if (locations != null) {
+
+                JSONArray fields = null;
+                try {
+                    fields = form.getJSONObject("steps").getJSONArray("fields");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                JSONObject referralHealthFacilities = null;
+                for (int i = 0; i < fields.length(); i++) {
+                    try {
+                        if (fields.getJSONObject(i).getString("name").equals("chw_referral_hf")) {
+                            referralHealthFacilities = fields.getJSONObject(i);
+                            return;
+                        }
+                    } catch (Exception e) {
+                        Timber.e(e);
+                    }
+                }
+
+
                 Timber.i("Referral facilities --> %s", new Gson().toJson(locations));
                 List<NeatFormOption> healthFacilitiesOptions = new ArrayList<>();
                 for (Location location : locations) {
@@ -181,6 +238,12 @@ public class BaseIssueReferralActivity extends AppCompatActivity implements Base
                     healthFacilityOption.text = location.getProperties().getName();
 
                     healthFacilitiesOptions.add(healthFacilityOption);
+                }
+
+                try {
+                    referralHealthFacilities.put("options",new JSONArray(new Gson().toJson(healthFacilitiesOptions)));
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
             }
         });
