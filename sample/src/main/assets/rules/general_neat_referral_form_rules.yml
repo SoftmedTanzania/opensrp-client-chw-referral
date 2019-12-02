@@ -1,0 +1,7 @@
+---
+name: "child_visibility"
+description: "children are not allowed to buy alcohol"
+priority: 1
+condition: "age <= 18"
+actions:
+  - "child_visibility = true"
