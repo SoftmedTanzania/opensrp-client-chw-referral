@@ -51,7 +51,7 @@ public interface BaseIssueReferralContract {
 
         LiveData<List<Location>> getHealthFacilities();
 
-        LiveData<List<ReferralServiceObject>> getReferralServicesList(List<String> referralServiceIds);
+        LiveData<ReferralServiceObject> getReferralServicesList(String referralServiceId);
 
         List<ReferralServiceIndicatorObject> getIndicatorsByServiceId(String serviceId);
 

@@ -49,26 +49,21 @@ public class BaseIssueReferralModel extends AbstractIssueReferralModel {
     }
 
     @Override
-    public LiveData<List<ReferralServiceObject>> getReferralServicesList(List<String> referralServiceIds) {
+    public LiveData<ReferralServiceObject> getReferralServicesList(String referralServiceId) {
         try {
             ReferralServiceRepository referralServiceRepository = new ReferralServiceRepository(ReferralLibrary.getInstance().getRepository());
 
-            List<ReferralServiceObject> servicesList = new ArrayList<>();
-            if (referralServiceIds != null) {
-                for (String serviceId : referralServiceIds) {
-                    try {
-                        servicesList.add(referralServiceRepository.getReferralServiceById(serviceId));
-                    } catch (Exception e) {
-                        Timber.e(e);
-                    }
+            ReferralServiceObject referralServiceObject = null;
+            if (referralServiceId != null) {
+                try {
+                    referralServiceObject = referralServiceRepository.getReferralServiceById(referralServiceId);
+                } catch (Exception e) {
+                    Timber.e(e);
                 }
-            } else {
-                servicesList = referralServiceRepository.getReferralServices();
             }
 
-            MutableLiveData<List<ReferralServiceObject>> liveData = new MutableLiveData<>();
-            liveData.setValue(servicesList);
-
+            MutableLiveData<ReferralServiceObject> liveData = new MutableLiveData<>();
+            liveData.setValue(referralServiceObject);
             return liveData;
         } catch (Exception e) {
             Timber.e(e);

@@ -1,1 +1,3 @@
-include ':sample', ':opensrp-chw-referral'
+include ':sample', ':opensrp-chw-referral',':neat-form-core'
+
+project(":neat-form-core").projectDir = new File(settingsDir, "../../Workspace/neat-form/neat-form-core")
