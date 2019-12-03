@@ -49,9 +49,9 @@ public interface BaseIssueReferralContract {
 
         String mainSelect(String tableName, String mainCondition);
 
-        LiveData<List<Location>> getHealthFacilities();
+        List<Location> getHealthFacilities();
 
-        LiveData<ReferralServiceObject> getReferralServicesList(String referralServiceId);
+        ReferralServiceObject getReferralServicesList(String referralServiceId);
 
         List<ReferralServiceIndicatorObject> getIndicatorsByServiceId(String serviceId);
 

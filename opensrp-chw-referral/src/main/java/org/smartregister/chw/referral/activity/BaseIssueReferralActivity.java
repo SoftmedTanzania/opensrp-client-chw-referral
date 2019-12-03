@@ -4,19 +4,14 @@ import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.google.gson.Gson;
-
-import org.joda.time.DateTime;
-import org.joda.time.Period;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -24,7 +19,6 @@ import org.smartregister.AllConstants;
 import org.smartregister.chw.referral.R;
 import org.smartregister.chw.referral.ReferralLibrary;
 import org.smartregister.chw.referral.contract.BaseIssueReferralContract;
-import org.smartregister.chw.referral.databinding.ActivityReferralRegistrationBinding;
 import org.smartregister.chw.referral.domain.MemberObject;
 import org.smartregister.chw.referral.domain.NeatFormMetaData;
 import org.smartregister.chw.referral.domain.NeatFormOption;
@@ -42,9 +36,6 @@ import org.smartregister.domain.Location;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
-import java.util.Objects;
-
 import timber.log.Timber;
 
 /**
@@ -59,10 +50,6 @@ public class BaseIssueReferralActivity extends AppCompatActivity implements Base
     protected String serviceId;
     protected String action;
     protected String formName;
-    protected TextView textViewName;
-    protected TextView textViewGender;
-    protected TextView textViewLocation;
-    protected TextView textViewUniqueID;
     private AbstractIssueReferralModel viewModel;
 
     @Override
@@ -76,15 +63,10 @@ public class BaseIssueReferralActivity extends AppCompatActivity implements Base
         //initializing the presenter
         presenter = presenter();
 
-        //initializing the viewModel obtained from presenter,
-        // this viewModel must extend #AbstractIssueReferralModel and implements BaseIssueReferralContract.Model
+        //initializing the viewModel obtained from presenter
         viewModel = ViewModelProviders.of(this).get(presenter.getViewModel());
 
-        ActivityReferralRegistrationBinding mBinding = DataBindingUtil.setContentView(
-                this, R.layout.activity_referral_registration);
-        mBinding.setViewModel(viewModel);
-
-        setContentView(mBinding.getRoot());
+        setContentView(R.layout.activity_referral_registration);
 
         getMemberObject();
 
@@ -109,7 +91,7 @@ public class BaseIssueReferralActivity extends AppCompatActivity implements Base
             injectReferralProblems(jsonForm);
             initializeHealthFacilitiesList(jsonForm);
 
-            Timber.i("Form with injected values = "+jsonForm);
+            Timber.i("Form with injected values = %s", jsonForm);
         }
     }
 
@@ -126,12 +108,7 @@ public class BaseIssueReferralActivity extends AppCompatActivity implements Base
 
     @Override
     public void setProfileViewWithData() {
-        int age = new Period(new DateTime(viewModel.memberObject.getAge()), new DateTime()).getYears();
-        textViewName.setText(String.format(Locale.getDefault(), "%s %s %s, %d", viewModel.memberObject.getFirstName(),
-                viewModel.memberObject.getMiddleName(), viewModel.memberObject.getLastName(), age));
-        textViewGender.setText(viewModel.memberObject.getGender());
-        textViewLocation.setText(viewModel.memberObject.getAddress());
-        textViewUniqueID.setText(viewModel.memberObject.getUniqueId());
+        //Implement
     }
 
     protected String getLocationID() {
@@ -161,92 +138,87 @@ public class BaseIssueReferralActivity extends AppCompatActivity implements Base
     }
 
     private void injectReferralProblems(JSONObject form) {
-        Timber.i("Setup Services Problems Called");
+        JSONArray fields = null;
+        try {
+            fields = form.getJSONArray("steps").getJSONObject(0).getJSONArray("fields");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        Timber.e("Problems Form Fields = %s", fields);
+        JSONObject problems = null;
+        for (int i = 0; i < fields.length(); i++) {
+            try {
+                if (fields.getJSONObject(i).getString("name").equals("problems")) {
+                    problems = fields.getJSONObject(i);
+                    break;
+                }
+            } catch (Exception e) {
+                Timber.e(e);
+            }
+        }
+        List<NeatFormOption> problemsOptions = new ArrayList<>();
 
-        //observing viewModel to obtain referral services list, this allows the ui to be updated if any changes are to be made to the viewModel live data
-        viewModel.getReferralServicesList(serviceId).observe(this, referralServiceObjects -> {
-            //Initializing providers/adapters using the observed data
+        List<ReferralServiceIndicatorObject> indicatorsByServiceId = viewModel.getIndicatorsByServiceId(serviceId);
+        Timber.i("referral problems from DB = %s", new Gson().toJson(indicatorsByServiceId));
+        for (ReferralServiceIndicatorObject referralServiceIndicatorObject : indicatorsByServiceId) {
+            NeatFormOption option = new NeatFormOption();
+            option.name = referralServiceIndicatorObject.getId();
+            option.text = referralServiceIndicatorObject.getNameEn();
+
+            NeatFormMetaData metaData = new NeatFormMetaData();
+            metaData.openmrs_entity = "";
+            metaData.openmrs_entity_id = "";
+            metaData.openmrs_entity_parent = "";
+            option.neatFormMetaData = metaData;
+            problemsOptions.add(option);
+        }
+        try {
+            Timber.i("putting options = %s", new Gson().toJson(problemsOptions));
+            problems.put("options", new JSONArray(new Gson().toJson(problemsOptions)));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void initializeHealthFacilitiesList(JSONObject form) {
+        List<Location> locations = viewModel.getHealthFacilities();
+        if (locations != null) {
+
             JSONArray fields = null;
             try {
-                fields = form.getJSONObject("steps").getJSONArray("fields");
+                fields = form.getJSONArray("steps").getJSONObject(0).getJSONArray("fields");
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            JSONObject problems = null;
+            JSONObject referralHealthFacilities = null;
             for (int i = 0; i < fields.length(); i++) {
                 try {
-                    if (fields.getJSONObject(i).getString("name").equals("problems")) {
-                        problems = fields.getJSONObject(i);
+                    if (fields.getJSONObject(i).getString("name").equals("chw_referral_hf")) {
+                        referralHealthFacilities = fields.getJSONObject(i);
                         return;
                     }
                 } catch (Exception e) {
                     Timber.e(e);
                 }
             }
-            List<NeatFormOption> problemsOptions = new ArrayList<>();
 
-            List<ReferralServiceIndicatorObject> indicatorsByServiceId = viewModel.getIndicatorsByServiceId(Objects.requireNonNull(viewModel.selectedReferralService.get()).getId());
-            for (ReferralServiceIndicatorObject referralServiceIndicatorObject : indicatorsByServiceId) {
-                NeatFormOption option = new NeatFormOption();
-                option.name = referralServiceIndicatorObject.getId();
-                option.text = referralServiceIndicatorObject.getNameEn();
 
-                NeatFormMetaData metaData = new NeatFormMetaData();
-                metaData.openmrs_entity = "";
-                metaData.openmrs_entity_id = "";
-                metaData.openmrs_entity_parent = "";
-                option.neatFormMetaData = metaData;
-                problemsOptions.add(option);
+            Timber.i("Referral facilities --> %s", new Gson().toJson(locations));
+            List<NeatFormOption> healthFacilitiesOptions = new ArrayList<>();
+            for (Location location : locations) {
+                NeatFormOption healthFacilityOption = new NeatFormOption();
+                healthFacilityOption.name = location.getId();
+                healthFacilityOption.text = location.getProperties().getName();
+
+                healthFacilitiesOptions.add(healthFacilityOption);
             }
+
             try {
-                problems.put("options", new JSONArray(new Gson().toJson(problemsOptions)));
+                referralHealthFacilities.put("options",new JSONArray(new Gson().toJson(healthFacilitiesOptions)));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-        });
-    }
-
-    private void initializeHealthFacilitiesList(JSONObject form) {
-        //observing viewModel to obtain health facility list that the CHW can refer a client to
-        viewModel.getHealthFacilities().observe(this, locations -> {
-            if (locations != null) {
-
-                JSONArray fields = null;
-                try {
-                    fields = form.getJSONObject("steps").getJSONArray("fields");
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                JSONObject referralHealthFacilities = null;
-                for (int i = 0; i < fields.length(); i++) {
-                    try {
-                        if (fields.getJSONObject(i).getString("name").equals("chw_referral_hf")) {
-                            referralHealthFacilities = fields.getJSONObject(i);
-                            return;
-                        }
-                    } catch (Exception e) {
-                        Timber.e(e);
-                    }
-                }
-
-
-                Timber.i("Referral facilities --> %s", new Gson().toJson(locations));
-                List<NeatFormOption> healthFacilitiesOptions = new ArrayList<>();
-                for (Location location : locations) {
-                    NeatFormOption healthFacilityOption = new NeatFormOption();
-                    healthFacilityOption.name = location.getId();
-                    healthFacilityOption.text = location.getProperties().getName();
-
-                    healthFacilitiesOptions.add(healthFacilityOption);
-                }
-
-                try {
-                    referralHealthFacilities.put("options",new JSONArray(new Gson().toJson(healthFacilitiesOptions)));
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
+        }
 
     }
 
