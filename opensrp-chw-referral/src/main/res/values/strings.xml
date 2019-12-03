@@ -75,5 +75,7 @@
     <string name="successful_issued_referral">Referral Saved Successful</string>
     <string name="missing_client_condition_during_visit">Please fill in the client condition during the visit</string>
     <string name="missing_feedback">Please select feedback</string>
+    <string name="complete">Complete</string>
+    <string name="finish">Finish</string>
 
 </resources>

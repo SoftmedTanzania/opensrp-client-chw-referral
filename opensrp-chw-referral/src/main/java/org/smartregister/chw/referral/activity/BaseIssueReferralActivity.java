@@ -3,7 +3,10 @@ package org.smartregister.chw.referral.activity;
 import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -12,6 +15,11 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.google.gson.Gson;
+import com.nerdstone.neatformcore.domain.builders.FormBuilder;
+import com.nerdstone.neatformcore.domain.model.NForm;
+import com.nerdstone.neatformcore.domain.model.NFormContent;
+import com.nerdstone.neatformcore.form.json.JsonFormBuilder;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -97,6 +105,10 @@ public class BaseIssueReferralActivity extends AppCompatActivity implements Base
                 Timber.i("Form with injected values = %s", jsonForm);
             }
         }
+
+        LinearLayout formLayout = findViewById(R.id.formLayout);
+        JsonFormBuilder jsonFormBuilder = new JsonFormBuilder(this, "json.form/general_neat_referral_form.json", formLayout);
+        FormBuilder formBuilder = jsonFormBuilder.buildForm(null, null);
     }
 
 
@@ -120,11 +132,14 @@ public class BaseIssueReferralActivity extends AppCompatActivity implements Base
     }
 
     public void setupViews() {
-        Toolbar mToolbar = findViewById(R.id.toolbar);
-        mToolbar.setNavigationIcon(R.drawable.ic_arrow_back_black_24dp);
-        mToolbar.setNavigationOnClickListener(view -> finish());
+        ImageButton exit = findViewById(R.id.exitFormImageView);
+        exit.setOnClickListener(view -> {
+            if (view.getId() == R.id.exitFormImageView) {
+                finish();
+            }
+        });
 
-        Button buttonSave = findViewById(R.id.referal_button);
+        ImageButton buttonSave = findViewById(R.id.completeButton);
         buttonSave.setOnClickListener(view -> {
             try {
                 viewModel.saveDataToMemberObject();
@@ -138,6 +153,8 @@ public class BaseIssueReferralActivity extends AppCompatActivity implements Base
                 Timber.e(e);
             }
         });
+
+
 
     }
 
