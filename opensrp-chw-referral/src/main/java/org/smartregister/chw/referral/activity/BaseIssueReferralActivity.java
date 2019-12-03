@@ -166,9 +166,9 @@ public class BaseIssueReferralActivity extends AppCompatActivity implements Base
             option.text = referralServiceIndicatorObject.getNameEn();
 
             NeatFormMetaData metaData = new NeatFormMetaData();
-            metaData.openmrs_entity = "";
-            metaData.openmrs_entity_id = "";
-            metaData.openmrs_entity_parent = "";
+            metaData.openmrsEntity = "";
+            metaData.openmrsEntityId = "";
+            metaData.openmrsEntityParent = "";
             option.neatFormMetaData = metaData;
             problemsOptions.add(option);
         }

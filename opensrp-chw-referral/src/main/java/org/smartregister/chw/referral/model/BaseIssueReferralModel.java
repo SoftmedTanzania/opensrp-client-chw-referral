@@ -35,13 +35,10 @@ public class BaseIssueReferralModel extends AbstractIssueReferralModel {
 
 
     @Override
-    public LiveData<List<Location>> getHealthFacilities() {
+    public List<Location> getHealthFacilities() {
         try {
             LocationRepository locationRepository = new LocationRepository(ReferralLibrary.getInstance().getRepository());
-
-            MutableLiveData<List<Location>> liveData = new MutableLiveData<>();
-            liveData.setValue(locationRepository.getAllLocations());
-            return liveData;
+            return locationRepository.getAllLocations();
         } catch (Exception e) {
             Timber.e(e);
             return null;
@@ -49,7 +46,7 @@ public class BaseIssueReferralModel extends AbstractIssueReferralModel {
     }
 
     @Override
-    public LiveData<ReferralServiceObject> getReferralServicesList(String referralServiceId) {
+    public ReferralServiceObject getReferralServicesList(String referralServiceId) {
         try {
             ReferralServiceRepository referralServiceRepository = new ReferralServiceRepository(ReferralLibrary.getInstance().getRepository());
 
@@ -62,9 +59,7 @@ public class BaseIssueReferralModel extends AbstractIssueReferralModel {
                 }
             }
 
-            MutableLiveData<ReferralServiceObject> liveData = new MutableLiveData<>();
-            liveData.setValue(referralServiceObject);
-            return liveData;
+            return referralServiceObject;
         } catch (Exception e) {
             Timber.e(e);
             return null;
