@@ -3,23 +3,24 @@ package org.smartregister.chw.referral.activity;
 import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.google.gson.Gson;
+import com.nerdstone.neatandroidstepper.core.domain.StepperActions;
+import com.nerdstone.neatandroidstepper.core.model.StepperModel;
+import com.nerdstone.neatandroidstepper.core.stepper.Step;
+import com.nerdstone.neatandroidstepper.core.stepper.StepVerificationState;
 import com.nerdstone.neatformcore.domain.builders.FormBuilder;
-import com.nerdstone.neatformcore.domain.model.NForm;
-import com.nerdstone.neatformcore.domain.model.NFormContent;
+import com.nerdstone.neatformcore.domain.model.JsonFormStepBuilderModel;
 import com.nerdstone.neatformcore.form.json.JsonFormBuilder;
 
+import org.jetbrains.annotations.NotNull;
+import org.joda.time.DateTime;
+import org.joda.time.Period;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -44,6 +45,8 @@ import org.smartregister.domain.Location;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+
 import timber.log.Timber;
 
 /**
@@ -52,13 +55,13 @@ import timber.log.Timber;
  * @cozej4 https://github.com/cozej4
  */
 
-public class BaseIssueReferralActivity extends AppCompatActivity implements BaseIssueReferralContract.View {
+public class BaseIssueReferralActivity extends AppCompatActivity implements BaseIssueReferralContract.View, StepperActions {
     protected BaseIssueReferralContract.Presenter presenter;
     protected String baseEntityId;
     protected String serviceId;
     protected String action;
     protected String formName;
-    protected String customReferralJsonForm;
+    protected boolean injectValuesFromDb;
     private AbstractIssueReferralModel viewModel;
 
     @Override
@@ -68,7 +71,7 @@ public class BaseIssueReferralActivity extends AppCompatActivity implements Base
         this.serviceId = this.getIntent().getStringExtra(Constants.ACTIVITY_PAYLOAD.REFERRAL_SERVICE_IDS);
         this.action = this.getIntent().getStringExtra(Constants.ACTIVITY_PAYLOAD.ACTION);
         this.formName = this.getIntent().getStringExtra(Constants.ACTIVITY_PAYLOAD.REFERRAL_FORM_NAME);
-        this.customReferralJsonForm = this.getIntent().getStringExtra(Constants.ACTIVITY_PAYLOAD.CUSTOM_REFERRAL_JSON_FORM);
+        this.injectValuesFromDb = this.getIntent().getBooleanExtra(Constants.ACTIVITY_PAYLOAD.INJECT_VALUES_FROM_DB, true);
 
         //initializing the presenter
         presenter = presenter();
@@ -89,26 +92,41 @@ public class BaseIssueReferralActivity extends AppCompatActivity implements Base
         setupViews();
         presenter.fillClientData(viewModel.memberObject);
 
-        if(customReferralJsonForm==null) {
-            JSONObject jsonForm = null;
-            try {
-                jsonForm = JsonFormUtils.getFormAsJson(formName);
-                JsonFormUtils.addFormMetadata(jsonForm, baseEntityId, getLocationID());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+        JSONObject jsonForm = null;
+        try {
+            jsonForm = JsonFormUtils.getFormAsJson(formName);
+            JsonFormUtils.addFormMetadata(jsonForm, baseEntityId, getLocationID());
 
+            int age = new Period(new DateTime(viewModel.memberObject.getAge()), new DateTime()).getYears();
+            jsonForm.put("form",String.format(Locale.getDefault(), "%s %s %s, %d", viewModel.memberObject.getFirstName(),
+                    viewModel.memberObject.getMiddleName(), viewModel.memberObject.getLastName(), age));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        if (injectValuesFromDb) {
             if (jsonForm != null) {
                 injectReferralProblems(jsonForm);
                 initializeHealthFacilitiesList(jsonForm);
-
                 Timber.i("Form with injected values = %s", jsonForm);
             }
         }
 
         LinearLayout formLayout = findViewById(R.id.formLayout);
-        JsonFormBuilder jsonFormBuilder = new JsonFormBuilder(this, "json.form/general_neat_referral_form.json", formLayout);
-        FormBuilder formBuilder = jsonFormBuilder.buildForm(null, null);
+        StepperModel stepperModel = new StepperModel.Builder()
+                .exitButtonDrawableResource(R.drawable.ic_clear_white)
+                .indicatorType(StepperModel.IndicatorType.DOT_INDICATOR)
+                .toolbarColorResource(R.color.primary)
+                .build();
+
+        JsonFormStepBuilderModel jsonFormStepBuilderModel = new JsonFormStepBuilderModel.Builder(this, stepperModel).build();
+
+        JsonFormBuilder jsonFormBuilder = null;
+        if (jsonForm != null) {
+            jsonFormBuilder = new JsonFormBuilder(jsonForm.toString(), this, formLayout);
+        }
+        FormBuilder formBuilder = jsonFormBuilder.buildForm(jsonFormStepBuilderModel, null);
+        formLayout.addView(formBuilder.getNeatStepperLayout());
     }
 
 
@@ -132,28 +150,27 @@ public class BaseIssueReferralActivity extends AppCompatActivity implements Base
     }
 
     public void setupViews() {
-        ImageButton exit = findViewById(R.id.exitFormImageView);
-        exit.setOnClickListener(view -> {
-            if (view.getId() == R.id.exitFormImageView) {
-                finish();
-            }
-        });
-
-        ImageButton buttonSave = findViewById(R.id.completeButton);
-        buttonSave.setOnClickListener(view -> {
-            try {
-                viewModel.saveDataToMemberObject();
-                if (presenter.validateValues(viewModel.memberObject)) {
-                    JSONObject jsonForm = viewModel.getFormWithValuesAsJson(formName, baseEntityId, getLocationID(), viewModel.memberObject);
-                    presenter.saveForm(jsonForm.toString());
-                    Toast.makeText(this, getResources().getString(R.string.successful_issued_referral), Toast.LENGTH_SHORT).show();
-                    finish();
-                }
-            } catch (Exception e) {
-                Timber.e(e);
-            }
-        });
-
+//        ImageButton exit = findViewById(R.id.exitFormImageView);
+//        exit.setOnClickListener(view -> {
+//            if (view.getId() == R.id.exitFormImageView) {
+//                finish();
+//            }
+//        });
+//
+//        ImageButton buttonSave = findViewById(R.id.completeButton);
+//        buttonSave.setOnClickListener(view -> {
+//            try {
+//                viewModel.saveDataToMemberObject();
+//                if (presenter.validateValues(viewModel.memberObject)) {
+//                    JSONObject jsonForm = viewModel.getFormWithValuesAsJson(formName, baseEntityId, getLocationID(), viewModel.memberObject);
+//                    presenter.saveForm(jsonForm.toString());
+//                    Toast.makeText(this, getResources().getString(R.string.successful_issued_referral), Toast.LENGTH_SHORT).show();
+//                    finish();
+//                }
+//            } catch (Exception e) {
+//                Timber.e(e);
+//            }
+//        });
 
 
     }
@@ -194,7 +211,13 @@ public class BaseIssueReferralActivity extends AppCompatActivity implements Base
         }
         try {
             if (problems != null) {
-                problems.put("options", new JSONArray(new Gson().toJson(problemsOptions)));
+                JSONArray optionsArray = new JSONArray(new Gson().toJson(problemsOptions));
+
+                for (int i = 0; i < problems.getJSONArray("options").length(); i++) {
+                    optionsArray.put(problems.getJSONArray("options").get(i));
+                }
+                //JSONArray//
+                problems.put("options", optionsArray);
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -226,6 +249,11 @@ public class BaseIssueReferralActivity extends AppCompatActivity implements Base
 
             Timber.i("Referral facilities --> %s", new Gson().toJson(locations));
             List<NeatFormOption> healthFacilitiesOptions = new ArrayList<>();
+            NeatFormOption noneOption = new NeatFormOption();
+            noneOption.name="none";
+            noneOption.text="Select referral facility";
+
+            healthFacilitiesOptions.add(noneOption);
             for (Location location : locations) {
                 NeatFormOption healthFacilityOption = new NeatFormOption();
                 healthFacilityOption.name = location.getId();
@@ -236,7 +264,11 @@ public class BaseIssueReferralActivity extends AppCompatActivity implements Base
 
             try {
                 if (referralHealthFacilities != null) {
-                    referralHealthFacilities.put("options",new JSONArray(new Gson().toJson(healthFacilitiesOptions)));
+                    JSONArray optionsArray = new JSONArray();
+                    for (int i = 0; i < referralHealthFacilities.getJSONArray("options").length(); i++) {
+                        optionsArray.put(referralHealthFacilities.getJSONArray("options").get(i));
+                    }
+                    referralHealthFacilities.put("options", new JSONArray(new Gson().toJson(healthFacilitiesOptions)));
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -266,5 +298,35 @@ public class BaseIssueReferralActivity extends AppCompatActivity implements Base
             }
 
         }
+    }
+
+    @Override
+    public void onButtonNextClick(@NotNull Step step) {
+
+    }
+
+    @Override
+    public void onButtonPreviousClick(@NotNull Step step) {
+
+    }
+
+    @Override
+    public void onCompleteStepper() {
+
+    }
+
+    @Override
+    public void onExitStepper() {
+
+    }
+
+    @Override
+    public void onStepComplete(@NotNull Step step) {
+
+    }
+
+    @Override
+    public void onStepError(@NotNull StepVerificationState stepVerificationState) {
+
     }
 }

@@ -59,7 +59,7 @@
       "fields": [
         {
           "name": "chw_referral_service",
-          "type": "spinner",
+          "type": "invisible",
           "properties": {
             "text": "Choose referral service"
           },
@@ -67,24 +67,6 @@
             {
               "name": "none",
               "text": "Select referral service"
-            },
-            {
-              "name": "anc",
-              "text": "ANC",
-              "meta_data": {
-                "openmrs_entity": "",
-                "openmrs_entity_id": "A123390123123",
-                "openmrs_entity_parent": ""
-              }
-            },
-            {
-              "name": "pnc",
-              "text": "PNC",
-              "meta_data": {
-                "openmrs_entity": "",
-                "openmrs_entity_id": "S8918313",
-                "openmrs_entity_parent": ""
-              }
             }
           ],
           "required_status": "yes:Please specify referral service"
@@ -95,7 +77,17 @@
           "properties": {
             "text": "Pick the problems associated with the client."
           },
-          "options": [],
+          "options": [
+            {
+              "name": "other",
+              "text": "Other",
+              "meta_data": {
+                "openmrs_entity": "",
+                "openmrs_entity_id": "",
+                "openmrs_entity_parent": ""
+              }
+            }
+          ],
           "required_status": "yes:Please specify client's problems"
         },
         {
