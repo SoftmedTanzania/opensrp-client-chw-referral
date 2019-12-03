@@ -50,6 +50,7 @@ public class BaseIssueReferralActivity extends AppCompatActivity implements Base
     protected String serviceId;
     protected String action;
     protected String formName;
+    protected String customReferralJsonForm;
     private AbstractIssueReferralModel viewModel;
 
     @Override
@@ -59,6 +60,7 @@ public class BaseIssueReferralActivity extends AppCompatActivity implements Base
         this.serviceId = this.getIntent().getStringExtra(Constants.ACTIVITY_PAYLOAD.REFERRAL_SERVICE_IDS);
         this.action = this.getIntent().getStringExtra(Constants.ACTIVITY_PAYLOAD.ACTION);
         this.formName = this.getIntent().getStringExtra(Constants.ACTIVITY_PAYLOAD.REFERRAL_FORM_NAME);
+        this.customReferralJsonForm = this.getIntent().getStringExtra(Constants.ACTIVITY_PAYLOAD.CUSTOM_REFERRAL_JSON_FORM);
 
         //initializing the presenter
         presenter = presenter();
@@ -79,19 +81,21 @@ public class BaseIssueReferralActivity extends AppCompatActivity implements Base
         setupViews();
         presenter.fillClientData(viewModel.memberObject);
 
-        JSONObject jsonForm = null;
-        try {
-            jsonForm = JsonFormUtils.getFormAsJson(formName);
-            JsonFormUtils.addFormMetadata(jsonForm, baseEntityId, getLocationID());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        if(customReferralJsonForm==null) {
+            JSONObject jsonForm = null;
+            try {
+                jsonForm = JsonFormUtils.getFormAsJson(formName);
+                JsonFormUtils.addFormMetadata(jsonForm, baseEntityId, getLocationID());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
-        if (jsonForm != null) {
-            injectReferralProblems(jsonForm);
-            initializeHealthFacilitiesList(jsonForm);
+            if (jsonForm != null) {
+                injectReferralProblems(jsonForm);
+                initializeHealthFacilitiesList(jsonForm);
 
-            Timber.i("Form with injected values = %s", jsonForm);
+                Timber.i("Form with injected values = %s", jsonForm);
+            }
         }
     }
 
@@ -144,9 +148,8 @@ public class BaseIssueReferralActivity extends AppCompatActivity implements Base
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        Timber.e("Problems Form Fields = %s", fields);
         JSONObject problems = null;
-        for (int i = 0; i < fields.length(); i++) {
+        for (int i = 0; i < (fields != null ? fields.length() : 0); i++) {
             try {
                 if (fields.getJSONObject(i).getString("name").equals("problems")) {
                     problems = fields.getJSONObject(i);
@@ -173,8 +176,9 @@ public class BaseIssueReferralActivity extends AppCompatActivity implements Base
             problemsOptions.add(option);
         }
         try {
-            Timber.i("putting options = %s", new Gson().toJson(problemsOptions));
-            problems.put("options", new JSONArray(new Gson().toJson(problemsOptions)));
+            if (problems != null) {
+                problems.put("options", new JSONArray(new Gson().toJson(problemsOptions)));
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -191,11 +195,11 @@ public class BaseIssueReferralActivity extends AppCompatActivity implements Base
                 e.printStackTrace();
             }
             JSONObject referralHealthFacilities = null;
-            for (int i = 0; i < fields.length(); i++) {
+            for (int i = 0; i < (fields != null ? fields.length() : 0); i++) {
                 try {
                     if (fields.getJSONObject(i).getString("name").equals("chw_referral_hf")) {
                         referralHealthFacilities = fields.getJSONObject(i);
-                        return;
+                        break;
                     }
                 } catch (Exception e) {
                     Timber.e(e);
@@ -214,7 +218,9 @@ public class BaseIssueReferralActivity extends AppCompatActivity implements Base
             }
 
             try {
-                referralHealthFacilities.put("options",new JSONArray(new Gson().toJson(healthFacilitiesOptions)));
+                if (referralHealthFacilities != null) {
+                    referralHealthFacilities.put("options",new JSONArray(new Gson().toJson(healthFacilitiesOptions)));
+                }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
