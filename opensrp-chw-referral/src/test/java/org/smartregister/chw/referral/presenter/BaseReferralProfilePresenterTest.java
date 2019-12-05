@@ -37,22 +37,4 @@ public class BaseReferralProfilePresenterTest {
         profilePresenter.fillProfileData(null);
         verify(view, never()).setProfileViewWithData();
     }
-
-    @Test
-    public void malariaTestDatePeriodIsLessThanSeven() {
-        profilePresenter.recordReferralButton(4);
-        verify(view).hideView();
-    }
-
-    @Test
-    public void malariaTestDatePeriodIsBetweenSevenAndTen() {
-        profilePresenter.recordReferralButton(7);
-        verify(view).setDueColor();
-    }
-
-    @Test
-    public void malariaTestDatePeriodGreaterThanTen() {
-        profilePresenter.recordReferralButton(14);
-        verify(view).setOverDueColor();
-    }
 }

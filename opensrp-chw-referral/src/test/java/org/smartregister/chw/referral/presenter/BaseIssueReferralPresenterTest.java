@@ -73,25 +73,6 @@ public class BaseIssueReferralPresenterTest {
     }
 
     @Test
-    public void validateValues() {
-        MemberObject memberObject = new MemberObject(commonPersonObjectClient);
-        Assert.assertFalse(issueReferralPresenter.validateValues(memberObject));
-
-        memberObject.setChwReferralHf("");
-        Assert.assertFalse(issueReferralPresenter.validateValues(memberObject));
-
-        memberObject.setChwReferralHf("Test Facility A");
-        Assert.assertFalse(issueReferralPresenter.validateValues(memberObject));
-
-
-        memberObject.setChwReferralService(null);
-        Assert.assertFalse(issueReferralPresenter.validateValues(memberObject));
-
-        memberObject.setChwReferralService("HIV");
-        Assert.assertTrue(issueReferralPresenter.validateValues(memberObject));
-    }
-
-    @Test
     public void getBaseEntityID() {
         BaseIssueReferralPresenter mPresenter = new BaseIssueReferralPresenter("sampleBaseEntityID", view, model.getClass(), interactor);
         Assert.assertEquals("sampleBaseEntityID", mPresenter.getBaseEntityID());
