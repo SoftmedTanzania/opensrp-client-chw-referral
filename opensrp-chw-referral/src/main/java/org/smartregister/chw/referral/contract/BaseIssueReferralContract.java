@@ -1,8 +1,8 @@
 package org.smartregister.chw.referral.contract;
 
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.ViewModel;
 import android.content.Context;
+
+import androidx.lifecycle.ViewModel;
 
 import org.apache.commons.lang3.tuple.Triple;
 import org.jetbrains.annotations.Nullable;
@@ -27,8 +27,6 @@ public interface BaseIssueReferralContract {
 
     interface Presenter extends BaseRegisterContract.Presenter {
         <T extends ViewModel & Model> Class<T> getViewModel();
-
-        boolean validateValues(MemberObject memberObject);
 
         String getMainCondition();
 

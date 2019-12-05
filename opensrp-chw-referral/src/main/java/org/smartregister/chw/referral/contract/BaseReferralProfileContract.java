@@ -42,8 +42,6 @@ public interface BaseReferralProfileContract {
 
         void recordReferralFollowUp(Context context);
 
-        void recordReferralButton(int days);
-
         String getIndicatorNameById(String indicatorId);
     }
 

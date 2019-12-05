@@ -98,7 +98,7 @@ public class BaseIssueReferralActivity extends AppCompatActivity implements Base
             JsonFormUtils.addFormMetadata(jsonForm, baseEntityId, getLocationID());
 
             int age = new Period(new DateTime(viewModel.memberObject.getAge()), new DateTime()).getYears();
-            jsonForm.put("form",String.format(Locale.getDefault(), "%s %s %s, %d", viewModel.memberObject.getFirstName(),
+            jsonForm.put("form", String.format(Locale.getDefault(), "%s %s %s, %d", viewModel.memberObject.getFirstName(),
                     viewModel.memberObject.getMiddleName(), viewModel.memberObject.getLastName(), age));
         } catch (Exception e) {
             e.printStackTrace();
@@ -169,7 +169,7 @@ public class BaseIssueReferralActivity extends AppCompatActivity implements Base
             }
         }
         List<NeatFormOption> problemsOptions = new ArrayList<>();
-
+        viewModel.referralService = viewModel.getReferralServicesList(serviceId);
         List<ReferralServiceIndicatorObject> indicatorsByServiceId = viewModel.getIndicatorsByServiceId(serviceId);
         Timber.i("referral problems from DB = %s", new Gson().toJson(indicatorsByServiceId));
         for (ReferralServiceIndicatorObject referralServiceIndicatorObject : indicatorsByServiceId) {
@@ -225,8 +225,8 @@ public class BaseIssueReferralActivity extends AppCompatActivity implements Base
             Timber.i("Referral facilities --> %s", new Gson().toJson(locations));
             List<NeatFormOption> healthFacilitiesOptions = new ArrayList<>();
             NeatFormOption noneOption = new NeatFormOption();
-            noneOption.name="none";
-            noneOption.text="Select referral facility";
+            noneOption.name = "none";
+            noneOption.text = "Select referral facility";
 
             healthFacilitiesOptions.add(noneOption);
             for (Location location : locations) {
@@ -277,31 +277,31 @@ public class BaseIssueReferralActivity extends AppCompatActivity implements Base
 
     @Override
     public void onButtonNextClick(@NotNull Step step) {
-
+//        implement
     }
 
     @Override
     public void onButtonPreviousClick(@NotNull Step step) {
-
+//        implement
     }
 
     @Override
     public void onCompleteStepper() {
-
+        Timber.e("Saved data = " + new Gson().toJson(formBuilder.getFormDetails()));
     }
 
     @Override
     public void onExitStepper() {
-
+//        implement
     }
 
     @Override
     public void onStepComplete(@NotNull Step step) {
-        Timber.e("Saved data = "+new Gson().toJson(formBuilder.getFormDetails()));
+        //        implement
     }
 
     @Override
     public void onStepError(@NotNull StepVerificationState stepVerificationState) {
-
+        //        implement
     }
 }

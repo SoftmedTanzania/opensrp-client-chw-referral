@@ -1,18 +1,14 @@
 package org.smartregister.chw.referral.presenter;
 
-import android.text.TextUtils;
 import android.util.Log;
 
 import org.apache.commons.lang3.tuple.Triple;
 import org.jetbrains.annotations.Nullable;
-import org.smartregister.chw.referral.R;
-import org.smartregister.chw.referral.ReferralLibrary;
 import org.smartregister.chw.referral.contract.BaseIssueReferralContract;
 import org.smartregister.chw.referral.domain.MemberObject;
 import org.smartregister.chw.referral.model.AbstractIssueReferralModel;
 import org.smartregister.chw.referral.util.Constants;
 import org.smartregister.chw.referral.util.DBConstants;
-import org.smartregister.util.Utils;
 
 import java.lang.ref.WeakReference;
 import java.util.List;
@@ -119,33 +115,6 @@ public class BaseIssueReferralPresenter implements BaseIssueReferralContract.Pre
             return viewReference.get();
         else
             return null;
-    }
-
-
-    @Override
-    public boolean validateValues(MemberObject memberObject) {
-        String message = "Error: ";
-
-        if (TextUtils.isEmpty(memberObject.getChwReferralHf()) || memberObject.getChwReferralHf() == null) {
-            try {
-                message = getView().getCurrentContext().getResources().getString(R.string.missing_facility);
-                Utils.showToast(ReferralLibrary.getInstance().context().applicationContext(), message);
-            } catch (Exception e) {
-                Timber.e(e);
-            }
-            return false;
-
-        } else if (TextUtils.isEmpty(memberObject.getChwReferralService()) || memberObject.getChwReferralService() == null) {
-            try {
-                message = getView().getCurrentContext().getResources().getString(R.string.missing_services);
-                Utils.showToast(ReferralLibrary.getInstance().context().applicationContext(), message);
-            } catch (Exception e) {
-                Timber.e(e);
-            }
-            return false;
-
-        } else
-            return true;
     }
 
     public String getBaseEntityID() {

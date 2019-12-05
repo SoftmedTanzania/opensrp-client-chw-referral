@@ -1,7 +1,8 @@
 package org.smartregister.chw.referral.contract;
 
-import androidx.lifecycle.ViewModel;
 import android.content.Context;
+
+import androidx.lifecycle.ViewModel;
 
 import org.jetbrains.annotations.Nullable;
 import org.json.JSONObject;

@@ -1,8 +1,9 @@
 package org.smartregister.chw.referral.presenter;
 
 import android.content.Context;
-import androidx.annotation.Nullable;
 import android.widget.Toast;
+
+import androidx.annotation.Nullable;
 
 import org.smartregister.chw.referral.R;
 import org.smartregister.chw.referral.ReferralLibrary;
@@ -30,19 +31,6 @@ public class BaseReferralProfilePresenter implements BaseReferralProfileContract
         if (memberObject != null && getView() != null) {
             getView().setProfileViewWithData();
         }
-    }
-
-    @Override
-    public void recordReferralButton(int days_from_referral_date) {
-        if (getView() == null)
-            return;
-
-        if (days_from_referral_date < 7 || days_from_referral_date > 14) {
-            getView().hideView();
-        } else if (days_from_referral_date < 10) {
-            getView().setDueColor();
-        } else
-            getView().setOverDueColor();
     }
 
     @Override

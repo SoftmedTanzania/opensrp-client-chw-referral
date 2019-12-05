@@ -1,7 +1,5 @@
 package org.smartregister.chw.referral.model;
 
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 import androidx.annotation.VisibleForTesting;
 
 import com.google.gson.Gson;
@@ -22,7 +20,6 @@ import org.smartregister.cursoradapter.SmartRegisterQueryBuilder;
 import org.smartregister.domain.Location;
 import org.smartregister.repository.LocationRepository;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import timber.log.Timber;
