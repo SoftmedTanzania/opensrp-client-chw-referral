@@ -90,7 +90,6 @@ public class BaseIssueReferralActivity extends AppCompatActivity implements Base
             Timber.e(e);
         }
 
-        setupViews();
         presenter.fillClientData(viewModel.memberObject);
 
         JSONObject jsonForm = null;
@@ -150,31 +149,6 @@ public class BaseIssueReferralActivity extends AppCompatActivity implements Base
         return org.smartregister.Context.getInstance().allSharedPreferences().getPreference(AllConstants.CURRENT_LOCATION_ID);
     }
 
-    public void setupViews() {
-//        ImageButton exit = findViewById(R.id.exitFormImageView);
-//        exit.setOnClickListener(view -> {
-//            if (view.getId() == R.id.exitFormImageView) {
-//                finish();
-//            }
-//        });
-//
-//        ImageButton buttonSave = findViewById(R.id.completeButton);
-//        buttonSave.setOnClickListener(view -> {
-//            try {
-//                viewModel.saveDataToMemberObject();
-//                if (presenter.validateValues(viewModel.memberObject)) {
-//                    JSONObject jsonForm = viewModel.getFormWithValuesAsJson(formName, baseEntityId, getLocationID(), viewModel.memberObject);
-//                    presenter.saveForm(jsonForm.toString());
-//                    Toast.makeText(this, getResources().getString(R.string.successful_issued_referral), Toast.LENGTH_SHORT).show();
-//                    finish();
-//                }
-//            } catch (Exception e) {
-//                Timber.e(e);
-//            }
-//        });
-
-
-    }
 
     private void injectReferralProblems(JSONObject form) {
         JSONArray fields = null;
