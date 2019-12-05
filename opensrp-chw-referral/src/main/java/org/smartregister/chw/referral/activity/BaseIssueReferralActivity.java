@@ -63,6 +63,7 @@ public class BaseIssueReferralActivity extends AppCompatActivity implements Base
     protected String formName;
     protected boolean injectValuesFromDb;
     private AbstractIssueReferralModel viewModel;
+    private FormBuilder formBuilder;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -125,7 +126,7 @@ public class BaseIssueReferralActivity extends AppCompatActivity implements Base
         if (jsonForm != null) {
             jsonFormBuilder = new JsonFormBuilder(jsonForm.toString(), this, formLayout);
         }
-        FormBuilder formBuilder = jsonFormBuilder.buildForm(jsonFormStepBuilderModel, null);
+        formBuilder = jsonFormBuilder.buildForm(jsonFormStepBuilderModel, null);
         formLayout.addView(formBuilder.getNeatStepperLayout());
     }
 
@@ -322,7 +323,7 @@ public class BaseIssueReferralActivity extends AppCompatActivity implements Base
 
     @Override
     public void onStepComplete(@NotNull Step step) {
-
+        Timber.e("Saved data = "+new Gson().toJson(formBuilder.getFormDetails()));
     }
 
     @Override
