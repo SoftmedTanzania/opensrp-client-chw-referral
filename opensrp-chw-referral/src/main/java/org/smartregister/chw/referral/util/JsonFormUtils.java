@@ -1,15 +1,21 @@
 package org.smartregister.chw.referral.util;
 
+import com.google.gson.Gson;
+import com.nerdstone.neatformcore.domain.model.NFormViewData;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Triple;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.smartregister.chw.referral.ReferralLibrary;
+import org.smartregister.chw.referral.domain.ReferralServiceObject;
 import org.smartregister.clientandeventmodel.Event;
 import org.smartregister.domain.tag.FormTag;
 import org.smartregister.repository.AllSharedPreferences;
 import org.smartregister.util.FormUtils;
+
+import java.util.HashMap;
 
 import timber.log.Timber;
 
@@ -55,28 +61,28 @@ public class JsonFormUtils extends org.smartregister.util.JsonFormUtils {
         return null;
     }
 
-    public static Event processJsonForm(AllSharedPreferences allSharedPreferences, String
-            jsonString) {
+    public static Event processJsonForm(AllSharedPreferences allSharedPreferences,String entityId, HashMap<String, NFormViewData> valuesHashMap, JSONObject jsonForm, String encounter_type) {
 
-        Triple<Boolean, JSONObject, JSONArray> registrationFormParams = validateParameters(jsonString);
 
-        if (!registrationFormParams.getLeft()) {
+        JSONArray fields = null;
+        try {
+            fields = new JSONArray(new Gson().toJson(valuesHashMap));
+        }catch (Exception e){
+            Timber.e(e);
+        }
+        if (fields==null) {
             return null;
         }
 
-        JSONObject jsonForm = registrationFormParams.getMiddle();
-        JSONArray fields = registrationFormParams.getRight();
-        String entityId = getString(jsonForm, ENTITY_ID);
-        String encounter_type = jsonForm.optString(Constants.JSON_FORM_EXTRA.ENCOUNTER_TYPE);
-
+        String bindType=null;
         if (Constants.EVENT_TYPE.REGISTRATION.equals(encounter_type)) {
-            encounter_type = Constants.TABLES.REFERRAL;
+            bindType = Constants.TABLES.REFERRAL;
         } else if (Constants.EVENT_TYPE.REFERRAL_FOLLOW_UP_VISIT.equals(encounter_type)) {
-            encounter_type = Constants.TABLES.REFERRAL_FOLLOW_UP;
+            bindType = Constants.TABLES.REFERRAL_FOLLOW_UP;
         }
 
 
-        return org.smartregister.util.JsonFormUtils.createEvent(fields, getJSONObject(jsonForm, METADATA), formTag(allSharedPreferences), entityId, getString(jsonForm, ENCOUNTER_TYPE), encounter_type);
+        return org.smartregister.util.JsonFormUtils.createEvent(fields, getJSONObject(jsonForm, METADATA), formTag(allSharedPreferences), entityId, encounter_type, bindType);
     }
 
 

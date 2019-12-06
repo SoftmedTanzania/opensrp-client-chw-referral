@@ -64,6 +64,7 @@ public class BaseIssueReferralActivity extends AppCompatActivity implements Base
     protected boolean injectValuesFromDb;
     private AbstractIssueReferralModel viewModel;
     private FormBuilder formBuilder;
+    private JSONObject jsonForm = null;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -92,7 +93,6 @@ public class BaseIssueReferralActivity extends AppCompatActivity implements Base
 
         presenter.fillClientData(viewModel.memberObject);
 
-        JSONObject jsonForm = null;
         try {
             jsonForm = JsonFormUtils.getFormAsJson(formName);
             JsonFormUtils.addFormMetadata(jsonForm, baseEntityId, getLocationID());
@@ -287,6 +287,7 @@ public class BaseIssueReferralActivity extends AppCompatActivity implements Base
 
     @Override
     public void onCompleteStepper() {
+        presenter.saveForm(formBuilder.getFormDetails(),jsonForm);
         Timber.e("Saved data = " + new Gson().toJson(formBuilder.getFormDetails()));
     }
 

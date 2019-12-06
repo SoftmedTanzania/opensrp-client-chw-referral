@@ -2,15 +2,20 @@ package org.smartregister.chw.referral.presenter;
 
 import android.util.Log;
 
+import com.nerdstone.neatformcore.domain.model.NFormViewData;
+
 import org.apache.commons.lang3.tuple.Triple;
 import org.jetbrains.annotations.Nullable;
+import org.json.JSONObject;
 import org.smartregister.chw.referral.contract.BaseIssueReferralContract;
 import org.smartregister.chw.referral.domain.MemberObject;
+import org.smartregister.chw.referral.domain.ReferralServiceObject;
 import org.smartregister.chw.referral.model.AbstractIssueReferralModel;
 import org.smartregister.chw.referral.util.Constants;
 import org.smartregister.chw.referral.util.DBConstants;
 
 import java.lang.ref.WeakReference;
+import java.util.HashMap;
 import java.util.List;
 
 import timber.log.Timber;
@@ -63,11 +68,10 @@ public class BaseIssueReferralPresenter implements BaseIssueReferralContract.Pre
         this.memberObject = memberObject;
     }
 
-
     @Override
-    public void saveForm(String jsonString) {
+    public void saveForm(HashMap<String, NFormViewData> valuesHashMap, JSONObject jsonObject) {
         try {
-            interactor.saveRegistration(jsonString, this);
+            interactor.saveRegistration(baseEntityID,valuesHashMap,jsonObject, this);
         } catch (Exception e) {
             Timber.e(Log.getStackTraceString(e));
         }

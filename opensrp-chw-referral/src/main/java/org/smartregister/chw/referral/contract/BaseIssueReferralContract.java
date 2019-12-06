@@ -4,6 +4,8 @@ import android.content.Context;
 
 import androidx.lifecycle.ViewModel;
 
+import com.nerdstone.neatformcore.domain.model.NFormViewData;
+
 import org.apache.commons.lang3.tuple.Triple;
 import org.jetbrains.annotations.Nullable;
 import org.json.JSONObject;
@@ -13,6 +15,7 @@ import org.smartregister.chw.referral.domain.ReferralServiceObject;
 import org.smartregister.domain.Location;
 import org.smartregister.view.contract.BaseRegisterContract;
 
+import java.util.HashMap;
 import java.util.List;
 
 public interface BaseIssueReferralContract {
@@ -36,7 +39,7 @@ public interface BaseIssueReferralContract {
 
         void initializeMemberObject(MemberObject memberObject);
 
-        void saveForm(String jsonString);
+        void saveForm(HashMap<String, NFormViewData> valuesHashMap, JSONObject jsonObject);
     }
 
     interface Model {
@@ -59,7 +62,7 @@ public interface BaseIssueReferralContract {
 
         void onDestroy(boolean isChangingConfiguration);
 
-        void saveRegistration(String jsonString, final InteractorCallBack callBack);
+        void saveRegistration(String baseEntityId,HashMap<String, NFormViewData> valuesHashMap,JSONObject jsonObject, final InteractorCallBack callBack);
 
     }
 

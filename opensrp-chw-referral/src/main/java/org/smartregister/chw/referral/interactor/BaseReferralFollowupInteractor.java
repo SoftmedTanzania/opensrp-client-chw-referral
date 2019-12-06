@@ -45,14 +45,14 @@ public class BaseReferralFollowupInteractor implements BaseFollowupContract.Inte
     @VisibleForTesting
     void saveFollowupJSON(final String jsonString) throws Exception {
 
-        AllSharedPreferences allSharedPreferences = ReferralLibrary.getInstance().context().allSharedPreferences();
-        Event baseEvent = JsonFormUtils.processJsonForm(allSharedPreferences, jsonString);
-
-        Objects.requireNonNull(baseEvent).setEventId(UUID.randomUUID().toString());
-
-        Timber.i("Referral Followup Event = %s", new Gson().toJson(baseEvent));
-
-        Util.processEvent(allSharedPreferences, baseEvent);
+//        AllSharedPreferences allSharedPreferences = ReferralLibrary.getInstance().context().allSharedPreferences();
+//        Event baseEvent = JsonFormUtils.processJsonForm(allSharedPreferences, jsonString);
+//
+//        Objects.requireNonNull(baseEvent).setEventId(UUID.randomUUID().toString());
+//
+//        Timber.i("Referral Followup Event = %s", new Gson().toJson(baseEvent));
+//
+//        Util.processEvent(allSharedPreferences, baseEvent);
     }
 
 }
