@@ -1,6 +1,5 @@
 package org.smartregister.chw.referral.util;
 
-import com.google.gson.Gson;
 import com.nerdstone.neatformcore.domain.model.NFormViewData;
 
 import org.apache.commons.lang3.StringUtils;
@@ -9,17 +8,18 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.smartregister.chw.referral.ReferralLibrary;
-import org.smartregister.chw.referral.domain.ReferralServiceObject;
 import org.smartregister.clientandeventmodel.Event;
+import org.smartregister.clientandeventmodel.Obs;
 import org.smartregister.domain.tag.FormTag;
 import org.smartregister.repository.AllSharedPreferences;
 import org.smartregister.util.FormUtils;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import timber.log.Timber;
 
-import static org.smartregister.chw.referral.util.Constants.ENCOUNTER_TYPE;
 import static org.smartregister.chw.referral.util.Constants.STEP_ONE;
 
 public class JsonFormUtils extends org.smartregister.util.JsonFormUtils {
@@ -56,35 +56,23 @@ public class JsonFormUtils extends org.smartregister.util.JsonFormUtils {
             return step1.has(FIELDS) ? step1.getJSONArray(FIELDS) : null;
 
         } catch (JSONException e) {
-            Timber.e(e);
+            e.printStackTrace();
         }
         return null;
     }
 
-    public static Event processJsonForm(AllSharedPreferences allSharedPreferences,String entityId, HashMap<String, NFormViewData> valuesHashMap, JSONObject jsonForm, String encounter_type) {
-
-
-        JSONArray fields = null;
-        try {
-            fields = new JSONArray(new Gson().toJson(valuesHashMap));
-        }catch (Exception e){
-            Timber.e(e);
-        }
-        if (fields==null) {
-            return null;
-        }
-
-        String bindType=null;
+    public static Event processJsonForm(AllSharedPreferences allSharedPreferences, String entityId, HashMap<String, NFormViewData> valuesHashMap, JSONObject jsonForm, String encounter_type) {
+        String bindType = null;
         if (Constants.EVENT_TYPE.REGISTRATION.equals(encounter_type)) {
             bindType = Constants.TABLES.REFERRAL;
         } else if (Constants.EVENT_TYPE.REFERRAL_FOLLOW_UP_VISIT.equals(encounter_type)) {
             bindType = Constants.TABLES.REFERRAL_FOLLOW_UP;
         }
 
-
-        return org.smartregister.util.JsonFormUtils.createEvent(fields, getJSONObject(jsonForm, METADATA), formTag(allSharedPreferences), entityId, encounter_type, bindType);
+        Event event = org.smartregister.util.JsonFormUtils.createEvent(new JSONArray(), getJSONObject(jsonForm, METADATA), formTag(allSharedPreferences), entityId, encounter_type, bindType);
+        event.setObs(getObs(valuesHashMap));
+        return event;
     }
-
 
     protected static FormTag formTag(AllSharedPreferences allSharedPreferences) {
         FormTag formTag = new FormTag();
@@ -93,7 +81,6 @@ public class JsonFormUtils extends org.smartregister.util.JsonFormUtils {
         formTag.databaseVersion = ReferralLibrary.getInstance().getDatabaseVersion();
         return formTag;
     }
-
 
     public static void tagEvent(AllSharedPreferences allSharedPreferences, Event event) {
         String providerId = allSharedPreferences.fetchRegisteredANM();
@@ -127,4 +114,58 @@ public class JsonFormUtils extends org.smartregister.util.JsonFormUtils {
         return FormUtils.getInstance(ReferralLibrary.getInstance().context().applicationContext()).getFormJson(formName);
     }
 
+    private static List<Obs> getObs(HashMap<String, NFormViewData> detailsHashmap) {
+        List<Obs> obs = new ArrayList<>();
+        for (String key : detailsHashmap.keySet()) {
+            Obs ob = new Obs();
+            ob.setFormSubmissionField(key);
+            NFormViewData nFormViewData = detailsHashmap.get(key);
+            if (nFormViewData != null) {
+                if (nFormViewData.getMetadata() != null && nFormViewData.getMetadata().containsKey(OPENMRS_ENTITY))
+                    ob.setFieldType(String.valueOf(nFormViewData.getMetadata().get(OPENMRS_ENTITY)));
+
+                if (nFormViewData.getMetadata() != null && nFormViewData.getMetadata().containsKey(OPENMRS_ENTITY_ID))
+                    ob.setFieldCode(String.valueOf(nFormViewData.getMetadata().get(OPENMRS_ENTITY_ID)));
+
+                if (nFormViewData.getMetadata() != null && nFormViewData.getMetadata().containsKey(OPENMRS_ENTITY_PARENT))
+                    ob.setParentCode(String.valueOf(nFormViewData.getMetadata().get(OPENMRS_ENTITY_PARENT)));
+
+
+                if (nFormViewData.getValue() instanceof HashMap) {
+
+                    List<Object> humanReadableValues = new ArrayList<>();
+                    HashMap valuesHashMap = ((HashMap) nFormViewData.getValue());
+
+                    for (Object optionsValues : valuesHashMap.keySet()) {
+                        if (valuesHashMap.get(optionsValues) instanceof NFormViewData && valuesHashMap.get(optionsValues) != null) {
+                            NFormViewData optionsNFormViewData = (NFormViewData) valuesHashMap.get(optionsValues);
+                            if (optionsNFormViewData.getMetadata() != null) {
+                                if (optionsNFormViewData.getMetadata().containsKey(OPENMRS_ENTITY_ID)) {
+                                    ob.setValue(optionsNFormViewData.getMetadata().get(OPENMRS_ENTITY_ID));
+                                    humanReadableValues.add(optionsNFormViewData.getValue());
+                                }
+                            } else {
+                                ob.setValue(optionsNFormViewData.getValue());
+                            }
+                        } else {
+                            ob.setValue(valuesHashMap.get(optionsValues));
+                        }
+
+                    }
+
+                    if (!humanReadableValues.isEmpty()) {
+                        ob.setHumanReadableValues(humanReadableValues);
+                    }
+                } else {
+                    ob.setValue(nFormViewData.getValue());
+                }
+
+            }
+
+
+            obs.add(ob);
+        }
+
+        return obs;
+    }
 }
