@@ -187,15 +187,15 @@
                     android:id="@+id/feedback_title"
                     style="@style/CustomFontTextViewStyle.ClientList.Bold"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="15dp"
                     android:layout_marginStart="32dp"
                     android:layout_marginTop="16dp"
-                    android:textColor="@color/text_blue"
-                    app:fontVariant="bold"
                     android:paddingStart="0dp"
                     android:paddingEnd="0dp"
                     android:text="@string/followup_feedback"
-                    android:textSize="16sp" />
+                    android:textColor="@color/text_blue"
+                    android:textSize="16sp"
+                    app:fontVariant="bold" />
 
 
                 <View
@@ -208,92 +208,14 @@
 
 
                 <LinearLayout
-                    android:id="@+id/service_given_container"
+                    android:id="@+id/formLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="16dp"
                     android:layout_marginRight="16dp"
                     android:layout_marginBottom="8dp"
                     android:background="@color/white"
-                    android:orientation="vertical">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@color/white"
-                        android:orientation="horizontal"
-                        android:padding="16dp">
-
-                        <org.smartregister.view.customcontrols.CustomFontTextView
-                            android:id="@+id/service_offered_title"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="@string/hint_missing_reasons"
-                            android:textSize="16sp" />
-
-                        <org.smartregister.view.customcontrols.CustomFontTextView
-                            android:id="@+id/service_advice_title"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="16dp"
-                            android:layout_weight="1"
-                            android:text="@string/other_followup_feedback_information"
-                            android:textSize="16sp" />
-
-                    </LinearLayout>
-
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@color/white"
-                        android:orientation="horizontal"
-                        android:padding="16dp">
-
-                        <RelativeLayout
-                            android:layout_width="0dp"
-                            android:layout_height="96dp"
-                            android:layout_marginTop="8dp"
-                            android:layout_marginEnd="16dp"
-                            android:layout_weight="1"
-                            android:background="@drawable/grey_left_border"
-                            android:orientation="horizontal">
-
-                            <fr.ganfra.materialspinner.MaterialSpinner
-                                android:id="@+id/spinnerClientAvailable"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_centerInParent="true"
-                                android:layout_marginLeft="16dp"
-                                android:layout_marginRight="16dp"
-                                app:ms_arrowColor="@color/text_blue"
-                                app:ms_arrowSize="14dp"
-                                app:ms_baseColor="@color/text_blue"
-                                app:ms_enableFloatingLabel="false"
-                                app:ms_hint="@string/hint_missing_reasons"
-                                app:ms_multiline="true"
-                                app:ms_thickness="1dp"
-                                app:paddingStart="0dp" />
-                        </RelativeLayout>
-
-                        <EditText
-                            android:id="@+id/client_condition"
-                            android:layout_width="0dp"
-                            android:layout_height="96dp"
-                            android:layout_marginStart="8dp"
-                            android:layout_marginTop="8dp"
-                            android:layout_marginBottom="4dp"
-                            android:layout_weight="1"
-                            android:gravity="start"
-                            android:minLines="4"
-                            android:padding="8dp"
-                            android:textColor="@color/text_blue"
-                            android:textSize="14sp" />
-
-                    </LinearLayout>
-
-                </LinearLayout>
+                    android:orientation="vertical"/>
 
                 <RelativeLayout
                     android:layout_width="match_parent"

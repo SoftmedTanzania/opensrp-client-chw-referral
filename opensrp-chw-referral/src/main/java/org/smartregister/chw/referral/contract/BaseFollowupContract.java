@@ -4,12 +4,15 @@ import android.content.Context;
 
 import androidx.lifecycle.ViewModel;
 
+import com.nerdstone.neatformcore.domain.model.NFormViewData;
+
 import org.jetbrains.annotations.Nullable;
 import org.json.JSONObject;
 import org.smartregister.chw.referral.domain.FollowupFeedbackObject;
 import org.smartregister.chw.referral.domain.MemberObject;
 import org.smartregister.chw.referral.domain.ReferralFollowupObject;
 
+import java.util.HashMap;
 import java.util.List;
 
 public interface BaseFollowupContract {
@@ -26,16 +29,15 @@ public interface BaseFollowupContract {
     interface Presenter {
         <T extends ViewModel & BaseFollowupContract.Model> Class<T> getViewModel();
 
-        boolean validateValues(ReferralFollowupObject referralFollowupObject);
-
         void fillProfileData(@Nullable MemberObject memberObject);
-
-        void recordReferralFollowUp(Context context);
 
         @Nullable
         BaseFollowupContract.View getView();
 
-        void saveForm(String jsonString);
+
+        void initializeMemberObject(MemberObject memberObject);
+
+        void saveForm(HashMap<String, NFormViewData> valuesHashMap, JSONObject jsonObject);
     }
 
     interface Model {
@@ -47,7 +49,7 @@ public interface BaseFollowupContract {
 
     interface Interactor {
 
-        void saveFollowup(String jsonString, InteractorCallBack callBack);
+        void saveFollowup(String baseEntityId, HashMap<String, NFormViewData> valuesHashMap, JSONObject jsonObject, InteractorCallBack callBack);
 
     }
 

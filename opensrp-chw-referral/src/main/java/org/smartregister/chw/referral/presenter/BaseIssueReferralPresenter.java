@@ -9,7 +9,6 @@ import org.jetbrains.annotations.Nullable;
 import org.json.JSONObject;
 import org.smartregister.chw.referral.contract.BaseIssueReferralContract;
 import org.smartregister.chw.referral.domain.MemberObject;
-import org.smartregister.chw.referral.domain.ReferralServiceObject;
 import org.smartregister.chw.referral.model.AbstractIssueReferralModel;
 import org.smartregister.chw.referral.util.Constants;
 import org.smartregister.chw.referral.util.DBConstants;
@@ -71,7 +70,7 @@ public class BaseIssueReferralPresenter implements BaseIssueReferralContract.Pre
     @Override
     public void saveForm(HashMap<String, NFormViewData> valuesHashMap, JSONObject jsonObject) {
         try {
-            interactor.saveRegistration(baseEntityID,valuesHashMap,jsonObject, this);
+            interactor.saveRegistration(baseEntityID, valuesHashMap, jsonObject, this);
         } catch (Exception e) {
             Timber.e(Log.getStackTraceString(e));
         }
