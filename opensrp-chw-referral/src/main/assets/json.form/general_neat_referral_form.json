@@ -63,6 +63,11 @@
           "properties": {
             "text": "Choose referral service"
           },
+          "meta_data": {
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "09978",
+            "openmrs_entity_parent": ""
+          },
           "options": [
             {
               "name": "none",
@@ -76,6 +81,11 @@
           "type": "multi_choice_checkbox",
           "properties": {
             "text": "Pick the problems associated with the client."
+          },
+          "meta_data": {
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "998",
+            "openmrs_entity_parent": ""
           },
           "options": [
             {
@@ -98,8 +108,8 @@
             "type": "name"
           },
           "meta_data": {
-            "openmrs_entity": "",
-            "openmrs_entity_id": "",
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "232",
             "openmrs_entity_parent": ""
           },
           "required_status": "true:Please specify other symptoms",
@@ -108,6 +118,11 @@
         {
           "name": "chw_referral_hf",
           "type": "spinner",
+          "meta_data": {
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "890",
+            "openmrs_entity_parent": ""
+          },
           "properties": {
             "text": "Choose referral facility"
           },
@@ -131,7 +146,7 @@
               "text": "Other",
               "is_exclusive": true,
               "meta_data": {
-                "openmrs_entity": "",
+                "openmrs_entity": "concept",
                 "openmrs_entity_id": "",
                 "openmrs_entity_parent": ""
               }
@@ -157,8 +172,8 @@
             "type": "name"
           },
           "meta_data": {
-            "openmrs_entity": "",
-            "openmrs_entity_id": "",
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "232",
             "openmrs_entity_parent": ""
           },
           "required_status": "true:Please specify other treatment given",
@@ -171,6 +186,11 @@
             "hint": "Please select the appointment date",
             "type": "date_picker",
             "display_format": "dd/MM/YYYY"
+          },
+          "meta_data": {
+            "openmrs_entity": "concept",
+            "openmrs_entity_id": "23289",
+            "openmrs_entity_parent": ""
           },
           "required_status": "true:Please specify the appointment date"
         }

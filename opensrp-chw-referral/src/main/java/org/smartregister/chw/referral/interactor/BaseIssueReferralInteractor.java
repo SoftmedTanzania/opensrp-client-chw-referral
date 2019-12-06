@@ -66,7 +66,7 @@ public class BaseIssueReferralInteractor implements BaseIssueReferralContract.In
 
         Timber.i("Referral Event = %s", new Gson().toJson(baseEvent));
 
-//        Util.processEvent(allSharedPreferences, baseEvent);
+        Util.processEvent(allSharedPreferences, baseEvent);
     }
 
 }
