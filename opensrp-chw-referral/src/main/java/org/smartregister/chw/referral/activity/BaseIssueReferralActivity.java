@@ -288,8 +288,8 @@ public class BaseIssueReferralActivity extends AppCompatActivity implements Base
 
     @Override
     public void onCompleteStepper() {
-        presenter.saveForm(formBuilder.getFormDetails(),jsonForm);
-        Timber.e("Saved data = " + new Gson().toJson(formBuilder.getFormDetails()));
+        presenter.saveForm(formBuilder.getFormData(),jsonForm);
+        Timber.e("Saved data = " + new Gson().toJson(formBuilder.getFormData()));
     }
 
     @Override

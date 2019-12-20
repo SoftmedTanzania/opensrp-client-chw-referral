@@ -166,8 +166,8 @@ public class BaseReferralFollowupActivity extends AppCompatActivity implements B
         textViewReferralDate.setText(memberObject.getChwReferralDate());
 
         buttonSave.setOnClickListener(view -> {
-            presenter.saveForm(formBuilder.getFormDetails(),jsonForm);
-            Timber.e("Saved data = " + new Gson().toJson(formBuilder.getFormDetails()));
+            presenter.saveForm(formBuilder.getFormData(),jsonForm);
+            Timber.e("Saved data = " + new Gson().toJson(formBuilder.getFormData()));
         });
 
     }
