@@ -7,6 +7,11 @@ public interface Constants {
     String STEP_ONE = "step1";
     String STEP_TWO = "step2";
 
+    interface REFERRAl {
+        String PLAN_ID = "5270285b-5a3b-4647-b772-c0b3c52e2b71";
+        String CODE = "Referral";
+    }
+
     interface JSON_FORM_EXTRA {
         String JSON = "json";
         String ENCOUNTER_TYPE = "encounter_type";
@@ -66,5 +71,10 @@ public interface Constants {
         String FACILITY_TO_COMMUNITY_REFERRAL = "facility_to_community_referral";
     }
 
-
+    interface BUSINESS_STATUS {
+        String REFERRED = "Referred";
+        String IN_PROGRESS = "In-Progress";
+        String COMPLETE = "Complete";
+        String EXPIRED = "Expired";
+    }
 }

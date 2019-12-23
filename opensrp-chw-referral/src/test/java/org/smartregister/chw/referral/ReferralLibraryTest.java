@@ -9,6 +9,7 @@ import org.junit.rules.ExpectedException;
 import org.mockito.Mockito;
 import org.smartregister.Context;
 import org.smartregister.CoreLibrary;
+import org.smartregister.chw.referral.domain.ReferralMetadata;
 import org.smartregister.repository.Repository;
 
 import refutils.ReflectionHelper;
@@ -39,7 +40,7 @@ public class ReferralLibraryTest extends BaseTest {
         }
 
 
-        ReferralLibrary.init(Mockito.mock(Context.class), Mockito.mock(Repository.class), BuildConfig.VERSION_CODE, 1);
+        ReferralLibrary.init(Mockito.mock(Context.class), Mockito.mock(Repository.class) , Mockito.mock(ReferralMetadata.class), BuildConfig.VERSION_CODE, 1);
         Assert.assertNotNull(ReferralLibrary.getInstance());
 
     }
