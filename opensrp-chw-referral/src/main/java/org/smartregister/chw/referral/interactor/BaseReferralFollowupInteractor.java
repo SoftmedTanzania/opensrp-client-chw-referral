@@ -52,7 +52,9 @@ public class BaseReferralFollowupInteractor implements BaseFollowupContract.Inte
     void saveFollowup(String baseEntityId, HashMap<String, NFormViewData> valuesHashMap, JSONObject jsonObject) throws Exception {
 
         AllSharedPreferences allSharedPreferences = ReferralLibrary.getInstance().context().allSharedPreferences();
-        Event baseEvent = JsonFormUtils.processJsonForm(allSharedPreferences, baseEntityId, valuesHashMap, jsonObject, Constants.EVENT_TYPE.REGISTRATION);
+        Event baseEvent = JsonFormUtils.processJsonForm(allSharedPreferences, baseEntityId,
+                valuesHashMap, jsonObject, Constants.EVENT_TYPE.REGISTRATION)
+                .getEvent();
 
         Objects.requireNonNull(baseEvent).setEventId(UUID.randomUUID().toString());
 

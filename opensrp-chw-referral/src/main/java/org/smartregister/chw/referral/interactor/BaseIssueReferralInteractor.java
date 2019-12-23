@@ -8,7 +8,7 @@ import com.nerdstone.neatformcore.domain.model.NFormViewData;
 import org.json.JSONObject;
 import org.smartregister.chw.referral.ReferralLibrary;
 import org.smartregister.chw.referral.contract.BaseIssueReferralContract;
-import org.smartregister.chw.referral.domain.ReferralEvent;
+import org.smartregister.chw.referral.domain.ReferralTask;
 import org.smartregister.chw.referral.util.AppExecutors;
 import org.smartregister.chw.referral.util.Constants;
 import org.smartregister.chw.referral.util.JsonFormUtils;
@@ -60,17 +60,17 @@ public class BaseIssueReferralInteractor implements BaseIssueReferralContract.In
     void saveRegistration(String baseEntityId, HashMap<String, NFormViewData> valuesHashMap, JSONObject jsonObject) throws Exception {
 
         AllSharedPreferences allSharedPreferences = ReferralLibrary.getInstance().context().allSharedPreferences();
-        ReferralEvent referralEvent = JsonFormUtils.processJsonForm(allSharedPreferences, baseEntityId, valuesHashMap, jsonObject, Constants.EVENT_TYPE.REGISTRATION);
-        referralEvent.setGroupId("718b2864-7d6a-44c8-b5b6-bb375f82654e"); //TODO obtain this from locationsMap from [ReferralMetadata] i.e use the facility value retrieved from the spinner
-        referralEvent.setFocus("Harmonized Referral"); //TODO use the referral type as focus
-        referralEvent.setReferralDescription("Testing Harmonization referral"); //TODO use the referral problems/danger signs instead should be comma separated values in one string e.g. Coughing, Heavy breathing
-        Objects.requireNonNull(referralEvent).setEventId(UUID.randomUUID().toString());
+        ReferralTask referralTask = JsonFormUtils.processJsonForm(allSharedPreferences, baseEntityId, valuesHashMap, jsonObject, Constants.EVENT_TYPE.REGISTRATION);
+        referralTask.setGroupId("718b2864-7d6a-44c8-b5b6-bb375f82654e"); //TODO obtain this from locationsMap from [ReferralMetadata] i.e use the facility value retrieved from the spinner
+        referralTask.setFocus("Harmonized Referral"); //TODO use the referral type as focus
+        referralTask.setReferralDescription("Testing Harmonization referral"); //TODO use the referral problems/danger signs instead should be comma separated values in one string e.g. Coughing, Heavy breathing
+        Objects.requireNonNull(referralTask.getEvent()).setEventId(UUID.randomUUID().toString());
 
-        Timber.i("Referral Event = %s", new Gson().toJson(referralEvent));
+        Timber.i("Referral Event = %s", new Gson().toJson(referralTask));
 
-        Util.processEvent(allSharedPreferences, referralEvent);
+        Util.processEvent(allSharedPreferences, referralTask.getEvent());
 
-        ReferralUtil.createReferralTask(referralEvent, allSharedPreferences);
+        ReferralUtil.createReferralTask(referralTask, allSharedPreferences);
     }
 
 }
