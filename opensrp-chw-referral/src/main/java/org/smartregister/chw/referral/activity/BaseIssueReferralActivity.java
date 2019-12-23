@@ -73,7 +73,13 @@ public class BaseIssueReferralActivity extends AppCompatActivity implements Base
         this.serviceId = this.getIntent().getStringExtra(Constants.ACTIVITY_PAYLOAD.REFERRAL_SERVICE_IDS);
         this.action = this.getIntent().getStringExtra(Constants.ACTIVITY_PAYLOAD.ACTION);
         this.formName = this.getIntent().getStringExtra(Constants.ACTIVITY_PAYLOAD.REFERRAL_FORM_NAME);
-        this.injectValuesFromDb = this.getIntent().getBooleanExtra(Constants.ACTIVITY_PAYLOAD.INJECT_VALUES_FROM_DB, true);
+        this.injectValuesFromDb = this.getIntent().getBooleanExtra(Constants.ACTIVITY_PAYLOAD.INJECT_VALUES_FROM_DB, false);
+
+        try {
+            this.jsonForm = new JSONObject(this.getIntent().getStringExtra(Constants.ACTIVITY_PAYLOAD.JSON_FORM));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         //initializing the presenter
         presenter = presenter();
@@ -93,15 +99,22 @@ public class BaseIssueReferralActivity extends AppCompatActivity implements Base
 
         presenter.fillClientData(viewModel.memberObject);
 
-        try {
-            jsonForm = JsonFormUtils.getFormAsJson(formName);
-            JsonFormUtils.addFormMetadata(jsonForm, baseEntityId, getLocationID());
+        //Initialize the form using the form name
+        if(jsonForm==null) {
+            try {
+                jsonForm = JsonFormUtils.getFormAsJson(formName);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
 
+        try {
+            JsonFormUtils.addFormMetadata(jsonForm, baseEntityId, getLocationID());
             int age = new Period(new DateTime(viewModel.memberObject.getAge()), new DateTime()).getYears();
             jsonForm.put("form", String.format(Locale.getDefault(), "%s %s %s, %d", viewModel.memberObject.getFirstName(),
                     viewModel.memberObject.getMiddleName(), viewModel.memberObject.getLastName(), age));
         } catch (Exception e) {
-            e.printStackTrace();
+            Timber.e(e);
         }
 
         if (injectValuesFromDb) {

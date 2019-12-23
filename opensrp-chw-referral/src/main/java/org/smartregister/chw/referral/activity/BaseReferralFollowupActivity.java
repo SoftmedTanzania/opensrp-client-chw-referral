@@ -70,6 +70,11 @@ public class BaseReferralFollowupActivity extends AppCompatActivity implements B
         super.onCreate(savedInstanceState);
         this.memberObject = (MemberObject) this.getIntent().getSerializableExtra(Constants.REFERRAL_MEMBER_OBJECT.MEMBER_OBJECT);
         this.formName = this.getIntent().getStringExtra(Constants.ACTIVITY_PAYLOAD.REFERRAL_FOLLOWUP_FORM_NAME);
+        try {
+            this.jsonForm = new JSONObject(this.getIntent().getStringExtra(Constants.ACTIVITY_PAYLOAD.JSON_FORM));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         this.injectValuesFromDb = this.getIntent().getBooleanExtra(Constants.ACTIVITY_PAYLOAD.INJECT_VALUES_FROM_DB, true);
 
         //initializing the presenter
@@ -123,12 +128,19 @@ public class BaseReferralFollowupActivity extends AppCompatActivity implements B
 
         LinearLayout formLayout = findViewById(R.id.formLayout);
 
-        Timber.i("Form name  = %s", formName);
+        if(jsonForm==null) {
+            try {
+                jsonForm = JsonFormUtils.getFormAsJson(formName);
+            } catch (Exception e) {
+                Timber.e(e);
+            }
+        }
+
+        //Adding meta data to the form
         try {
-            jsonForm = JsonFormUtils.getFormAsJson(formName);
             JsonFormUtils.addFormMetadata(jsonForm, memberObject.getBaseEntityId(), getLocationID());
-        } catch (Exception e) {
-            Timber.e(e);
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
 
         if (injectValuesFromDb) {

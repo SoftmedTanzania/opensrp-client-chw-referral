@@ -36,6 +36,7 @@ public interface Constants {
         String ACTION = "ACTION";
         String REFERRAL_FORM_NAME = "REFERRAL_FORM_NAME";
         String INJECT_VALUES_FROM_DB = "INJECT_VALUES_FROM_DB";
+        String JSON_FORM = "JSON_FORM";
         String REFERRAL_FOLLOWUP_FORM_NAME = "REFERRAL_FOLLOWUP_FORM_NAME";
         String REFERRAL_SERVICE_IDS = "REFERRAL_SERVICE_IDS";
 
