@@ -117,13 +117,13 @@ public class BaseIssueReferralActivity extends AppCompatActivity implements Base
             Timber.e(e);
         }
 
+        initializeHealthFacilitiesList(jsonForm);
         if (injectValuesFromDb) {
             if (jsonForm != null) {
                 injectReferralProblems(jsonForm);
-                initializeHealthFacilitiesList(jsonForm);
-                Timber.i("Form with injected values = %s", jsonForm);
             }
         }
+        Timber.i("Form with injected values = %s", jsonForm);
 
         LinearLayout formLayout = findViewById(R.id.formLayout);
         StepperModel stepperModel = new StepperModel.Builder()
