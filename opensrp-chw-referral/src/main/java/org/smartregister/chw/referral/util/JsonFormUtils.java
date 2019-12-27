@@ -8,6 +8,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.smartregister.chw.referral.ReferralLibrary;
+import org.smartregister.chw.referral.domain.ReferralTask;
 import org.smartregister.clientandeventmodel.Event;
 import org.smartregister.clientandeventmodel.Obs;
 import org.smartregister.domain.tag.FormTag;
@@ -61,17 +62,21 @@ public class JsonFormUtils extends org.smartregister.util.JsonFormUtils {
         return null;
     }
 
-    public static Event processJsonForm(AllSharedPreferences allSharedPreferences, String entityId, HashMap<String, NFormViewData> valuesHashMap, JSONObject jsonForm, String encounter_type) {
+    public static ReferralTask processJsonForm(AllSharedPreferences allSharedPreferences, String entityId,
+                                               HashMap<String, NFormViewData> valuesHashMap, JSONObject jsonForm, String encounter_type) {
         String bindType = null;
         if (Constants.EVENT_TYPE.REGISTRATION.equals(encounter_type)) {
             bindType = Constants.TABLES.REFERRAL;
         } else if (Constants.EVENT_TYPE.REFERRAL_FOLLOW_UP_VISIT.equals(encounter_type)) {
             bindType = Constants.TABLES.REFERRAL_FOLLOW_UP;
         }
-
-        Event event = org.smartregister.util.JsonFormUtils.createEvent(new JSONArray(), getJSONObject(jsonForm, METADATA), formTag(allSharedPreferences), entityId, encounter_type, bindType);
+        ReferralTask referralTask =  new ReferralTask();
+        Event event = org.smartregister.util.JsonFormUtils.createEvent(
+                new JSONArray(), getJSONObject(jsonForm, METADATA), formTag(allSharedPreferences),
+                entityId, encounter_type, bindType);
         event.setObs(getObs(valuesHashMap));
-        return event;
+        referralTask.setEvent(event);
+        return referralTask;
     }
 
     protected static FormTag formTag(AllSharedPreferences allSharedPreferences) {

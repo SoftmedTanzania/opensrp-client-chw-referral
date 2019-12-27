@@ -7,6 +7,7 @@ import org.json.JSONObject;
 import org.smartregister.Context;
 import org.smartregister.CoreLibrary;
 import org.smartregister.chw.referral.domain.FollowupFeedbackObject;
+import org.smartregister.chw.referral.domain.ReferralMetadata;
 import org.smartregister.chw.referral.domain.ReferralServiceIndicatorObject;
 import org.smartregister.chw.referral.domain.ReferralServiceObject;
 import org.smartregister.chw.referral.repository.FollowupFeedbackRepository;
@@ -16,6 +17,8 @@ import org.smartregister.domain.Location;
 import org.smartregister.domain.LocationProperty;
 import org.smartregister.repository.LocationRepository;
 import org.smartregister.repository.Repository;
+import org.smartregister.repository.TaskNotesRepository;
+import org.smartregister.repository.TaskRepository;
 import org.smartregister.sync.ClientProcessorForJava;
 import org.smartregister.sync.helper.ECSyncHelper;
 import org.smartregister.util.AssetHandler;
@@ -36,17 +39,20 @@ public class ReferralLibrary {
 
     private ClientProcessorForJava clientProcessorForJava;
     private Compressor compressor;
+    private TaskRepository taskRepository;
+    private ReferralMetadata referralMetadata;
 
-    private ReferralLibrary(Context contextArg, Repository repositoryArg, int applicationVersion, int databaseVersion) {
+    private ReferralLibrary(Context contextArg, Repository repositoryArg, ReferralMetadata referralMetadata,  int applicationVersion, int databaseVersion) {
         this.context = contextArg;
         this.repository = repositoryArg;
         this.applicationVersion = applicationVersion;
         this.databaseVersion = databaseVersion;
+        this.referralMetadata = referralMetadata;
     }
 
-    public static void init(Context context, Repository repository, int applicationVersion, int databaseVersion) {
+    public static void init(Context context, Repository repository,  ReferralMetadata referralMetadata, int applicationVersion, int databaseVersion) {
         if (instance == null) {
-            instance = new ReferralLibrary(context, repository, applicationVersion, databaseVersion);
+            instance = new ReferralLibrary(context, repository, referralMetadata, applicationVersion, databaseVersion);
         }
     }
 
@@ -66,9 +72,9 @@ public class ReferralLibrary {
      *
      * @param context
      */
-    public static void reset(Context context, Repository repository, int applicationVersion, int databaseVersion) {
+    public static void reset(Context context, Repository repository, ReferralMetadata referralMetadata, int applicationVersion, int databaseVersion) {
         if (context != null) {
-            instance = new ReferralLibrary(context, repository, applicationVersion, databaseVersion);
+            instance = new ReferralLibrary(context, repository, referralMetadata, applicationVersion, databaseVersion);
         }
     }
 
@@ -187,5 +193,16 @@ public class ReferralLibrary {
             Timber.e(e);
         }
 
+    }
+
+    public TaskRepository getTaskRepository() {
+        if (taskRepository == null) {
+            taskRepository = new TaskRepository(getRepository(), new TaskNotesRepository(getRepository()));
+        }
+        return taskRepository;
+    }
+
+    public ReferralMetadata getReferralMetadata() {
+        return referralMetadata;
     }
 }
