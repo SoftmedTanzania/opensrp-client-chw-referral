@@ -173,7 +173,7 @@ public class BaseIssueReferralActivity extends AppCompatActivity implements Base
         JSONObject problems = null;
         for (int i = 0; i < (fields != null ? fields.length() : 0); i++) {
             try {
-                if (fields.getJSONObject(i).getString("name").equals("problems")) {
+                if (fields.getJSONObject(i).getString("name").equals("problem")) {
                     problems = fields.getJSONObject(i);
                     break;
                 }
