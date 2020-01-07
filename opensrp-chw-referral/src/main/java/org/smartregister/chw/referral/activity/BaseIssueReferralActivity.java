@@ -16,6 +16,7 @@ import com.nerdstone.neatandroidstepper.core.stepper.Step;
 import com.nerdstone.neatandroidstepper.core.stepper.StepVerificationState;
 import com.nerdstone.neatformcore.domain.builders.FormBuilder;
 import com.nerdstone.neatformcore.domain.model.JsonFormStepBuilderModel;
+import com.nerdstone.neatformcore.domain.model.NFormViewData;
 import com.nerdstone.neatformcore.form.json.JsonFormBuilder;
 
 import org.jetbrains.annotations.NotNull;
@@ -43,7 +44,12 @@ import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.commonregistry.CommonRepository;
 import org.smartregister.domain.Location;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
@@ -302,8 +308,31 @@ public class BaseIssueReferralActivity extends AppCompatActivity implements Base
 
     @Override
     public void onCompleteStepper() {
+
+        //Saving referral Date
+        NFormViewData dateValue = new NFormViewData();
+        dateValue.setValue(Calendar.getInstance().getTimeInMillis());
+        formBuilder.getFormData().put("referral_date",dateValue);
+
+        //Saving referral time
+        NFormViewData timeValue = new NFormViewData();
+        DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss.SSS",Locale.getDefault());
+        Date date = new Date();
+        timeValue.setValue(dateFormat.format(date));
+        formBuilder.getFormData().put("referral_time",timeValue);
+
+        //Saving referral type
+        NFormViewData referralType = new NFormViewData();
+        referralType.setValue(Constants.REFERRAL_TYPE.COMMUNITY_TO_FACILITY_REFERRAL);
+        formBuilder.getFormData().put("referral_type",referralType);
+
+        //Saving referral status
+        NFormViewData referralStatus = new NFormViewData();
+        referralStatus.setValue(Constants.REFERRAL_STATUS.PENDING);
+        formBuilder.getFormData().put("referral_status",referralStatus);
+
         presenter.saveForm(formBuilder.getFormData(),jsonForm);
-        Timber.e("Saved data = " + new Gson().toJson(formBuilder.getFormData()));
+        Timber.i("Saved data = %s", new Gson().toJson(formBuilder.getFormData()));
     }
 
     @Override
