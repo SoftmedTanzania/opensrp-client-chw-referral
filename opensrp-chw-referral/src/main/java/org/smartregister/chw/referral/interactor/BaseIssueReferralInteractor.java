@@ -61,11 +61,19 @@ public class BaseIssueReferralInteractor implements BaseIssueReferralContract.In
 
         AllSharedPreferences allSharedPreferences = ReferralLibrary.getInstance().context().allSharedPreferences();
         ReferralTask referralTask = JsonFormUtils.processJsonForm(allSharedPreferences, baseEntityId, valuesHashMap, jsonObject, Constants.EVENT_TYPE.REGISTRATION);
-        referralTask.setGroupId("718b2864-7d6a-44c8-b5b6-bb375f82654e"); //TODO obtain this from locationsMap from [ReferralMetadata] i.e use the facility value retrieved from the spinner
-        referralTask.setFocus("Harmonized Referral"); //TODO use the referral type as focus
-        referralTask.setReferralDescription("Testing Harmonization referral"); //TODO use the referral problems/danger signs instead should be comma separated values in one string e.g. Coughing, Heavy breathing
-        Objects.requireNonNull(referralTask.getEvent()).setEventId(UUID.randomUUID().toString());
+        referralTask.setGroupId(((NFormViewData)valuesHashMap.get("chw_referral_hf").getValue()).getMetadata().get("openmrs_entity_id").toString()); //TODO obtain this from locationsMap from [ReferralMetadata] i.e use the facility value retrieved from the spinner
+        referralTask.setFocus(jsonObject.getString("encounter_type")); //TODO use the referral type as focus
 
+        HashMap<String,NFormViewData> valuesMap = (HashMap<String,NFormViewData>)valuesHashMap.get("problem").getValue();
+        StringBuilder problemNamesStringBuilder= new StringBuilder();
+        for (String key : valuesMap.keySet()) {
+            problemNamesStringBuilder.append(valuesMap.get(key).getValue());
+            problemNamesStringBuilder.append(",");
+        }
+        String problemsStrings= problemNamesStringBuilder.toString();
+        problemsStrings =  problemsStrings.substring(0, problemsStrings.length() - 1);
+        referralTask.setReferralDescription(problemsStrings); //TODO use the referral problems/danger signs instead should be comma separated values in one string e.g. Coughing, Heavy breathing
+        Objects.requireNonNull(referralTask.getEvent()).setEventId(UUID.randomUUID().toString());
         Timber.i("Referral Event = %s", new Gson().toJson(referralTask));
 
         Util.processEvent(allSharedPreferences, referralTask.getEvent());

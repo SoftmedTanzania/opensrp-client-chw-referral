@@ -238,15 +238,16 @@ public class BaseIssueReferralActivity extends AppCompatActivity implements Base
 
             Timber.i("Referral facilities --> %s", new Gson().toJson(locations));
             List<NeatFormOption> healthFacilitiesOptions = new ArrayList<>();
-            NeatFormOption noneOption = new NeatFormOption();
-            noneOption.name = "none";
-            noneOption.text = "Select referral facility";
-
-            healthFacilitiesOptions.add(noneOption);
             for (Location location : locations) {
                 NeatFormOption healthFacilityOption = new NeatFormOption();
-                healthFacilityOption.name = location.getId();
+                healthFacilityOption.name = location.getProperties().getName();
                 healthFacilityOption.text = location.getProperties().getName();
+
+                NeatFormMetaData metaData = new NeatFormMetaData();
+                metaData.openmrsEntity = "location_uuid";
+                metaData.openmrsEntityId = location.getProperties().getUid();
+
+                healthFacilityOption.neatFormMetaData = metaData;
 
                 healthFacilitiesOptions.add(healthFacilityOption);
             }
