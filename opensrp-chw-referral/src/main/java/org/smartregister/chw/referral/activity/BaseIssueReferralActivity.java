@@ -52,6 +52,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
 import timber.log.Timber;
 
@@ -309,15 +310,19 @@ public class BaseIssueReferralActivity extends AppCompatActivity implements Base
     @Override
     public void onCompleteStepper() {
 
-        //Saving referral service if the value was passed
-        if(formBuilder.getFormData().get("chw_referral_service")==null) {
-            NFormViewData referralServiceValue = new NFormViewData();
-            try {
-                referralServiceValue.setValue(jsonForm.getString("encounter_type")); //TODO use the referral type
-            } catch (JSONException e) {
-                e.printStackTrace();
+        try {
+            //Saving referral service if the value was passed
+            if (isBlankString(Objects.requireNonNull(formBuilder.getFormData().get("chw_referral_service")).toString())) {
+                NFormViewData referralServiceValue = new NFormViewData();
+                try {
+                    referralServiceValue.setValue(jsonForm.getString("encounter_type")); //TODO use the referral type
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                formBuilder.getFormData().put("chw_referral_service", referralServiceValue);
             }
-            formBuilder.getFormData().put("chw_referral_service", referralServiceValue);
+        }catch (Exception e){
+            Timber.e(e);
         }
 
         //Saving referral Date
@@ -359,5 +364,9 @@ public class BaseIssueReferralActivity extends AppCompatActivity implements Base
     @Override
     public void onStepError(@NotNull StepVerificationState stepVerificationState) {
         //        implement
+    }
+
+    private boolean isBlankString(String string) {
+        return string == null || string.trim().isEmpty();
     }
 }
