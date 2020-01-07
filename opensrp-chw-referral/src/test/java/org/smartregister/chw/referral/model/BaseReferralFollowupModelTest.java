@@ -48,9 +48,6 @@ public class BaseReferralFollowupModelTest {
 
 
         System.out.println(new Gson().toJson(feedbackObject));
-        model.setReferralFollowupFeedback(feedbackObject);
-        model.setClientConditionDuringTheVisit("He is still sick");
-        model.saveDataToReferralFollowupObject();
 
         JSONObject form = null;
         try {
