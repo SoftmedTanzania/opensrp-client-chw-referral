@@ -309,6 +309,17 @@ public class BaseIssueReferralActivity extends AppCompatActivity implements Base
     @Override
     public void onCompleteStepper() {
 
+        //Saving referral service if the value was passed
+        if(formBuilder.getFormData().get("chw_referral_service")==null) {
+            NFormViewData referralServiceValue = new NFormViewData();
+            try {
+                referralServiceValue.setValue(jsonForm.getString("encounter_type")); //TODO use the referral type
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            formBuilder.getFormData().put("chw_referral_service", referralServiceValue);
+        }
+
         //Saving referral Date
         NFormViewData dateValue = new NFormViewData();
         dateValue.setValue(Calendar.getInstance().getTimeInMillis());
