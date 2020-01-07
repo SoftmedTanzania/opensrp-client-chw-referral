@@ -1,6 +1,8 @@
 package org.smartregister.chw.referral.activity;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.widget.LinearLayout;
@@ -17,6 +19,7 @@ import com.nerdstone.neatandroidstepper.core.stepper.StepVerificationState;
 import com.nerdstone.neatformcore.domain.builders.FormBuilder;
 import com.nerdstone.neatformcore.domain.model.JsonFormStepBuilderModel;
 import com.nerdstone.neatformcore.form.json.JsonFormBuilder;
+import com.vijay.jsonwizard.activities.JsonFormActivity;
 
 import org.jetbrains.annotations.NotNull;
 import org.joda.time.DateTime;
@@ -42,6 +45,7 @@ import org.smartregister.commonregistry.CommonPersonObject;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.commonregistry.CommonRepository;
 import org.smartregister.domain.Location;
+import org.smartregister.util.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -78,7 +82,7 @@ public class BaseIssueReferralActivity extends AppCompatActivity implements Base
         try {
             this.jsonForm = new JSONObject(this.getIntent().getStringExtra(Constants.ACTIVITY_PAYLOAD.JSON_FORM));
         } catch (Exception e) {
-            e.printStackTrace();
+            Timber.e(e);
         }
 
         //initializing the presenter
@@ -100,11 +104,11 @@ public class BaseIssueReferralActivity extends AppCompatActivity implements Base
         presenter.fillClientData(viewModel.memberObject);
 
         //Initialize the form using the form name
-        if(jsonForm==null) {
+        if (jsonForm == null) {
             try {
                 jsonForm = JsonFormUtils.getFormAsJson(formName);
             } catch (Exception e) {
-                e.printStackTrace();
+                Timber.e(e);
             }
         }
 
@@ -127,9 +131,9 @@ public class BaseIssueReferralActivity extends AppCompatActivity implements Base
 
         LinearLayout formLayout = findViewById(R.id.formLayout);
         StepperModel stepperModel = new StepperModel.Builder()
-                .exitButtonDrawableResource(R.drawable.ic_clear_white)
+                .exitButtonDrawableResource(R.drawable.ic_arrow_back_white_24dp)
                 .indicatorType(StepperModel.IndicatorType.DOT_INDICATOR)
-                .toolbarColorResource(R.color.primary)
+                .toolbarColorResource(R.color.family_actionbar)
                 .build();
 
         JsonFormStepBuilderModel jsonFormStepBuilderModel = new JsonFormStepBuilderModel.Builder(this, stepperModel).build();
@@ -168,7 +172,7 @@ public class BaseIssueReferralActivity extends AppCompatActivity implements Base
         try {
             fields = form.getJSONArray("steps").getJSONObject(0).getJSONArray("fields");
         } catch (JSONException e) {
-            e.printStackTrace();
+            Timber.e(e);
         }
         JSONObject problems = null;
         for (int i = 0; i < (fields != null ? fields.length() : 0); i++) {
@@ -209,7 +213,7 @@ public class BaseIssueReferralActivity extends AppCompatActivity implements Base
                 problems.put("options", optionsArray);
             }
         } catch (JSONException e) {
-            e.printStackTrace();
+            Timber.e(e);
         }
     }
 
@@ -221,7 +225,7 @@ public class BaseIssueReferralActivity extends AppCompatActivity implements Base
             try {
                 fields = form.getJSONArray("steps").getJSONObject(0).getJSONArray("fields");
             } catch (JSONException e) {
-                e.printStackTrace();
+                Timber.e(e);
             }
             JSONObject referralHealthFacilities = null;
             for (int i = 0; i < (fields != null ? fields.length() : 0); i++) {
@@ -238,11 +242,6 @@ public class BaseIssueReferralActivity extends AppCompatActivity implements Base
 
             Timber.i("Referral facilities --> %s", new Gson().toJson(locations));
             List<NeatFormOption> healthFacilitiesOptions = new ArrayList<>();
-            NeatFormOption noneOption = new NeatFormOption();
-            noneOption.name = "none";
-            noneOption.text = "Select referral facility";
-
-            healthFacilitiesOptions.add(noneOption);
             for (Location location : locations) {
                 NeatFormOption healthFacilityOption = new NeatFormOption();
                 healthFacilityOption.name = location.getId();
@@ -260,7 +259,7 @@ public class BaseIssueReferralActivity extends AppCompatActivity implements Base
                     referralHealthFacilities.put("options", new JSONArray(new Gson().toJson(healthFacilitiesOptions)));
                 }
             } catch (JSONException e) {
-                e.printStackTrace();
+                Timber.e(e);
             }
         }
 
@@ -301,13 +300,25 @@ public class BaseIssueReferralActivity extends AppCompatActivity implements Base
 
     @Override
     public void onCompleteStepper() {
-        presenter.saveForm(formBuilder.getFormData(),jsonForm);
-        Timber.e("Saved data = " + new Gson().toJson(formBuilder.getFormData()));
+        if (!formBuilder.getFormData().isEmpty()) {
+            presenter.saveForm(formBuilder.getFormData(), jsonForm);
+            Timber.e("Saved data = %s", new Gson().toJson(formBuilder.getFormData()));
+            Utils.showToast(this, this.getCurrentContext().getString(R.string.referral_submitted));
+            finish();
+        }
     }
 
     @Override
     public void onExitStepper() {
-//        implement
+        AlertDialog dialog = new AlertDialog.Builder(this, R.style.AlertDialogTheme)
+                .setTitle(getString(R.string.confirm_form_close))
+                .setMessage(getString(R.string.confirm_form_close_explanation))
+                .setNegativeButton(R.string.yes, (dialogInterface, which) -> finish())
+                .setPositiveButton(R.string.no, (dialogInterface, which) ->
+                        Timber.d("Do Nothing exit confirm dialog"))
+                .create();
+
+        dialog.show();
     }
 
     @Override

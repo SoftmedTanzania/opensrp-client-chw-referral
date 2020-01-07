@@ -65,10 +65,6 @@
           },
           "options": [
             {
-              "name": "none",
-              "text": "Select referral service"
-            },
-            {
               "name": "anc",
               "text": "ANC",
               "meta_data": {
@@ -133,10 +129,6 @@
             "text": "Choose referral facility"
           },
           "options": [
-            {
-              "name": "none",
-              "text": "Select referral facility"
-            },
             {
               "name": "facilityA",
               "text": "facilityA",

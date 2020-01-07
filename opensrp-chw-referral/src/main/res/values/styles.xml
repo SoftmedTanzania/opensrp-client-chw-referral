@@ -25,4 +25,9 @@
         <item name="android:windowMinWidthMinor">98%</item>
         <item name="android:background">@android:color/white</item>
     </style>
+    <style name="AlertDialogTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="colorPrimary">@color/opensrp_primary</item>
+        <item name="colorPrimaryDark">@color/opensrp_primary_dark</item>
+        <item name="colorAccent">@color/opensrp_accent</item>
+    </style>
 </resources>
