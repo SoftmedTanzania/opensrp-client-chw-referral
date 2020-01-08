@@ -174,7 +174,9 @@ public class BaseReferralFollowupActivity extends AppCompatActivity implements B
                 memberObject.getMiddleName(), memberObject.getLastName(), age));
         textViewUniqueID.setText(memberObject.getUniqueId());
         textViewGender.setText(memberObject.getGender());
-        textViewFollowUpReason.setText(memberObject.getChwReferralReason());
+
+        //TODO fix this area
+//        textViewFollowUpReason.setText(memberObject.getChwReferralReason());
         textViewReferralDate.setText(memberObject.getChwReferralDate());
 
         buttonSave.setOnClickListener(view -> {

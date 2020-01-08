@@ -28,9 +28,6 @@ public class MemberObject implements Serializable {
     @SerializedName("chw_referral_hf")
     private String chwReferralHf;
 
-    @SerializedName("chw_referral_reason")
-    private String chwReferralReason;
-
 
     @SerializedName("chw_referral_service")
     private String chwReferralService;
@@ -43,11 +40,11 @@ public class MemberObject implements Serializable {
     private String chwReferralDate;
 
 
-    @SerializedName("problems")
-    private String problems;
+    @SerializedName("problem")
+    private String problem;
 
-    @SerializedName("problems_ids")
-    private String problemIds;
+    @SerializedName("problem_other")
+    private String problemOther;
 
 
     @SerializedName("referral_type")
@@ -83,10 +80,10 @@ public class MemberObject implements Serializable {
         familyName = client.getColumnmaps().get(DBConstants.KEY.FAMILY_NAME);
         phoneNumber = client.getColumnmaps().get(DBConstants.KEY.PHONE_NUMBER);
         chwReferralHf = client.getColumnmaps().get(DBConstants.KEY.REFERRAL_HF);
-        chwReferralReason = client.getColumnmaps().get(DBConstants.KEY.REFERRAL_REASON);
         chwReferralServiceId = client.getColumnmaps().get(DBConstants.KEY.REFERRAL_SERVICE_ID);
         chwReferralDate = client.getColumnmaps().get(DBConstants.KEY.REFERRAL_DATE);
-        problemIds = client.getColumnmaps().get(DBConstants.KEY.PROBLEMS_IDS);
+        problem = client.getColumnmaps().get(DBConstants.KEY.PROBLEM);
+        problemOther = client.getColumnmaps().get(DBConstants.KEY.PROBLEM_OTHER);
         referralType = client.getColumnmaps().get(DBConstants.KEY.REFERRAL_TYPE);
         referralStatus = client.getColumnmaps().get(DBConstants.KEY.REFERRAL_STATUS);
         referralAppointmentDate = client.getColumnmaps().get(DBConstants.KEY.REFERRAL_APPOINTMENT_DATE);
@@ -221,14 +218,6 @@ public class MemberObject implements Serializable {
         this.chwReferralHf = chwReferralHf;
     }
 
-    public String getChwReferralReason() {
-        return chwReferralReason;
-    }
-
-    public void setChwReferralReason(String chwReferralReason) {
-        this.chwReferralReason = chwReferralReason;
-    }
-
     public String getChwReferralService() {
         return chwReferralService;
     }
@@ -253,20 +242,20 @@ public class MemberObject implements Serializable {
         this.chwReferralServiceId = chwReferralServiceId;
     }
 
-    public String getProblems() {
-        return problems;
+    public String getProblem() {
+        return problem;
     }
 
-    public void setProblems(String problems) {
-        this.problems = problems;
+    public void setProblem(String problem) {
+        this.problem = problem;
     }
 
-    public String getProblemIds() {
-        return problemIds;
+    public String getProblemOther() {
+        return problemOther;
     }
 
-    public void setProblemIds(String problemIds) {
-        this.problemIds = problemIds;
+    public void setProblemOther(String problemOther) {
+        this.problemOther = problemOther;
     }
 
     public String getReferralType() {

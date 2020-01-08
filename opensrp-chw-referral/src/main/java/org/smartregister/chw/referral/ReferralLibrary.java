@@ -172,6 +172,17 @@ public class ReferralLibrary {
                 testFacilityA.setProperties(property);
 
                 locationRepository.addOrUpdate(testFacilityA);
+
+                Location testFacilityB = new Location();
+                testFacilityB.setId("2");
+
+                LocationProperty facilityBproperty = new LocationProperty();
+                facilityBproperty.setUid("718b2864-7d6a-44c8-b5b6-bb375f826549");
+                facilityBproperty.setParentId("");
+                facilityBproperty.setName("Facility B");
+                testFacilityB.setProperties(facilityBproperty);
+
+                locationRepository.addOrUpdate(testFacilityB);
             }
         } catch (NullPointerException e) {
             Timber.e(e);

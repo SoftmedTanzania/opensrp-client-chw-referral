@@ -192,7 +192,8 @@ public class BaseReferralProfileActivity extends BaseProfileActivity implements 
 
         textViewFacilityName.setText(memberObject.getChwReferralHf());
         textViewReferralDate.setText(memberObject.getChwReferralDate());
-        textViewReasonForReferral.setText(memberObject.getChwReferralReason());
+        //TODO fix this area
+//        textViewReasonForReferral.setText(memberObject.getChwReferralReason());
         textViewAppointmentDate.setText(memberObject.getReferralAppointmentDate());
 
         if (StringUtils.isNotBlank(memberObject.getFamilyHead()) && memberObject.getFamilyHead().equals(memberObject.getBaseEntityId())) {
@@ -201,21 +202,21 @@ public class BaseReferralProfileActivity extends BaseProfileActivity implements 
         if (StringUtils.isNotBlank(memberObject.getPrimaryCareGiver()) && memberObject.getPrimaryCareGiver().equals(memberObject.getBaseEntityId())) {
             findViewById(R.id.primary_caregiver).setVisibility(View.VISIBLE);
         }
-
-        try {
-            JSONArray idsArray = new JSONArray(memberObject.getProblemIds());
-
-            StringBuilder referralIndicatorsStringBuilder = new StringBuilder();
-            for (int i = 0; i < idsArray.length(); i++) {
-                referralIndicatorsStringBuilder.append(" - ");
-                referralIndicatorsStringBuilder.append(profilePresenter.getIndicatorNameById(idsArray.getString(i)));
-                referralIndicatorsStringBuilder.append("\n");
-            }
-            textViewIndicators.setText(referralIndicatorsStringBuilder.toString());
-
-        } catch (Exception e) {
-            Timber.e(e);
-        }
+//TODO fix this area
+//        try {
+//            JSONArray idsArray = new JSONArray(memberObject.getProblemIds());
+//
+//            StringBuilder referralIndicatorsStringBuilder = new StringBuilder();
+//            for (int i = 0; i < idsArray.length(); i++) {
+//                referralIndicatorsStringBuilder.append(" - ");
+//                referralIndicatorsStringBuilder.append(profilePresenter.getIndicatorNameById(idsArray.getString(i)));
+//                referralIndicatorsStringBuilder.append("\n");
+//            }
+//            textViewIndicators.setText(referralIndicatorsStringBuilder.toString());
+//
+//        } catch (Exception e) {
+//            Timber.e(e);
+//        }
 
         textViewReferralServiceName.setText(memberObject.getChwReferralService());
     }
