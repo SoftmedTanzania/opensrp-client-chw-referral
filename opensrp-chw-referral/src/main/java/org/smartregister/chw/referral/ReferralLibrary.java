@@ -166,7 +166,7 @@ public class ReferralLibrary {
                 testFacilityA.setId("1");
 
                 LocationProperty property = new LocationProperty();
-                property.setUid("7ffffb69-4717-4b5a-8007-15960582828f");
+                property.setUid("718b2864-7d6a-44c8-b5b6-bb375f82654e");
                 property.setParentId("");
                 property.setName("Facility A");
                 testFacilityA.setProperties(property);

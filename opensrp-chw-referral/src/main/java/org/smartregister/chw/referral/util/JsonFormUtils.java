@@ -57,7 +57,7 @@ public class JsonFormUtils extends org.smartregister.util.JsonFormUtils {
             return step1.has(FIELDS) ? step1.getJSONArray(FIELDS) : null;
 
         } catch (JSONException e) {
-            e.printStackTrace();
+            Timber.e(e);
         }
         return null;
     }

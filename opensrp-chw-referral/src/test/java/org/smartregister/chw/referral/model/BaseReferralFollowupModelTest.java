@@ -83,7 +83,7 @@ public class BaseReferralFollowupModelTest {
             }
 
         } catch (JSONException e) {
-            e.printStackTrace();
+            Timber.e(e);
         }
     }
 }
