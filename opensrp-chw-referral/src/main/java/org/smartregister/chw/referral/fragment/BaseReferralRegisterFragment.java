@@ -4,9 +4,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.smartregister.chw.referral.R;
-import org.smartregister.chw.referral.activity.BaseReferralProfileActivity;
 import org.smartregister.chw.referral.contract.BaseReferralRegisterFragmentContract;
-import org.smartregister.chw.referral.domain.MemberObject;
 import org.smartregister.chw.referral.model.BaseReferralRegisterFragmentModel;
 import org.smartregister.chw.referral.presenter.BaseReferralRegisterFragmentPresenter;
 import org.smartregister.chw.referral.provider.ReferralRegisterProvider;
@@ -113,16 +111,7 @@ public class BaseReferralRegisterFragment extends BaseRegisterFragment implement
 
     @Override
     protected void onViewClicked(android.view.View view) {
-        if (getActivity() == null) {
-            return;
-        }
-        if (view.getTag() instanceof CommonPersonObjectClient && view.getTag(R.id.VIEW_ID) == CLICK_VIEW_NORMAL) {
-            openProfile((CommonPersonObjectClient) view.getTag());
-        }
-    }
-
-    protected void openProfile(CommonPersonObjectClient client) {
-        BaseReferralProfileActivity.startProfileActivity(getActivity(), new MemberObject(client));
+        //implement
     }
 
     protected void openFollowUpVisit(CommonPersonObjectClient client) {

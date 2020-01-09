@@ -42,7 +42,7 @@ public class ReferralLibrary {
     private TaskRepository taskRepository;
     private ReferralMetadata referralMetadata;
 
-    private ReferralLibrary(Context contextArg, Repository repositoryArg, ReferralMetadata referralMetadata,  int applicationVersion, int databaseVersion) {
+    private ReferralLibrary(Context contextArg, Repository repositoryArg, ReferralMetadata referralMetadata, int applicationVersion, int databaseVersion) {
         this.context = contextArg;
         this.repository = repositoryArg;
         this.applicationVersion = applicationVersion;
@@ -50,7 +50,7 @@ public class ReferralLibrary {
         this.referralMetadata = referralMetadata;
     }
 
-    public static void init(Context context, Repository repository,  ReferralMetadata referralMetadata, int applicationVersion, int databaseVersion) {
+    public static void init(Context context, Repository repository, ReferralMetadata referralMetadata, int applicationVersion, int databaseVersion) {
         if (instance == null) {
             instance = new ReferralLibrary(context, repository, referralMetadata, applicationVersion, databaseVersion);
         }

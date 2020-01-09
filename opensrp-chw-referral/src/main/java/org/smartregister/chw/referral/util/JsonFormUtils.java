@@ -70,7 +70,7 @@ public class JsonFormUtils extends org.smartregister.util.JsonFormUtils {
         } else if (Constants.EVENT_TYPE.REFERRAL_FOLLOW_UP_VISIT.equals(encounter_type)) {
             bindType = Constants.TABLES.REFERRAL_FOLLOW_UP;
         }
-        ReferralTask referralTask =  new ReferralTask();
+        ReferralTask referralTask = new ReferralTask();
         Event event = org.smartregister.util.JsonFormUtils.createEvent(
                 new JSONArray(), getJSONObject(jsonForm, METADATA), formTag(allSharedPreferences),
                 entityId, encounter_type, bindType);

@@ -62,7 +62,7 @@ public interface BaseIssueReferralContract {
 
         void onDestroy(boolean isChangingConfiguration);
 
-        void saveRegistration(String baseEntityId,HashMap<String, NFormViewData> valuesHashMap,JSONObject jsonObject, final InteractorCallBack callBack);
+        void saveRegistration(String baseEntityId, HashMap<String, NFormViewData> valuesHashMap, JSONObject jsonObject, final InteractorCallBack callBack);
 
     }
 

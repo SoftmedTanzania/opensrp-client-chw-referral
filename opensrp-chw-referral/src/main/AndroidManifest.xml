@@ -3,6 +3,5 @@
 
     <application>
         <activity android:name="org.smartregister.chw.referral.activity.BaseIssueReferralActivity" />
-        <activity android:name="org.smartregister.chw.referral.activity.BaseReferralProfileActivity" />
     </application>
 </manifest>

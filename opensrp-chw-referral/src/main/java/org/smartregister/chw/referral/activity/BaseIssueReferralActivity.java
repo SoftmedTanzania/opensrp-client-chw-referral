@@ -49,7 +49,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
@@ -107,7 +106,7 @@ public class BaseIssueReferralActivity extends AppCompatActivity implements Base
         presenter.fillClientData(viewModel.memberObject);
 
         //Initialize the form using the form name
-        if(jsonForm==null) {
+        if (jsonForm == null) {
             try {
                 jsonForm = JsonFormUtils.getFormAsJson(formName);
             } catch (Exception e) {
@@ -321,33 +320,33 @@ public class BaseIssueReferralActivity extends AppCompatActivity implements Base
                 }
                 formBuilder.getFormData().put("chw_referral_service", referralServiceValue);
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             Timber.e(e);
         }
 
         //Saving referral Date
         NFormViewData dateValue = new NFormViewData();
         dateValue.setValue(Calendar.getInstance().getTimeInMillis());
-        formBuilder.getFormData().put("referral_date",dateValue);
+        formBuilder.getFormData().put("referral_date", dateValue);
 
         //Saving referral time
         NFormViewData timeValue = new NFormViewData();
-        DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss.SSS",Locale.getDefault());
+        DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss.SSS", Locale.getDefault());
         Date date = new Date();
         timeValue.setValue(dateFormat.format(date));
-        formBuilder.getFormData().put("referral_time",timeValue);
+        formBuilder.getFormData().put("referral_time", timeValue);
 
         //Saving referral type
         NFormViewData referralType = new NFormViewData();
         referralType.setValue(Constants.REFERRAL_TYPE.COMMUNITY_TO_FACILITY_REFERRAL);
-        formBuilder.getFormData().put("referral_type",referralType);
+        formBuilder.getFormData().put("referral_type", referralType);
 
         //Saving referral status
         NFormViewData referralStatus = new NFormViewData();
         referralStatus.setValue(Constants.REFERRAL_STATUS.PENDING);
-        formBuilder.getFormData().put("referral_status",referralStatus);
+        formBuilder.getFormData().put("referral_status", referralStatus);
 
-        presenter.saveForm(formBuilder.getFormData(),jsonForm);
+        presenter.saveForm(formBuilder.getFormData(), jsonForm);
         Timber.i("Saved data = %s", new Gson().toJson(formBuilder.getFormData()));
     }
 

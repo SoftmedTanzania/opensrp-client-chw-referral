@@ -6,7 +6,6 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -59,7 +58,6 @@ public class BaseReferralFollowupActivity extends AppCompatActivity implements B
     protected TextView textViewReferralDate;
     protected TextView textViewFollowUpReason;
     protected Button buttonSave;
-    protected View view_family_row;
     protected boolean injectValuesFromDb;
     private AbstractReferralFollowupModel viewModel;
     private JSONObject jsonForm = null;
@@ -112,7 +110,6 @@ public class BaseReferralFollowupActivity extends AppCompatActivity implements B
         textViewName = findViewById(R.id.textview_name);
         textViewLocation = findViewById(R.id.textview_address);
         textViewUniqueID = findViewById(R.id.textview_id);
-        view_family_row = findViewById(R.id.view_family_row);
         textViewReferralDate = findViewById(R.id.referral_date);
         textViewFollowUpReason = findViewById(R.id.followUp_reason);
         buttonSave = findViewById(R.id.save_button);
@@ -128,7 +125,7 @@ public class BaseReferralFollowupActivity extends AppCompatActivity implements B
 
         LinearLayout formLayout = findViewById(R.id.formLayout);
 
-        if(jsonForm==null) {
+        if (jsonForm == null) {
             try {
                 jsonForm = JsonFormUtils.getFormAsJson(formName);
             } catch (Exception e) {
@@ -180,7 +177,7 @@ public class BaseReferralFollowupActivity extends AppCompatActivity implements B
         textViewReferralDate.setText(memberObject.getChwReferralDate());
 
         buttonSave.setOnClickListener(view -> {
-            presenter.saveForm(formBuilder.getFormData(),jsonForm);
+            presenter.saveForm(formBuilder.getFormData(), jsonForm);
             Timber.e("Saved data = " + new Gson().toJson(formBuilder.getFormData()));
         });
 
