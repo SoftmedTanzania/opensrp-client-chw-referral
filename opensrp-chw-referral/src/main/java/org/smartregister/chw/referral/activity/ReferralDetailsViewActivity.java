@@ -155,11 +155,7 @@ public class ReferralDetailsViewActivity extends SecuredActivity {
             referralDateCalendar.setTimeInMillis(dateTimestamp.longValue());
             referralDate.setText(dateFormatter.format(referralDateCalendar.getTime()));
 
-
-            String test = new Gson().toJson(memberObject.getChwReferralHf());
-            Timber.e("Coze test = "+test);
             referralFacility.setText(memberObject.getChwReferralHf());
-
 
             careGiverName.setText(String.format("CG : %s", memberObject.getPrimaryCareGiver()));
             careGiverPhone.setText(getFamilyMemberContacts().isEmpty() || getFamilyMemberContacts() == null ? getString(R.string.phone_not_provided) : getFamilyMemberContacts());
@@ -183,7 +179,7 @@ public class ReferralDetailsViewActivity extends SecuredActivity {
             problemsStrings = problemsStrings.substring(0, problemsStrings.length() - 1);
 
             clientReferralProblem.setText(problemsStrings);
-        } catch (JSONException e) {
+        } catch (Exception e) {
             Timber.e(e);
             clientReferralProblem.setText(memberObject.getProblem());
         }

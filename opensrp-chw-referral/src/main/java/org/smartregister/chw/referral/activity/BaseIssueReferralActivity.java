@@ -81,7 +81,6 @@ public class BaseIssueReferralActivity extends AppCompatActivity implements Base
         this.serviceId = this.getIntent().getStringExtra(Constants.ACTIVITY_PAYLOAD.REFERRAL_SERVICE_IDS);
         this.action = this.getIntent().getStringExtra(Constants.ACTIVITY_PAYLOAD.ACTION);
         this.formName = this.getIntent().getStringExtra(Constants.ACTIVITY_PAYLOAD.REFERRAL_FORM_NAME);
-        this.injectValuesFromDb = this.getIntent().getBooleanExtra(Constants.ACTIVITY_PAYLOAD.INJECT_VALUES_FROM_DB, false);
 
         try {
             this.jsonForm = new JSONObject(this.getIntent().getStringExtra(Constants.ACTIVITY_PAYLOAD.JSON_FORM));
@@ -123,7 +122,7 @@ public class BaseIssueReferralActivity extends AppCompatActivity implements Base
         }
         try {
             initializeHealthFacilitiesList(jsonForm);
-            if (injectValuesFromDb && jsonForm != null) {
+            if (serviceId!=null && jsonForm != null) {
                 injectReferralProblems(jsonForm);
             }
         } catch (JSONException e) {
@@ -169,8 +168,9 @@ public class BaseIssueReferralActivity extends AppCompatActivity implements Base
 
 
     private void injectReferralProblems(JSONObject form) throws JSONException {
-        JSONArray fields = form.getJSONArray(JsonFormConstant.STEPS)
-                .getJSONObject(0).getJSONArray(JsonFormConstant.FIELDS);
+        JSONObject stepsJsonObject = form.getJSONArray(JsonFormConstant.STEPS)
+                .getJSONObject(0);
+        JSONArray fields = stepsJsonObject.getJSONArray(JsonFormConstant.FIELDS);
 
         JSONObject problems = null;
         for (int i = 0; i < (fields != null ? fields.length() : 0); i++) {
@@ -181,27 +181,39 @@ public class BaseIssueReferralActivity extends AppCompatActivity implements Base
         }
         List<NeatFormOption> problemsOptions = new ArrayList<>();
         viewModel.referralService = viewModel.getReferralServicesList(serviceId);
+
+
+
+        if(getResources().getConfiguration().locale.getLanguage().equals("en")) {
+            stepsJsonObject.put(JsonFormConstant.TITLE,viewModel.referralService.getNameEn());
+        }else  if(getResources().getConfiguration().locale.getLanguage().equals("sw")){
+            stepsJsonObject.put(JsonFormConstant.TITLE,viewModel.referralService.getNameSw());
+        }
+
         List<ReferralServiceIndicatorObject> indicatorsByServiceId = viewModel.getIndicatorsByServiceId(serviceId);
         Timber.i("referral problems from DB = %s", new Gson().toJson(indicatorsByServiceId));
-        for (ReferralServiceIndicatorObject referralServiceIndicatorObject : indicatorsByServiceId) {
-            NeatFormOption option = new NeatFormOption();
+        if(indicatorsByServiceId!=null) {
+            for (ReferralServiceIndicatorObject referralServiceIndicatorObject : indicatorsByServiceId) {
+                NeatFormOption option = new NeatFormOption();
 
-            if(getResources().getConfiguration().locale.getLanguage().equals("en")) {
-                option.name = referralServiceIndicatorObject.getNameEn();
-                option.text = referralServiceIndicatorObject.getNameEn();
-            }else  if(getResources().getConfiguration().locale.getLanguage().equals("sw")){
-                option.name = referralServiceIndicatorObject.getNameSw();
-                option.text = referralServiceIndicatorObject.getNameSw();
+                if (getResources().getConfiguration().locale.getLanguage().equals("en")) {
+                    option.name = referralServiceIndicatorObject.getNameEn();
+                    option.text = referralServiceIndicatorObject.getNameEn();
+                } else if (getResources().getConfiguration().locale.getLanguage().equals("sw")) {
+                    option.name = referralServiceIndicatorObject.getNameSw();
+                    option.text = referralServiceIndicatorObject.getNameSw();
+                }
+
+                NeatFormMetaData metaData = new NeatFormMetaData();
+                metaData.openmrsEntity = JsonFormConstant.CONCEPT;
+                metaData.openmrsEntityId = referralServiceIndicatorObject.getId();
+                metaData.openmrsEntityParent = "";
+                option.neatFormMetaData = metaData;
+
+                problemsOptions.add(option);
             }
-
-            NeatFormMetaData metaData = new NeatFormMetaData();
-            metaData.openmrsEntity = JsonFormConstant.CONCEPT;
-            metaData.openmrsEntityId = referralServiceIndicatorObject.getId();
-            metaData.openmrsEntityParent = "";
-            option.neatFormMetaData = metaData;
-
-            problemsOptions.add(option);
         }
+
         if (problems != null) {
             JSONArray optionsArray = new JSONArray(new Gson().toJson(problemsOptions));
             for (int i = 0; i < problems.getJSONArray(JsonFormConstant.OPTIONS).length(); i++) {

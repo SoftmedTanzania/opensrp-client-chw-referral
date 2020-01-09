@@ -35,10 +35,4 @@ public class BaseIssueReferralInteractorTest {
         MockitoAnnotations.initMocks(this);
     }
 
-    @Test
-    public void setFormValues() throws Exception {
-        interactor.saveRegistration("{}", callBack);
-        verify(interactor).saveRegistration("{}", callBack);
-
-    }
 }

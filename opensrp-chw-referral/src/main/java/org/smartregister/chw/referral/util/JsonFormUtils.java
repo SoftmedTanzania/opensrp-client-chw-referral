@@ -105,6 +105,14 @@ public class JsonFormUtils extends org.smartregister.util.JsonFormUtils {
                     if (!humanReadableValues.isEmpty()) {
                         ob.setHumanReadableValues(humanReadableValues);
                     }
+                } else if(nFormViewData.getValue() instanceof NFormViewData){
+                    NFormViewData nFormViewDataValue = ((NFormViewData) nFormViewData.getValue());
+                    List<Object> humanReadableValues = new ArrayList<>();
+                    saveValues(nFormViewDataValue,ob,humanReadableValues);
+                    if (!humanReadableValues.isEmpty()) {
+                        ob.setHumanReadableValues(humanReadableValues);
+                    }
+
                 } else {
                     ob.setValue(nFormViewData.getValue());
                 }
@@ -118,17 +126,21 @@ public class JsonFormUtils extends org.smartregister.util.JsonFormUtils {
         for (Object optionsValues : valuesHashMap.keySet()) {
             if (valuesHashMap.get(optionsValues) instanceof NFormViewData && valuesHashMap.get(optionsValues) != null) {
                 NFormViewData optionsNFormViewData = (NFormViewData) valuesHashMap.get(optionsValues);
-                if (optionsNFormViewData.getMetadata() != null) {
-                    if (optionsNFormViewData.getMetadata().containsKey(OPENMRS_ENTITY_ID)) {
-                        ob.setValue(optionsNFormViewData.getMetadata().get(OPENMRS_ENTITY_ID));
-                        humanReadableValues.add(optionsNFormViewData.getValue());
-                    }
-                } else {
-                    ob.setValue(optionsNFormViewData.getValue());
-                }
+                saveValues(optionsNFormViewData,ob,humanReadableValues);
             } else {
                 ob.setValue(valuesHashMap.get(optionsValues));
             }
+        }
+    }
+
+    private static void saveValues(NFormViewData optionsNFormViewData,Obs ob,List<Object> humanReadableValues){
+        if (optionsNFormViewData.getMetadata() != null) {
+            if (optionsNFormViewData.getMetadata().containsKey(OPENMRS_ENTITY_ID)) {
+                ob.setValue(optionsNFormViewData.getMetadata().get(OPENMRS_ENTITY_ID));
+                humanReadableValues.add(optionsNFormViewData.getValue());
+            }
+        } else {
+            ob.setValue(optionsNFormViewData.getValue());
         }
     }
 }
