@@ -175,7 +175,7 @@ public class ReferralDetailsViewActivity extends SecuredActivity {
             problemString = problemString.substring(1);
         }
 
-        if(problemString.charAt(problemString.length()-1)=='['){
+        if(problemString.charAt(problemString.length()-1)==']'){
             problemString = problemString.substring(0, problemString.length() - 1);
         }
 
@@ -192,7 +192,7 @@ public class ReferralDetailsViewActivity extends SecuredActivity {
             preReferralServices = preReferralServices.substring(1);
         }
 
-        if(preReferralServices.charAt(preReferralServices.length()-1)=='['){
+        if(preReferralServices.charAt(preReferralServices.length()-1)==']'){
             preReferralServices = preReferralServices.substring(0, preReferralServices.length() - 1);
         }
 
