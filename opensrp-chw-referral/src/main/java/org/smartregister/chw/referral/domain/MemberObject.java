@@ -24,6 +24,8 @@ public class MemberObject implements Serializable {
     private String familyBaseEntityId;
     private String familyName;
     private String phoneNumber;
+    private String familyHeadPhoneNumber;
+    private String otherPhoneNumber;
 
     @SerializedName("chw_referral_hf")
     private String chwReferralHf;
@@ -79,6 +81,8 @@ public class MemberObject implements Serializable {
         isEmergencyReferral = Boolean.parseBoolean(client.getColumnmaps().get(DBConstants.KEY.IS_EMERGENCY_REFERRAL));
         familyName = client.getColumnmaps().get(DBConstants.KEY.FAMILY_NAME);
         phoneNumber = client.getColumnmaps().get(DBConstants.KEY.PHONE_NUMBER);
+        familyHeadPhoneNumber = client.getColumnmaps().get(DBConstants.KEY.FAMILY_HEAD_PHONE_NUMBER);
+        otherPhoneNumber = client.getColumnmaps().get(DBConstants.KEY.OTHER_PHONE_NUMBER);
         chwReferralHf = client.getColumnmaps().get(DBConstants.KEY.REFERRAL_HF);
         chwReferralServiceId = client.getColumnmaps().get(DBConstants.KEY.REFERRAL_SERVICE_ID);
         chwReferralDate = client.getColumnmaps().get(DBConstants.KEY.REFERRAL_DATE);
@@ -304,5 +308,21 @@ public class MemberObject implements Serializable {
 
     public void setRelationalid(String relationalid) {
         this.relationalid = relationalid;
+    }
+
+    public String getOtherPhoneNumber() {
+        return otherPhoneNumber;
+    }
+
+    public void setOtherPhoneNumber(String otherPhoneNumber) {
+        this.otherPhoneNumber = otherPhoneNumber;
+    }
+
+    public String getFamilyHeadPhoneNumber() {
+        return familyHeadPhoneNumber;
+    }
+
+    public void setFamilyHeadPhoneNumber(String familyHeadPhoneNumber) {
+        this.familyHeadPhoneNumber = familyHeadPhoneNumber;
     }
 }

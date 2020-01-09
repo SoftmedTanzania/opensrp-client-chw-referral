@@ -58,6 +58,7 @@ public interface Constants {
 
     interface REFERRAL_MEMBER_OBJECT {
         String MEMBER_OBJECT = "memberObject";
+        String COMMON_PERSON_OBJECT = "commonPersonObjectClient";
     }
 
     interface REFERRAL_STATUS {

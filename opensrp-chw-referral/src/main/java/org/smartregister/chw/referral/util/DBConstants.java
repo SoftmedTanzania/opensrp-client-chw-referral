@@ -24,6 +24,8 @@ public class DBConstants {
         public static final String PRIMARY_CARE_GIVER = "primary_caregiver";
         public static final String FAMILY_NAME = "family_name";
         public static final String PHONE_NUMBER = "phone_number";
+        public static final String OTHER_PHONE_NUMBER = "other_phone_number";
+        public static final String FAMILY_HEAD_PHONE_NUMBER = "family_head_phone_number";
 
 
         public static final String REFERRAL_HF = "chw_referral_hf";

@@ -83,5 +83,8 @@
     <string name="referral_date">Referral date</string>
     <string name="chw">CHW</string>
     <string name="chw_phone">CHW Phone</string>
+    <string name="phone_not_provided">Phone not provided</string>
+    <string name="referral_facility">Referral Facility</string>
+
 
 </resources>
