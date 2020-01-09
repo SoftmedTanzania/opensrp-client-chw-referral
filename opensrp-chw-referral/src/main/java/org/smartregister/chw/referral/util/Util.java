@@ -25,6 +25,8 @@ import org.json.JSONObject;
 import org.smartregister.chw.referral.R;
 import org.smartregister.chw.referral.ReferralLibrary;
 import org.smartregister.chw.referral.contract.BaseReferralCallDialogContract;
+import org.smartregister.chw.referral.domain.ReferralServiceObject;
+import org.smartregister.chw.referral.repository.ReferralServiceRepository;
 import org.smartregister.clientandeventmodel.Event;
 import org.smartregister.domain.db.EventClient;
 import org.smartregister.repository.AllSharedPreferences;
@@ -33,6 +35,7 @@ import org.smartregister.sync.ClientProcessorForJava;
 import org.smartregister.sync.helper.ECSyncHelper;
 import org.smartregister.util.PermissionUtils;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -118,6 +121,15 @@ public class Util {
                 activity.startActivity(intent);
             }
             return true;
+        }
+    }
+
+    public static List<ReferralServiceObject> getReferralServicesList() {
+        try {
+            return new ReferralServiceRepository(ReferralLibrary.getInstance().getRepository()).getReferralServices();
+        } catch (Exception e) {
+            Timber.e(e);
+            return new ArrayList<>();
         }
     }
 }

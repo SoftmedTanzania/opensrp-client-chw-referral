@@ -111,7 +111,16 @@ public class BaseReferralRegisterFragment extends BaseRegisterFragment implement
 
     @Override
     protected void onViewClicked(android.view.View view) {
-        //implement
+        if (getActivity() == null) {
+            return;
+        }
+        if (view.getTag() instanceof CommonPersonObjectClient && view.getTag(R.id.VIEW_ID) == CLICK_VIEW_NORMAL) {
+            openProfile((CommonPersonObjectClient) view.getTag());
+        }
+    }
+
+    protected void openProfile(CommonPersonObjectClient client) {
+        //Implement
     }
 
     protected void openFollowUpVisit(CommonPersonObjectClient client) {

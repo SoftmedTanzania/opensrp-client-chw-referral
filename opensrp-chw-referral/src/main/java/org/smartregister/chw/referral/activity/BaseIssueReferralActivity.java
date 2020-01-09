@@ -193,8 +193,14 @@ public class BaseIssueReferralActivity extends AppCompatActivity implements Base
         Timber.i("referral problems from DB = %s", new Gson().toJson(indicatorsByServiceId));
         for (ReferralServiceIndicatorObject referralServiceIndicatorObject : indicatorsByServiceId) {
             NeatFormOption option = new NeatFormOption();
-            option.name = referralServiceIndicatorObject.getNameEn();
-            option.text = referralServiceIndicatorObject.getNameEn();
+
+            if(getResources().getConfiguration().locale.getLanguage().equals("en")) {
+                option.name = referralServiceIndicatorObject.getNameEn();
+                option.text = referralServiceIndicatorObject.getNameEn();
+            }else  if(getResources().getConfiguration().locale.getLanguage().equals("sw")){
+                option.name = referralServiceIndicatorObject.getNameSw();
+                option.text = referralServiceIndicatorObject.getNameSw();
+            }
 
             NeatFormMetaData metaData = new NeatFormMetaData();
             metaData.openmrsEntity = "concept";

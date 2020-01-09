@@ -77,5 +77,11 @@
     <string name="missing_feedback">Please select feedback</string>
     <string name="complete">Complete</string>
     <string name="finish">Finish</string>
+    <string name="back_to_referrals">Back to referrals</string>
+    <string name="phone">Phone</string>
+    <string name="problem">Problem</string>
+    <string name="referral_date">Referral date</string>
+    <string name="chw">CHW</string>
+    <string name="chw_phone">CHW Phone</string>
 
 </resources>
