@@ -26,6 +26,8 @@ public class MemberObject implements Serializable {
     private String phoneNumber;
     private String familyHeadPhoneNumber;
     private String otherPhoneNumber;
+    private String servicesBeforeReferral;
+    private String servicesBeforeReferralOther;
 
     @SerializedName("chw_referral_hf")
     private String chwReferralHf;
@@ -91,6 +93,9 @@ public class MemberObject implements Serializable {
         referralType = client.getColumnmaps().get(DBConstants.KEY.REFERRAL_TYPE);
         referralStatus = client.getColumnmaps().get(DBConstants.KEY.REFERRAL_STATUS);
         referralAppointmentDate = client.getColumnmaps().get(DBConstants.KEY.REFERRAL_APPOINTMENT_DATE);
+        servicesBeforeReferral = client.getColumnmaps().get(DBConstants.KEY.SERVICE_BEFORE_REFERRAL);
+        chwReferralService = client.getColumnmaps().get(DBConstants.KEY.REFERRAL_SERVICE);
+        servicesBeforeReferralOther = client.getColumnmaps().get(DBConstants.KEY.SERVICE_BEFORE_REFERRAL_OTHER);
         isClosed = Boolean.parseBoolean(client.getColumnmaps().get(DBConstants.KEY.IS_CLOSED));
     }
 
@@ -324,5 +329,21 @@ public class MemberObject implements Serializable {
 
     public void setFamilyHeadPhoneNumber(String familyHeadPhoneNumber) {
         this.familyHeadPhoneNumber = familyHeadPhoneNumber;
+    }
+
+    public String getServicesBeforeReferral() {
+        return servicesBeforeReferral;
+    }
+
+    public void setServicesBeforeReferral(String servicesBeforeReferral) {
+        this.servicesBeforeReferral = servicesBeforeReferral;
+    }
+
+    public String getServicesBeforeReferralOther() {
+        return servicesBeforeReferralOther;
+    }
+
+    public void setServicesBeforeReferralOther(String servicesBeforeReferralOther) {
+        this.servicesBeforeReferralOther = servicesBeforeReferralOther;
     }
 }

@@ -85,6 +85,8 @@
     <string name="chw_phone">CHW Phone</string>
     <string name="phone_not_provided">Phone not provided</string>
     <string name="referral_facility">Referral Facility</string>
+    <string name="referral_type">Referral Type</string>
+    <string name="pre_referral_management">Pre-referral management given</string>
 
 
     <!--Referral Strings -->

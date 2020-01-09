@@ -18,12 +18,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.Period;
 import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.smartregister.chw.referral.R;
 import org.smartregister.chw.referral.domain.MemberObject;
 import org.smartregister.chw.referral.util.Constants;
-import org.smartregister.chw.referral.util.JsonFormUtils;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.view.activity.SecuredActivity;
 import org.smartregister.view.customcontrols.CustomFontTextView;
@@ -49,6 +46,8 @@ public class ReferralDetailsViewActivity extends SecuredActivity {
     private CustomFontTextView referralDate;
     private CustomFontTextView referralFacility;
     private CustomFontTextView chwDetailsNames;
+    private CustomFontTextView preReferralManagement;
+    private CustomFontTextView referralType;
     private CustomFontTextView womanGa;
     private LinearLayout womanGaLayout;
     private LinearLayout careGiverLayout;
@@ -135,6 +134,8 @@ public class ReferralDetailsViewActivity extends SecuredActivity {
         womanGaLayout = findViewById(R.id.woman_ga_layout);
         careGiverLayout = findViewById(R.id.care_giver_name_layout);
         childNameLayout = findViewById(R.id.child_name_layout);
+        preReferralManagement = findViewById(R.id.pre_referral_management);
+        referralType = findViewById(R.id.referral_type);
 
         womanGa = findViewById(R.id.woman_ga);
         getReferralDetails();
@@ -157,38 +158,49 @@ public class ReferralDetailsViewActivity extends SecuredActivity {
 
             referralFacility.setText(memberObject.getChwReferralHf());
 
+            referralType.setText(memberObject.getChwReferralService());
+
             careGiverName.setText(String.format("CG : %s", memberObject.getPrimaryCareGiver()));
             careGiverPhone.setText(getFamilyMemberContacts().isEmpty() || getFamilyMemberContacts() == null ? getString(R.string.phone_not_provided) : getFamilyMemberContacts());
 
             updateProblemDisplay();
+            updatePreReferralServicesDisplay();
         }
     }
 
 
-
     private void updateProblemDisplay() {
-        JSONArray problemsArray;
-        try {
-            problemsArray = new JSONArray(memberObject.getProblem());
-            StringBuilder problemNamesStringBuilder = new StringBuilder();
-            for(int i=0;i<problemsArray.length();i++){
-                problemNamesStringBuilder.append(problemsArray.getString(i));
-                problemNamesStringBuilder.append(",");
-            }
-            String problemsStrings = problemNamesStringBuilder.toString();
-            problemsStrings = problemsStrings.substring(0, problemsStrings.length() - 1);
-
-            clientReferralProblem.setText(problemsStrings);
-        } catch (Exception e) {
-            Timber.e(e);
-            clientReferralProblem.setText(memberObject.getProblem());
+        String problemString = memberObject.getProblem().trim();
+        if(problemString.charAt(0)=='['){
+            problemString = problemString.substring(1);
         }
 
-        if(!StringUtils.isEmpty(memberObject.getProblemOther())){
-            clientReferralProblem.append(", "+memberObject.getProblemOther());
+        if(problemString.charAt(problemString.length()-1)=='['){
+            problemString = problemString.substring(0, problemString.length() - 1);
         }
 
+        clientReferralProblem.setText(problemString);
 
+        if (!StringUtils.isEmpty(memberObject.getProblemOther())) {
+            clientReferralProblem.append(", " + memberObject.getProblemOther());
+        }
+    }
+
+    private void updatePreReferralServicesDisplay() {
+        String preReferralServices = memberObject.getServicesBeforeReferral().trim();
+        if(preReferralServices.charAt(0)=='['){
+            preReferralServices = preReferralServices.substring(1);
+        }
+
+        if(preReferralServices.charAt(preReferralServices.length()-1)=='['){
+            preReferralServices = preReferralServices.substring(0, preReferralServices.length() - 1);
+        }
+
+        preReferralManagement.setText(preReferralServices);
+
+        if (!StringUtils.isEmpty(memberObject.getServicesBeforeReferralOther())) {
+            preReferralManagement.append(", " + memberObject.getServicesBeforeReferralOther());
+        }
     }
 
     private String getFamilyMemberContacts() {
