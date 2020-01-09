@@ -71,7 +71,7 @@ public class BaseReferralFollowupActivity extends AppCompatActivity implements B
         try {
             this.jsonForm = new JSONObject(this.getIntent().getStringExtra(Constants.ACTIVITY_PAYLOAD.JSON_FORM));
         } catch (JSONException e) {
-            e.printStackTrace();
+            Timber.e(e);
         }
         this.injectValuesFromDb = this.getIntent().getBooleanExtra(Constants.ACTIVITY_PAYLOAD.INJECT_VALUES_FROM_DB, true);
 
@@ -137,14 +137,12 @@ public class BaseReferralFollowupActivity extends AppCompatActivity implements B
         try {
             JsonFormUtils.addFormMetadata(jsonForm, memberObject.getBaseEntityId(), getLocationID());
         } catch (JSONException e) {
-            e.printStackTrace();
+            Timber.e(e);
         }
 
-        if (injectValuesFromDb) {
-            if (jsonForm != null) {
-                injectReferralFeedback(jsonForm);
-                Timber.i("Form with injected values = %s", jsonForm);
-            }
+        if (injectValuesFromDb && jsonForm != null) {
+            injectReferralFeedback(jsonForm);
+            Timber.i("Form with injected values = %s", jsonForm);
         }
 
 
@@ -208,7 +206,7 @@ public class BaseReferralFollowupActivity extends AppCompatActivity implements B
         try {
             fields = form.getJSONArray("steps").getJSONObject(0).getJSONArray("fields");
         } catch (JSONException e) {
-            e.printStackTrace();
+            Timber.e(e);
         }
         JSONObject feedbackField = null;
         for (int i = 0; i < (fields != null ? fields.length() : 0); i++) {
@@ -249,7 +247,7 @@ public class BaseReferralFollowupActivity extends AppCompatActivity implements B
                 feedbackField.put("options", optionsArray);
             }
         } catch (JSONException e) {
-            e.printStackTrace();
+            Timber.e(e);
         }
     }
 }

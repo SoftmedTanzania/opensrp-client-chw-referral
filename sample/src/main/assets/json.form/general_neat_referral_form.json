@@ -65,10 +65,6 @@
           },
           "options": [
             {
-              "name": "none",
-              "text": "Select referral service"
-            },
-            {
               "name": "anc",
               "text": "ANC",
               "meta_data": {
@@ -134,10 +130,6 @@
           },
           "options": [
             {
-              "name": "none",
-              "text": "Select referral facility"
-            },
-            {
               "name": "facilityA",
               "text": "facilityA",
               "meta_data": {
@@ -164,7 +156,7 @@
           "properties": {
             "hint": "Please select the appointment date",
             "type": "date_picker",
-            "display_format": "dd/MM/YYYY"
+            "display_format": "dd/MM/yyyy"
           },
           "required_status": "true:Please specify the appointment date"
         }

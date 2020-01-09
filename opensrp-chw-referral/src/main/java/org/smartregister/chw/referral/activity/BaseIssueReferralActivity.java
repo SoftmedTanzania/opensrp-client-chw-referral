@@ -1,5 +1,6 @@
 package org.smartregister.chw.referral.activity;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -38,11 +39,13 @@ import org.smartregister.chw.referral.model.AbstractIssueReferralModel;
 import org.smartregister.chw.referral.model.BaseIssueReferralModel;
 import org.smartregister.chw.referral.presenter.BaseIssueReferralPresenter;
 import org.smartregister.chw.referral.util.Constants;
+import org.smartregister.chw.referral.util.JsonFormConstant;
 import org.smartregister.chw.referral.util.JsonFormUtils;
 import org.smartregister.commonregistry.CommonPersonObject;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.commonregistry.CommonRepository;
 import org.smartregister.domain.Location;
+import org.smartregister.util.Utils;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -51,7 +54,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.Objects;
 
 import timber.log.Timber;
 
@@ -84,13 +86,11 @@ public class BaseIssueReferralActivity extends AppCompatActivity implements Base
         try {
             this.jsonForm = new JSONObject(this.getIntent().getStringExtra(Constants.ACTIVITY_PAYLOAD.JSON_FORM));
         } catch (Exception e) {
-            e.printStackTrace();
+            Timber.e(e);
         }
 
-        //initializing the presenter
         presenter = presenter();
 
-        //initializing the viewModel obtained from presenter
         viewModel = ViewModelProviders.of(this).get(presenter.getViewModel());
 
         setContentView(R.layout.activity_referral_registration);
@@ -105,12 +105,11 @@ public class BaseIssueReferralActivity extends AppCompatActivity implements Base
 
         presenter.fillClientData(viewModel.memberObject);
 
-        //Initialize the form using the form name
         if (jsonForm == null) {
             try {
                 jsonForm = JsonFormUtils.getFormAsJson(formName);
             } catch (Exception e) {
-                e.printStackTrace();
+                Timber.e(e);
             }
         }
 
@@ -122,32 +121,32 @@ public class BaseIssueReferralActivity extends AppCompatActivity implements Base
         } catch (Exception e) {
             Timber.e(e);
         }
-
-        initializeHealthFacilitiesList(jsonForm);
-        if (injectValuesFromDb) {
-            if (jsonForm != null) {
+        try {
+            initializeHealthFacilitiesList(jsonForm);
+            if (injectValuesFromDb && jsonForm != null) {
                 injectReferralProblems(jsonForm);
             }
+        } catch (JSONException e) {
+            Timber.e(e);
         }
         Timber.i("Form with injected values = %s", jsonForm);
 
         LinearLayout formLayout = findViewById(R.id.formLayout);
         StepperModel stepperModel = new StepperModel.Builder()
-                .exitButtonDrawableResource(R.drawable.ic_clear_white)
+                .exitButtonDrawableResource(R.drawable.ic_arrow_back_white_24dp)
                 .indicatorType(StepperModel.IndicatorType.DOT_INDICATOR)
-                .toolbarColorResource(R.color.primary)
+                .toolbarColorResource(R.color.family_actionbar)
                 .build();
 
         JsonFormStepBuilderModel jsonFormStepBuilderModel = new JsonFormStepBuilderModel.Builder(this, stepperModel).build();
 
-        JsonFormBuilder jsonFormBuilder = null;
+        JsonFormBuilder jsonFormBuilder;
         if (jsonForm != null) {
             jsonFormBuilder = new JsonFormBuilder(jsonForm.toString(), this, formLayout);
+            formBuilder = jsonFormBuilder.buildForm(jsonFormStepBuilderModel, null);
+            formLayout.addView(formBuilder.getNeatStepperLayout());
         }
-        formBuilder = jsonFormBuilder.buildForm(jsonFormStepBuilderModel, null);
-        formLayout.addView(formBuilder.getNeatStepperLayout());
     }
-
 
     @Override
     public BaseIssueReferralContract.Presenter presenter() {
@@ -169,22 +168,15 @@ public class BaseIssueReferralActivity extends AppCompatActivity implements Base
     }
 
 
-    private void injectReferralProblems(JSONObject form) {
-        JSONArray fields = null;
-        try {
-            fields = form.getJSONArray("steps").getJSONObject(0).getJSONArray("fields");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+    private void injectReferralProblems(JSONObject form) throws JSONException {
+        JSONArray fields = form.getJSONArray(JsonFormConstant.STEPS)
+                .getJSONObject(0).getJSONArray(JsonFormConstant.FIELDS);
+
         JSONObject problems = null;
         for (int i = 0; i < (fields != null ? fields.length() : 0); i++) {
-            try {
-                if (fields.getJSONObject(i).getString("name").equals("problem")) {
-                    problems = fields.getJSONObject(i);
-                    break;
-                }
-            } catch (Exception e) {
-                Timber.e(e);
+            if (fields.getJSONObject(i).getString(JsonFormConstant.NAME).equals(JsonFormConstant.PROBLEM)) {
+                problems = fields.getJSONObject(i);
+                break;
             }
         }
         List<NeatFormOption> problemsOptions = new ArrayList<>();
@@ -203,50 +195,37 @@ public class BaseIssueReferralActivity extends AppCompatActivity implements Base
             }
 
             NeatFormMetaData metaData = new NeatFormMetaData();
-            metaData.openmrsEntity = "concept";
+            metaData.openmrsEntity = JsonFormConstant.CONCEPT;
             metaData.openmrsEntityId = referralServiceIndicatorObject.getId();
             metaData.openmrsEntityParent = "";
             option.neatFormMetaData = metaData;
 
             problemsOptions.add(option);
         }
-        try {
-            if (problems != null) {
-                JSONArray optionsArray = new JSONArray(new Gson().toJson(problemsOptions));
-
-                for (int i = 0; i < problems.getJSONArray("options").length(); i++) {
-                    optionsArray.put(problems.getJSONArray("options").get(i));
-                }
-                //JSONArray//
-                problems.put("options", optionsArray);
+        if (problems != null) {
+            JSONArray optionsArray = new JSONArray(new Gson().toJson(problemsOptions));
+            for (int i = 0; i < problems.getJSONArray(JsonFormConstant.OPTIONS).length(); i++) {
+                optionsArray.put(problems.getJSONArray(JsonFormConstant.OPTIONS).get(i));
             }
-        } catch (JSONException e) {
-            e.printStackTrace();
+            problems.put(JsonFormConstant.OPTIONS, optionsArray);
         }
     }
 
-    private void initializeHealthFacilitiesList(JSONObject form) {
+    private void initializeHealthFacilitiesList(JSONObject form) throws JSONException {
         List<Location> locations = viewModel.getHealthFacilities();
         if (locations != null) {
 
-            JSONArray fields = null;
-            try {
-                fields = form.getJSONArray("steps").getJSONObject(0).getJSONArray("fields");
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+            JSONArray fields = form.getJSONArray(JsonFormConstant.STEPS)
+                    .getJSONObject(0).getJSONArray(JsonFormConstant.FIELDS);
+
             JSONObject referralHealthFacilities = null;
             for (int i = 0; i < (fields != null ? fields.length() : 0); i++) {
-                try {
-                    if (fields.getJSONObject(i).getString("name").equals("chw_referral_hf")) {
-                        referralHealthFacilities = fields.getJSONObject(i);
-                        break;
-                    }
-                } catch (Exception e) {
-                    Timber.e(e);
+                if (fields.getJSONObject(i).getString(JsonFormConstant.NAME)
+                        .equals(JsonFormConstant.CHW_REFERRAL_HF)) {
+                    referralHealthFacilities = fields.getJSONObject(i);
+                    break;
                 }
             }
-
 
             Timber.i("Referral facilities --> %s", new Gson().toJson(locations));
             List<NeatFormOption> healthFacilitiesOptions = new ArrayList<>();
@@ -264,16 +243,12 @@ public class BaseIssueReferralActivity extends AppCompatActivity implements Base
                 healthFacilitiesOptions.add(healthFacilityOption);
             }
 
-            try {
-                if (referralHealthFacilities != null) {
-                    JSONArray optionsArray = new JSONArray();
-                    for (int i = 0; i < referralHealthFacilities.getJSONArray("options").length(); i++) {
-                        optionsArray.put(referralHealthFacilities.getJSONArray("options").get(i));
-                    }
-                    referralHealthFacilities.put("options", new JSONArray(new Gson().toJson(healthFacilitiesOptions)));
+            if (referralHealthFacilities != null) {
+                JSONArray optionsArray = new JSONArray();
+                for (int i = 0; i < referralHealthFacilities.getJSONArray(JsonFormConstant.OPTIONS).length(); i++) {
+                    optionsArray.put(referralHealthFacilities.getJSONArray(JsonFormConstant.OPTIONS).get(i));
                 }
-            } catch (JSONException e) {
-                e.printStackTrace();
+                referralHealthFacilities.put(JsonFormConstant.OPTIONS, new JSONArray(new Gson().toJson(healthFacilitiesOptions)));
             }
         }
 
@@ -304,74 +279,79 @@ public class BaseIssueReferralActivity extends AppCompatActivity implements Base
 
     @Override
     public void onButtonNextClick(@NotNull Step step) {
-//        implement
+        // Overridden: Not required for now
     }
 
     @Override
     public void onButtonPreviousClick(@NotNull Step step) {
-//        implement
+        // Overridden: Not required for now
     }
 
     @Override
     public void onCompleteStepper() {
+        if (!formBuilder.getFormData().isEmpty()) {
 
-        try {
-            //Saving referral service if the value was passed
-            if (isBlankString(Objects.requireNonNull(formBuilder.getFormData().get("chw_referral_service")).toString())) {
-                NFormViewData referralServiceValue = new NFormViewData();
-                try {
-                    referralServiceValue.setValue(jsonForm.getString("encounter_type")); //TODO use the referral type
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                formBuilder.getFormData().put("chw_referral_service", referralServiceValue);
+            //Saving referral service
+            NFormViewData referralServiceValue = new NFormViewData();
+            String referralTaskFocus = "";
+            try {
+                referralTaskFocus = jsonForm.getString(JsonFormConstant.REFERRAL_TASK_FOCUS);
+            } catch (JSONException e) {
+                Timber.e(e);
             }
-        } catch (Exception e) {
-            Timber.e(e);
+            referralServiceValue.setValue(referralTaskFocus);
+            formBuilder.getFormData().put(JsonFormConstant.CHW_REFERRAL_SERVICE, referralServiceValue);
+
+            //Saving referral Date
+            NFormViewData dateValue = new NFormViewData();
+            dateValue.setValue(Calendar.getInstance().getTimeInMillis());
+            formBuilder.getFormData().put(JsonFormConstant.REFERRAL_DATE, dateValue);
+
+            //Saving referral time
+            NFormViewData timeValue = new NFormViewData();
+            DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss.SSS", Locale.getDefault());
+            Date date = new Date();
+            timeValue.setValue(dateFormat.format(date));
+            formBuilder.getFormData().put(JsonFormConstant.REFERRAL_TIME, timeValue);
+
+            //Saving referral type
+            NFormViewData referralType = new NFormViewData();
+            referralType.setValue(Constants.REFERRAL_TYPE.COMMUNITY_TO_FACILITY_REFERRAL);
+            formBuilder.getFormData().put(JsonFormConstant.REFERRAL_TYPE, referralType);
+
+            //Saving referral status
+            NFormViewData referralStatus = new NFormViewData();
+            referralStatus.setValue(Constants.REFERRAL_STATUS.PENDING);
+            formBuilder.getFormData().put(JsonFormConstant.REFERRAL_STATUS, referralStatus);
+
+            presenter.saveForm(formBuilder.getFormData(), jsonForm);
+            Timber.i("Saved data = %s", new Gson().toJson(formBuilder.getFormData()));
+            Utils.showToast(this, this.getCurrentContext().getString(R.string.referral_submitted));
+            finish();
         }
-
-        //Saving referral Date
-        NFormViewData dateValue = new NFormViewData();
-        dateValue.setValue(Calendar.getInstance().getTimeInMillis());
-        formBuilder.getFormData().put("referral_date", dateValue);
-
-        //Saving referral time
-        NFormViewData timeValue = new NFormViewData();
-        DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss.SSS", Locale.getDefault());
-        Date date = new Date();
-        timeValue.setValue(dateFormat.format(date));
-        formBuilder.getFormData().put("referral_time", timeValue);
-
-        //Saving referral type
-        NFormViewData referralType = new NFormViewData();
-        referralType.setValue(Constants.REFERRAL_TYPE.COMMUNITY_TO_FACILITY_REFERRAL);
-        formBuilder.getFormData().put("referral_type", referralType);
-
-        //Saving referral status
-        NFormViewData referralStatus = new NFormViewData();
-        referralStatus.setValue(Constants.REFERRAL_STATUS.PENDING);
-        formBuilder.getFormData().put("referral_status", referralStatus);
-
-        presenter.saveForm(formBuilder.getFormData(), jsonForm);
-        Timber.i("Saved data = %s", new Gson().toJson(formBuilder.getFormData()));
     }
 
     @Override
     public void onExitStepper() {
-//        implement
+        AlertDialog dialog = new AlertDialog.Builder(this, R.style.AlertDialogTheme)
+                .setTitle(getString(R.string.confirm_form_close))
+                .setMessage(getString(R.string.confirm_form_close_explanation))
+                .setNegativeButton(R.string.yes, (dialogInterface, which) -> finish())
+                .setPositiveButton(R.string.no, (dialogInterface, which) ->
+                        Timber.d("Do Nothing exit confirm dialog"))
+                .create();
+
+        dialog.show();
     }
 
     @Override
     public void onStepComplete(@NotNull Step step) {
-        //        implement
+        // Overridden: Not necessary for single step
     }
 
     @Override
     public void onStepError(@NotNull StepVerificationState stepVerificationState) {
-        //        implement
+        // Overridden: Already handled by neat form builder
     }
 
-    private boolean isBlankString(String string) {
-        return string == null || string.trim().isEmpty();
-    }
 }
