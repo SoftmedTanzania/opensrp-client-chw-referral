@@ -20,7 +20,6 @@ public class BaseReferralFollowupPresenter implements BaseFollowupContract.Prese
     private WeakReference<BaseFollowupContract.View> viewReference;
     private Class<? extends AbstractReferralFollowupModel> viewModelClass;
     private MemberObject memberObject;
-    private String baseEntityID;
 
     public BaseReferralFollowupPresenter(BaseFollowupContract.View view, Class<? extends AbstractReferralFollowupModel> viewModelClass, BaseFollowupContract.Interactor interactor) {
         viewReference = new WeakReference<>(view);

@@ -143,11 +143,9 @@ public class BaseReferralFollowupActivity extends AppCompatActivity implements B
             Timber.e(e);
         }
 
-        if (injectValuesFromDb) {
-            if (jsonForm != null) {
-                injectReferralFeedback(jsonForm);
-                Timber.i("Form with injected values = %s", jsonForm);
-            }
+        if (injectValuesFromDb && jsonForm != null) {
+            injectReferralFeedback(jsonForm);
+            Timber.i("Form with injected values = %s", jsonForm);
         }
 
 

@@ -123,10 +123,8 @@ public class BaseIssueReferralActivity extends AppCompatActivity implements Base
         }
         try {
             initializeHealthFacilitiesList(jsonForm);
-            if (injectValuesFromDb) {
-                if (jsonForm != null) {
-                    injectReferralProblems(jsonForm);
-                }
+            if (injectValuesFromDb && jsonForm != null) {
+                injectReferralProblems(jsonForm);
             }
         } catch (JSONException e) {
             Timber.e(e);

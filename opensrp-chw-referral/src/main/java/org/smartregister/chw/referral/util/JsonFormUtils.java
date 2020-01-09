@@ -3,7 +3,6 @@ package org.smartregister.chw.referral.util;
 import com.nerdstone.neatformcore.domain.model.NFormViewData;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.tuple.Triple;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -19,48 +18,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import timber.log.Timber;
-
-import static org.smartregister.chw.referral.util.Constants.STEP_ONE;
-
 public class JsonFormUtils extends org.smartregister.util.JsonFormUtils {
     public static final String METADATA = "metadata";
-
-    public static Triple<Boolean, JSONObject, JSONArray> validateParameters(String jsonString) {
-
-        JSONObject jsonForm = toJSONObject(jsonString);
-        JSONArray fields = referralFormFields(jsonForm);
-
-        Triple<Boolean, JSONObject, JSONArray> registrationFormParams = Triple.of(jsonForm != null && fields != null, jsonForm, fields);
-        return registrationFormParams;
-    }
-
-    public static JSONArray referralFormFields(JSONObject jsonForm) {
-        try {
-            JSONArray fieldsOne = fields(jsonForm, STEP_ONE);
-            return fieldsOne;
-
-        } catch (Exception e) {
-            Timber.e(e);
-        }
-        return null;
-    }
-
-    public static JSONArray fields(JSONObject jsonForm, String step) {
-        try {
-
-            JSONObject step1 = jsonForm.has(step) ? jsonForm.getJSONObject(step) : null;
-            if (step1 == null) {
-                return null;
-            }
-
-            return step1.has(FIELDS) ? step1.getJSONArray(FIELDS) : null;
-
-        } catch (JSONException e) {
-            Timber.e(e);
-        }
-        return null;
-    }
 
     public static ReferralTask processJsonForm(AllSharedPreferences allSharedPreferences, String entityId,
                                                HashMap<String, NFormViewData> valuesHashMap, JSONObject jsonForm, String encounter_type) {
@@ -141,22 +100,7 @@ public class JsonFormUtils extends org.smartregister.util.JsonFormUtils {
                     List<Object> humanReadableValues = new ArrayList<>();
                     HashMap valuesHashMap = ((HashMap) nFormViewData.getValue());
 
-                    for (Object optionsValues : valuesHashMap.keySet()) {
-                        if (valuesHashMap.get(optionsValues) instanceof NFormViewData && valuesHashMap.get(optionsValues) != null) {
-                            NFormViewData optionsNFormViewData = (NFormViewData) valuesHashMap.get(optionsValues);
-                            if (optionsNFormViewData.getMetadata() != null) {
-                                if (optionsNFormViewData.getMetadata().containsKey(OPENMRS_ENTITY_ID)) {
-                                    ob.setValue(optionsNFormViewData.getMetadata().get(OPENMRS_ENTITY_ID));
-                                    humanReadableValues.add(optionsNFormViewData.getValue());
-                                }
-                            } else {
-                                ob.setValue(optionsNFormViewData.getValue());
-                            }
-                        } else {
-                            ob.setValue(valuesHashMap.get(optionsValues));
-                        }
-
-                    }
+                    addHumanReadableValues(ob, humanReadableValues, valuesHashMap);
 
                     if (!humanReadableValues.isEmpty()) {
                         ob.setHumanReadableValues(humanReadableValues);
@@ -164,13 +108,27 @@ public class JsonFormUtils extends org.smartregister.util.JsonFormUtils {
                 } else {
                     ob.setValue(nFormViewData.getValue());
                 }
-
             }
-
-
             obs.add(ob);
         }
-
         return obs;
+    }
+
+    private static void addHumanReadableValues(Obs ob, List<Object> humanReadableValues, HashMap valuesHashMap) {
+        for (Object optionsValues : valuesHashMap.keySet()) {
+            if (valuesHashMap.get(optionsValues) instanceof NFormViewData && valuesHashMap.get(optionsValues) != null) {
+                NFormViewData optionsNFormViewData = (NFormViewData) valuesHashMap.get(optionsValues);
+                if (optionsNFormViewData.getMetadata() != null) {
+                    if (optionsNFormViewData.getMetadata().containsKey(OPENMRS_ENTITY_ID)) {
+                        ob.setValue(optionsNFormViewData.getMetadata().get(OPENMRS_ENTITY_ID));
+                        humanReadableValues.add(optionsNFormViewData.getValue());
+                    }
+                } else {
+                    ob.setValue(optionsNFormViewData.getValue());
+                }
+            } else {
+                ob.setValue(valuesHashMap.get(optionsValues));
+            }
+        }
     }
 }
