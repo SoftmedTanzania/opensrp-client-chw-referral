@@ -1,7 +1,5 @@
 package org.smartregister.chw.referral.contract;
 
-import com.vijay.jsonwizard.domain.Form;
-
 import org.apache.commons.lang3.tuple.Triple;
 import org.json.JSONObject;
 import org.smartregister.view.contract.BaseRegisterContract;
@@ -11,9 +9,9 @@ import java.util.List;
 public interface BaseReferralRegisterContract {
 
     interface View extends BaseRegisterContract.View {
+
         Presenter presenter();
 
-        Form getFormConfig();
     }
 
     interface Presenter extends BaseRegisterContract.Presenter {

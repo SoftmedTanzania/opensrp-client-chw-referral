@@ -69,7 +69,6 @@ public class BaseIssueReferralActivity extends AppCompatActivity implements Base
     protected String serviceId;
     protected String action;
     protected String formName;
-    protected boolean injectValuesFromDb;
     private AbstractIssueReferralModel viewModel;
     private FormBuilder formBuilder;
     private JSONObject jsonForm = null;

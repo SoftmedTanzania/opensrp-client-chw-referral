@@ -3,7 +3,6 @@ package org.smartregister.chw.referral.model;
 import androidx.annotation.VisibleForTesting;
 
 import com.google.gson.Gson;
-import com.vijay.jsonwizard.constants.JsonFormConstants;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -12,6 +11,7 @@ import org.smartregister.chw.referral.ReferralLibrary;
 import org.smartregister.chw.referral.domain.FollowupFeedbackObject;
 import org.smartregister.chw.referral.domain.ReferralFollowupObject;
 import org.smartregister.chw.referral.repository.FollowupFeedbackRepository;
+import org.smartregister.chw.referral.util.JsonFormConstant;
 import org.smartregister.chw.referral.util.JsonFormUtils;
 
 import java.util.List;
@@ -24,9 +24,7 @@ public class BaseReferralFollowupModel extends AbstractReferralFollowupModel {
         JSONObject jsonForm = JsonFormUtils.getFormAsJson(formName);
         JsonFormUtils.addFormMetadata(jsonForm, entityId, currentLocationId);
 
-        JSONObject formWithValues = setFormValues(jsonForm, JsonFormConstants.STEP1, referralFollowupObject);
-
-        return formWithValues;
+        return setFormValues(jsonForm, JsonFormConstant.STEP1, referralFollowupObject);
     }
 
     @Override
@@ -43,7 +41,7 @@ public class BaseReferralFollowupModel extends AbstractReferralFollowupModel {
     @VisibleForTesting
     public JSONObject setFormValues(JSONObject form, String step, ReferralFollowupObject referralFollowupObject) {
         try {
-            JSONArray fieldsArray = form.getJSONObject(step).getJSONArray(JsonFormConstants.FIELDS);
+            JSONArray fieldsArray = form.getJSONObject(step).getJSONArray(JsonFormConstant.FIELDS);
             setFieldValues(fieldsArray, referralFollowupObject);
 
             Timber.i("Form JSON = %s", form.toString());
@@ -65,9 +63,9 @@ public class BaseReferralFollowupModel extends AbstractReferralFollowupModel {
             JSONObject fieldObject;
             try {
                 fieldObject = fieldsArray.getJSONObject(i);
-                String key = fieldObject.getString(JsonFormConstants.KEY);
+                String key = fieldObject.getString(JsonFormConstant.KEY);
                 if (followupJSONObject != null) {
-                    fieldObject.put(JsonFormConstants.VALUE, followupJSONObject.getString(key));
+                    fieldObject.put(JsonFormConstant.VALUE, followupJSONObject.getString(key));
                 }
             } catch (JSONException e) {
                 Timber.e(e);

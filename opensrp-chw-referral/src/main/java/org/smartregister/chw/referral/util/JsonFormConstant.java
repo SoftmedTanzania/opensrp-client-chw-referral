@@ -15,4 +15,7 @@ public interface JsonFormConstant {
     String CHW_REFERRAL_HF = "chw_referral_hf";
     String REFERRAL_TASK_FOCUS = "referral_task_focus";
     String TITLE = "title";
+    String STEP1 = "step1";
+    String VALUE = "value";
+    String KEY = "key";
 }
