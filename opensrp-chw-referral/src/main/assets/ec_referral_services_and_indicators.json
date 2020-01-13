@@ -120,173 +120,63 @@
     },
     {
       "id": 4,
-      "nameEn": "Antenatal Care",
-      "nameSw": "Wajawazito",
-      "identifier": "ANC",
-      "isActive": true,
-      "indicators": [
-        {
-          "relationalId": 4,
-          "indicatorId": 14,
-          "indicatorName": "Vaginal bleeding",
-          "indicatorNameSw": "Kutoka damu ukeni",
-          "isActive": true
-        },
-        {
-          "relationalId": 4,
-          "indicatorId": 15,
-          "indicatorName": "Discoloured or watery, liquid vaginal discharge with a bad smell",
-          "indicatorNameSw": "Kutoka uchafu / majimaji ukeni yenye harufu mbaya",
-          "isActive": true
-        },
-        {
-          "relationalId": 4,
-          "indicatorId": 16,
-          "indicatorName": "High blood pressure",
-          "indicatorNameSw": "Shinikizo la damu",
-          "isActive": true
-        },
-        {
-          "relationalId": 4,
-          "indicatorId": 17,
-          "indicatorName": "Severe abdominal pain",
-          "indicatorNameSw": "Maumivu makali ya tumbo",
-          "isActive": true
-        },
-        {
-          "relationalId": 4,
-          "indicatorId": 18,
-          "indicatorName": "Severe anaemia",
-          "indicatorNameSw": "Upungufu mkubwa wa damu",
-          "isActive": true
-        },
-        {
-          "relationalId": 4,
-          "indicatorId": 19,
-          "indicatorName": "Convulsions",
-          "indicatorNameSw": "Degedege / Mtukutiko wa mwili",
-          "isActive": true
-        }
-      ]
-    },
-    {
-      "id": 5,
-      "nameEn": "Postnatal Care",
-      "nameSw": "Wanaonyonyesha",
-      "identifier": "PNC",
-      "isActive": true,
-      "indicators": [
-        {
-          "relationalId": 5,
-          "indicatorId": 20,
-          "indicatorName": "Vaginal bleeding",
-          "indicatorNameSw": "Kutoka damu ukeni",
-          "isActive": true
-        },
-        {
-          "relationalId": 5,
-          "indicatorId": 21,
-          "indicatorName": "Discoloured or watery, liquid vaginal discharge with a bad smell",
-          "indicatorNameSw": "Kutoka uchafu / majimaji ukeni yenye harufu mbaya",
-          "isActive": true
-        },
-        {
-          "relationalId": 5,
-          "indicatorId": 17,
-          "indicatorName": "Severe abdominal pain",
-          "indicatorNameSw": "Maumivu makali ya tumbo",
-          "isActive": true
-        },
-        {
-          "relationalId": 5,
-          "indicatorId": 22,
-          "indicatorName": "Severe anaemia",
-          "indicatorNameSw": "Upungufu mkubwa wa damu",
-          "isActive": true
-        },
-        {
-          "relationalId": 5,
-          "indicatorId": 23,
-          "indicatorName": "Convulsions",
-          "indicatorNameSw": "Degedege / Mtukutiko wa mwili",
-          "isActive": true
-        },
-        {
-          "relationalId": 4,
-          "indicatorId": 24,
-          "indicatorName": "Swelling of the face and/or hands",
-          "indicatorNameSw": "Kuvimba uso na / au mikono",
-          "isActive": true
-        }
-      ]
-    },
-    {
-      "id": 6,
-      "nameEn": "Circumcision Service",
-      "nameSw": "Huduma ya tohara",
-      "identifier": "Circumcision",
-      "isActive": true,
-      "indicators": []
-    },
-    {
-      "id": 7,
       "nameEn": "Gender-based violence services ",
       "nameSw": "Huduma ya kuzui ukatili wa kijinsia (dawati la jinsia)",
       "identifier": "gbv",
       "isActive": true,
       "indicators": [
         {
-          "relationalId": 7,
-          "indicatorId": 25,
+          "relationalId": 4,
+          "indicatorId": 14,
           "indicatorName": "Has moved out from home",
           "indicatorNameSw": "Amehama nyumbani",
           "isActive": true
         },
         {
-          "relationalId": 7,
-          "indicatorId": 26,
+          "relationalId": 4,
+          "indicatorId": 15,
           "indicatorName": "Ulcers and scars",
           "indicatorNameSw": "vidonda na makovu",
           "isActive": true
         },
         {
-          "relationalId": 7,
-          "indicatorId": 27,
+          "relationalId": 4,
+          "indicatorId": 16,
           "indicatorName": "Is weak",
           "indicatorNameSw": "Amedhoofika",
           "isActive": true
         },
         {
-          "relationalId": 7,
-          "indicatorId": 28,
+          "relationalId": 4,
+          "indicatorId": 17,
           "indicatorName": "needs more services",
           "indicatorNameSw": "Anahitaji huduma zaidi",
           "isActive": true
         },
         {
-          "relationalId": 7,
-          "indicatorId": 29,
+          "relationalId": 4,
+          "indicatorId": 18,
           "indicatorName": "Has great level of stress and fear",
           "indicatorNameSw": "Sonona (msongo wa mawazo)/ kuwa na woga mkuu",
           "isActive": true
         },
         {
-          "relationalId": 7,
-          "indicatorId": 30,
+          "relationalId": 4,
+          "indicatorId": 19,
           "indicatorName": "Threatened to be killed",
           "indicatorNameSw": "Kutishiwa kuuawa",
           "isActive": true
         },
         {
-          "relationalId": 7,
-          "indicatorId": 31,
+          "relationalId": 4,
+          "indicatorId": 20,
           "indicatorName": "The child has a disability / has trouble walking",
           "indicatorNameSw": "Mtoto ana ulemavu /hawezi kukaa au anatembea kwa shida",
           "isActive": true
         },
         {
-          "relationalId": 7,
-          "indicatorId": 32,
+          "relationalId": 4,
+          "indicatorId": 21,
           "indicatorName": "The child does not want to go home / go to school",
           "indicatorNameSw": "Mtoto hataki kurudi nyumbani/kwenda shuleni",
           "isActive": true
@@ -294,75 +184,43 @@
       ]
     },
     {
-      "id": 8,
-      "nameEn": "Legal Support Services",
-      "nameSw": "Msaada wa kisheria",
-      "identifier": "Legal Support",
-      "isActive": true,
-      "indicators": []
-    },
-    {
-      "id": 9,
-      "nameEn": "Support Groups",
-      "nameSw": "Vikundi vya kusaidiana",
-      "identifier": "Support Groups",
-      "isActive": true,
-      "indicators": []
-    },
-    {
-      "id": 10,
-      "nameEn": "A child/orphans living in vulnerable environment",
-      "nameSw": "Huduma za watoto wanaoishi katika mazingira hatarishi na yatima",
-      "identifier": "child_or_orphans_living_in_vulnerable_environment",
-      "isActive": true,
-      "indicators": []
-    },
-    {
-      "id": 11,
-      "nameEn": "Elderly Centers",
-      "nameSw": "Vituo vya wazee ",
-      "identifier": "Elderly",
-      "isActive": true,
-      "indicators": []
-    },
-    {
-      "id": 12,
+      "id": 5,
       "nameEn": "Malaria",
       "nameSw": "Malaria",
       "identifier": "Malaria",
       "isActive": true,
       "indicators": [
         {
-          "relationalId": 12,
-          "indicatorId": 33,
+          "relationalId": 5,
+          "indicatorId": 22,
           "indicatorName": "Highy fever",
           "indicatorNameSw": "Joto kupanda/homa",
           "isActive": true
         },
         {
-          "relationalId": 12,
-          "indicatorId": 34,
+          "relationalId": 5,
+          "indicatorId": 23,
           "indicatorName": "Vomiting",
           "indicatorNameSw": "Anatapika",
           "isActive": true
         },
         {
-          "relationalId": 12,
-          "indicatorId": 35,
+          "relationalId": 5,
+          "indicatorId": 24,
           "indicatorName": "Diarrhea",
           "indicatorNameSw": "Anaharisha",
           "isActive": true
         },
         {
-          "relationalId": 12,
-          "indicatorId": 36,
+          "relationalId": 5,
+          "indicatorId": 25,
           "indicatorName": "Joint pains",
           "indicatorNameSw": "Maumivu ya viungo",
           "isActive": true
         },
         {
-          "relationalId": 12,
-          "indicatorId": 37,
+          "relationalId": 5,
+          "indicatorId": 26,
           "indicatorName": "Loss of energy",
           "indicatorNameSw": "Viungo kulegea",
           "isActive": true
@@ -370,29 +228,29 @@
       ]
     },
     {
-      "id": 13,
+      "id": 6,
       "nameEn": "Family Planning",
       "nameSw": "Family Planning",
       "identifier": "FP",
       "isActive": true,
       "indicators": [
         {
-          "relationalId": 13,
-          "indicatorId": 38,
+          "relationalId": 6,
+          "indicatorId": 27,
           "indicatorName": "In a sexual relationship without using any family planning methods",
           "indicatorNameSw": "Yuko kwenye mahusiano ya kingono ila hatumii njia yoyote ya kisassa ya uzazi wa mpango",
           "isActive": true
         },
         {
-          "relationalId": 13,
-          "indicatorId": 39,
+          "relationalId": 6,
+          "indicatorId": 28,
           "indicatorName": "Need/want to change family planning method",
           "indicatorNameSw": "Anataka kubadili njia ya uzazi wa mpango anayoumia",
           "isActive": true
         },
         {
-          "relationalId": 13,
-          "indicatorId": 40,
+          "relationalId": 6,
+          "indicatorId": 29,
           "indicatorName": "Has not start Antinatal (ANC) Clininc",
           "indicatorNameSw": "Hajaanza kiniki ya Mama na Mtoto",
           "isActive": true
