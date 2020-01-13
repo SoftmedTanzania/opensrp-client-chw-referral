@@ -6,6 +6,7 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.view.Menu;
+import android.view.View;
 import android.widget.LinearLayout;
 
 import androidx.appcompat.app.ActionBar;
@@ -160,7 +161,11 @@ public class ReferralDetailsViewActivity extends SecuredActivity {
 
             referralType.setText(memberObject.getChwReferralService());
 
-            careGiverName.setText(String.format("CG : %s", memberObject.getPrimaryCareGiver()));
+            if(memberObject.getPrimaryCareGiver() == null ){
+                careGiverName.setVisibility(View.GONE);
+            }else {
+                careGiverName.setText(String.format("CG : %s", memberObject.getPrimaryCareGiver()));
+            }
             careGiverPhone.setText(getFamilyMemberContacts().isEmpty() || getFamilyMemberContacts() == null ? getString(R.string.phone_not_provided) : getFamilyMemberContacts());
 
             updateProblemDisplay();
@@ -170,36 +175,46 @@ public class ReferralDetailsViewActivity extends SecuredActivity {
 
 
     private void updateProblemDisplay() {
-        String problemString = memberObject.getProblem().trim();
-        if(problemString.charAt(0)=='['){
-            problemString = problemString.substring(1);
-        }
+        try {
+            String problemString = memberObject.getProblem().trim();
+            if (problemString.charAt(0) == '[') {
+                problemString = problemString.substring(1);
+            }
 
-        if(problemString.charAt(problemString.length()-1)==']'){
-            problemString = problemString.substring(0, problemString.length() - 1);
-        }
+            if (problemString.charAt(problemString.length() - 1) == ']') {
+                problemString = problemString.substring(0, problemString.length() - 1);
+            }
 
-        clientReferralProblem.setText(problemString);
+            clientReferralProblem.setText(problemString);
 
-        if (!StringUtils.isEmpty(memberObject.getProblemOther())) {
-            clientReferralProblem.append(", " + memberObject.getProblemOther());
+            if (!StringUtils.isEmpty(memberObject.getProblemOther())) {
+                clientReferralProblem.append(", " + memberObject.getProblemOther());
+            }
+        }catch(Exception e){
+            Timber.e(e);
+            clientReferralProblem.setText(getString(R.string.empty_value));
         }
     }
 
     private void updatePreReferralServicesDisplay() {
-        String preReferralServices = memberObject.getServicesBeforeReferral().trim();
-        if(preReferralServices.charAt(0)=='['){
-            preReferralServices = preReferralServices.substring(1);
-        }
+        try {
+            String preReferralServices = memberObject.getServicesBeforeReferral().trim();
+            if (preReferralServices.charAt(0) == '[') {
+                preReferralServices = preReferralServices.substring(1);
+            }
 
-        if(preReferralServices.charAt(preReferralServices.length()-1)==']'){
-            preReferralServices = preReferralServices.substring(0, preReferralServices.length() - 1);
-        }
+            if (preReferralServices.charAt(preReferralServices.length() - 1) == ']') {
+                preReferralServices = preReferralServices.substring(0, preReferralServices.length() - 1);
+            }
 
-        preReferralManagement.setText(preReferralServices);
+            preReferralManagement.setText(preReferralServices);
 
-        if (!StringUtils.isEmpty(memberObject.getServicesBeforeReferralOther())) {
-            preReferralManagement.append(", " + memberObject.getServicesBeforeReferralOther());
+            if (!StringUtils.isEmpty(memberObject.getServicesBeforeReferralOther())) {
+                preReferralManagement.append(", " + memberObject.getServicesBeforeReferralOther());
+            }
+        }catch(Exception e){
+            Timber.e(e);
+            preReferralManagement.setText(getString(R.string.empty_value));
         }
     }
 

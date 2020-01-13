@@ -123,6 +123,7 @@ public class ReferralLibrary {
      * Use this method for testing purposes ONLY.
      * It seeds various data required by the module
      * It should be replaced by data synchronized from the server
+     * in future versions of the application
      */
     public void seedSampleReferralServicesAndIndicators() {
         //initializing repositories
