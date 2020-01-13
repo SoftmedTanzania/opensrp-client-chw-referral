@@ -72,14 +72,14 @@ android {
 }
 
 dependencies {
-    implementation('org.smartregister:opensrp-client-core:1.7.32-SNAPSHOT@aar') {
+    api('org.smartregister:opensrp-client-core:1.8.16-SNAPSHOT@aar') {
         transitive = true
         exclude group: 'com.github.bmelnychuk', module: 'atv'
         exclude group: 'com.google.guava', module: 'guava'
         exclude group: 'com.android.support', module: 'appcompat-v7'
-        exclude group: 'net.zetetic', module: 'android-database-sqlcipher'
-        exclude group: 'org.apache.httpcomponents', module: 'httpmime'
-        exclude group: 'org.smartregister', module: 'opensrp-client-native-form'
+        exclude group: 'com.android.support', module: 'design'
+        exclude group: 'com.android.support', module: 'recyclerview-v7'
+        exclude group: 'com.rengwuxian.materialedittext', module: 'library'
     }
 
     implementation('org.smartregister:opensrp-client-configurable-views:1.1.2-SNAPSHOT@aar') {

@@ -36,10 +36,6 @@ public class ReferralServiceRepository extends BaseRepository {
     private static final String[] TABLE_COLUMNS = {ID, SERVICE_NAME_EN, SERVICE_NAME_SW, SERVICE_IDENTIFIER, IS_ACTIVE};
 
 
-    public ReferralServiceRepository(Repository repository) {
-        super(repository);
-    }
-
     public ReferralServiceObject getReferralServiceById(String _id) {
         SQLiteDatabase database = getReadableDatabase();
         Cursor cursor = null;

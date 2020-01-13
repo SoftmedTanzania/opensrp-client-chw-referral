@@ -30,7 +30,7 @@ public class BaseReferralFollowupModel extends AbstractReferralFollowupModel {
     @Override
     public List<FollowupFeedbackObject> getFollowupFeedbackList() {
         try {
-            FollowupFeedbackRepository followupFeedbackRepository = new FollowupFeedbackRepository(ReferralLibrary.getInstance().getRepository());
+            FollowupFeedbackRepository followupFeedbackRepository = new FollowupFeedbackRepository();
             return followupFeedbackRepository.getFollowupFeedbacks();
         } catch (Exception e) {
             Timber.e(e);

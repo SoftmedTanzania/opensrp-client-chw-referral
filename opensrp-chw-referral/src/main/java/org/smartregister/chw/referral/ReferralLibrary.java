@@ -127,10 +127,10 @@ public class ReferralLibrary {
      */
     public void seedSampleReferralServicesAndIndicators() {
         //initializing repositories
-        ReferralServiceRepository referralServiceRepository = new ReferralServiceRepository(repository);
-        ReferralServiceIndicatorRepository indicatorRepository = new ReferralServiceIndicatorRepository(repository);
-        LocationRepository locationRepository = new LocationRepository(repository);
-        FollowupFeedbackRepository followupFeedbackRepository = new FollowupFeedbackRepository(repository);
+        ReferralServiceRepository referralServiceRepository = new ReferralServiceRepository();
+        ReferralServiceIndicatorRepository indicatorRepository = new ReferralServiceIndicatorRepository();
+        LocationRepository locationRepository = new LocationRepository();
+        FollowupFeedbackRepository followupFeedbackRepository = new FollowupFeedbackRepository();
 
         if (context != null && referralServiceRepository.getReferralServices() == null) {
             //seeding referral services and indicators
@@ -209,7 +209,7 @@ public class ReferralLibrary {
 
     public TaskRepository getTaskRepository() {
         if (taskRepository == null) {
-            taskRepository = new TaskRepository(getRepository(), new TaskNotesRepository(getRepository()));
+            taskRepository = new TaskRepository(new TaskNotesRepository());
         }
         return taskRepository;
     }

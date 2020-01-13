@@ -39,7 +39,6 @@
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
                             android:layout_marginLeft="4dp"
-                            android:text="@string/app_name_htmr"
                             android:textColor="@color/white"
                             android:textSize="14sp" />
 

@@ -34,11 +34,6 @@ public class FollowupFeedbackRepository extends BaseRepository {
 
     private static final String[] TABLE_COLUMNS = {ID, FEEDBACK_NAME_EN, FEEDBACK_NAME_SW, IS_ACTIVE};
 
-
-    public FollowupFeedbackRepository(Repository repository) {
-        super(repository);
-    }
-
     public FollowupFeedbackObject getFeedbackById(String _id) {
         Cursor mCursor = null;
         SQLiteDatabase database = getReadableDatabase();

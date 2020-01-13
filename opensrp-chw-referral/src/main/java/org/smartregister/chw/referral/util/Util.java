@@ -126,7 +126,7 @@ public class Util {
 
     public static List<ReferralServiceObject> getReferralServicesList() {
         try {
-            return new ReferralServiceRepository(ReferralLibrary.getInstance().getRepository()).getReferralServices();
+            return new ReferralServiceRepository().getReferralServices();
         } catch (Exception e) {
             Timber.e(e);
             return new ArrayList<>();

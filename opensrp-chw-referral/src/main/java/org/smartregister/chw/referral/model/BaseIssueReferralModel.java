@@ -35,7 +35,7 @@ public class BaseIssueReferralModel extends AbstractIssueReferralModel {
     @Override
     public List<Location> getHealthFacilities() {
         try {
-            LocationRepository locationRepository = new LocationRepository(ReferralLibrary.getInstance().getRepository());
+            LocationRepository locationRepository = new LocationRepository();
             return locationRepository.getAllLocations();
         } catch (Exception e) {
             Timber.e(e);
@@ -46,7 +46,7 @@ public class BaseIssueReferralModel extends AbstractIssueReferralModel {
     @Override
     public ReferralServiceObject getReferralServicesList(String referralServiceId) {
         try {
-            ReferralServiceRepository referralServiceRepository = new ReferralServiceRepository(ReferralLibrary.getInstance().getRepository());
+            ReferralServiceRepository referralServiceRepository = new ReferralServiceRepository();
 
             ReferralServiceObject referralServiceObject = null;
             if (referralServiceId != null) {
@@ -67,7 +67,7 @@ public class BaseIssueReferralModel extends AbstractIssueReferralModel {
     @Override
     public List<ReferralServiceIndicatorObject> getIndicatorsByServiceId(String serviceId) {
         try {
-            ReferralServiceIndicatorRepository indicatorRepository = new ReferralServiceIndicatorRepository(ReferralLibrary.getInstance().getRepository());
+            ReferralServiceIndicatorRepository indicatorRepository = new ReferralServiceIndicatorRepository();
             return indicatorRepository.getServiceIndicatorsByServiceId(serviceId);
         } catch (Exception e) {
             Timber.e(e);
