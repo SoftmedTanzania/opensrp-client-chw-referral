@@ -45,18 +45,12 @@ public class BaseIssueReferralInteractor implements BaseIssueReferralContract.In
 
     @Override
     public void saveRegistration(String baseEntityId, HashMap<String, NFormViewData> valuesHashMap, JSONObject jsonObject, final BaseIssueReferralContract.InteractorCallBack callBack) {
-
-        Runnable runnable = () -> {
-            // save it
-            try {
-                saveRegistration(baseEntityId, valuesHashMap, jsonObject);
-            } catch (Exception e) {
-                Timber.e(e);
-            }
-
-            appExecutors.mainThread().execute(callBack::onRegistrationSaved);
-        };
-        appExecutors.diskIO().execute(runnable);
+        try {
+            saveRegistration(baseEntityId, valuesHashMap, jsonObject);
+        } catch (Exception e) {
+            Timber.e(e);
+        }
+        callBack.onRegistrationSaved();
     }
 
     @VisibleForTesting
