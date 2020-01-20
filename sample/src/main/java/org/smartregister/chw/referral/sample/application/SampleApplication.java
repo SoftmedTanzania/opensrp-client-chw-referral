@@ -113,23 +113,23 @@ public class SampleApplication extends DrishtiApplication {
 
     public UniqueIdRepository getUniqueIdRepository() {
         if (uniqueIdRepository == null) {
-            uniqueIdRepository = new UniqueIdRepository(getRepository());
+            uniqueIdRepository = new UniqueIdRepository();
         }
         return uniqueIdRepository;
     }
 
     private void sampleUniqueIds() {
-        List<String> ids = generateIds(20);
-        getUniqueIdRepository().bulkInserOpenmrsIds(ids);
+        List<String> ids = generateIds();
+        getUniqueIdRepository().bulkInsertOpenmrsIds(ids);
     }
 
-    private List<String> generateIds(int size) {
+    private List<String> generateIds() {
         List<String> ids = new ArrayList<>();
         Random r = new Random();
 
-        for (int i = 0; i < size; i++) {
-            Integer randomInt = r.nextInt(1000) + 1;
-            ids.add(randomInt.toString());
+        for (int i = 0; i < 20; i++) {
+            int randomInt = r.nextInt(1000) + 1;
+            ids.add(Integer.toString(randomInt));
         }
 
         return ids;

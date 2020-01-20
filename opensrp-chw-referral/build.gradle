@@ -52,6 +52,8 @@ android {
         exclude 'META-INF/NOTICE.txt'
         exclude 'META-INF/notice.txt'
         exclude 'META-INF/ASL2.0'
+        exclude 'org/apache/http/version.properties'
+        exclude 'org/apache/http/client/version.properties'
     }
 
     testOptions {
@@ -89,14 +91,14 @@ dependencies {
         exclude group: 'com.android.support', module: 'appcompat-v7'
     }
 
-    api ("org.smartregister:android-p2p-sync:0.3.3-SNAPSHOT"){
+    api("org.smartregister:android-p2p-sync:0.3.3-SNAPSHOT") {
         exclude group: 'com.google.guava', module: 'guava'
         exclude group: 'com.android.support', module: 'appcompat-v7'
         exclude group: 'org.apache.httpcomponents', module: 'httpmime'
         exclude group: 'org.smartregister', module: 'opensrp-client-native-form'
     }
 
-    api ("com.nerdstone:neat-form-core:1.0.10"){
+    api("com.nerdstone:neat-form-core:1.0.10") {
         transitive = true
         exclude group: 'com.android.support', module: 'appcompat-v7'
         exclude group: 'androidx.appcompat', module: 'appcompat'
