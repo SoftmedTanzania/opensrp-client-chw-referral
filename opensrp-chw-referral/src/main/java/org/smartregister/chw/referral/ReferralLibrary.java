@@ -160,36 +160,6 @@ public class ReferralLibrary {
         }
 
         try {
-            if (locationRepository.getAllLocations().size() == 0) {
-                //Seeding test health facility locations
-
-                Location testFacilityA = new Location();
-                testFacilityA.setId("1");
-
-                LocationProperty property = new LocationProperty();
-                property.setUid("718b2864-7d6a-44c8-b5b6-bb375f82654e");
-                property.setParentId("");
-                property.setName("Facility A");
-                testFacilityA.setProperties(property);
-
-                locationRepository.addOrUpdate(testFacilityA);
-
-                Location testFacilityB = new Location();
-                testFacilityB.setId("2");
-
-                LocationProperty facilityBproperty = new LocationProperty();
-                facilityBproperty.setUid("718b2864-7d6a-44c8-b5b6-bb375f826549");
-                facilityBproperty.setParentId("");
-                facilityBproperty.setName("Facility B");
-                testFacilityB.setProperties(facilityBproperty);
-
-                locationRepository.addOrUpdate(testFacilityB);
-            }
-        } catch (NullPointerException e) {
-            Timber.e(e);
-        }
-
-        try {
             if (followupFeedbackRepository.getFollowupFeedbacks().size() == 0) {
                 String followupFeedbackJsonString = AssetHandler.readFileFromAssetsFolder("ec_referral_feedback.json", context.applicationContext());
 
