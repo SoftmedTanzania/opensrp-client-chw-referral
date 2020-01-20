@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.LinearLayout;
 
 import androidx.annotation.Nullable;
@@ -138,10 +139,14 @@ public class BaseIssueReferralActivity extends AppCompatActivity implements Base
 
         JsonFormStepBuilderModel jsonFormStepBuilderModel = new JsonFormStepBuilderModel.Builder(this, stepperModel).build();
 
+        View view = getLayoutInflater().inflate(R.layout.referral_form_view,null);
+        List<View> customLayouts = new ArrayList<>();
+        customLayouts.add(view);
+
         JsonFormBuilder jsonFormBuilder;
         if (jsonForm != null) {
             jsonFormBuilder = new JsonFormBuilder(jsonForm.toString(), this, formLayout);
-            formBuilder = jsonFormBuilder.buildForm(jsonFormStepBuilderModel, null);
+            formBuilder = jsonFormBuilder.buildForm(jsonFormStepBuilderModel, customLayouts);
             formLayout.addView(formBuilder.getNeatStepperLayout());
         }
     }

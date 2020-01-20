@@ -1,221 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-
-    <ScrollView
+<ScrollView android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:scrollbars="none"
+    android:layout_alignParentTop="true"
+    android:layout_alignParentStart="true"
+    android:background="@color/white"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scrollbars="none"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true">
-
-        <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:orientation="vertical"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_height="wrap_content">
+        <com.nerdstone.neatformcore.views.containers.MultiChoiceCheckBox
+            android:layout_width="match_parent"
+            android:id="@+id/problem"
+            android:layout_marginBottom="16dp"
+            android:layout_height="wrap_content"/>
+        <com.nerdstone.neatformcore.views.widgets.TextInputEditTextNFormView
+            android:layout_width="match_parent"
+            android:id="@+id/problem_other"
+            android:layout_marginBottom="8dp"
+            android:layout_height="wrap_content"/>
+        <com.nerdstone.neatformcore.views.containers.MultiChoiceCheckBox
+            android:layout_width="match_parent"
+            android:id="@+id/service_before_referral"
+            android:layout_marginBottom="16dp"
+            android:layout_height="wrap_content"/>
+        <com.nerdstone.neatformcore.views.widgets.TextInputEditTextNFormView
+            android:layout_width="match_parent"
+            android:id="@+id/service_before_referral_other"
+            android:layout_marginBottom="8dp"
+            android:layout_height="wrap_content"/>
+        <com.nerdstone.neatformcore.views.widgets.SpinnerNFormView
+            android:textSize="14sp"
+            android:ems="10"
+            android:id="@+id/chw_referral_hf"
+            android:hint="@string/visit_facility_hint"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <com.nerdstone.neatformcore.views.widgets.DateTimePickerNFormView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fitsSystemWindows="true">
+            android:id="@+id/referral_appointment_date"/>
+    </LinearLayout>
 
-            <android.support.design.widget.AppBarLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:theme="@style/AppTheme.AppBarOverlay"
-                android:visibility="gone">
-
-                <android.support.v7.widget.Toolbar
-                    android:id="@+id/toolbar"
-                    android:layout_width="match_parent"
-                    android:layout_height="?attr/actionBarSize"
-                    android:background="@color/colorPrimary"
-                    app:popupTheme="@style/AppTheme.PopupOverlay">
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                        <TextView
-                            android:id="@+id/app_name"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:layout_marginLeft="4dp"
-                            android:textColor="@color/white"
-                            android:textSize="14sp" />
-
-                    </RelativeLayout>
-
-                </android.support.v7.widget.Toolbar>
-
-            </android.support.design.widget.AppBarLayout>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/light_gray"
-                android:scrollbars="none">
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="140dp"
-                        android:background="@color/primary" />
-
-                    <androidx.cardview.widget.CardView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginBottom="56dp"
-                        android:layout_marginLeft="72dp"
-                        android:layout_marginRight="72dp"
-                        android:layout_marginTop="46dp"
-                        android:paddingBottom="16dp">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:background="@color/white"
-                            android:orientation="vertical">
-
-                            <RelativeLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:background="@color/light_grey">
-
-                                <TextView
-                                    android:id="@+id/client_name"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_centerVertical="true"
-                                    android:layout_marginLeft="32dp"
-                                    android:layout_marginTop="32dp"
-                                    android:textColor="@color/black"
-                                    android:textSize="42sp" />
-
-                                <TextView
-                                    android:id="@+id/cbhs_number_title"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_below="@id/client_name"
-                                    android:layout_marginLeft="32dp"
-                                    android:layout_marginTop="16dp"
-                                    android:textSize="14sp"
-                                    android:visibility="invisible" />
-
-                                <TextView
-                                    android:id="@+id/cbhs_number_value"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_below="@id/client_name"
-                                    android:layout_marginLeft="16dp"
-                                    android:layout_marginTop="16dp"
-                                    android:layout_toRightOf="@+id/cbhs_number_title"
-                                    android:textSize="14sp"
-                                    android:visibility="invisible" />
-
-                            </RelativeLayout>
-
-                            <TextView
-                                android:id="@+id/referer_title"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="32dp"
-                                android:layout_marginTop="8dp"
-                                android:text="@string/referral_information"
-                                android:textSize="14sp" />
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="16dp"
-                                android:background="@color/white"
-                                android:orientation="horizontal"
-                                android:padding="16dp">
-
-                                <RelativeLayout
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1">
-
-                                    <com.nerdstone.neatformcore.views.widgets.SpinnerNFormView
-                                        android:textSize="14sp"
-                                        android:layout_marginEnd="16dp"
-                                        android:ems="10"
-                                        android:id="@+id/chw_referral_hf"
-                                        android:hint="@string/visit_facility_hint"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"/>
-
-                                    <com.nerdstone.neatformcore.views.widgets.DateTimePickerNFormView
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginEnd="16dp"
-                                        android:layout_below="@id/chw_referral_hf"
-                                        android:id="@+id/referral_appointment_date"/>
-                                </RelativeLayout>
-
-                                <View
-                                    android:layout_width="1dp"
-                                    android:layout_height="match_parent"
-                                    android:layout_marginBottom="16dp"
-                                    android:layout_marginRight="16dp"
-                                    android:layout_marginTop="16dp"
-                                    android:background="@color/light_grey" />
-
-                                <RelativeLayout
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1">
-                                    <com.nerdstone.neatformcore.views.containers.MultiChoiceCheckBox
-                                        android:layout_width="match_parent"
-                                        android:id="@+id/problem"
-                                        android:layout_marginBottom="16dp"
-                                        android:layout_height="wrap_content"/>
-                                    <com.nerdstone.neatformcore.views.widgets.TextInputEditTextNFormView
-                                        android:layout_width="match_parent"
-                                        android:layout_marginTop="8dp"
-                                        android:layout_below="@id/problem"
-                                        android:id="@+id/problem_other"
-                                        android:layout_height="wrap_content"/>
-                                </RelativeLayout>
-
-                                <View
-                                    android:layout_width="1dp"
-                                    android:layout_height="match_parent"
-                                    android:layout_marginBottom="16dp"
-                                    android:layout_marginRight="16dp"
-                                    android:layout_marginTop="16dp"
-                                    android:background="@color/light_grey" />
-
-                                <RelativeLayout
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1">
-                                    <com.nerdstone.neatformcore.views.containers.MultiChoiceCheckBox
-                                        android:layout_width="match_parent"
-                                        android:id="@+id/service_before_referral"
-                                        android:layout_marginBottom="16dp"
-                                        android:layout_height="wrap_content"/>
-                                    <com.nerdstone.neatformcore.views.widgets.TextInputEditTextNFormView
-                                        android:layout_width="match_parent"
-                                        android:layout_marginTop="8dp"
-                                        android:layout_below="@id/service_before_referral"
-                                        android:id="@+id/service_before_referral_other"
-                                        android:layout_height="wrap_content"/>
-                                </RelativeLayout>
-                            </LinearLayout>
-                        </LinearLayout>
-
-
-                    </androidx.cardview.widget.CardView>
-
-                </RelativeLayout>
-
-            </RelativeLayout>
-
-        </androidx.coordinatorlayout.widget.CoordinatorLayout>
-
-    </ScrollView>
-
-</RelativeLayout>
+</ScrollView>
