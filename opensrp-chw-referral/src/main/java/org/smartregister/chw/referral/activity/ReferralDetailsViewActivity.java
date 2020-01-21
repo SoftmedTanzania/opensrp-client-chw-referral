@@ -7,18 +7,15 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.view.Menu;
 import android.view.View;
-import android.widget.LinearLayout;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.material.appbar.AppBarLayout;
-import com.google.gson.Gson;
 
 import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.Period;
-import org.json.JSONArray;
 import org.smartregister.chw.referral.R;
 import org.smartregister.chw.referral.domain.MemberObject;
 import org.smartregister.chw.referral.util.Constants;
@@ -36,28 +33,17 @@ import timber.log.Timber;
 
 public class ReferralDetailsViewActivity extends SecuredActivity {
     protected AppBarLayout appBarLayout;
-    protected String startingActivity;
     private CommonPersonObjectClient personObjectClient;
     private CustomFontTextView clientName;
-    private String clientAge;
     private CustomFontTextView careGiverName;
-    private CustomFontTextView childName;
     private CustomFontTextView careGiverPhone;
     private CustomFontTextView clientReferralProblem;
     private CustomFontTextView referralDate;
     private CustomFontTextView referralFacility;
-    private CustomFontTextView chwDetailsNames;
     private CustomFontTextView preReferralManagement;
     private CustomFontTextView referralType;
-    private CustomFontTextView womanGa;
-    private LinearLayout womanGaLayout;
-    private LinearLayout careGiverLayout;
-    private LinearLayout childNameLayout;
-    private String name;
     private String baseEntityId;
     private MemberObject memberObject;
-    private String familyHeadName;
-    private String familyHeadPhoneNumber;
 
     public static void startReferralDetailsViewActivity(Activity activity, MemberObject memberObject) {
         Intent intent = new Intent(activity, ReferralDetailsViewActivity.class);
@@ -126,26 +112,19 @@ public class ReferralDetailsViewActivity extends SecuredActivity {
     public void setUpViews() {
         clientName = findViewById(R.id.client_name);
         careGiverName = findViewById(R.id.care_giver_name);
-        childName = findViewById(R.id.child_name);
         careGiverPhone = findViewById(R.id.care_giver_phone);
         clientReferralProblem = findViewById(R.id.client_referral_problem);
-        chwDetailsNames = findViewById(R.id.chw_details_names);
         referralDate = findViewById(R.id.referral_date);
         referralFacility = findViewById(R.id.referral_facility);
-        womanGaLayout = findViewById(R.id.woman_ga_layout);
-        careGiverLayout = findViewById(R.id.care_giver_name_layout);
-        childNameLayout = findViewById(R.id.child_name_layout);
         preReferralManagement = findViewById(R.id.pre_referral_management);
         referralType = findViewById(R.id.referral_type);
-
-        womanGa = findViewById(R.id.woman_ga);
         getReferralDetails();
     }
 
     private void getReferralDetails() {
         if (memberObject != null) {
             updateProblemDisplay();
-            clientAge = String.valueOf(new Period(new DateTime(memberObject.getAge()), new DateTime()).getYears());
+            String clientAge = String.valueOf(new Period(new DateTime(memberObject.getAge()), new DateTime()).getYears());
             clientName.setText(String.format(Locale.getDefault(), "%s %s %s, %s", memberObject.getFirstName(),
                     memberObject.getMiddleName(), memberObject.getLastName(), clientAge));
 
@@ -161,9 +140,9 @@ public class ReferralDetailsViewActivity extends SecuredActivity {
 
             referralType.setText(memberObject.getChwReferralService());
 
-            if(memberObject.getPrimaryCareGiver() == null ){
+            if (memberObject.getPrimaryCareGiver() == null) {
                 careGiverName.setVisibility(View.GONE);
-            }else {
+            } else {
                 careGiverName.setText(String.format("CG : %s", memberObject.getPrimaryCareGiver()));
             }
             careGiverPhone.setText(getFamilyMemberContacts().isEmpty() || getFamilyMemberContacts() == null ? getString(R.string.phone_not_provided) : getFamilyMemberContacts());
@@ -190,7 +169,7 @@ public class ReferralDetailsViewActivity extends SecuredActivity {
             if (!StringUtils.isEmpty(memberObject.getProblemOther())) {
                 clientReferralProblem.append(", " + memberObject.getProblemOther());
             }
-        }catch(Exception e){
+        } catch (Exception e) {
             Timber.e(e);
             clientReferralProblem.setText(getString(R.string.empty_value));
         }
@@ -212,7 +191,7 @@ public class ReferralDetailsViewActivity extends SecuredActivity {
             if (!StringUtils.isEmpty(memberObject.getServicesBeforeReferralOther())) {
                 preReferralManagement.append(", " + memberObject.getServicesBeforeReferralOther());
             }
-        }catch(Exception e){
+        } catch (Exception e) {
             Timber.e(e);
             preReferralManagement.setText(getString(R.string.empty_value));
         }
