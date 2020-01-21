@@ -7,7 +7,6 @@ import com.google.gson.Gson;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.smartregister.chw.referral.ReferralLibrary;
 import org.smartregister.chw.referral.domain.MemberObject;
 import org.smartregister.chw.referral.domain.ReferralServiceIndicatorObject;
 import org.smartregister.chw.referral.domain.ReferralServiceObject;

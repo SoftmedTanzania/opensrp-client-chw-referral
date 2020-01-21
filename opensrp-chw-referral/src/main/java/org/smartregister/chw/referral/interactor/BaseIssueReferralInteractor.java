@@ -58,8 +58,7 @@ public class BaseIssueReferralInteractor implements BaseIssueReferralContract.In
 
         AllSharedPreferences allSharedPreferences = ReferralLibrary.getInstance().context().allSharedPreferences();
         ReferralTask referralTask = JsonFormUtils.processJsonForm(allSharedPreferences, baseEntityId, valuesHashMap, jsonObject, Constants.EVENT_TYPE.REGISTRATION);
-        referralTask.setGroupId("718b2864-7d6a-44c8-b5b6-bb375f82654e"); //TODO obtain this from locationsMap from [ReferralMetadata] i.e use the facility value retrieved from the spinner
-//        referralTask.setGroupId(((NFormViewData) valuesHashMap.get("chw_referral_hf").getValue()).getMetadata().get("openmrs_entity_id").toString());
+        referralTask.setGroupId(((NFormViewData) Objects.requireNonNull(valuesHashMap.get("chw_referral_hf")).getValue()).getMetadata().get("openmrs_entity_id").toString());
         referralTask.setFocus(WordUtils.capitalize(jsonObject.getString(JsonFormConstant.REFERRAL_TASK_FOCUS)));
 
         String problemsStrings = extractReferralProblems(valuesHashMap);

@@ -11,7 +11,6 @@ import org.smartregister.chw.referral.ReferralLibrary;
 import org.smartregister.chw.referral.domain.ReferralServiceObject;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.repository.BaseRepository;
-import org.smartregister.repository.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
