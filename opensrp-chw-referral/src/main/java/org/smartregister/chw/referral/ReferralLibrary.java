@@ -13,9 +13,6 @@ import org.smartregister.chw.referral.domain.ReferralServiceObject;
 import org.smartregister.chw.referral.repository.FollowupFeedbackRepository;
 import org.smartregister.chw.referral.repository.ReferralServiceIndicatorRepository;
 import org.smartregister.chw.referral.repository.ReferralServiceRepository;
-import org.smartregister.domain.Location;
-import org.smartregister.domain.LocationProperty;
-import org.smartregister.repository.LocationRepository;
 import org.smartregister.repository.Repository;
 import org.smartregister.repository.TaskNotesRepository;
 import org.smartregister.repository.TaskRepository;
@@ -129,7 +126,6 @@ public class ReferralLibrary {
         //initializing repositories
         ReferralServiceRepository referralServiceRepository = new ReferralServiceRepository();
         ReferralServiceIndicatorRepository indicatorRepository = new ReferralServiceIndicatorRepository();
-        LocationRepository locationRepository = new LocationRepository();
         FollowupFeedbackRepository followupFeedbackRepository = new FollowupFeedbackRepository();
 
         if (context != null && referralServiceRepository.getReferralServices() == null) {
