@@ -61,13 +61,6 @@ dependencies {
     implementation 'androidx.media:media:1.1.0'
     implementation 'de.hdodenhof:circleimageview:2.2.0'
 
-    implementation('org.smartregister:opensrp-client-native-form:1.6.29-SNAPSHOT@aar') {
-        transitive = true
-        exclude group: 'com.android.support', module: 'recyclerview-v7'
-        exclude group: 'com.android.support', module: 'appcompat-v7'
-        exclude group: 'com.android.support', module: 'cardview-v7'
-    }
-
     implementation('org.smartregister:opensrp-client-configurable-views:1.1.2-SNAPSHOT@aar') {
         transitive = true
         exclude group: 'org.smartregister', module: 'opensrp-client-core'

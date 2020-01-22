@@ -16,9 +16,6 @@ public class BaseNeatIssueReferralActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.neat_referral_form_activity);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
         LinearLayout formLayout = findViewById(R.id.formLayout);
         new JsonFormBuilder(this, "json.form/general_neat_referral_form.json", formLayout)
                 .buildForm(null, null);
