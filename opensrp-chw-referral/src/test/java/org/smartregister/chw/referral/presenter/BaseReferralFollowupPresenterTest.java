@@ -1,34 +1,48 @@
 package org.smartregister.chw.referral.presenter;
 
+import com.nerdstone.neatformcore.domain.model.NFormViewData;
+
+import org.json.JSONObject;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 import org.smartregister.chw.referral.contract.BaseFollowupContract;
 import org.smartregister.chw.referral.domain.MemberObject;
 import org.smartregister.chw.referral.domain.ReferralFollowupObject;
 import org.smartregister.chw.referral.model.BaseReferralFollowupModel;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
 
+import java.lang.reflect.Member;
+import java.util.HashMap;
+
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
 public class BaseReferralFollowupPresenterTest {
     @Mock
-    private CommonPersonObjectClient commonPersonObjectClient = Mockito.mock(CommonPersonObjectClient.class);
+    private CommonPersonObjectClient commonPersonObjectClient;
 
     @Mock
-    private BaseFollowupContract.View view = Mockito.mock(BaseFollowupContract.View.class);
+    private BaseFollowupContract.View view;
 
     @Mock
-    private BaseFollowupContract.Interactor interactor = Mockito.mock(BaseFollowupContract.Interactor.class);
+    private BaseFollowupContract.Interactor interactor;
 
+    private MemberObject memberObject;
 
-    @Mock
-    private MemberObject memberObject = new MemberObject(commonPersonObjectClient);
+    private BaseReferralFollowupPresenter followupPresenter;
 
-    private BaseReferralFollowupPresenter followupPresenter = new BaseReferralFollowupPresenter(view, BaseReferralFollowupModel.class, interactor);
-
+    @Before
+    public void setUp() {
+        MockitoAnnotations.initMocks(this);
+        memberObject = new MemberObject(commonPersonObjectClient);
+        memberObject.setBaseEntityId("sampleBaseEntityID");
+        followupPresenter = new BaseReferralFollowupPresenter(view, BaseReferralFollowupModel.class, interactor);
+        followupPresenter.initializeMemberObject(memberObject);
+    }
 
     @Test
     public void fillProfileDataCallsSetProfileViewWithDataWhenPassedMemberObject() {
@@ -44,20 +58,10 @@ public class BaseReferralFollowupPresenterTest {
 
     @Test
     public void saveForm() {
-        followupPresenter.saveForm(null);
-        verify(interactor).saveFollowup(null, followupPresenter);
-    }
-
-    @Test
-    public void validateValues() {
-        ReferralFollowupObject referralFollowupObject = new ReferralFollowupObject();
-        Assert.assertFalse(followupPresenter.validateValues(referralFollowupObject));
-
-        referralFollowupObject.setOtherFollowupFeedbackInformation("client is doing well");
-        Assert.assertFalse(followupPresenter.validateValues(referralFollowupObject));
-
-        referralFollowupObject.setChwFollowupFeedback("He forgot the appointment");
-        Assert.assertTrue(followupPresenter.validateValues(referralFollowupObject));
+        HashMap<String, NFormViewData> viewData = new HashMap<>();
+        JSONObject jsonForm = new JSONObject();
+        followupPresenter.saveForm(viewData, jsonForm);
+        verify(interactor).saveFollowup("sampleBaseEntityID", viewData, jsonForm, followupPresenter);
     }
 }
 

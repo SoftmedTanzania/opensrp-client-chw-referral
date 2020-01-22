@@ -13,7 +13,7 @@ import org.smartregister.chw.referral.contract.BaseIssueReferralContract;
 import org.smartregister.chw.referral.domain.ReferralTask;
 import org.smartregister.chw.referral.util.AppExecutors;
 import org.smartregister.chw.referral.util.Constants;
-import org.smartregister.chw.referral.util.JsonFormConstant;
+import org.smartregister.chw.referral.util.JsonFormConstants;
 import org.smartregister.chw.referral.util.JsonFormUtils;
 import org.smartregister.chw.referral.util.ReferralUtil;
 import org.smartregister.chw.referral.util.Util;
@@ -59,7 +59,7 @@ public class BaseIssueReferralInteractor implements BaseIssueReferralContract.In
         AllSharedPreferences allSharedPreferences = ReferralLibrary.getInstance().context().allSharedPreferences();
         ReferralTask referralTask = JsonFormUtils.processJsonForm(allSharedPreferences, baseEntityId, valuesHashMap, jsonObject, Constants.EVENT_TYPE.REGISTRATION);
         referralTask.setGroupId(((NFormViewData) Objects.requireNonNull(valuesHashMap.get("chw_referral_hf")).getValue()).getMetadata().get("openmrs_entity_id").toString());
-        referralTask.setFocus(WordUtils.capitalize(jsonObject.getString(JsonFormConstant.REFERRAL_TASK_FOCUS)));
+        referralTask.setFocus(WordUtils.capitalize(jsonObject.getString(JsonFormConstants.REFERRAL_TASK_FOCUS)));
 
         String problemsStrings = extractReferralProblems(valuesHashMap);
         referralTask.setReferralDescription(problemsStrings);
@@ -76,7 +76,7 @@ public class BaseIssueReferralInteractor implements BaseIssueReferralContract.In
     @SuppressWarnings("unchecked")
     private String extractReferralProblems(HashMap<String, NFormViewData> valuesHashMap) {
         HashMap<String, NFormViewData> valuesMap =
-                (HashMap<String, NFormViewData>) valuesHashMap.get(JsonFormConstant.PROBLEM).getValue();
+                (HashMap<String, NFormViewData>) valuesHashMap.get(JsonFormConstants.PROBLEM).getValue();
 
         StringBuilder problemNamesStringBuilder = new StringBuilder();
         for (String key : valuesMap.keySet()) {

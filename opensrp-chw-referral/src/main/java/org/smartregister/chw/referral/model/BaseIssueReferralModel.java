@@ -13,7 +13,7 @@ import org.smartregister.chw.referral.domain.ReferralServiceObject;
 import org.smartregister.chw.referral.repository.ReferralServiceIndicatorRepository;
 import org.smartregister.chw.referral.repository.ReferralServiceRepository;
 import org.smartregister.chw.referral.util.DBConstants;
-import org.smartregister.chw.referral.util.JsonFormConstant;
+import org.smartregister.chw.referral.util.JsonFormConstants;
 import org.smartregister.chw.referral.util.JsonFormUtils;
 import org.smartregister.cursoradapter.SmartRegisterQueryBuilder;
 import org.smartregister.domain.Location;
@@ -90,13 +90,13 @@ public class BaseIssueReferralModel extends AbstractIssueReferralModel {
         JSONObject jsonForm = JsonFormUtils.getFormAsJson(formName);
         JsonFormUtils.addFormMetadata(jsonForm, entityId, currentLocationId);
 
-        return setFormValues(jsonForm, JsonFormConstant.STEP1, memberObject);
+        return setFormValues(jsonForm, JsonFormConstants.STEP1, memberObject);
     }
 
     @VisibleForTesting
     public JSONObject setFormValues(JSONObject form, String step, MemberObject memberObject) {
         try {
-            JSONArray fieldsArray = form.getJSONObject(step).getJSONArray(JsonFormConstant.FIELDS);
+            JSONArray fieldsArray = form.getJSONObject(step).getJSONArray(JsonFormConstants.FIELDS);
             setFieldValues(fieldsArray, memberObject);
 
             Timber.i("Form JSON = %s", form.toString());
@@ -119,9 +119,9 @@ public class BaseIssueReferralModel extends AbstractIssueReferralModel {
             JSONObject fieldObject;
             try {
                 fieldObject = fieldsArray.getJSONObject(i);
-                String key = fieldObject.getString(JsonFormConstant.KEY);
+                String key = fieldObject.getString(JsonFormConstants.KEY);
                 if (memberJSONObject != null) {
-                    fieldObject.put(JsonFormConstant.VALUE, memberJSONObject.getString(key));
+                    fieldObject.put(JsonFormConstants.VALUE, memberJSONObject.getString(key));
                 }
             } catch (JSONException e) {
                 Timber.e(e);
