@@ -14,6 +14,7 @@ import org.joda.time.DateTime;
 import org.joda.time.Period;
 import org.smartregister.chw.referral.R;
 import org.smartregister.chw.referral.fragment.BaseReferralRegisterFragment;
+import org.smartregister.chw.referral.util.Constants;
 import org.smartregister.chw.referral.util.DBConstants;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.cursoradapter.RecyclerViewProvider;
@@ -26,6 +27,7 @@ import org.smartregister.view.dialog.SortOption;
 import org.smartregister.view.viewholder.OnClickFormLauncher;
 
 import java.text.MessageFormat;
+import java.util.Locale;
 import java.util.Set;
 
 import timber.log.Timber;
@@ -68,7 +70,7 @@ public class ReferralRegisterProvider implements RecyclerViewProvider<ReferralRe
             int age = new Period(new DateTime(dobString), new DateTime()).getYears();
 
             String patientName = getName(fname, Utils.getValue(pc.getColumnmaps(), DBConstants.KEY.LAST_NAME, true));
-            viewHolder.patientName.setText(patientName + ", " + age);
+            viewHolder.patientName.setText(String.format(Locale.getDefault(),"%s, %d", patientName, age));
             viewHolder.textViewGender.setText(Utils.getValue(pc.getColumnmaps(), DBConstants.KEY.GENDER, true));
             viewHolder.textViewVillage.setText(Utils.getValue(pc.getColumnmaps(), DBConstants.KEY.VILLAGE_TOWN, true));
             viewHolder.textViewService.setText(Utils.getValue(pc.getColumnmaps(), DBConstants.KEY.REFERRAL_SERVICE, true));
@@ -79,24 +81,13 @@ public class ReferralRegisterProvider implements RecyclerViewProvider<ReferralRe
             viewHolder.patientColumn.setTag(pc);
             viewHolder.patientColumn.setTag(R.id.VIEW_ID, BaseReferralRegisterFragment.CLICK_VIEW_NORMAL);
 
-            viewHolder.dueButton.setOnClickListener(onClickListener);
-            viewHolder.dueButton.setTag(pc);
-            viewHolder.dueButton.setTag(R.id.VIEW_ID, BaseReferralRegisterFragment.FOLLOW_UP_VISIT);
+            viewHolder.textReferralStatus.setOnClickListener(onClickListener);
+            viewHolder.textReferralStatus.setTag(pc);
+            viewHolder.textReferralStatus.setTag(R.id.VIEW_ID, BaseReferralRegisterFragment.FOLLOW_UP_VISIT);
             viewHolder.registerColumns.setOnClickListener(onClickListener);
 
-            viewHolder.registerColumns.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    viewHolder.patientColumn.performClick();
-                }
-            });
-
-            viewHolder.registerColumns.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    viewHolder.dueButton.performClick();
-                }
-            });
+            viewHolder.registerColumns.setOnClickListener(v -> viewHolder.patientColumn.performClick());
+            setReferralStatusColor(context,viewHolder.textReferralStatus,Utils.getValue(pc.getColumnmaps(), DBConstants.KEY.REFERRAL_STATUS, true));
 
         } catch (Exception e) {
             Timber.e(e);
@@ -152,11 +143,26 @@ public class ReferralRegisterProvider implements RecyclerViewProvider<ReferralRe
         return viewHolder instanceof FooterViewHolder;
     }
 
+    private void setReferralStatusColor(Context context, TextView textViewStatus, String status) {
+        switch (status) {
+            case Constants.REFERRAL_STATUS.PENDING:
+                textViewStatus.setTextColor(context.getResources().getColor(R.color.alert_in_progress_blue));
+                break;
+            case Constants.REFERRAL_STATUS.FAILED:
+                textViewStatus.setTextColor(context.getResources().getColor(R.color.alert_urgent_red));
+                break;
+            case Constants.REFERRAL_STATUS.SUCCESSFUL:
+                textViewStatus.setTextColor(context.getResources().getColor(R.color.alert_complete_green));
+                break;
+        }
+    }
+
+
     public class RegisterViewHolder extends RecyclerView.ViewHolder {
         public TextView patientName;
         public TextView textViewVillage;
         public TextView textViewGender;
-        public Button dueButton;
+        public TextView textReferralStatus;
         public View patientColumn;
         public TextView textViewService;
         public TextView textViewFacility;
@@ -170,7 +176,7 @@ public class ReferralRegisterProvider implements RecyclerViewProvider<ReferralRe
             patientName = itemView.findViewById(R.id.patient_name_age);
             textViewVillage = itemView.findViewById(R.id.text_view_village);
             textViewGender = itemView.findViewById(R.id.text_view_gender);
-            dueButton = itemView.findViewById(R.id.due_button);
+            textReferralStatus = itemView.findViewById(R.id.text_view_referral_status);
             patientColumn = itemView.findViewById(R.id.patient_column);
             registerColumns = itemView.findViewById(R.id.register_columns);
             dueWrapper = itemView.findViewById(R.id.due_button_wrapper);
