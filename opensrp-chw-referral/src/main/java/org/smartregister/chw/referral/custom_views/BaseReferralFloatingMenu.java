@@ -2,10 +2,11 @@ package org.smartregister.chw.referral.custom_views;
 
 import android.app.Activity;
 import android.content.Context;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.LinearLayout;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.smartregister.chw.referral.R;
 import org.smartregister.chw.referral.fragment.BaseReferralCallDialogFragment;

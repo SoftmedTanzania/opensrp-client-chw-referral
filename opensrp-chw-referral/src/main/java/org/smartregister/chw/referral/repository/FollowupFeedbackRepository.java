@@ -11,7 +11,6 @@ import org.smartregister.chw.referral.ReferralLibrary;
 import org.smartregister.chw.referral.domain.FollowupFeedbackObject;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.repository.BaseRepository;
-import org.smartregister.repository.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,11 +32,6 @@ public class FollowupFeedbackRepository extends BaseRepository {
     private static final String DETAILS_COLUMN = "details";
 
     private static final String[] TABLE_COLUMNS = {ID, FEEDBACK_NAME_EN, FEEDBACK_NAME_SW, IS_ACTIVE};
-
-
-    public FollowupFeedbackRepository(Repository repository) {
-        super(repository);
-    }
 
     public FollowupFeedbackObject getFeedbackById(String _id) {
         Cursor mCursor = null;

@@ -1,8 +1,9 @@
 package org.smartregister.chw.referral.listener;
 
 import android.app.Activity;
-import androidx.annotation.NonNull;
 import android.view.MenuItem;
+
+import androidx.annotation.NonNull;
 
 import org.smartregister.chw.referral.R;
 import org.smartregister.listener.BottomNavigationListener;

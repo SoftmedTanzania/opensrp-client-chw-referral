@@ -37,7 +37,7 @@ public class BaseReferralRegisterFragmentPresenterTest {
 
     @Test
     public void getDefaultSortQuery() {
-        Assert.assertEquals("ec_referral.chw_referral_date DESC ", baseReferralRegisterFragmentPresenter.getDefaultSortQuery());
+        Assert.assertEquals("ec_referral.referral_date DESC ", baseReferralRegisterFragmentPresenter.getDefaultSortQuery());
     }
 
     @Test

@@ -75,5 +75,27 @@
     <string name="successful_issued_referral">Referral Saved Successful</string>
     <string name="missing_client_condition_during_visit">Please fill in the client condition during the visit</string>
     <string name="missing_feedback">Please select feedback</string>
+    <string name="complete">Complete</string>
+    <string name="finish">Finish</string>
+    <string name="back_to_referrals">Back to referrals</string>
+    <string name="phone">Phone</string>
+    <string name="problem">Problem</string>
+    <string name="referral_date">Referral date</string>
+    <string name="chw">CHW</string>
+    <string name="chw_phone">CHW Phone</string>
+    <string name="phone_not_provided">Phone not provided</string>
+    <string name="referral_facility">Referral Facility</string>
+    <string name="referral_type">Referral Type</string>
+    <string name="pre_referral_management">Pre-referral management given</string>
+
+
+    <!--Referral Strings -->
+    <string name="referral_submitted">Referral sent to facility</string>
+    <string name="confirm_form_close">Confirm form close</string>
+    <string name="confirm_form_close_explanation">Are you sure you want to go back? All data you have entered in this form will be cleared.</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="empty_value">None</string>
+    <string name="save">Save</string>
 
 </resources>

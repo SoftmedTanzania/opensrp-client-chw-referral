@@ -11,7 +11,6 @@ import org.smartregister.chw.referral.ReferralLibrary;
 import org.smartregister.chw.referral.domain.ReferralServiceIndicatorObject;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.repository.BaseRepository;
-import org.smartregister.repository.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,10 +33,6 @@ public class ReferralServiceIndicatorRepository extends BaseRepository {
     private static final String DETAILS_COLUMN = "details";
 
     private static final String[] TABLE_COLUMNS = {_ID, RELATIONAL_ID, SERVICE_NAME_EN, SERVICE_NAME_SW, IS_ACTIVE};
-
-    public ReferralServiceIndicatorRepository(Repository repository) {
-        super(repository);
-    }
 
     public ReferralServiceIndicatorObject getServiceIndicatorById(String _id) {
         Cursor cursor = null;

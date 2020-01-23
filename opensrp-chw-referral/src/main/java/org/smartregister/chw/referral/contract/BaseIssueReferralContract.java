@@ -1,8 +1,10 @@
 package org.smartregister.chw.referral.contract;
 
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.ViewModel;
 import android.content.Context;
+
+import androidx.lifecycle.ViewModel;
+
+import com.nerdstone.neatformcore.domain.model.NFormViewData;
 
 import org.apache.commons.lang3.tuple.Triple;
 import org.jetbrains.annotations.Nullable;
@@ -13,6 +15,7 @@ import org.smartregister.chw.referral.domain.ReferralServiceObject;
 import org.smartregister.domain.Location;
 import org.smartregister.view.contract.BaseRegisterContract;
 
+import java.util.HashMap;
 import java.util.List;
 
 public interface BaseIssueReferralContract {
@@ -28,8 +31,6 @@ public interface BaseIssueReferralContract {
     interface Presenter extends BaseRegisterContract.Presenter {
         <T extends ViewModel & Model> Class<T> getViewModel();
 
-        boolean validateValues(MemberObject memberObject);
-
         String getMainCondition();
 
         String getMainTable();
@@ -38,7 +39,7 @@ public interface BaseIssueReferralContract {
 
         void initializeMemberObject(MemberObject memberObject);
 
-        void saveForm(String jsonString);
+        void saveForm(HashMap<String, NFormViewData> valuesHashMap, JSONObject jsonObject);
     }
 
     interface Model {
@@ -49,9 +50,9 @@ public interface BaseIssueReferralContract {
 
         String mainSelect(String tableName, String mainCondition);
 
-        LiveData<List<Location>> getHealthFacilities();
+        List<Location> getHealthFacilities();
 
-        LiveData<List<ReferralServiceObject>> getReferralServicesList(List<String> referralServiceIds);
+        ReferralServiceObject getReferralServicesList(String referralServiceId);
 
         List<ReferralServiceIndicatorObject> getIndicatorsByServiceId(String serviceId);
 
@@ -61,7 +62,7 @@ public interface BaseIssueReferralContract {
 
         void onDestroy(boolean isChangingConfiguration);
 
-        void saveRegistration(String jsonString, final InteractorCallBack callBack);
+        void saveRegistration(String baseEntityId, HashMap<String, NFormViewData> valuesHashMap, JSONObject jsonObject, final InteractorCallBack callBack);
 
     }
 

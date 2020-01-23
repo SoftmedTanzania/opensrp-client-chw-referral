@@ -1,33 +1,30 @@
 package org.smartregister.chw.referral.model;
 
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 import androidx.annotation.VisibleForTesting;
 
 import com.google.gson.Gson;
-import com.vijay.jsonwizard.constants.JsonFormConstants;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.smartregister.chw.referral.ReferralLibrary;
 import org.smartregister.chw.referral.domain.MemberObject;
 import org.smartregister.chw.referral.domain.ReferralServiceIndicatorObject;
 import org.smartregister.chw.referral.domain.ReferralServiceObject;
 import org.smartregister.chw.referral.repository.ReferralServiceIndicatorRepository;
 import org.smartregister.chw.referral.repository.ReferralServiceRepository;
 import org.smartregister.chw.referral.util.DBConstants;
+import org.smartregister.chw.referral.util.JsonFormConstants;
 import org.smartregister.chw.referral.util.JsonFormUtils;
 import org.smartregister.cursoradapter.SmartRegisterQueryBuilder;
 import org.smartregister.domain.Location;
 import org.smartregister.repository.LocationRepository;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import timber.log.Timber;
 
 public class BaseIssueReferralModel extends AbstractIssueReferralModel {
+
     @Override
     public String getLocationId(String locationName) {
         return null;
@@ -35,13 +32,10 @@ public class BaseIssueReferralModel extends AbstractIssueReferralModel {
 
 
     @Override
-    public LiveData<List<Location>> getHealthFacilities() {
+    public List<Location> getHealthFacilities() {
         try {
-            LocationRepository locationRepository = new LocationRepository(ReferralLibrary.getInstance().getRepository());
-
-            MutableLiveData<List<Location>> liveData = new MutableLiveData<>();
-            liveData.setValue(locationRepository.getAllLocations());
-            return liveData;
+            LocationRepository locationRepository = new LocationRepository();
+            return locationRepository.getAllLocations();
         } catch (Exception e) {
             Timber.e(e);
             return null;
@@ -49,27 +43,20 @@ public class BaseIssueReferralModel extends AbstractIssueReferralModel {
     }
 
     @Override
-    public LiveData<List<ReferralServiceObject>> getReferralServicesList(List<String> referralServiceIds) {
+    public ReferralServiceObject getReferralServicesList(String referralServiceId) {
         try {
-            ReferralServiceRepository referralServiceRepository = new ReferralServiceRepository(ReferralLibrary.getInstance().getRepository());
+            ReferralServiceRepository referralServiceRepository = new ReferralServiceRepository();
 
-            List<ReferralServiceObject> servicesList = new ArrayList<>();
-            if (referralServiceIds != null) {
-                for (String serviceId : referralServiceIds) {
-                    try {
-                        servicesList.add(referralServiceRepository.getReferralServiceById(serviceId));
-                    } catch (Exception e) {
-                        Timber.e(e);
-                    }
+            ReferralServiceObject referralServiceObject = null;
+            if (referralServiceId != null) {
+                try {
+                    referralServiceObject = referralServiceRepository.getReferralServiceById(referralServiceId);
+                } catch (Exception e) {
+                    Timber.e(e);
                 }
-            } else {
-                servicesList = referralServiceRepository.getReferralServices();
             }
 
-            MutableLiveData<List<ReferralServiceObject>> liveData = new MutableLiveData<>();
-            liveData.setValue(servicesList);
-
-            return liveData;
+            return referralServiceObject;
         } catch (Exception e) {
             Timber.e(e);
             return null;
@@ -79,7 +66,7 @@ public class BaseIssueReferralModel extends AbstractIssueReferralModel {
     @Override
     public List<ReferralServiceIndicatorObject> getIndicatorsByServiceId(String serviceId) {
         try {
-            ReferralServiceIndicatorRepository indicatorRepository = new ReferralServiceIndicatorRepository(ReferralLibrary.getInstance().getRepository());
+            ReferralServiceIndicatorRepository indicatorRepository = new ReferralServiceIndicatorRepository();
             return indicatorRepository.getServiceIndicatorsByServiceId(serviceId);
         } catch (Exception e) {
             Timber.e(e);

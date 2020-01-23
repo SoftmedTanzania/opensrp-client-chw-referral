@@ -11,12 +11,13 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import android.telephony.TelephonyManager;
 import android.text.Html;
 import android.text.Spanned;
 import android.widget.Toast;
+
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.google.gson.Gson;
 
@@ -24,6 +25,8 @@ import org.json.JSONObject;
 import org.smartregister.chw.referral.R;
 import org.smartregister.chw.referral.ReferralLibrary;
 import org.smartregister.chw.referral.contract.BaseReferralCallDialogContract;
+import org.smartregister.chw.referral.domain.ReferralServiceObject;
+import org.smartregister.chw.referral.repository.ReferralServiceRepository;
 import org.smartregister.clientandeventmodel.Event;
 import org.smartregister.domain.db.EventClient;
 import org.smartregister.repository.AllSharedPreferences;
@@ -32,6 +35,7 @@ import org.smartregister.sync.ClientProcessorForJava;
 import org.smartregister.sync.helper.ECSyncHelper;
 import org.smartregister.util.PermissionUtils;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -105,7 +109,7 @@ public class Util {
                 ClipData clip = ClipData.newPlainText(activity.getText(R.string.copied_phone_number), phoneNumber);
                 clipboard.setPrimaryClip(clip);
 
-                CopyToClipboardDialog copyToClipboardDialog = new CopyToClipboardDialog(activity, R.style.copy_clipboard_dialog);
+                CopyToClipboardDialog copyToClipboardDialog = new CopyToClipboardDialog(activity, R.style.ClipboardDialogStyle);
                 copyToClipboardDialog.setContent(phoneNumber);
                 copyToClipboardDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 copyToClipboardDialog.show();
@@ -117,6 +121,15 @@ public class Util {
                 activity.startActivity(intent);
             }
             return true;
+        }
+    }
+
+    public static List<ReferralServiceObject> getReferralServicesList() {
+        try {
+            return new ReferralServiceRepository().getReferralServices();
+        } catch (Exception e) {
+            Timber.e(e);
+            return new ArrayList<>();
         }
     }
 }

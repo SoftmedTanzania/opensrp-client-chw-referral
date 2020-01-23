@@ -2,11 +2,12 @@ package org.smartregister.chw.referral.activity;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.widget.TextView;
+
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.appcompat.widget.Toolbar;
-import android.widget.TextView;
 
 import org.joda.time.DateTime;
 import org.joda.time.Period;

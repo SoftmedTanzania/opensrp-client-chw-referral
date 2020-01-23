@@ -1,27 +1,31 @@
 package org.smartregister.chw.referral.activity;
 
 import android.annotation.SuppressLint;
-import androidx.lifecycle.ViewModelProviders;
 import android.content.Context;
-import androidx.databinding.DataBindingUtil;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
 import androidx.annotation.Nullable;
-import com.google.android.material.appbar.AppBarLayout;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.Spinner;
-import android.widget.TextView;
-import android.widget.Toast;
+import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.ViewModelProviders;
+
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.gson.Gson;
+import com.nerdstone.neatformcore.domain.builders.FormBuilder;
+import com.nerdstone.neatformcore.form.json.JsonFormBuilder;
 
 import org.joda.time.DateTime;
 import org.joda.time.Period;
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.smartregister.AllConstants;
 import org.smartregister.chw.referral.R;
@@ -29,15 +33,17 @@ import org.smartregister.chw.referral.contract.BaseFollowupContract;
 import org.smartregister.chw.referral.databinding.ActivityFollowupBinding;
 import org.smartregister.chw.referral.domain.FollowupFeedbackObject;
 import org.smartregister.chw.referral.domain.MemberObject;
+import org.smartregister.chw.referral.domain.NeatFormMetaData;
+import org.smartregister.chw.referral.domain.NeatFormOption;
 import org.smartregister.chw.referral.interactor.BaseReferralFollowupInteractor;
 import org.smartregister.chw.referral.model.AbstractReferralFollowupModel;
 import org.smartregister.chw.referral.model.BaseReferralFollowupModel;
 import org.smartregister.chw.referral.presenter.BaseReferralFollowupPresenter;
-import org.smartregister.chw.referral.provider.FollowupFeedbackProvider;
 import org.smartregister.chw.referral.util.Constants;
+import org.smartregister.chw.referral.util.JsonFormUtils;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import timber.log.Timber;
 
@@ -52,15 +58,22 @@ public class BaseReferralFollowupActivity extends AppCompatActivity implements B
     protected TextView textViewReferralDate;
     protected TextView textViewFollowUpReason;
     protected Button buttonSave;
-    protected Spinner spinnerFeedback;
-    protected View view_family_row;
+    protected boolean injectValuesFromDb;
     private AbstractReferralFollowupModel viewModel;
+    private JSONObject jsonForm = null;
+    private FormBuilder formBuilder;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.memberObject = (MemberObject) this.getIntent().getSerializableExtra(Constants.REFERRAL_MEMBER_OBJECT.MEMBER_OBJECT);
         this.formName = this.getIntent().getStringExtra(Constants.ACTIVITY_PAYLOAD.REFERRAL_FOLLOWUP_FORM_NAME);
+        try {
+            this.jsonForm = new JSONObject(this.getIntent().getStringExtra(Constants.ACTIVITY_PAYLOAD.JSON_FORM));
+        } catch (JSONException e) {
+            Timber.e(e);
+        }
+        this.injectValuesFromDb = this.getIntent().getBooleanExtra(Constants.ACTIVITY_PAYLOAD.INJECT_VALUES_FROM_DB, true);
 
         //initializing the presenter
         presenter = presenter();
@@ -97,14 +110,48 @@ public class BaseReferralFollowupActivity extends AppCompatActivity implements B
         textViewName = findViewById(R.id.textview_name);
         textViewLocation = findViewById(R.id.textview_address);
         textViewUniqueID = findViewById(R.id.textview_id);
-        view_family_row = findViewById(R.id.view_family_row);
         textViewReferralDate = findViewById(R.id.referral_date);
         textViewFollowUpReason = findViewById(R.id.followUp_reason);
-        spinnerFeedback = findViewById(R.id.spinnerClientAvailable);
         buttonSave = findViewById(R.id.save_button);
 
         memberObject = (MemberObject) getIntent().getSerializableExtra(Constants.REFERRAL_MEMBER_OBJECT.MEMBER_OBJECT);
         presenter.fillProfileData(memberObject);
+
+        try {
+            presenter.initializeMemberObject(viewModel.memberObject);
+        } catch (Exception e) {
+            Timber.e(e);
+        }
+
+        LinearLayout formLayout = findViewById(R.id.formLayout);
+
+        if (jsonForm == null) {
+            try {
+                jsonForm = JsonFormUtils.getFormAsJson(formName);
+            } catch (Exception e) {
+                Timber.e(e);
+            }
+        }
+
+        //Adding meta data to the form
+        try {
+            JsonFormUtils.addFormMetadata(jsonForm, memberObject.getBaseEntityId(), getLocationID());
+        } catch (JSONException e) {
+            Timber.e(e);
+        }
+
+        if (injectValuesFromDb && jsonForm != null) {
+            injectReferralFeedback(jsonForm);
+            Timber.i("Form with injected values = %s", jsonForm);
+        }
+
+
+        JsonFormBuilder jsonFormBuilder = null;
+        if (jsonForm != null) {
+            jsonFormBuilder = new JsonFormBuilder(jsonForm.toString(), this, formLayout);
+        }
+
+        formBuilder = jsonFormBuilder.buildForm(null, null);
     }
 
 
@@ -122,44 +169,14 @@ public class BaseReferralFollowupActivity extends AppCompatActivity implements B
                 memberObject.getMiddleName(), memberObject.getLastName(), age));
         textViewUniqueID.setText(memberObject.getUniqueId());
         textViewGender.setText(memberObject.getGender());
-        textViewFollowUpReason.setText(memberObject.getChwReferralReason());
+
+        //TODO fix this area
+//        textViewFollowUpReason.setText(memberObject.getChwReferralReason());
         textViewReferralDate.setText(memberObject.getChwReferralDate());
 
-        final List<FollowupFeedbackObject> followupFeedbacks = viewModel.getFollowupFeedbackList();
-
-        FollowupFeedbackProvider followupFeedbackProvider = new FollowupFeedbackProvider(BaseReferralFollowupActivity.this, Objects.requireNonNull(followupFeedbacks));
-        spinnerFeedback.setAdapter(followupFeedbackProvider);
-
-        spinnerFeedback.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                if (i >= 0) {
-                    viewModel.setReferralFollowupFeedback(followupFeedbacks.get(i));
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-                //Implement
-            }
-        });
-
         buttonSave.setOnClickListener(view -> {
-            TextView conditionDuringVisit = findViewById(R.id.client_condition);
-            viewModel.setClientConditionDuringTheVisit(conditionDuringVisit.getText().toString());
-            viewModel.saveDataToReferralFollowupObject();
-
-            if (presenter.validateValues(viewModel.referralFollowupObject)) {
-                JSONObject jsonForm = null;
-                try {
-                    jsonForm = viewModel.getFormWithValuesAsJson(formName, memberObject.getBaseEntityId(), getLocationID(), viewModel.referralFollowupObject);
-                } catch (Exception e) {
-                    Timber.e(e);
-                }
-                presenter.saveForm(Objects.requireNonNull(jsonForm).toString());
-                Toast.makeText(this, getResources().getString(R.string.successful_issued_referral), Toast.LENGTH_SHORT).show();
-                finish();
-            }
+            presenter.saveForm(formBuilder.getFormData(), jsonForm);
+            Timber.e("Saved data = " + new Gson().toJson(formBuilder.getFormData()));
         });
 
     }
@@ -182,5 +199,55 @@ public class BaseReferralFollowupActivity extends AppCompatActivity implements B
 
     protected String getLocationID() {
         return org.smartregister.Context.getInstance().allSharedPreferences().getPreference(AllConstants.CURRENT_LOCATION_ID);
+    }
+
+    private void injectReferralFeedback(JSONObject form) {
+        JSONArray fields = null;
+        try {
+            fields = form.getJSONArray("steps").getJSONObject(0).getJSONArray("fields");
+        } catch (JSONException e) {
+            Timber.e(e);
+        }
+        JSONObject feedbackField = null;
+        for (int i = 0; i < (fields != null ? fields.length() : 0); i++) {
+            try {
+                if (fields.getJSONObject(i).getString("name").equals("chw_followup_feedback")) {
+                    feedbackField = fields.getJSONObject(i);
+                    break;
+                }
+            } catch (Exception e) {
+                Timber.e(e);
+            }
+        }
+        List<NeatFormOption> followupFeedbackNeatFormOptions = new ArrayList<>();
+        final List<FollowupFeedbackObject> followupFeedbacks = viewModel.getFollowupFeedbackList();
+
+        for (FollowupFeedbackObject followupFeedbackObject : followupFeedbacks) {
+            NeatFormOption option = new NeatFormOption();
+            option.name = followupFeedbackObject.getNameEn();
+            option.text = followupFeedbackObject.getNameEn();
+
+            NeatFormMetaData metaData = new NeatFormMetaData();
+            metaData.openmrsEntity = "concept";
+            metaData.openmrsEntityId = followupFeedbackObject.getId();
+            metaData.openmrsEntityParent = "";
+            option.neatFormMetaData = metaData;
+
+            followupFeedbackNeatFormOptions.add(option);
+        }
+        try {
+            if (feedbackField != null) {
+                JSONArray optionsArray = new JSONArray(new Gson().toJson(followupFeedbackNeatFormOptions));
+
+                Timber.e("Feedback options = %s", new Gson().toJson(followupFeedbacks));
+
+                for (int i = 0; i < feedbackField.getJSONArray("options").length(); i++) {
+                    optionsArray.put(feedbackField.getJSONArray("options").get(i));
+                }
+                feedbackField.put("options", optionsArray);
+            }
+        } catch (JSONException e) {
+            Timber.e(e);
+        }
     }
 }

@@ -3,15 +3,14 @@ package org.smartregister.chw.referral.model;
 import androidx.annotation.VisibleForTesting;
 
 import com.google.gson.Gson;
-import com.vijay.jsonwizard.constants.JsonFormConstants;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.smartregister.chw.referral.ReferralLibrary;
 import org.smartregister.chw.referral.domain.FollowupFeedbackObject;
 import org.smartregister.chw.referral.domain.ReferralFollowupObject;
 import org.smartregister.chw.referral.repository.FollowupFeedbackRepository;
+import org.smartregister.chw.referral.util.JsonFormConstants;
 import org.smartregister.chw.referral.util.JsonFormUtils;
 
 import java.util.List;
@@ -24,15 +23,13 @@ public class BaseReferralFollowupModel extends AbstractReferralFollowupModel {
         JSONObject jsonForm = JsonFormUtils.getFormAsJson(formName);
         JsonFormUtils.addFormMetadata(jsonForm, entityId, currentLocationId);
 
-        JSONObject formWithValues = setFormValues(jsonForm, JsonFormConstants.STEP1, referralFollowupObject);
-
-        return formWithValues;
+        return setFormValues(jsonForm, JsonFormConstants.STEP1, referralFollowupObject);
     }
 
     @Override
     public List<FollowupFeedbackObject> getFollowupFeedbackList() {
         try {
-            FollowupFeedbackRepository followupFeedbackRepository = new FollowupFeedbackRepository(ReferralLibrary.getInstance().getRepository());
+            FollowupFeedbackRepository followupFeedbackRepository = new FollowupFeedbackRepository();
             return followupFeedbackRepository.getFollowupFeedbacks();
         } catch (Exception e) {
             Timber.e(e);

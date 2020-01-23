@@ -24,6 +24,8 @@ public class DBConstants {
         public static final String PRIMARY_CARE_GIVER = "primary_caregiver";
         public static final String FAMILY_NAME = "family_name";
         public static final String PHONE_NUMBER = "phone_number";
+        public static final String OTHER_PHONE_NUMBER = "other_phone_number";
+        public static final String FAMILY_HEAD_PHONE_NUMBER = "family_head_phone_number";
 
 
         public static final String REFERRAL_HF = "chw_referral_hf";
@@ -31,9 +33,13 @@ public class DBConstants {
         public static final String REFERRAL_SERVICE = "chw_referral_service";
         public static final String REFERRAL_SERVICE_ID = "chw_referral_service_id";
         public static final String REFERRAL_APPOINTMENT_DATE = "referral_appointment_date";
-        public static final String REFERRAL_DATE = "chw_referral_date";
+        public static final String REFERRAL_DATE = "referral_date";
+        public static final String REFERRAL_TIME = "referral_time";
         public static final String IS_EMERGENCY_REFERRAL = "is_emergency_referral";
-        public static final String PROBLEMS_IDS = "problems_ids";
+        public static final String PROBLEM = "problem";
+        public static final String PROBLEM_OTHER = "problem_other";
+        public static final String SERVICE_BEFORE_REFERRAL = "service_before_referral";
+        public static final String SERVICE_BEFORE_REFERRAL_OTHER = "service_before_referral_other";
         public static final String REFERRAL_TYPE = "referral_type";
         public static final String REFERRAL_STATUS = "referral_status";
         public static final String NAME_EN = "name_en";

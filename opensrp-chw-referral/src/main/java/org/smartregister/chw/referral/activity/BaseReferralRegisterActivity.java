@@ -3,12 +3,11 @@ package org.smartregister.chw.referral.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+
 import androidx.annotation.MenuRes;
-import com.google.android.material.bottomnavigation.LabelVisibilityMode;
 import androidx.fragment.app.Fragment;
 
-import com.vijay.jsonwizard.constants.JsonFormConstants;
-import com.vijay.jsonwizard.domain.Form;
+import com.google.android.material.bottomnavigation.LabelVisibilityMode;
 
 import org.json.JSONObject;
 import org.smartregister.AllConstants;
@@ -72,16 +71,7 @@ public class BaseReferralRegisterActivity extends BaseRegisterActivity implement
         Intent intent = new Intent(this, getFamilyFormActivity());
         intent.putExtra(Constants.JSON_FORM_EXTRA.JSON, jsonForm.toString());
 
-        if (getFormConfig() != null) {
-            intent.putExtra(JsonFormConstants.JSON_FORM_KEY.FORM, getFormConfig());
-        }
-
         startActivityForResult(intent, Constants.REQUEST_CODE_GET_JSON);
-    }
-
-    @Override
-    public Form getFormConfig() {
-        return null;
     }
 
     public Class getFamilyFormActivity() {

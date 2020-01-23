@@ -1,19 +1,17 @@
 package org.smartregister.chw.referral.presenter;
 
-import android.content.Context;
-import android.text.TextUtils;
 import android.util.Log;
 
+import com.nerdstone.neatformcore.domain.model.NFormViewData;
+
 import org.jetbrains.annotations.Nullable;
-import org.smartregister.chw.referral.R;
-import org.smartregister.chw.referral.ReferralLibrary;
+import org.json.JSONObject;
 import org.smartregister.chw.referral.contract.BaseFollowupContract;
 import org.smartregister.chw.referral.domain.MemberObject;
-import org.smartregister.chw.referral.domain.ReferralFollowupObject;
 import org.smartregister.chw.referral.model.AbstractReferralFollowupModel;
-import org.smartregister.util.Utils;
 
 import java.lang.ref.WeakReference;
+import java.util.HashMap;
 
 import timber.log.Timber;
 
@@ -21,6 +19,7 @@ public class BaseReferralFollowupPresenter implements BaseFollowupContract.Prese
     protected BaseFollowupContract.Interactor interactor;
     private WeakReference<BaseFollowupContract.View> viewReference;
     private Class<? extends AbstractReferralFollowupModel> viewModelClass;
+    private MemberObject memberObject;
 
     public BaseReferralFollowupPresenter(BaseFollowupContract.View view, Class<? extends AbstractReferralFollowupModel> viewModelClass, BaseFollowupContract.Interactor interactor) {
         viewReference = new WeakReference<>(view);
@@ -34,16 +33,11 @@ public class BaseReferralFollowupPresenter implements BaseFollowupContract.Prese
         return viewModelClass;
     }
 
-    @Override
-    public void recordReferralFollowUp(Context context) {
-        //implement
-    }
-
 
     @Override
-    public void saveForm(String jsonString) {
+    public void saveForm(HashMap<String, NFormViewData> valuesHashMap, JSONObject jsonObject) {
         try {
-            interactor.saveFollowup(jsonString, this);
+            interactor.saveFollowup(memberObject.getBaseEntityId(), valuesHashMap, jsonObject, this);
         } catch (Exception e) {
             Timber.e(Log.getStackTraceString(e));
         }
@@ -59,24 +53,6 @@ public class BaseReferralFollowupPresenter implements BaseFollowupContract.Prese
 
 
     @Override
-    public boolean validateValues(ReferralFollowupObject referralFollowupObject) {
-        String message;
-
-        if (TextUtils.isEmpty(referralFollowupObject.getChwFollowupFeedback()) || referralFollowupObject.getChwFollowupFeedback() == null) {
-            try {
-                message = getView().getCurrentContext().getResources().getString(R.string.missing_feedback);
-                Utils.showToast(ReferralLibrary.getInstance().context().applicationContext(), message);
-
-            } catch (Exception e) {
-                Timber.e(e);
-            }
-            return false;
-
-        } else
-            return true;
-    }
-
-    @Override
     public void fillProfileData(@Nullable MemberObject memberObject) {
         if (memberObject != null && getView() != null) {
             getView().setProfileViewWithData();
@@ -87,4 +63,10 @@ public class BaseReferralFollowupPresenter implements BaseFollowupContract.Prese
     public void onFollowupSaved() {
         //Implement
     }
+
+    @Override
+    public void initializeMemberObject(MemberObject memberObject) {
+        this.memberObject = memberObject;
+    }
+
 }

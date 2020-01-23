@@ -57,7 +57,7 @@ public class BaseReferralCallDialogFragment extends DialogFragment implements Ba
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setStyle(DialogFragment.STYLE_NO_TITLE, R.style.ChwTheme_Dialog_FullWidth);
+        setStyle(DialogFragment.STYLE_NO_TITLE, R.style.FullScreenDialog);
     }
 
     @Override
