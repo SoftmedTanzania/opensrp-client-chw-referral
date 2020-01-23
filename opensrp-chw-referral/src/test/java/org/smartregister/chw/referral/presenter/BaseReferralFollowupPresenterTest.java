@@ -3,19 +3,15 @@ package org.smartregister.chw.referral.presenter;
 import com.nerdstone.neatformcore.domain.model.NFormViewData;
 
 import org.json.JSONObject;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.smartregister.chw.referral.contract.BaseFollowupContract;
 import org.smartregister.chw.referral.domain.MemberObject;
-import org.smartregister.chw.referral.domain.ReferralFollowupObject;
 import org.smartregister.chw.referral.model.BaseReferralFollowupModel;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
 
-import java.lang.reflect.Member;
 import java.util.HashMap;
 
 import static org.mockito.Mockito.never;
