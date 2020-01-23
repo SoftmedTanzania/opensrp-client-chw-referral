@@ -61,6 +61,11 @@ android {
             includeAndroidResources = true
             returnDefaultValues = true
         }
+        unitTests.all {
+            jacoco {
+                includeNoLocationClasses = true
+            }
+        }
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
