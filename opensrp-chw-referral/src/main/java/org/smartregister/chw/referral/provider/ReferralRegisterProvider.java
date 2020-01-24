@@ -29,6 +29,7 @@ import org.smartregister.view.viewholder.OnClickFormLauncher;
 import java.text.MessageFormat;
 import java.util.Locale;
 import java.util.Set;
+
 import timber.log.Timber;
 
 import static org.smartregister.util.Utils.getName;
@@ -69,7 +70,7 @@ public class ReferralRegisterProvider implements RecyclerViewProvider<ReferralRe
             int age = new Period(new DateTime(dobString), new DateTime()).getYears();
 
             String patientName = getName(fname, Utils.getValue(pc.getColumnmaps(), DBConstants.KEY.LAST_NAME, true));
-            viewHolder.patientName.setText(String.format(Locale.getDefault(),"%s, %d", patientName, age));
+            viewHolder.patientName.setText(String.format(Locale.getDefault(), "%s, %d", patientName, age));
             viewHolder.textViewGender.setText(Utils.getValue(pc.getColumnmaps(), DBConstants.KEY.GENDER, true));
             viewHolder.textViewVillage.setText(Utils.getValue(pc.getColumnmaps(), DBConstants.KEY.VILLAGE_TOWN, true));
             viewHolder.textViewService.setText(Utils.getValue(pc.getColumnmaps(), DBConstants.KEY.REFERRAL_SERVICE, true));
@@ -86,7 +87,7 @@ public class ReferralRegisterProvider implements RecyclerViewProvider<ReferralRe
             viewHolder.registerColumns.setOnClickListener(onClickListener);
 
             viewHolder.registerColumns.setOnClickListener(v -> viewHolder.patientColumn.performClick());
-            setReferralStatusColor(context,viewHolder.textReferralStatus,Utils.getValue(pc.getColumnmaps(), DBConstants.KEY.REFERRAL_STATUS, true));
+            setReferralStatusColor(context, viewHolder.textReferralStatus, Utils.getValue(pc.getColumnmaps(), DBConstants.KEY.REFERRAL_STATUS, true));
 
         } catch (Exception e) {
             Timber.e(e);
@@ -153,6 +154,8 @@ public class ReferralRegisterProvider implements RecyclerViewProvider<ReferralRe
                 break;
             case Constants.REFERRAL_STATUS.SUCCESSFUL:
                 textViewStatus.setTextColor(context.getResources().getColor(R.color.alert_complete_green));
+                break;
+            default:
                 break;
         }
     }
