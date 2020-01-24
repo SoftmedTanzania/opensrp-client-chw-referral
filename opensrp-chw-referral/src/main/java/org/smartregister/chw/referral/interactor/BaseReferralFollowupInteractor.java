@@ -34,22 +34,15 @@ public class BaseReferralFollowupInteractor implements BaseFollowupContract.Inte
 
     @Override
     public void saveFollowup(String baseEntityId, HashMap<String, NFormViewData> valuesHashMap, JSONObject jsonObject, BaseFollowupContract.InteractorCallBack callBack) {
-
-        Runnable runnable = () -> {
-            // save it
-            try {
-                saveFollowup(baseEntityId, valuesHashMap, jsonObject);
-            } catch (Exception e) {
-                Timber.e(e);
-            }
-
-            appExecutors.mainThread().execute(callBack::onFollowupSaved);
-        };
-        appExecutors.diskIO().execute(runnable);
+        try {
+            saveFollowup(baseEntityId, valuesHashMap, jsonObject);
+        } catch (Exception e) {
+            Timber.e(e);
+        }
     }
 
     @VisibleForTesting
-    void saveFollowup(String baseEntityId, HashMap<String, NFormViewData> valuesHashMap, JSONObject jsonObject) throws Exception {
+    void saveFollowup(String baseEntityId, HashMap<String, NFormViewData> valuesHashMap, JSONObject jsonObject) {
 
         AllSharedPreferences allSharedPreferences = ReferralLibrary.getInstance().context().allSharedPreferences();
         Event baseEvent = JsonFormUtils.processJsonForm(allSharedPreferences, baseEntityId,

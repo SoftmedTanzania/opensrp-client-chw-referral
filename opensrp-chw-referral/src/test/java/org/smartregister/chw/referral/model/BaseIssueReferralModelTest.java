@@ -23,13 +23,8 @@ public class BaseIssueReferralModelTest {
     protected CommonPersonObjectClient client;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         MockitoAnnotations.initMocks(this);
-    }
-
-    @Test
-    public void getHealthFacilities() {
-        Assert.assertNull(model.getHealthFacilities());
     }
 
     @Test

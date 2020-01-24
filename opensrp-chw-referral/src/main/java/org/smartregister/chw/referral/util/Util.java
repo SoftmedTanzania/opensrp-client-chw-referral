@@ -109,7 +109,7 @@ public class Util {
                 ClipData clip = ClipData.newPlainText(activity.getText(R.string.copied_phone_number), phoneNumber);
                 clipboard.setPrimaryClip(clip);
 
-                CopyToClipboardDialog copyToClipboardDialog = new CopyToClipboardDialog(activity, R.style.copy_clipboard_dialog);
+                CopyToClipboardDialog copyToClipboardDialog = new CopyToClipboardDialog(activity, R.style.ClipboardDialogStyle);
                 copyToClipboardDialog.setContent(phoneNumber);
                 copyToClipboardDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 copyToClipboardDialog.show();

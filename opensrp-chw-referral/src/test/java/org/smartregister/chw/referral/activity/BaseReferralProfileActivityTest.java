@@ -7,14 +7,10 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.mockito.Spy;
 
 public class BaseReferralProfileActivityTest {
     @Mock
-    protected BaseReferralProfileActivity baseReferralProfileActivity;
-
-    @Spy
-    protected BaseReferralProfileActivity spy;
+    protected ReferralDetailsViewActivity baseReferralProfileActivity;
 
     @Mock
     protected View view;

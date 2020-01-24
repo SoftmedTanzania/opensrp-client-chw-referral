@@ -1,6 +1,6 @@
 package org.smartregister.chw.referral.util;
 
-public interface JsonFormConstant {
+public interface JsonFormConstants {
     String STEPS = "steps";
     String NAME = "name";
     String PROBLEM = "problem";

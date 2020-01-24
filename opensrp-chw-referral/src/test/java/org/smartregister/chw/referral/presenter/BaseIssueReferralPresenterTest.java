@@ -1,5 +1,8 @@
 package org.smartregister.chw.referral.presenter;
 
+import com.nerdstone.neatformcore.domain.model.NFormViewData;
+
+import org.json.JSONObject;
 import org.junit.Assert;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -8,6 +11,8 @@ import org.smartregister.chw.referral.contract.BaseIssueReferralContract;
 import org.smartregister.chw.referral.domain.MemberObject;
 import org.smartregister.chw.referral.model.BaseIssueReferralModel;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
+
+import java.util.HashMap;
 
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
@@ -68,8 +73,10 @@ public class BaseIssueReferralPresenterTest {
 
     @Test
     public void saveForm() {
-        issueReferralPresenter.saveForm("sample string");
-        verify(interactor).saveRegistration("sample string", issueReferralPresenter);
+        HashMap<String, NFormViewData> viewData = new HashMap<>();
+        JSONObject jsonForm = new JSONObject();
+        issueReferralPresenter.saveForm(viewData,jsonForm);
+        verify(interactor).saveRegistration("sampleBaseEntityID", viewData,jsonForm, issueReferralPresenter);
     }
 
     @Test

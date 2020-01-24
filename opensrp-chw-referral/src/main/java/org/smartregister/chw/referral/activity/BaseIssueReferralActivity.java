@@ -40,7 +40,7 @@ import org.smartregister.chw.referral.model.AbstractIssueReferralModel;
 import org.smartregister.chw.referral.model.BaseIssueReferralModel;
 import org.smartregister.chw.referral.presenter.BaseIssueReferralPresenter;
 import org.smartregister.chw.referral.util.Constants;
-import org.smartregister.chw.referral.util.JsonFormConstant;
+import org.smartregister.chw.referral.util.JsonFormConstants;
 import org.smartregister.chw.referral.util.JsonFormUtils;
 import org.smartregister.commonregistry.CommonPersonObject;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
@@ -172,13 +172,13 @@ public class BaseIssueReferralActivity extends AppCompatActivity implements Base
 
 
     private void injectReferralProblems(JSONObject form) throws JSONException {
-        JSONObject stepsJsonObject = form.getJSONArray(JsonFormConstant.STEPS)
+        JSONObject stepsJsonObject = form.getJSONArray(JsonFormConstants.STEPS)
                 .getJSONObject(0);
-        JSONArray fields = stepsJsonObject.getJSONArray(JsonFormConstant.FIELDS);
+        JSONArray fields = stepsJsonObject.getJSONArray(JsonFormConstants.FIELDS);
 
         JSONObject problems = null;
         for (int i = 0; i < (fields != null ? fields.length() : 0); i++) {
-            if (fields.getJSONObject(i).getString(JsonFormConstant.NAME).equals(JsonFormConstant.PROBLEM)) {
+            if (fields.getJSONObject(i).getString(JsonFormConstants.NAME).equals(JsonFormConstants.PROBLEM)) {
                 problems = fields.getJSONObject(i);
                 break;
             }
@@ -189,9 +189,9 @@ public class BaseIssueReferralActivity extends AppCompatActivity implements Base
 
 
         if(getResources().getConfiguration().locale.getLanguage().equals("en")) {
-            stepsJsonObject.put(JsonFormConstant.TITLE,viewModel.referralService.getNameEn());
+            stepsJsonObject.put(JsonFormConstants.TITLE,viewModel.referralService.getNameEn());
         }else  if(getResources().getConfiguration().locale.getLanguage().equals("sw")){
-            stepsJsonObject.put(JsonFormConstant.TITLE,viewModel.referralService.getNameSw());
+            stepsJsonObject.put(JsonFormConstants.TITLE,viewModel.referralService.getNameSw());
         }
 
         List<ReferralServiceIndicatorObject> indicatorsByServiceId = viewModel.getIndicatorsByServiceId(serviceId);
@@ -209,7 +209,7 @@ public class BaseIssueReferralActivity extends AppCompatActivity implements Base
                 }
 
                 NeatFormMetaData metaData = new NeatFormMetaData();
-                metaData.openmrsEntity = JsonFormConstant.CONCEPT;
+                metaData.openmrsEntity = JsonFormConstants.CONCEPT;
                 metaData.openmrsEntityId = referralServiceIndicatorObject.getId();
                 metaData.openmrsEntityParent = "";
                 option.neatFormMetaData = metaData;
@@ -220,10 +220,10 @@ public class BaseIssueReferralActivity extends AppCompatActivity implements Base
 
         if (problems != null) {
             JSONArray optionsArray = new JSONArray(new Gson().toJson(problemsOptions));
-            for (int i = 0; i < problems.getJSONArray(JsonFormConstant.OPTIONS).length(); i++) {
-                optionsArray.put(problems.getJSONArray(JsonFormConstant.OPTIONS).get(i));
+            for (int i = 0; i < problems.getJSONArray(JsonFormConstants.OPTIONS).length(); i++) {
+                optionsArray.put(problems.getJSONArray(JsonFormConstants.OPTIONS).get(i));
             }
-            problems.put(JsonFormConstant.OPTIONS, optionsArray);
+            problems.put(JsonFormConstants.OPTIONS, optionsArray);
         }
     }
 
@@ -231,13 +231,13 @@ public class BaseIssueReferralActivity extends AppCompatActivity implements Base
         List<Location> locations = viewModel.getHealthFacilities();
         if (locations != null) {
 
-            JSONArray fields = form.getJSONArray(JsonFormConstant.STEPS)
-                    .getJSONObject(0).getJSONArray(JsonFormConstant.FIELDS);
+            JSONArray fields = form.getJSONArray(JsonFormConstants.STEPS)
+                    .getJSONObject(0).getJSONArray(JsonFormConstants.FIELDS);
 
             JSONObject referralHealthFacilities = null;
             for (int i = 0; i < (fields != null ? fields.length() : 0); i++) {
-                if (fields.getJSONObject(i).getString(JsonFormConstant.NAME)
-                        .equals(JsonFormConstant.CHW_REFERRAL_HF)) {
+                if (fields.getJSONObject(i).getString(JsonFormConstants.NAME)
+                        .equals(JsonFormConstants.CHW_REFERRAL_HF)) {
                     referralHealthFacilities = fields.getJSONObject(i);
                     break;
                 }
@@ -261,10 +261,10 @@ public class BaseIssueReferralActivity extends AppCompatActivity implements Base
 
             if (referralHealthFacilities != null) {
                 JSONArray optionsArray = new JSONArray();
-                for (int i = 0; i < referralHealthFacilities.getJSONArray(JsonFormConstant.OPTIONS).length(); i++) {
-                    optionsArray.put(referralHealthFacilities.getJSONArray(JsonFormConstant.OPTIONS).get(i));
+                for (int i = 0; i < referralHealthFacilities.getJSONArray(JsonFormConstants.OPTIONS).length(); i++) {
+                    optionsArray.put(referralHealthFacilities.getJSONArray(JsonFormConstants.OPTIONS).get(i));
                 }
-                referralHealthFacilities.put(JsonFormConstant.OPTIONS, new JSONArray(new Gson().toJson(healthFacilitiesOptions)));
+                referralHealthFacilities.put(JsonFormConstants.OPTIONS, new JSONArray(new Gson().toJson(healthFacilitiesOptions)));
             }
         }
 
@@ -311,34 +311,34 @@ public class BaseIssueReferralActivity extends AppCompatActivity implements Base
             NFormViewData referralServiceValue = new NFormViewData();
             String referralTaskFocus = "";
             try {
-                referralTaskFocus = jsonForm.getString(JsonFormConstant.REFERRAL_TASK_FOCUS);
+                referralTaskFocus = jsonForm.getString(JsonFormConstants.REFERRAL_TASK_FOCUS);
             } catch (JSONException e) {
                 Timber.e(e);
             }
             referralServiceValue.setValue(referralTaskFocus);
-            formBuilder.getFormData().put(JsonFormConstant.CHW_REFERRAL_SERVICE, referralServiceValue);
+            formBuilder.getFormData().put(JsonFormConstants.CHW_REFERRAL_SERVICE, referralServiceValue);
 
             //Saving referral Date
             NFormViewData dateValue = new NFormViewData();
             dateValue.setValue(Calendar.getInstance().getTimeInMillis());
-            formBuilder.getFormData().put(JsonFormConstant.REFERRAL_DATE, dateValue);
+            formBuilder.getFormData().put(JsonFormConstants.REFERRAL_DATE, dateValue);
 
             //Saving referral time
             NFormViewData timeValue = new NFormViewData();
             DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss.SSS", Locale.getDefault());
             Date date = new Date();
             timeValue.setValue(dateFormat.format(date));
-            formBuilder.getFormData().put(JsonFormConstant.REFERRAL_TIME, timeValue);
+            formBuilder.getFormData().put(JsonFormConstants.REFERRAL_TIME, timeValue);
 
             //Saving referral type
             NFormViewData referralType = new NFormViewData();
             referralType.setValue(Constants.REFERRAL_TYPE.COMMUNITY_TO_FACILITY_REFERRAL);
-            formBuilder.getFormData().put(JsonFormConstant.REFERRAL_TYPE, referralType);
+            formBuilder.getFormData().put(JsonFormConstants.REFERRAL_TYPE, referralType);
 
             //Saving referral status
             NFormViewData referralStatus = new NFormViewData();
             referralStatus.setValue(Constants.REFERRAL_STATUS.PENDING);
-            formBuilder.getFormData().put(JsonFormConstant.REFERRAL_STATUS, referralStatus);
+            formBuilder.getFormData().put(JsonFormConstants.REFERRAL_STATUS, referralStatus);
 
             presenter.saveForm(formBuilder.getFormData(), jsonForm);
             Timber.i("Saved data = %s", new Gson().toJson(formBuilder.getFormData()));

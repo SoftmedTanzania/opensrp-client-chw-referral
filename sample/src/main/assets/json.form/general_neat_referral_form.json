@@ -131,7 +131,7 @@
           "options": [
             {
               "name": "facilityA",
-              "text": "facilityA",
+              "text": "Facility A",
               "meta_data": {
                 "openmrs_entity": "",
                 "openmrs_entity_id": "A123390123123",
