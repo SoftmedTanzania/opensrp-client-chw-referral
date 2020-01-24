@@ -123,7 +123,7 @@
 
         <org.smartregister.view.customcontrols.CustomFontTextView
             android:id="@+id/text_view_referral_status"
-            style="@style/CustomFontTextViewStyle.ClientList.Bold"
+            style="@style/CustomFontTextViewStyle.ClientList"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
