@@ -29,7 +29,6 @@ import org.smartregister.view.viewholder.OnClickFormLauncher;
 import java.text.MessageFormat;
 import java.util.Locale;
 import java.util.Set;
-
 import timber.log.Timber;
 
 import static org.smartregister.util.Utils.getName;
@@ -144,6 +143,7 @@ public class ReferralRegisterProvider implements RecyclerViewProvider<ReferralRe
     }
 
     private void setReferralStatusColor(Context context, TextView textViewStatus, String status) {
+        textViewStatus.setText(status);
         switch (status) {
             case Constants.REFERRAL_STATUS.PENDING:
                 textViewStatus.setTextColor(context.getResources().getColor(R.color.alert_in_progress_blue));
@@ -166,7 +166,6 @@ public class ReferralRegisterProvider implements RecyclerViewProvider<ReferralRe
         public View patientColumn;
         public TextView textViewService;
         public TextView textViewFacility;
-
         public View registerColumns;
         public View dueWrapper;
 

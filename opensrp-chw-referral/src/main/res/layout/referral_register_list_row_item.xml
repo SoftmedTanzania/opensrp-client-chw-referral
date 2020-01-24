@@ -10,7 +10,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
         android:layout_marginStart="@dimen/register_list_item_margin"
         android:layout_marginLeft="@dimen/register_list_item_margin"
@@ -122,8 +121,9 @@
         android:paddingRight="@dimen/register_list_item_padding"
         android:paddingBottom="@dimen/register_list_top_bottom_padding">
 
-        <TextView
+        <org.smartregister.view.customcontrols.CustomFontTextView
             android:id="@+id/text_view_referral_status"
+            style="@style/CustomFontTextViewStyle.ClientList.Bold"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
@@ -133,11 +133,9 @@
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
             android:textAllCaps="false"
-            android:textAppearance="?android:textAppearanceSmall"
             android:textColor="@color/vaccine_blue_bg_st"
             android:text="@string/referral_status_pending"
-            android:textSize="@dimen/referral_register_list_due_size"
-            android:typeface="normal" />
+            android:textSize="@dimen/referral_register_list_due_size" />
 
     </LinearLayout>
 
