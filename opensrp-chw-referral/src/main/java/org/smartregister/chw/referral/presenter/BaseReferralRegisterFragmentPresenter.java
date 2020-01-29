@@ -115,6 +115,6 @@ public class BaseReferralRegisterFragmentPresenter implements BaseReferralRegist
 
     @Override
     public String getDueFilterCondition() {
-        return " (cast( julianday(STRFTIME('%Y-%m-%d', datetime('now'))) -  julianday(IFNULL(SUBSTR(chw_referral_date,7,4)|| '-' || SUBSTR(chw_referral_date,4,2) || '-' || SUBSTR(chw_referral_date,1,2),'')) as integer) between 7 and 14) ";
+        return " referral_status = '"+Constants.REFERRAL_STATUS.PENDING+"'";
     }
 }
