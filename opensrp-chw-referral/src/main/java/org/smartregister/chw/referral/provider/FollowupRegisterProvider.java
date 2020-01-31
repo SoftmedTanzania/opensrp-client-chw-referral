@@ -52,16 +52,16 @@ public class FollowupRegisterProvider implements RecyclerViewProvider<FollowupRe
     private void populatePatientColumn(CommonPersonObjectClient pc, final RegisterViewHolder viewHolder) {
         try {
             String fname = getName(
-                    Utils.getValue(pc.getColumnmaps(), DBConstants.KEY.FIRST_NAME, true),
-                    Utils.getValue(pc.getColumnmaps(), DBConstants.KEY.MIDDLE_NAME, true));
-            String patientName = getName(fname, Utils.getValue(pc.getColumnmaps(), DBConstants.KEY.LAST_NAME, true));
+                    Utils.getValue(pc.getColumnmaps(), DBConstants.Key.FIRST_NAME, true),
+                    Utils.getValue(pc.getColumnmaps(), DBConstants.Key.MIDDLE_NAME, true));
+            String patientName = getName(fname, Utils.getValue(pc.getColumnmaps(), DBConstants.Key.LAST_NAME, true));
 
-            String dobString = Utils.getValue(pc.getColumnmaps(), DBConstants.KEY.DOB, false);
+            String dobString = Utils.getValue(pc.getColumnmaps(), DBConstants.Key.DOB, false);
             int age = new Period(new DateTime(dobString), new DateTime()).getYears();
 
             viewHolder.patientName.setText(patientName + ", " + age);
-            viewHolder.textViewVillage.setText(Utils.getValue(pc.getColumnmaps(), DBConstants.KEY.VILLAGE_TOWN, true));
-            viewHolder.textViewGender.setText(Utils.getValue(pc.getColumnmaps(), DBConstants.KEY.GENDER, true));
+            viewHolder.textViewVillage.setText(Utils.getValue(pc.getColumnmaps(), DBConstants.Key.VILLAGE_TOWN, true));
+            viewHolder.textViewGender.setText(Utils.getValue(pc.getColumnmaps(), DBConstants.Key.GENDER, true));
             viewHolder.patientColumn.setOnClickListener(onClickListener);
             viewHolder.patientColumn.setTag(pc);
             viewHolder.patientColumn.setTag(R.id.VIEW_ID, BaseReferralRegisterFragment.CLICK_VIEW_NORMAL);

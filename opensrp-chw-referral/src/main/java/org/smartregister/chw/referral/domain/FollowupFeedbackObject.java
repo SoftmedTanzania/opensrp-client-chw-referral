@@ -20,10 +20,10 @@ public class FollowupFeedbackObject implements Serializable {
     private boolean isActive;
 
     public FollowupFeedbackObject(CommonPersonObjectClient client) {
-        id = client.getColumnmaps().get(DBConstants.KEY.ID);
-        nameSw = client.getColumnmaps().get(DBConstants.KEY.NAME_SW) != null ? client.getColumnmaps().get(DBConstants.KEY.NAME_SW) : "";
-        nameEn = client.getColumnmaps().get(DBConstants.KEY.NAME_EN) != null ? client.getColumnmaps().get(DBConstants.KEY.NAME_EN) : "";
-        isActive = Boolean.parseBoolean(client.getColumnmaps().get(DBConstants.KEY.IS_ACTIVE));
+        id = client.getColumnmaps().get(DBConstants.Key.ID);
+        nameSw = client.getColumnmaps().get(DBConstants.Key.NAME_SW) != null ? client.getColumnmaps().get(DBConstants.Key.NAME_SW) : "";
+        nameEn = client.getColumnmaps().get(DBConstants.Key.NAME_EN) != null ? client.getColumnmaps().get(DBConstants.Key.NAME_EN) : "";
+        isActive = Boolean.parseBoolean(client.getColumnmaps().get(DBConstants.Key.IS_ACTIVE));
     }
 
     public String getNameEn() {

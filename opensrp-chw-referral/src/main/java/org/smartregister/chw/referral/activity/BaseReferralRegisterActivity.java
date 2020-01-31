@@ -37,9 +37,9 @@ public class BaseReferralRegisterActivity extends BaseRegisterActivity implement
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        BASE_ENTITY_ID = getIntent().getStringExtra(Constants.ACTIVITY_PAYLOAD.BASE_ENTITY_ID);
-        ACTION = getIntent().getStringExtra(Constants.ACTIVITY_PAYLOAD.ACTION);
-        FORM_NAME = getIntent().getStringExtra(Constants.ACTIVITY_PAYLOAD.REFERRAL_FORM_NAME);
+        BASE_ENTITY_ID = getIntent().getStringExtra(Constants.ActivityPayload.BASE_ENTITY_ID);
+        ACTION = getIntent().getStringExtra(Constants.ActivityPayload.ACTION);
+        FORM_NAME = getIntent().getStringExtra(Constants.ActivityPayload.REFERRAL_FORM_NAME);
         onStartActivityWithAction();
     }
 
@@ -69,7 +69,7 @@ public class BaseReferralRegisterActivity extends BaseRegisterActivity implement
     @Override
     public void startFormActivity(JSONObject jsonForm) {
         Intent intent = new Intent(this, getFamilyFormActivity());
-        intent.putExtra(Constants.JSON_FORM_EXTRA.JSON, jsonForm.toString());
+        intent.putExtra(Constants.JsonFormExtra.JSON, jsonForm.toString());
 
         startActivityForResult(intent, Constants.REQUEST_CODE_GET_JSON);
     }
@@ -86,7 +86,7 @@ public class BaseReferralRegisterActivity extends BaseRegisterActivity implement
 
     @Override
     public List<String> getViewIdentifiers() {
-        return Arrays.asList(Constants.CONFIGURATION.ISSUE_REFERRAL);
+        return Arrays.asList(Constants.Configuration.ISSUE_REFERRAL);
     }
 
 

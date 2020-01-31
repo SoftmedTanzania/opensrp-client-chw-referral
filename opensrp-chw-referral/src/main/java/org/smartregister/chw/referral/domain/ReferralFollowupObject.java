@@ -29,14 +29,14 @@ public class ReferralFollowupObject implements Serializable {
     }
 
     public ReferralFollowupObject(CommonPersonObjectClient client) {
-        baseEntityId = client.getColumnmaps().get(DBConstants.KEY.BASE_ENTITY_ID);
-        relationalId = client.getColumnmaps().get(DBConstants.KEY.RELATIONAL_ID);
-        chwFollowupFeedbackId = client.getColumnmaps().get(DBConstants.KEY.CHW_FOLLOWUP_FEEDBACK_ID);
-        otherFollowupFeedbackInformation = client.getColumnmaps().get(DBConstants.KEY.OTHER_FOLLOWUP_FEEDBACK_INFORMATION);
-        chwFollowupDate = client.getColumnmaps().get(DBConstants.KEY.CHW_FOLLOWUP_DATE);
+        baseEntityId = client.getColumnmaps().get(DBConstants.Key.BASE_ENTITY_ID);
+        relationalId = client.getColumnmaps().get(DBConstants.Key.RELATIONAL_ID);
+        chwFollowupFeedbackId = client.getColumnmaps().get(DBConstants.Key.CHW_FOLLOWUP_FEEDBACK_ID);
+        otherFollowupFeedbackInformation = client.getColumnmaps().get(DBConstants.Key.OTHER_FOLLOWUP_FEEDBACK_INFORMATION);
+        chwFollowupDate = client.getColumnmaps().get(DBConstants.Key.CHW_FOLLOWUP_DATE);
 
-        details = client.getColumnmaps().get(DBConstants.KEY.DETAILS);
-        isClosed = Boolean.parseBoolean(client.getColumnmaps().get(DBConstants.KEY.IS_CLOSED));
+        details = client.getColumnmaps().get(DBConstants.Key.DETAILS);
+        isClosed = Boolean.parseBoolean(client.getColumnmaps().get(DBConstants.Key.IS_CLOSED));
     }
 
     public String getDetails() {

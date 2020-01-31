@@ -24,11 +24,11 @@ public class ReferralServiceIndicatorObject implements Serializable {
     private boolean isChecked = false;
 
     public ReferralServiceIndicatorObject(CommonPersonObjectClient client) {
-        id = client.getColumnmaps().get(DBConstants.KEY.ID);
-        relationalId = client.getColumnmaps().get(DBConstants.KEY.RELATIONAL_ID);
-        nameEn = client.getColumnmaps().get(DBConstants.KEY.NAME_EN) != null ? client.getColumnmaps().get(DBConstants.KEY.NAME_EN) : "";
-        nameSw = client.getColumnmaps().get(DBConstants.KEY.NAME_SW) != null ? client.getColumnmaps().get(DBConstants.KEY.NAME_SW) : "";
-        isActive = Boolean.parseBoolean(client.getColumnmaps().get(DBConstants.KEY.IS_ACTIVE));
+        id = client.getColumnmaps().get(DBConstants.Key.ID);
+        relationalId = client.getColumnmaps().get(DBConstants.Key.RELATIONAL_ID);
+        nameEn = client.getColumnmaps().get(DBConstants.Key.NAME_EN) != null ? client.getColumnmaps().get(DBConstants.Key.NAME_EN) : "";
+        nameSw = client.getColumnmaps().get(DBConstants.Key.NAME_SW) != null ? client.getColumnmaps().get(DBConstants.Key.NAME_SW) : "";
+        isActive = Boolean.parseBoolean(client.getColumnmaps().get(DBConstants.Key.IS_ACTIVE));
     }
 
     public String getId() {

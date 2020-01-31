@@ -42,7 +42,7 @@ public class BaseIssueReferralPresenter implements BaseIssueReferralContract.Pre
     @Override
     public String getMainCondition() {
         try {
-            return Constants.TABLES.FAMILY_MEMBER + "." + DBConstants.KEY.BASE_ENTITY_ID + " = '" + memberObject.getBaseEntityId() + "'";
+            return Constants.Tables.FAMILY_MEMBER + "." + DBConstants.Key.BASE_ENTITY_ID + " = '" + memberObject.getBaseEntityId() + "'";
         } catch (Exception e) {
             Timber.e(e);
         }
@@ -52,7 +52,7 @@ public class BaseIssueReferralPresenter implements BaseIssueReferralContract.Pre
 
     @Override
     public String getMainTable() {
-        return Constants.TABLES.FAMILY_MEMBER;
+        return Constants.Tables.FAMILY_MEMBER;
     }
 
     @Override

@@ -77,13 +77,13 @@ public class BaseIssueReferralActivity extends AppCompatActivity implements Base
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.baseEntityId = this.getIntent().getStringExtra(Constants.ACTIVITY_PAYLOAD.BASE_ENTITY_ID);
-        this.serviceId = this.getIntent().getStringExtra(Constants.ACTIVITY_PAYLOAD.REFERRAL_SERVICE_IDS);
-        this.action = this.getIntent().getStringExtra(Constants.ACTIVITY_PAYLOAD.ACTION);
-        this.formName = this.getIntent().getStringExtra(Constants.ACTIVITY_PAYLOAD.REFERRAL_FORM_NAME);
+        this.baseEntityId = this.getIntent().getStringExtra(Constants.ActivityPayload.BASE_ENTITY_ID);
+        this.serviceId = this.getIntent().getStringExtra(Constants.ActivityPayload.REFERRAL_SERVICE_IDS);
+        this.action = this.getIntent().getStringExtra(Constants.ActivityPayload.ACTION);
+        this.formName = this.getIntent().getStringExtra(Constants.ActivityPayload.REFERRAL_FORM_NAME);
 
         try {
-            this.jsonForm = new JSONObject(this.getIntent().getStringExtra(Constants.ACTIVITY_PAYLOAD.JSON_FORM));
+            this.jsonForm = new JSONObject(this.getIntent().getStringExtra(Constants.ActivityPayload.JSON_FORM));
         } catch (Exception e) {
             Timber.e(e);
         }
@@ -332,12 +332,12 @@ public class BaseIssueReferralActivity extends AppCompatActivity implements Base
 
             //Saving referral type
             NFormViewData referralType = new NFormViewData();
-            referralType.setValue(Constants.REFERRAL_TYPE.COMMUNITY_TO_FACILITY_REFERRAL);
+            referralType.setValue(Constants.ReferralType.COMMUNITY_TO_FACILITY_REFERRAL);
             formBuilder.getFormData().put(JsonFormConstants.REFERRAL_TYPE, referralType);
 
             //Saving referral status
             NFormViewData referralStatus = new NFormViewData();
-            referralStatus.setValue(Constants.REFERRAL_STATUS.PENDING);
+            referralStatus.setValue(Constants.ReferralStatus.PENDING);
             formBuilder.getFormData().put(JsonFormConstants.REFERRAL_STATUS, referralStatus);
 
             presenter.saveForm(formBuilder.getFormData(), jsonForm);

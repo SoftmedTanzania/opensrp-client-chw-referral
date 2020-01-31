@@ -82,7 +82,7 @@ public class BaseIssueReferralModel extends AbstractIssueReferralModel {
     }
 
     protected String[] mainColumns(String tableName) {
-        return new String[]{tableName + "." + DBConstants.KEY.RELATIONAL_ID, tableName + "." + DBConstants.KEY.BASE_ENTITY_ID, tableName + "." + DBConstants.KEY.FIRST_NAME, tableName + "." + DBConstants.KEY.MIDDLE_NAME, tableName + "." + DBConstants.KEY.LAST_NAME, tableName + "." + DBConstants.KEY.UNIQUE_ID, tableName + "." + DBConstants.KEY.GENDER, tableName + "." + DBConstants.KEY.DOB, tableName + "." + DBConstants.KEY.DOD};
+        return new String[]{tableName + "." + DBConstants.Key.RELATIONAL_ID, tableName + "." + DBConstants.Key.BASE_ENTITY_ID, tableName + "." + DBConstants.Key.FIRST_NAME, tableName + "." + DBConstants.Key.MIDDLE_NAME, tableName + "." + DBConstants.Key.LAST_NAME, tableName + "." + DBConstants.Key.UNIQUE_ID, tableName + "." + DBConstants.Key.GENDER, tableName + "." + DBConstants.Key.DOB, tableName + "." + DBConstants.Key.DOD};
     }
 
     @Override

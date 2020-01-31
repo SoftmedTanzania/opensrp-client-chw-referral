@@ -13,11 +13,11 @@ public class ReferralServiceObject implements Serializable {
     private boolean isActive;
 
     public ReferralServiceObject(CommonPersonObjectClient client) {
-        id = client.getColumnmaps().get(DBConstants.KEY.ID);
-        nameEn = client.getColumnmaps().get(DBConstants.KEY.NAME_EN) != null ? client.getColumnmaps().get(DBConstants.KEY.NAME_EN) : "";
-        nameSw = client.getColumnmaps().get(DBConstants.KEY.NAME_SW) != null ? client.getColumnmaps().get(DBConstants.KEY.NAME_SW) : "";
-        identifier = client.getColumnmaps().get(DBConstants.KEY.REFERRAL_SERVICE_IDENTIFIER) != null ? client.getColumnmaps().get(DBConstants.KEY.REFERRAL_SERVICE_IDENTIFIER) : "";
-        isActive = Boolean.parseBoolean(client.getColumnmaps().get(DBConstants.KEY.IS_ACTIVE));
+        id = client.getColumnmaps().get(DBConstants.Key.ID);
+        nameEn = client.getColumnmaps().get(DBConstants.Key.NAME_EN) != null ? client.getColumnmaps().get(DBConstants.Key.NAME_EN) : "";
+        nameSw = client.getColumnmaps().get(DBConstants.Key.NAME_SW) != null ? client.getColumnmaps().get(DBConstants.Key.NAME_SW) : "";
+        identifier = client.getColumnmaps().get(DBConstants.Key.REFERRAL_SERVICE_IDENTIFIER) != null ? client.getColumnmaps().get(DBConstants.Key.REFERRAL_SERVICE_IDENTIFIER) : "";
+        isActive = Boolean.parseBoolean(client.getColumnmaps().get(DBConstants.Key.IS_ACTIVE));
     }
 
     public String getId() {

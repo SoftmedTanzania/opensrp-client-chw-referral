@@ -47,7 +47,7 @@ public class ReferralDetailsViewActivity extends SecuredActivity {
 
     public static void startReferralDetailsViewActivity(Activity activity, MemberObject memberObject) {
         Intent intent = new Intent(activity, ReferralDetailsViewActivity.class);
-        intent.putExtra(Constants.REFERRAL_MEMBER_OBJECT.MEMBER_OBJECT, memberObject);
+        intent.putExtra(Constants.ReferralMemberObject.MEMBER_OBJECT, memberObject);
         activity.startActivity(intent);
     }
 
@@ -60,7 +60,7 @@ public class ReferralDetailsViewActivity extends SecuredActivity {
     protected void onCreation() {
         setContentView(R.layout.referral_details_activity);
         inflateToolbar();
-        memberObject = (MemberObject) getIntent().getSerializableExtra(Constants.REFERRAL_MEMBER_OBJECT.MEMBER_OBJECT);
+        memberObject = (MemberObject) getIntent().getSerializableExtra(Constants.ReferralMemberObject.MEMBER_OBJECT);
         setUpViews();
 
     }

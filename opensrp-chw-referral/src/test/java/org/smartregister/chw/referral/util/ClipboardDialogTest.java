@@ -7,35 +7,36 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.smartregister.chw.referral.custom_views.ClipboardDialog;
 
 /**
  * Created by cozej4 on 2019-10-26.
  *
  * @cozej4 https://github.com/cozej4
  */
-public class CopyToClipboardDialogTest {
+public class ClipboardDialogTest {
 
     @Mock
-    private CopyToClipboardDialog copyToClipboardDialog;
+    private ClipboardDialog clipboardDialog;
 
     @Mock
     private Context context;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         MockitoAnnotations.initMocks(this);
     }
 
     @Test
     public void assertNotNull() {
-        copyToClipboardDialog = new CopyToClipboardDialog(context, 1);
-        Assert.assertNotNull(copyToClipboardDialog);
+        clipboardDialog = new ClipboardDialog(context, 1);
+        Assert.assertNotNull(clipboardDialog);
     }
 
     @Test
     public void setContent() {
-        copyToClipboardDialog = new CopyToClipboardDialog(context);
-        copyToClipboardDialog.setContent("test content");
-        Assert.assertEquals("test content", copyToClipboardDialog.content);
+        clipboardDialog = new ClipboardDialog(context);
+        clipboardDialog.content = "test content";
+        Assert.assertEquals("test content", clipboardDialog.content);
     }
 }

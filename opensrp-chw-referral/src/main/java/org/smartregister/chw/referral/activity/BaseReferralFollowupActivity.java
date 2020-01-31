@@ -66,14 +66,14 @@ public class BaseReferralFollowupActivity extends AppCompatActivity implements B
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.memberObject = (MemberObject) this.getIntent().getSerializableExtra(Constants.REFERRAL_MEMBER_OBJECT.MEMBER_OBJECT);
-        this.formName = this.getIntent().getStringExtra(Constants.ACTIVITY_PAYLOAD.REFERRAL_FOLLOWUP_FORM_NAME);
+        this.memberObject = (MemberObject) this.getIntent().getSerializableExtra(Constants.ReferralMemberObject.MEMBER_OBJECT);
+        this.formName = this.getIntent().getStringExtra(Constants.ActivityPayload.REFERRAL_FOLLOWUP_FORM_NAME);
         try {
-            this.jsonForm = new JSONObject(this.getIntent().getStringExtra(Constants.ACTIVITY_PAYLOAD.JSON_FORM));
+            this.jsonForm = new JSONObject(this.getIntent().getStringExtra(Constants.ActivityPayload.JSON_FORM));
         } catch (JSONException e) {
             Timber.e(e);
         }
-        this.injectValuesFromDb = this.getIntent().getBooleanExtra(Constants.ACTIVITY_PAYLOAD.INJECT_VALUES_FROM_DB, true);
+        this.injectValuesFromDb = this.getIntent().getBooleanExtra(Constants.ActivityPayload.INJECT_VALUES_FROM_DB, true);
 
         //initializing the presenter
         presenter = presenter();
@@ -114,7 +114,7 @@ public class BaseReferralFollowupActivity extends AppCompatActivity implements B
         textViewFollowUpReason = findViewById(R.id.followUp_reason);
         buttonSave = findViewById(R.id.save_button);
 
-        memberObject = (MemberObject) getIntent().getSerializableExtra(Constants.REFERRAL_MEMBER_OBJECT.MEMBER_OBJECT);
+        memberObject = (MemberObject) getIntent().getSerializableExtra(Constants.ReferralMemberObject.MEMBER_OBJECT);
         presenter.fillProfileData(memberObject);
 
         try {

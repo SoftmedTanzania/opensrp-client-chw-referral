@@ -31,7 +31,7 @@ public class BaseReferralHistoryActivity extends AppCompatActivity implements Ba
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_base_referral_history);
-        memberObject = (MemberObject) getIntent().getSerializableExtra(Constants.ACTIVITY_PAYLOAD.MEMBER_OBJECT);
+        memberObject = (MemberObject) getIntent().getSerializableExtra(Constants.ActivityPayload.MEMBER_OBJECT);
         BaseReferralHistoryContract.Presenter baseferralHistoryPresenter = presenter();
         setupViews();
 

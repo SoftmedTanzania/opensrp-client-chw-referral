@@ -92,21 +92,21 @@ public class SampleApplication extends DrishtiApplication {
 
     private static String[] getFtsSearchFields(String tableName) {
         if (tableName.equals(SampleConstants.TABLE_NAME.FAMILY)) {
-            return new String[]{DBConstants.KEY.BASE_ENTITY_ID, DBConstants.KEY.VILLAGE_TOWN, DBConstants.KEY.FIRST_NAME,
-                    DBConstants.KEY.LAST_NAME, DBConstants.KEY.UNIQUE_ID};
+            return new String[]{DBConstants.Key.BASE_ENTITY_ID, DBConstants.Key.VILLAGE_TOWN, DBConstants.Key.FIRST_NAME,
+                    DBConstants.Key.LAST_NAME, DBConstants.Key.UNIQUE_ID};
         } else if (tableName.equals(SampleConstants.TABLE_NAME.FAMILY_MEMBER)) {
-            return new String[]{DBConstants.KEY.BASE_ENTITY_ID, DBConstants.KEY.FIRST_NAME, DBConstants.KEY.MIDDLE_NAME,
-                    DBConstants.KEY.LAST_NAME, DBConstants.KEY.UNIQUE_ID};
+            return new String[]{DBConstants.Key.BASE_ENTITY_ID, DBConstants.Key.FIRST_NAME, DBConstants.Key.MIDDLE_NAME,
+                    DBConstants.Key.LAST_NAME, DBConstants.Key.UNIQUE_ID};
         }
         return null;
     }
 
     private static String[] getFtsSortFields(String tableName) {
         if (tableName.equals(SampleConstants.TABLE_NAME.FAMILY)) {
-            return new String[]{DBConstants.KEY.REFERRAL_DATE, DBConstants.KEY.DATE_REMOVED};
+            return new String[]{DBConstants.Key.REFERRAL_DATE, DBConstants.Key.DATE_REMOVED};
         } else if (tableName.equals(SampleConstants.TABLE_NAME.FAMILY_MEMBER)) {
-            return new String[]{DBConstants.KEY.DOB, DBConstants.KEY.DOD, DBConstants.KEY
-                    .REFERRAL_DATE, DBConstants.KEY.DATE_REMOVED};
+            return new String[]{DBConstants.Key.DOB, DBConstants.Key.DOD, DBConstants.Key
+                    .REFERRAL_DATE, DBConstants.Key.DATE_REMOVED};
         }
         return null;
     }

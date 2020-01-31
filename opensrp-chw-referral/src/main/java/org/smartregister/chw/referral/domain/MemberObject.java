@@ -66,37 +66,37 @@ public class MemberObject implements Serializable {
     private boolean isClosed;
 
     public MemberObject(CommonPersonObjectClient client) {
-        firstName = client.getColumnmaps().get(DBConstants.KEY.FIRST_NAME) != null ? client.getColumnmaps().get(DBConstants.KEY.FIRST_NAME) : "";
-        middleName = client.getColumnmaps().get(DBConstants.KEY.MIDDLE_NAME) != null ? client.getColumnmaps().get(DBConstants.KEY.MIDDLE_NAME) : "";
-        lastName = client.getColumnmaps().get(DBConstants.KEY.LAST_NAME) != null ? client.getColumnmaps().get(DBConstants.KEY.LAST_NAME) : "";
-        address = client.getColumnmaps().get(DBConstants.KEY.VILLAGE_TOWN) != null ? client.getColumnmaps().get(DBConstants.KEY.VILLAGE_TOWN) : "";
-        gender = client.getColumnmaps().get(DBConstants.KEY.GENDER) != null ? client.getColumnmaps().get(DBConstants.KEY.GENDER) : "";
-        age = client.getColumnmaps().get(DBConstants.KEY.DOB) != null ? client.getColumnmaps().get(DBConstants.KEY.DOB) : "";
-        uniqueId = client.getColumnmaps().get(DBConstants.KEY.UNIQUE_ID);
-        baseEntityId = client.getColumnmaps().get(DBConstants.KEY.BASE_ENTITY_ID);
-        relationalId = client.getColumnmaps().get(DBConstants.KEY.RELATIONAL_ID);
-        primaryCareGiver = client.getColumnmaps().get(DBConstants.KEY.PRIMARY_CARE_GIVER);
-        familyHead = client.getColumnmaps().get(DBConstants.KEY.FAMILY_HEAD);
-        familyBaseEntityId = client.getColumnmaps().get(DBConstants.KEY.RELATIONAL_ID);
-        relationalid = client.getColumnmaps().get(DBConstants.KEY.RELATIONAL_ID);
-        details = client.getColumnmaps().get(DBConstants.KEY.DETAILS);
-        isEmergencyReferral = Boolean.parseBoolean(client.getColumnmaps().get(DBConstants.KEY.IS_EMERGENCY_REFERRAL));
-        familyName = client.getColumnmaps().get(DBConstants.KEY.FAMILY_NAME);
-        phoneNumber = client.getColumnmaps().get(DBConstants.KEY.PHONE_NUMBER);
-        familyHeadPhoneNumber = client.getColumnmaps().get(DBConstants.KEY.FAMILY_HEAD_PHONE_NUMBER);
-        otherPhoneNumber = client.getColumnmaps().get(DBConstants.KEY.OTHER_PHONE_NUMBER);
-        chwReferralHf = client.getColumnmaps().get(DBConstants.KEY.REFERRAL_HF);
-        chwReferralServiceId = client.getColumnmaps().get(DBConstants.KEY.REFERRAL_SERVICE_ID);
-        chwReferralDate = client.getColumnmaps().get(DBConstants.KEY.REFERRAL_DATE);
-        problem = client.getColumnmaps().get(DBConstants.KEY.PROBLEM);
-        problemOther = client.getColumnmaps().get(DBConstants.KEY.PROBLEM_OTHER);
-        referralType = client.getColumnmaps().get(DBConstants.KEY.REFERRAL_TYPE);
-        referralStatus = client.getColumnmaps().get(DBConstants.KEY.REFERRAL_STATUS);
-        referralAppointmentDate = client.getColumnmaps().get(DBConstants.KEY.REFERRAL_APPOINTMENT_DATE);
-        servicesBeforeReferral = client.getColumnmaps().get(DBConstants.KEY.SERVICE_BEFORE_REFERRAL);
-        chwReferralService = client.getColumnmaps().get(DBConstants.KEY.REFERRAL_SERVICE);
-        servicesBeforeReferralOther = client.getColumnmaps().get(DBConstants.KEY.SERVICE_BEFORE_REFERRAL_OTHER);
-        isClosed = Boolean.parseBoolean(client.getColumnmaps().get(DBConstants.KEY.IS_CLOSED));
+        firstName = client.getColumnmaps().get(DBConstants.Key.FIRST_NAME) != null ? client.getColumnmaps().get(DBConstants.Key.FIRST_NAME) : "";
+        middleName = client.getColumnmaps().get(DBConstants.Key.MIDDLE_NAME) != null ? client.getColumnmaps().get(DBConstants.Key.MIDDLE_NAME) : "";
+        lastName = client.getColumnmaps().get(DBConstants.Key.LAST_NAME) != null ? client.getColumnmaps().get(DBConstants.Key.LAST_NAME) : "";
+        address = client.getColumnmaps().get(DBConstants.Key.VILLAGE_TOWN) != null ? client.getColumnmaps().get(DBConstants.Key.VILLAGE_TOWN) : "";
+        gender = client.getColumnmaps().get(DBConstants.Key.GENDER) != null ? client.getColumnmaps().get(DBConstants.Key.GENDER) : "";
+        age = client.getColumnmaps().get(DBConstants.Key.DOB) != null ? client.getColumnmaps().get(DBConstants.Key.DOB) : "";
+        uniqueId = client.getColumnmaps().get(DBConstants.Key.UNIQUE_ID);
+        baseEntityId = client.getColumnmaps().get(DBConstants.Key.BASE_ENTITY_ID);
+        relationalId = client.getColumnmaps().get(DBConstants.Key.RELATIONAL_ID);
+        primaryCareGiver = client.getColumnmaps().get(DBConstants.Key.PRIMARY_CARE_GIVER);
+        familyHead = client.getColumnmaps().get(DBConstants.Key.FAMILY_HEAD);
+        familyBaseEntityId = client.getColumnmaps().get(DBConstants.Key.RELATIONAL_ID);
+        relationalid = client.getColumnmaps().get(DBConstants.Key.RELATIONAL_ID);
+        details = client.getColumnmaps().get(DBConstants.Key.DETAILS);
+        isEmergencyReferral = Boolean.parseBoolean(client.getColumnmaps().get(DBConstants.Key.IS_EMERGENCY_REFERRAL));
+        familyName = client.getColumnmaps().get(DBConstants.Key.FAMILY_NAME);
+        phoneNumber = client.getColumnmaps().get(DBConstants.Key.PHONE_NUMBER);
+        familyHeadPhoneNumber = client.getColumnmaps().get(DBConstants.Key.FAMILY_HEAD_PHONE_NUMBER);
+        otherPhoneNumber = client.getColumnmaps().get(DBConstants.Key.OTHER_PHONE_NUMBER);
+        chwReferralHf = client.getColumnmaps().get(DBConstants.Key.REFERRAL_HF);
+        chwReferralServiceId = client.getColumnmaps().get(DBConstants.Key.REFERRAL_SERVICE_ID);
+        chwReferralDate = client.getColumnmaps().get(DBConstants.Key.REFERRAL_DATE);
+        problem = client.getColumnmaps().get(DBConstants.Key.PROBLEM);
+        problemOther = client.getColumnmaps().get(DBConstants.Key.PROBLEM_OTHER);
+        referralType = client.getColumnmaps().get(DBConstants.Key.REFERRAL_TYPE);
+        referralStatus = client.getColumnmaps().get(DBConstants.Key.REFERRAL_STATUS);
+        referralAppointmentDate = client.getColumnmaps().get(DBConstants.Key.REFERRAL_APPOINTMENT_DATE);
+        servicesBeforeReferral = client.getColumnmaps().get(DBConstants.Key.SERVICE_BEFORE_REFERRAL);
+        chwReferralService = client.getColumnmaps().get(DBConstants.Key.REFERRAL_SERVICE);
+        servicesBeforeReferralOther = client.getColumnmaps().get(DBConstants.Key.SERVICE_BEFORE_REFERRAL_OTHER);
+        isClosed = Boolean.parseBoolean(client.getColumnmaps().get(DBConstants.Key.IS_CLOSED));
     }
 
     public String getFirstName() {

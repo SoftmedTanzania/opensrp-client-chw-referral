@@ -48,7 +48,7 @@ public class BaseReferralRegisterFragmentPresenter implements BaseReferralRegist
 
     @Override
     public String getDefaultSortQuery() {
-        return Constants.TABLES.REFERRAL + "." + DBConstants.KEY.REFERRAL_DATE + " DESC ";
+        return Constants.Tables.REFERRAL + "." + DBConstants.Key.REFERRAL_DATE + " DESC ";
     }
 
     @Override
@@ -74,7 +74,7 @@ public class BaseReferralRegisterFragmentPresenter implements BaseReferralRegist
 
     @Override
     public void initializeQueries(String mainCondition) {
-        String tableName = Constants.TABLES.REFERRAL;
+        String tableName = Constants.Tables.REFERRAL;
         String condition = trim(getMainCondition()).equals("") ? mainCondition : getMainCondition();
         String countSelect = model.countSelect(tableName, condition);
         String mainSelect = model.mainSelect(tableName, condition);
@@ -110,7 +110,7 @@ public class BaseReferralRegisterFragmentPresenter implements BaseReferralRegist
 
     @Override
     public String getMainTable() {
-        return Constants.TABLES.REFERRAL;
+        return Constants.Tables.REFERRAL;
     }
 
     @Override
