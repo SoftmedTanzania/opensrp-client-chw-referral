@@ -72,12 +72,16 @@ object Util {
         activity: Activity, callView: BaseReferralCallDialogContract.View?, phoneNumber: String?
     ): Boolean = when {
         ContextCompat.checkSelfPermission(
-            activity, Manifest.permission.READ_PHONE_STATE
+            activity as Context, Manifest.permission.READ_PHONE_STATE
         ) != PackageManager.PERMISSION_GRANTED
         -> { // set a pending call execution request
             if (callView != null) {
                 callView.pendingCallRequest =
-                    Dialer { launchDialer(activity, callView, phoneNumber) }
+                    object : Dialer {
+                        override fun callMe() {
+                            launchDialer(activity, callView, phoneNumber)
+                        }
+                    }
             }
             ActivityCompat.requestPermissions(
                 activity, arrayOf(Manifest.permission.READ_PHONE_STATE),
@@ -96,15 +100,11 @@ object Util {
                     activity.getText(R.string.copied_phone_number), phoneNumber
                 )
                 clipboard.primaryClip = clip
-                ClipboardDialog(
-                    activity,
-                    R.style.ClipboardDialogStyle
-                ).also {
+                ClipboardDialog(activity, R.style.ClipboardDialogStyle).also {
                     it.content = phoneNumber
                     it.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
                     it.show()
                 }
-
                 // no phone
                 Toast.makeText(
                     activity, activity.getText(R.string.copied_phone_number), Toast.LENGTH_SHORT

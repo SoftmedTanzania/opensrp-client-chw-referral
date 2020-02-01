@@ -82,7 +82,7 @@ public class BaseIssueReferralPresenterTest {
     @Test
     public void getBaseEntityID() {
         BaseIssueReferralPresenter mPresenter = new BaseIssueReferralPresenter("sampleBaseEntityID", view, model.getClass(), interactor);
-        Assert.assertEquals("sampleBaseEntityID", mPresenter.getBaseEntityID());
+        Assert.assertEquals("sampleBaseEntityID", mPresenter.baseEntityID);
     }
 
 

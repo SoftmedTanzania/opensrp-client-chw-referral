@@ -19,28 +19,28 @@ public class ReferralServiceObjectTest {
 
     @Test
     public void getId() {
-        serviceMemberObject.setId("1");
-        Assert.assertEquals("1", serviceMemberObject.getId());
+        serviceMemberObject.id = "1";
+        Assert.assertEquals("1", serviceMemberObject.id);
 
     }
 
     @Test
     public void setId() {
-        serviceMemberObject.setId("2");
-        Assert.assertEquals("2", serviceMemberObject.getId());
+        serviceMemberObject.id = "2";
+        Assert.assertEquals("2", serviceMemberObject.id);
     }
 
     @Test
     public void getNameEn() {
-        serviceMemberObject.setNameEn("ANC");
-        Assert.assertEquals("ANC", serviceMemberObject.getNameEn());
+        serviceMemberObject.nameEn = "ANC";
+        Assert.assertEquals("ANC", serviceMemberObject.nameEn);
     }
 
 
     @Test
     public void getNameSw() {
-        serviceMemberObject.setNameSw("Wajawazito");
-        Assert.assertEquals("Wajawazito", serviceMemberObject.getNameSw());
+        serviceMemberObject.nameSw = "Wajawazito";
+        Assert.assertEquals("Wajawazito", serviceMemberObject.nameSw);
     }
 
     @Test
@@ -51,8 +51,8 @@ public class ReferralServiceObjectTest {
 
     @Test
     public void getIdentifier() {
-        serviceMemberObject.setIdentifier("hiv");
-        Assert.assertEquals("hiv", serviceMemberObject.getIdentifier());
+        serviceMemberObject.identifier = "hiv";
+        Assert.assertEquals("hiv", serviceMemberObject.identifier);
 
     }
 }

@@ -1,11 +1,13 @@
 package org.smartregister.chw.referral.util
 
 object JsonFormConstants {
+    const val FORM = "form"
     const val STEPS = "steps"
     const val NAME = "name"
     const val PROBLEM = "problem"
     const val FIELDS = "fields"
     const val CHW_REFERRAL_SERVICE = "chw_referral_service"
+    const val CHW_FOLLOWUP_FEEDBACK = "chw_followup_feedback"
     const val OPTIONS = "options"
     const val REFERRAL_DATE = "referral_date"
     const val REFERRAL_TIME = "referral_time"

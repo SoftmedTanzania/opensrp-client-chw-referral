@@ -35,7 +35,7 @@ public class BaseReferralFollowupPresenterTest {
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         memberObject = new MemberObject(commonPersonObjectClient);
-        memberObject.setBaseEntityId("sampleBaseEntityID");
+        memberObject.baseEntityId = "sampleBaseEntityID";
         followupPresenter = new BaseReferralFollowupPresenter(view, BaseReferralFollowupModel.class, interactor);
         followupPresenter.initializeMemberObject(memberObject);
     }

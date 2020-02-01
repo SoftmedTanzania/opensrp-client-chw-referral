@@ -14,100 +14,100 @@ public class MemberObjectTest {
 
     @Test
     public void getFirstName() {
-        memberObject.setFirstName("Denis");
-        Assert.assertEquals("Denis", memberObject.getFirstName());
+        memberObject.firstName = "Denis";
+        Assert.assertEquals("Denis", memberObject.firstName);
     }
 
     @Test
     public void getMiddleName() {
-        memberObject.setMiddleName("Talemwa");
-        Assert.assertEquals("Talemwa", memberObject.getMiddleName());
+        memberObject.middleName = "Talemwa";
+        Assert.assertEquals("Talemwa", memberObject.middleName);
     }
 
     @Test
     public void getLastName() {
-        memberObject.setLastName("Rwelamila");
-        Assert.assertEquals("Rwelamila", memberObject.getLastName());
+        memberObject.lastName = "Rwelamila";
+        Assert.assertEquals("Rwelamila", memberObject.lastName);
     }
 
     @Test
     public void getAddress() {
-        memberObject.setAddress("123 Rd");
-        Assert.assertEquals("123 Rd", memberObject.getAddress());
+        memberObject.address = "123 Rd";
+        Assert.assertEquals("123 Rd", memberObject.address);
     }
 
     @Test
     public void getGender() {
-        memberObject.setGender("Male");
-        Assert.assertEquals("Male", memberObject.getGender());
+        memberObject.gender = "Male";
+        Assert.assertEquals("Male", memberObject.gender);
     }
 
     @Test
     public void getAge() {
-        memberObject.setAge("123");
-        Assert.assertEquals("123", memberObject.getAge());
+        memberObject.age = "123";
+        Assert.assertEquals("123", memberObject.age);
     }
 
     @Test
     public void testIsClosed() {
-        memberObject.setIsClosed(false);
-        Assert.assertFalse(memberObject.getIsClosed());
+        memberObject.isClosed = false;
+        Assert.assertFalse(memberObject.isClosed);
     }
 
     @Test
     public void getUniqueId() {
 
-        memberObject.setUniqueId("5649994");
-        Assert.assertEquals("5649994", memberObject.getUniqueId());
+        memberObject.uniqueId = "5649994";
+        Assert.assertEquals("5649994", memberObject.uniqueId);
     }
 
     @Test
     public void getRelationalid() {
-        memberObject.setRelationalId("56");
-        Assert.assertEquals("56", memberObject.getRelationalId());
+        memberObject.relationalId = "56";
+        Assert.assertEquals("56", memberObject.relationalId);
     }
 
     @Test
     public void getDetails() {
-        memberObject.setDetails("details");
-        Assert.assertEquals("details", memberObject.getDetails());
+        memberObject.details = "details";
+        Assert.assertEquals("details", memberObject.details);
     }
 
 
     @Test
     public void getFamilyHead() {
-        memberObject.setFamilyHead("John Oliver");
-        Assert.assertEquals("John Oliver", memberObject.getFamilyHead());
+        memberObject.familyHead = "John Oliver";
+        Assert.assertEquals("John Oliver", memberObject.familyHead);
     }
 
     @Test
     public void getFamilyBaseEntityId() {
-        memberObject.setFamilyBaseEntityId("909-99299-112f-111fsaf");
-        Assert.assertEquals("909-99299-112f-111fsaf", memberObject.getFamilyBaseEntityId());
+        memberObject.familyBaseEntityId = "909-99299-112f-111fsaf";
+        Assert.assertEquals("909-99299-112f-111fsaf", memberObject.familyBaseEntityId);
     }
 
     @Test
     public void getPhoneNumber() {
-        memberObject.setPhoneNumber("0789998899");
-        Assert.assertEquals("0789998899", memberObject.getPhoneNumber());
+        memberObject.phoneNumber = "0789998899";
+        Assert.assertEquals("0789998899", memberObject.phoneNumber);
     }
 
     @Test
     public void getBaseEntityId() {
-        memberObject.setBaseEntityId("6238d8aa-6632-47f9-8a88-26bfedd942c2");
-        Assert.assertEquals("6238d8aa-6632-47f9-8a88-26bfedd942c2", memberObject.getBaseEntityId());
+        memberObject.baseEntityId = "6238d8aa-6632-47f9-8a88-26bfedd942c2";
+        Assert.assertEquals("6238d8aa-6632-47f9-8a88-26bfedd942c2", memberObject.baseEntityId);
     }
 
     @Test
     public void getPrimaryCareGiver() {
-        memberObject.setPrimaryCareGiver("John Oliver");
-        Assert.assertEquals("John Oliver", memberObject.getPrimaryCareGiver());
+        memberObject.primaryCareGiver = "John Oliver";
+        Assert.assertEquals("John Oliver", memberObject.primaryCareGiver);
     }
 
     @Test
     public void getFamilyName() {
-        memberObject.setFamilyName("Oliver's Family");
-        Assert.assertEquals("Oliver's Family", memberObject.getFamilyName());
+        memberObject.familyName = "Oliver's Family";
+        Assert.assertEquals("Oliver's Family", memberObject.familyName);
     }
 }
 

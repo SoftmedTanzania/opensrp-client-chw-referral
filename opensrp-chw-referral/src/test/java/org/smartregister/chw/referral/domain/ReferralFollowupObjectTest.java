@@ -19,47 +19,47 @@ public class ReferralFollowupObjectTest {
 
     @Test
     public void getDetails() {
-        followupObject.setDetails("details");
-        Assert.assertEquals("details", followupObject.getDetails());
+        followupObject.details = "details";
+        Assert.assertEquals("details", followupObject.details);
     }
 
     @Test
     public void getBaseEntityId() {
-        followupObject.setBaseEntityId("23323");
-        Assert.assertEquals("23323", followupObject.getBaseEntityId());
+        followupObject.baseEntityId = "23323";
+        Assert.assertEquals("23323", followupObject.baseEntityId);
     }
 
     @Test
     public void getChwFollowupFeedback() {
-        followupObject.setChwFollowupFeedback("He has relocated");
-        Assert.assertEquals("He has relocated", followupObject.getChwFollowupFeedback());
+        followupObject.chwFollowupFeedback = "He has relocated";
+        Assert.assertEquals("He has relocated", followupObject.chwFollowupFeedback);
     }
 
 
     @Test
     public void getOtherFollowupFeedbackInformation() {
-        followupObject.setOtherFollowupFeedbackInformation("He is doing well");
-        Assert.assertEquals("He is doing well", followupObject.getOtherFollowupFeedbackInformation());
+        followupObject.otherFollowupFeedbackInformation = "He is doing well";
+        Assert.assertEquals("He is doing well", followupObject.otherFollowupFeedbackInformation);
     }
 
     @Test
     public void getIsClosed() {
-        followupObject.setIsClosed(false);
-        Assert.assertFalse(followupObject.getIsClosed());
+        followupObject.isClosed = false;
+        Assert.assertFalse(followupObject.isClosed);
     }
 
     @Test
     public void getRelationalId() {
-        followupObject.setRelationalId("45");
-        Assert.assertEquals("45", followupObject.getRelationalId());
+        followupObject.relationalId = "45";
+        Assert.assertEquals("45", followupObject.relationalId);
     }
 
 
     @Test
     public void getChwFollowupDate() {
         followupObject = new ReferralFollowupObject();
-        followupObject.setChwFollowupDate("2019-12-01");
-        Assert.assertEquals("2019-12-01", followupObject.getChwFollowupDate());
+        followupObject.chwFollowupDate = "2019-12-01";
+        Assert.assertEquals("2019-12-01", followupObject.chwFollowupDate);
     }
 
 }

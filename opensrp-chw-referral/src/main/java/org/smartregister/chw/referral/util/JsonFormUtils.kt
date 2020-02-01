@@ -38,9 +38,7 @@ object JsonFormUtils : JsonFormUtils() {
                 JSONArray(), getJSONObject(jsonForm, METADATA),
                 formTag(allSharedPreferences), entityId, encounter_type, bindType
             ).also { it.obs = getObs(valuesHashMap) }
-        return ReferralTask().also {
-            it.event = event
-        }
+        return ReferralTask(event)
     }
 
     private fun formTag(allSharedPreferences: AllSharedPreferences): FormTag =

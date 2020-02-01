@@ -2,6 +2,8 @@ package org.smartregister.chw.referral.util
 
 object Constants {
 
+    const val EN ="en"
+    const val SW ="sw"
     const val REQUEST_CODE_GET_JSON = 2244
     const val ENCOUNTER_TYPE = "encounter_type"
     const val STEP_ONE = "step1"

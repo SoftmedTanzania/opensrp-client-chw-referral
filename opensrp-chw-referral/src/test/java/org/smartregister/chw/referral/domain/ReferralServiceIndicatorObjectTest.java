@@ -19,40 +19,40 @@ public class ReferralServiceIndicatorObjectTest {
 
     @Test
     public void getId() {
-        indicatorMemberObject.setId("1");
-        Assert.assertEquals("1", indicatorMemberObject.getId());
+        indicatorMemberObject.id = "1";
+        Assert.assertEquals("1", indicatorMemberObject.id);
 
     }
 
     @Test
     public void setId() {
-        indicatorMemberObject.setId("2");
-        Assert.assertEquals("2", indicatorMemberObject.getId());
+        indicatorMemberObject.id = "2";
+        Assert.assertEquals("2", indicatorMemberObject.id);
     }
 
     @Test
     public void getRelationalId() {
-        indicatorMemberObject.setRelationalId("744");
-        Assert.assertEquals("744", indicatorMemberObject.getRelationalId());
+        indicatorMemberObject.relationalId = "744";
+        Assert.assertEquals("744", indicatorMemberObject.relationalId);
     }
 
     @Test
     public void setRelationalId() {
-        indicatorMemberObject.setRelationalId("1223");
-        Assert.assertEquals("1223", indicatorMemberObject.getRelationalId());
+        indicatorMemberObject.relationalId = "1223";
+        Assert.assertEquals("1223", indicatorMemberObject.relationalId);
     }
 
     @Test
     public void getNameEn() {
-        indicatorMemberObject.setNameEn("ANC");
-        Assert.assertEquals("ANC", indicatorMemberObject.getNameEn());
+        indicatorMemberObject.nameEn = "ANC";
+        Assert.assertEquals("ANC", indicatorMemberObject.nameEn);
     }
 
 
     @Test
     public void getNameSw() {
-        indicatorMemberObject.setNameSw("Wajawazito");
-        Assert.assertEquals("Wajawazito", indicatorMemberObject.getNameSw());
+        indicatorMemberObject.nameSw = "Wajawazito";
+        Assert.assertEquals("Wajawazito", indicatorMemberObject.nameSw);
     }
 
     @Test
