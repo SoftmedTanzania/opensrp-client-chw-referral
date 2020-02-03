@@ -71,9 +71,7 @@ open class BaseReferralRegisterFragmentPresenter(
 
     override fun getMainTable() = Constants.Tables.REFERRAL
 
-    override fun getDueFilterCondition() =
-        " (cast( julianday(STRFTIME('%Y-%m-%d', datetime('now'))) -  julianday(IFNULL(SUBSTR(chw_referral_date,7,4)|| '-' " +
-                "|| SUBSTR(chw_referral_date,4,2) || '-' || SUBSTR(chw_referral_date,1,2),'')) as integer) between 7 and 14) "
+    override fun getDueFilterCondition() = "referral_status = ' ${Constants.ReferralStatus.PENDING}'"
 
     init {
         config = model.defaultRegisterConfiguration()!!

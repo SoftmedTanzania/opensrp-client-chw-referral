@@ -14,6 +14,7 @@ import org.joda.time.DateTime;
 import org.joda.time.Period;
 import org.smartregister.chw.referral.R;
 import org.smartregister.chw.referral.fragment.BaseReferralRegisterFragment;
+import org.smartregister.chw.referral.util.Constants;
 import org.smartregister.chw.referral.util.DBConstants;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.cursoradapter.RecyclerViewProvider;
@@ -26,6 +27,7 @@ import org.smartregister.view.dialog.SortOption;
 import org.smartregister.view.viewholder.OnClickFormLauncher;
 
 import java.text.MessageFormat;
+import java.util.Locale;
 import java.util.Set;
 
 import timber.log.Timber;
@@ -55,51 +57,6 @@ public class ReferralRegisterProvider implements RecyclerViewProvider<ReferralRe
         CommonPersonObjectClient pc = (CommonPersonObjectClient) smartRegisterClient;
         if (visibleColumns.isEmpty()) {
             populatePatientColumn(pc, registerViewHolder);
-        }
-    }
-
-    private void populatePatientColumn(CommonPersonObjectClient pc, final RegisterViewHolder viewHolder) {
-        try {
-            String fname = getName(
-                    Utils.getValue(pc.getColumnmaps(), DBConstants.Key.FIRST_NAME, true),
-                    Utils.getValue(pc.getColumnmaps(), DBConstants.Key.MIDDLE_NAME, true));
-
-            String dobString = Utils.getValue(pc.getColumnmaps(), DBConstants.Key.DOB, false);
-            int age = new Period(new DateTime(dobString), new DateTime()).getYears();
-
-            String patientName = getName(fname, Utils.getValue(pc.getColumnmaps(), DBConstants.Key.LAST_NAME, true));
-            viewHolder.patientName.setText(patientName + ", " + age);
-            viewHolder.textViewGender.setText(Utils.getValue(pc.getColumnmaps(), DBConstants.Key.GENDER, true));
-            viewHolder.textViewVillage.setText(Utils.getValue(pc.getColumnmaps(), DBConstants.Key.VILLAGE_TOWN, true));
-            viewHolder.textViewService.setText(Utils.getValue(pc.getColumnmaps(), DBConstants.Key.REFERRAL_SERVICE, true));
-            viewHolder.textViewFacility.setText(Utils.getValue(pc.getColumnmaps(), DBConstants.Key.REFERRAL_HF, true));
-
-
-            viewHolder.patientColumn.setOnClickListener(onClickListener);
-            viewHolder.patientColumn.setTag(pc);
-            viewHolder.patientColumn.setTag(R.id.VIEW_ID, BaseReferralRegisterFragment.CLICK_VIEW_NORMAL);
-
-            viewHolder.dueButton.setOnClickListener(onClickListener);
-            viewHolder.dueButton.setTag(pc);
-            viewHolder.dueButton.setTag(R.id.VIEW_ID, BaseReferralRegisterFragment.FOLLOW_UP_VISIT);
-            viewHolder.registerColumns.setOnClickListener(onClickListener);
-
-            viewHolder.registerColumns.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    viewHolder.patientColumn.performClick();
-                }
-            });
-
-            viewHolder.registerColumns.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    viewHolder.dueButton.performClick();
-                }
-            });
-
-        } catch (Exception e) {
-            Timber.e(e);
         }
     }
 
@@ -152,15 +109,66 @@ public class ReferralRegisterProvider implements RecyclerViewProvider<ReferralRe
         return viewHolder instanceof FooterViewHolder;
     }
 
+    private void populatePatientColumn(CommonPersonObjectClient pc, final RegisterViewHolder viewHolder) {
+        try {
+            String fname = getName(
+                    Utils.getValue(pc.getColumnmaps(), DBConstants.Key.FIRST_NAME, true),
+                    Utils.getValue(pc.getColumnmaps(), DBConstants.Key.MIDDLE_NAME, true));
+
+            String dobString = Utils.getValue(pc.getColumnmaps(), DBConstants.Key.DOB, false);
+            int age = new Period(new DateTime(dobString), new DateTime()).getYears();
+
+            String patientName = getName(fname, Utils.getValue(pc.getColumnmaps(), DBConstants.Key.LAST_NAME, true));
+            viewHolder.patientName.setText(String.format(Locale.getDefault(), "%s, %d", patientName, age));
+            viewHolder.textViewGender.setText(Utils.getValue(pc.getColumnmaps(), DBConstants.Key.GENDER, true));
+            viewHolder.textViewVillage.setText(Utils.getValue(pc.getColumnmaps(), DBConstants.Key.VILLAGE_TOWN, true));
+            viewHolder.textViewService.setText(Utils.getValue(pc.getColumnmaps(), DBConstants.Key.REFERRAL_SERVICE, true));
+            viewHolder.textViewFacility.setText(Utils.getValue(pc.getColumnmaps(), DBConstants.Key.REFERRAL_HF, true));
+
+
+            viewHolder.patientColumn.setOnClickListener(onClickListener);
+            viewHolder.patientColumn.setTag(pc);
+            viewHolder.patientColumn.setTag(R.id.VIEW_ID, BaseReferralRegisterFragment.CLICK_VIEW_NORMAL);
+
+            viewHolder.textReferralStatus.setOnClickListener(onClickListener);
+            viewHolder.textReferralStatus.setTag(pc);
+            viewHolder.textReferralStatus.setTag(R.id.VIEW_ID, BaseReferralRegisterFragment.FOLLOW_UP_VISIT);
+            viewHolder.registerColumns.setOnClickListener(onClickListener);
+
+            viewHolder.registerColumns.setOnClickListener(v -> viewHolder.patientColumn.performClick());
+            setReferralStatusColor(context, viewHolder.textReferralStatus, Utils.getValue(pc.getColumnmaps(), DBConstants.Key.REFERRAL_STATUS, true));
+
+        } catch (Exception e) {
+            Timber.e(e);
+        }
+    }
+
+    private void setReferralStatusColor(Context context, TextView textViewStatus, String status) {
+        textViewStatus.setText(status);
+        switch (status) {
+            case Constants.ReferralStatus.PENDING:
+                textViewStatus.setTextColor(context.getResources().getColor(R.color.alert_in_progress_blue));
+                break;
+            case Constants.ReferralStatus.FAILED:
+                textViewStatus.setTextColor(context.getResources().getColor(R.color.alert_urgent_red));
+                break;
+            case Constants.ReferralStatus.SUCCESSFUL:
+                textViewStatus.setTextColor(context.getResources().getColor(R.color.alert_complete_green));
+                break;
+            default:
+                break;
+        }
+    }
+
+
     public class RegisterViewHolder extends RecyclerView.ViewHolder {
         public TextView patientName;
         public TextView textViewVillage;
         public TextView textViewGender;
-        public Button dueButton;
+        public TextView textReferralStatus;
         public View patientColumn;
         public TextView textViewService;
         public TextView textViewFacility;
-
         public View registerColumns;
         public View dueWrapper;
 
@@ -170,7 +178,7 @@ public class ReferralRegisterProvider implements RecyclerViewProvider<ReferralRe
             patientName = itemView.findViewById(R.id.patient_name_age);
             textViewVillage = itemView.findViewById(R.id.text_view_village);
             textViewGender = itemView.findViewById(R.id.text_view_gender);
-            dueButton = itemView.findViewById(R.id.due_button);
+            textReferralStatus = itemView.findViewById(R.id.text_view_referral_status);
             patientColumn = itemView.findViewById(R.id.patient_column);
             registerColumns = itemView.findViewById(R.id.register_columns);
             dueWrapper = itemView.findViewById(R.id.due_button_wrapper);
