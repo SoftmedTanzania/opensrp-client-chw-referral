@@ -106,8 +106,8 @@ open class BaseIssueReferralModel : AbstractIssueReferralModel() {
         } catch (e: JSONException) {
             Timber.e(e)
         }
-        for (i in 0 until fieldsArray.length()) {
-            var fieldObject: JSONObject
+        (0 until fieldsArray.length()).forEach { i ->
+            val fieldObject: JSONObject
             try {
                 fieldObject = fieldsArray.getJSONObject(i)
                 val key =

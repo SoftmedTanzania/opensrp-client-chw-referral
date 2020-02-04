@@ -46,7 +46,7 @@ open class BaseReferralRegisterActivity : BaseRegisterActivity(),
 
     val familyFormActivity get() = BaseReferralRegisterActivity::class.java
 
-    override fun onActivityResultExtended(requestCode: Int, resultCode: Int, data: Intent) = Unit
+    override fun onActivityResultExtended(requestCode: Int, resultCode: Int, data: Intent?) = Unit
 
     override fun getViewIdentifiers(): List<String> = listOf(Constants.Configuration.ISSUE_REFERRAL)
 

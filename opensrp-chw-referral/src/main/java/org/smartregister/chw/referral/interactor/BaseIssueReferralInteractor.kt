@@ -59,7 +59,9 @@ class BaseIssueReferralInteractor : BaseIssueReferralContract.Interactor {
     private fun extractReferralProblems(valuesHashMap: HashMap<String, NFormViewData>): String? {
         val valuesMap = valuesHashMap[JsonFormConstants.PROBLEM]?.value as HashMap<*, *>?
         valuesMap?.also { mapValues ->
-            return mapValues.map { it.value as String }.toList().joinToString()
+            return mapValues.map { (it.value as NFormViewData).value as String }
+                .toList()
+                .joinToString()
         }
         return null
     }
