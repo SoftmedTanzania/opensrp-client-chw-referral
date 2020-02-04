@@ -247,7 +247,7 @@ open class BaseIssueReferralActivity : AppCompatActivity(), BaseIssueReferralCon
             val query = viewModel!!.mainSelect(getMainTable(), getMainCondition())
             Timber.d("Query for the family member = %s", query)
             val commonRepository =
-                ReferralLibrary.getInstance().context().commonrepository(getMainTable())
+                ReferralLibrary.getInstance().context.commonrepository(getMainTable())
             with(commonRepository.rawCustomQueryForAdapter(query)) {
                 if (moveToFirst()) {
                     with(commonRepository.readAllcommonforCursorAdapter(this)) {

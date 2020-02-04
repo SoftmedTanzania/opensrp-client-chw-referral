@@ -39,7 +39,7 @@ class FollowupFeedbackRepository : BaseRepository() {
             if (mCursor != null && mCursor.count > 0 && mCursor.moveToFirst()) {
                 return FollowupFeedbackObject(CommonPersonObjectClient("", null, "")
                     .apply {
-                        columnmaps = ReferralLibrary.getInstance().context().commonrepository(
+                        columnmaps = ReferralLibrary.getInstance().context.commonrepository(
                             TABLE_NAME
                         ).sqliteRowToMap(mCursor)
                     })
@@ -74,7 +74,7 @@ class FollowupFeedbackRepository : BaseRepository() {
                             FollowupFeedbackObject(
                                 CommonPersonObjectClient("", null, "").apply {
                                     columnmaps =
-                                        ReferralLibrary.getInstance().context().commonrepository(
+                                        ReferralLibrary.getInstance().context.commonrepository(
                                             TABLE_NAME
                                         ).sqliteRowToMap(cursor)
                                 })

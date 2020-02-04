@@ -83,7 +83,7 @@ object JsonFormUtils : JsonFormUtils() {
     @JvmStatic
     @Throws(Exception::class)
     fun getFormAsJson(formName: String?): JSONObject {
-        return FormUtils.getInstance(ReferralLibrary.getInstance().context().applicationContext())
+        return FormUtils.getInstance(ReferralLibrary.getInstance().context.applicationContext())
             .getFormJson(formName)
     }
 

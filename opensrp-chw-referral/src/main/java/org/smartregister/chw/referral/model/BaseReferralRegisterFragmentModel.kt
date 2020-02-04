@@ -20,7 +20,7 @@ open class BaseReferralRegisterFragmentModel :
     BaseReferralRegisterFragmentContract.Model {
 
     override fun defaultRegisterConfiguration(): RegisterConfiguration? {
-        return defaultRegisterConfiguration(ReferralLibrary.getInstance().context().applicationContext())
+        return defaultRegisterConfiguration(ReferralLibrary.getInstance().context.applicationContext())
     }
 
     override fun getViewConfiguration(viewConfigurationIdentifier: String?): ViewConfiguration? =

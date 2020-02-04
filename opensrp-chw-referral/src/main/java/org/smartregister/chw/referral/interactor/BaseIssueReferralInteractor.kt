@@ -34,7 +34,7 @@ class BaseIssueReferralInteractor : BaseIssueReferralContract.Interactor {
         baseEntityId: String?, valuesHashMap: HashMap<String, NFormViewData>, jsonObject: JSONObject
     ) {
         val allSharedPreferences =
-            ReferralLibrary.getInstance().context().allSharedPreferences()
+            ReferralLibrary.getInstance().context.allSharedPreferences()
         val referralTask =
             processJsonForm(
                 allSharedPreferences, baseEntityId, valuesHashMap,

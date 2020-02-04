@@ -43,7 +43,7 @@ class ReferralServiceIndicatorRepository : BaseRepository() {
 
                 return ReferralServiceIndicatorObject(CommonPersonObjectClient("", null, "").apply {
                     columnmaps =
-                        ReferralLibrary.getInstance().context().commonrepository(
+                        ReferralLibrary.getInstance().context.commonrepository(
                             TABLE_NAME
                         ).sqliteRowToMap(cursor)
                 })
@@ -76,7 +76,7 @@ class ReferralServiceIndicatorRepository : BaseRepository() {
                             CommonPersonObjectClient("", null, "")
                                 .apply {
                                     columnmaps =
-                                        ReferralLibrary.getInstance().context().commonrepository(
+                                        ReferralLibrary.getInstance().context.commonrepository(
                                             TABLE_NAME
                                         ).sqliteRowToMap(cursor)
                                 }

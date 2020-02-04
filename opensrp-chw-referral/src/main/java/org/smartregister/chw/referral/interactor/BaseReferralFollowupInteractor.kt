@@ -25,7 +25,7 @@ class BaseReferralFollowupInteractor : BaseFollowupContract.Interactor {
         jsonObject: JSONObject?
     ) {
         val allSharedPreferences =
-            ReferralLibrary.getInstance().context().allSharedPreferences()
+            ReferralLibrary.getInstance().context.allSharedPreferences()
         val baseEvent =
             processJsonForm(
                 allSharedPreferences, baseEntityId, valuesHashMap!!,
