@@ -14,12 +14,14 @@ import org.smartregister.domain.tag.FormTag
 import org.smartregister.repository.AllSharedPreferences
 import org.smartregister.util.FormUtils
 import org.smartregister.util.JsonFormUtils
+import timber.log.Timber
 import java.util.*
 
 const val METADATA = "metadata"
 
 object JsonFormUtils : JsonFormUtils() {
     @JvmStatic
+    @Throws(Exception::class)
     fun processJsonForm(
         allSharedPreferences: AllSharedPreferences, entityId: String?,
         valuesHashMap: HashMap<String, NFormViewData>, jsonForm: JSONObject?, encounter_type: String
@@ -88,8 +90,9 @@ object JsonFormUtils : JsonFormUtils() {
     private fun getObs(detailsHashMap: HashMap<String, NFormViewData>): List<Obs> {
         val obs = ArrayList<Obs>()
         detailsHashMap.keys.forEach { key ->
-            val ob = Obs()
             detailsHashMap[key]?.also { viewData ->
+                val ob = Obs()
+                ob.formSubmissionField = key
                 viewData.metadata?.also {
                     if (it.containsKey(OPENMRS_ENTITY))
                         ob.fieldType = it[OPENMRS_ENTITY].toString()
@@ -97,29 +100,28 @@ object JsonFormUtils : JsonFormUtils() {
                         ob.fieldCode = it[OPENMRS_ENTITY_ID].toString()
                     if (it.containsKey(OPENMRS_ENTITY_PARENT))
                         ob.parentCode = it[OPENMRS_ENTITY_PARENT].toString()
-                    when (viewData.value) {
-                        is HashMap<*, *> -> {
-                            val humanReadableValues = ArrayList<Any?>()
-                            addHumanReadableValues(
-                                ob, humanReadableValues, viewData.value as HashMap<*, *>?
-                            )
-                            if (humanReadableValues.isNotEmpty())
-                                ob.humanReadableValues = humanReadableValues
-                        }
-                        is NFormViewData -> {
-                            val humanReadableValues = ArrayList<Any?>()
-                            saveValues(viewData.value as NFormViewData?, ob, humanReadableValues)
-                            if (humanReadableValues.isNotEmpty())
-                                ob.humanReadableValues = humanReadableValues
-                        }
-                        else -> {
-                            ob.value = viewData.value
-                        }
+                }
+                when (viewData.value) {
+                    is HashMap<*, *> -> {
+                        val humanReadableValues = ArrayList<Any?>()
+                        addHumanReadableValues(
+                            ob, humanReadableValues, viewData.value as HashMap<*, *>?
+                        )
+                        if (humanReadableValues.isNotEmpty())
+                            ob.humanReadableValues = humanReadableValues
+                    }
+                    is NFormViewData -> {
+                        val humanReadableValues = ArrayList<Any?>()
+                        saveValues(viewData.value as NFormViewData?, ob, humanReadableValues)
+                        if (humanReadableValues.isNotEmpty())
+                            ob.humanReadableValues = humanReadableValues
+                    }
+                    else -> {
+                        ob.value = viewData.value
                     }
                 }
+                obs.add(ob)
             }
-            ob.formSubmissionField = key
-            obs.add(ob)
         }
         return obs
     }
