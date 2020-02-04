@@ -1,5 +1,6 @@
 package org.smartregister.chw.referral.fragment
 
+import android.content.Context
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
@@ -23,7 +24,7 @@ open class BaseReferralRegisterFragment : BaseRegisterFragment(),
     @Suppress("INACCESSIBLE_TYPE")
     override fun initializeAdapter(visibleColumns: Set<View>?) {
         val referralRegisterProvider = ReferralRegisterProvider(
-            activity, paginationViewHandler, registerActionHandler, visibleColumns
+            activity as Context, paginationViewHandler, registerActionHandler, visibleColumns
         )
         clientAdapter = RecyclerViewPaginatedAdapter<ReferralRegisterProvider.RegisterViewHolder>(
             null,
