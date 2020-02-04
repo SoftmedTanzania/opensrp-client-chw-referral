@@ -169,7 +169,7 @@ open class BaseIssueReferralActivity : AppCompatActivity(), BaseIssueReferralCon
                     stepsJsonObject.put(JsonFormConstants.TITLE, referralService?.nameSw)
                 }
             }
-            val indicatorsByServiceId = getIndicatorsByServiceId(serviceId)
+            val indicatorsByServiceId = getIndicatorsByServiceId(serviceId!!)
             Timber.i("referral problems from DB = %s", Gson().toJson(indicatorsByServiceId))
 
             indicatorsByServiceId?.forEach { indicatorObject ->

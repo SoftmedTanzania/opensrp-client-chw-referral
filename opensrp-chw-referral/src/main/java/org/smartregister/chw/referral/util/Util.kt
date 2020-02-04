@@ -118,7 +118,7 @@ object Util {
         }
     }
 
-    val referralServicesList: List<ReferralServiceObject> = try {
+    val referralServicesList: List<ReferralServiceObject>? = try {
         ReferralServiceRepository().referralServices
     } catch (e: Exception) {
         Timber.e(e)

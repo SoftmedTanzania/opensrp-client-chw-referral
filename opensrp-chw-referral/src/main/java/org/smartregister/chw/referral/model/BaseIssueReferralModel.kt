@@ -49,7 +49,7 @@ open class BaseIssueReferralModel : AbstractIssueReferralModel() {
         }
     }
 
-    override fun getIndicatorsByServiceId(serviceId: String?): List<ReferralServiceIndicatorObject>? {
+    override fun getIndicatorsByServiceId(serviceId: String): List<ReferralServiceIndicatorObject>? {
         return try {
             ReferralServiceIndicatorRepository().getServiceIndicatorsByServiceId(serviceId)
         } catch (e: Exception) {

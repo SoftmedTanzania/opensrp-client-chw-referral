@@ -54,7 +54,7 @@ interface BaseIssueReferralContract {
 
         fun getReferralServicesList(referralServiceId: String): ReferralServiceObject?
 
-        fun getIndicatorsByServiceId(serviceId: String?): List<ReferralServiceIndicatorObject>?
+        fun getIndicatorsByServiceId(serviceId: String): List<ReferralServiceIndicatorObject>?
     }
 
     interface Interactor {
