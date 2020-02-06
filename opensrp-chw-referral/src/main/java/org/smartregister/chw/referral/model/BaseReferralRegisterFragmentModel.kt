@@ -2,6 +2,7 @@ package org.smartregister.chw.referral.model
 
 import org.apache.commons.lang3.StringUtils
 import org.json.JSONArray
+import org.koin.core.inject
 import org.smartregister.chw.referral.ReferralLibrary
 import org.smartregister.chw.referral.contract.BaseReferralRegisterFragmentContract
 import org.smartregister.chw.referral.util.ConfigHelper.defaultRegisterConfiguration
@@ -19,8 +20,10 @@ import java.util.*
 open class BaseReferralRegisterFragmentModel :
     BaseReferralRegisterFragmentContract.Model {
 
+    val referralLibrary by inject<ReferralLibrary>()
+
     override fun defaultRegisterConfiguration(): RegisterConfiguration? {
-        return defaultRegisterConfiguration(ReferralLibrary.getInstance().context.applicationContext())
+        return defaultRegisterConfiguration(referralLibrary.context.applicationContext())
     }
 
     override fun getViewConfiguration(viewConfigurationIdentifier: String?): ViewConfiguration? =

@@ -9,7 +9,6 @@ import com.google.android.material.bottomnavigation.LabelVisibilityMode
 import org.json.JSONObject
 import org.smartregister.chw.referral.R
 import org.smartregister.chw.referral.contract.BaseReferralRegisterContract
-import org.smartregister.chw.referral.fragment.BaseFollowupRegisterFragment
 import org.smartregister.chw.referral.fragment.BaseReferralRegisterFragment
 import org.smartregister.chw.referral.listener.ReferralBottomNavigationListener
 import org.smartregister.chw.referral.model.BaseReferralRegisterModel

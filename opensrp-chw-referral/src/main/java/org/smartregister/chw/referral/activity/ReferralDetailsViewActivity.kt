@@ -15,12 +15,10 @@ import org.joda.time.Period
 import org.smartregister.chw.referral.R
 import org.smartregister.chw.referral.domain.MemberObject
 import org.smartregister.chw.referral.util.Constants
-import org.smartregister.commonregistry.CommonPersonObjectClient
 import org.smartregister.view.activity.SecuredActivity
 import org.smartregister.view.customcontrols.CustomFontTextView
 import timber.log.Timber
 import java.math.BigDecimal
-import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
 

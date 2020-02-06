@@ -32,8 +32,8 @@ open class BaseIssueReferralPresenter(
         return viewModelClass as Class<T>
     }
 
-    override fun getMainCondition(): String =
-        Constants.Tables.FAMILY_MEMBER + "." + DBConstants.Key.BASE_ENTITY_ID + " = '" + memberObject!!.baseEntityId + "'"
+    override fun getMainCondition() =
+        "${Constants.Tables.FAMILY_MEMBER}.${DBConstants.Key.BASE_ENTITY_ID}  = '$baseEntityID'"
 
     override fun getMainTable() = Constants.Tables.FAMILY_MEMBER
 

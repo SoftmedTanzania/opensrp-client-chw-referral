@@ -1,12 +1,10 @@
 package org.smartregister.chw.referral.domain
 
-class ReferralMetadata {
+class ReferralMetadata() {
 
     var locationIdMap: Map<String, String> = hashMapOf()
 
-    constructor()
-
-    constructor(locationIdMap: Map<String, String>) {
+    constructor(locationIdMap: Map<String, String>) : this() {
         this.locationIdMap = locationIdMap
     }
 }

@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import com.nerdstone.neatformcore.domain.model.NFormViewData
 import org.apache.commons.lang3.tuple.Triple
 import org.json.JSONObject
+import org.koin.core.KoinComponent
 import org.smartregister.chw.referral.domain.MemberObject
 import org.smartregister.chw.referral.domain.ReferralServiceIndicatorObject
 import org.smartregister.chw.referral.domain.ReferralServiceObject
@@ -13,7 +14,7 @@ import java.util.*
 
 interface BaseIssueReferralContract {
 
-    interface View {
+    interface View: KoinComponent {
 
         fun presenter(): Presenter
 
@@ -42,12 +43,6 @@ interface BaseIssueReferralContract {
 
         fun getLocationId(locationName: String?): String?
 
-        @Throws(Exception::class)
-        fun getFormWithValuesAsJson(
-            formName: String?, entityId: String?,
-            currentLocationId: String?, memberObject: MemberObject?
-        ): JSONObject?
-
         fun mainSelect(tableName: String, mainCondition: String): String
 
         val healthFacilities: List<Location>?
@@ -57,7 +52,7 @@ interface BaseIssueReferralContract {
         fun getIndicatorsByServiceId(serviceId: String): List<ReferralServiceIndicatorObject>?
     }
 
-    interface Interactor {
+    interface Interactor: KoinComponent {
 
         fun onDestroy(isChangingConfiguration: Boolean)
 

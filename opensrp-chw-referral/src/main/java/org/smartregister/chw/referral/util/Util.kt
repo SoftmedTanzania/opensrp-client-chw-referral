@@ -19,6 +19,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.google.gson.Gson
 import org.json.JSONObject
+import org.koin.core.KoinComponent
 import org.smartregister.chw.referral.R
 import org.smartregister.chw.referral.ReferralLibrary
 import org.smartregister.chw.referral.contract.BaseReferralCallDialogContract
@@ -27,31 +28,28 @@ import org.smartregister.chw.referral.custom_views.ClipboardDialog
 import org.smartregister.chw.referral.domain.ReferralServiceObject
 import org.smartregister.chw.referral.repository.ReferralServiceRepository
 import org.smartregister.clientandeventmodel.Event
-import org.smartregister.repository.AllSharedPreferences
 import org.smartregister.repository.BaseRepository
 import org.smartregister.util.PermissionUtils
 import org.smartregister.util.Utils
 import timber.log.Timber
 import java.util.*
 
-object Util {
-
-    private val syncHelper get() = ReferralLibrary.getInstance().ecSyncHelper
-
-    private val clientProcessorForJava get() = ReferralLibrary.getInstance().clientProcessorForJava
+object Util : KoinComponent {
 
     @JvmStatic
     @Throws(Exception::class)
-    fun processEvent(allSharedPreferences: AllSharedPreferences, baseEvent: Event?) {
+    fun processEvent(referralLibrary: ReferralLibrary, baseEvent: Event?) {
         if (baseEvent != null) {
-            JsonFormUtils.tagEvent(allSharedPreferences, baseEvent)
+            JsonFormUtils.tagEvent(referralLibrary, baseEvent)
             val eventJson =
                 JSONObject(org.smartregister.util.JsonFormUtils.gson.toJson(baseEvent))
-            syncHelper.addEvent(baseEvent.baseEntityId, eventJson)
-            val lastSyncDate = Date(Utils.getAllSharedPreferences().fetchLastUpdatedAtDate(0))
-            val eventClient = syncHelper.getEvents(lastSyncDate, BaseRepository.TYPE_Unsynced)
+            referralLibrary.syncHelper.addEvent(baseEvent.baseEntityId, eventJson)
+            val lastSyncDate =
+                Date(referralLibrary.context.allSharedPreferences().fetchLastUpdatedAtDate(0))
+            val eventClient =
+                referralLibrary.syncHelper.getEvents(lastSyncDate, BaseRepository.TYPE_Unsynced)
             Timber.i("EventClient = %s", Gson().toJson(eventClient))
-            clientProcessorForJava.processClient(eventClient)
+            referralLibrary.clientProcessorForJava.processClient(eventClient)
             Utils.getAllSharedPreferences().saveLastUpdatedAtDate(lastSyncDate.time)
         }
     }
@@ -119,7 +117,7 @@ object Util {
     }
 
     val referralServicesList: List<ReferralServiceObject>? = try {
-        ReferralServiceRepository().referralServices
+        ReferralServiceRepository().referralServiceObjects
     } catch (e: Exception) {
         Timber.e(e)
         ArrayList()

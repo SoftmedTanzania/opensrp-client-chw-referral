@@ -3,6 +3,8 @@ package org.smartregister.chw.referral.repository
 import android.content.ContentValues
 import android.database.Cursor
 import com.google.gson.Gson
+import org.koin.core.KoinComponent
+import org.koin.core.inject
 import org.smartregister.chw.referral.ReferralLibrary
 import org.smartregister.chw.referral.domain.ReferralServiceObject
 import org.smartregister.commonregistry.CommonPersonObjectClient
@@ -26,7 +28,9 @@ private val TABLE_COLUMNS = arrayOf(
     ID, SERVICE_NAME_EN, SERVICE_NAME_SW, SERVICE_IDENTIFIER, IS_ACTIVE
 )
 
-class ReferralServiceRepository : BaseRepository() {
+class ReferralServiceRepository : BaseRepository(), KoinComponent {
+
+    val referralLibrary by inject<ReferralLibrary>()
 
     fun getReferralServiceById(_id: String): ReferralServiceObject? {
         var cursor: Cursor? = null
@@ -41,10 +45,9 @@ class ReferralServiceRepository : BaseRepository() {
             if (cursor != null && cursor.count > 0 && cursor.moveToFirst()) {
                 return ReferralServiceObject(CommonPersonObjectClient("", null, "")
                     .apply {
-                        columnmaps =
-                            ReferralLibrary.getInstance().context.commonrepository(
-                                TABLE_NAME
-                            ).sqliteRowToMap(cursor)
+                        columnmaps = referralLibrary.context.commonrepository(
+                            TABLE_NAME
+                        ).sqliteRowToMap(cursor)
                     })
             }
         } catch (e: Exception) {
@@ -56,7 +59,7 @@ class ReferralServiceRepository : BaseRepository() {
     }
 
     //improve this query mechanism
-    val referralServices: List<ReferralServiceObject>?
+    val referralServiceObjects: List<ReferralServiceObject>?
         get() {
             val referralServices = ArrayList<ReferralServiceObject>()
             var cursor: Cursor? = null
@@ -75,10 +78,9 @@ class ReferralServiceRepository : BaseRepository() {
                         referralServices.add(
                             ReferralServiceObject(CommonPersonObjectClient("", null, "")
                                 .apply {
-                                    columnmaps =
-                                        ReferralLibrary.getInstance().context.commonrepository(
-                                            TABLE_NAME
-                                        ).sqliteRowToMap(cursor)
+                                    columnmaps = referralLibrary.context.commonrepository(
+                                        TABLE_NAME
+                                    ).sqliteRowToMap(cursor)
                                 })
                         )
                     }

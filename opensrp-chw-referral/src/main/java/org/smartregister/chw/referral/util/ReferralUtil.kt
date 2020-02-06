@@ -6,20 +6,19 @@ import org.smartregister.chw.referral.domain.ReferralTask
 import org.smartregister.chw.referral.util.Constants.BusinessStatus
 import org.smartregister.chw.referral.util.Constants.Referral
 import org.smartregister.domain.Task
-import org.smartregister.repository.AllSharedPreferences
 import org.smartregister.repository.BaseRepository
-import timber.log.Timber
 import java.util.*
 
 object ReferralUtil {
     @JvmStatic
     fun createReferralTask(
-        referralTask: ReferralTask, allSharedPreferences: AllSharedPreferences
+        referralTask: ReferralTask, referralLibrary: ReferralLibrary
     ) {
+        val allSharedPreferences = referralLibrary.context.allSharedPreferences()
         val task = Task().apply {
             identifier = UUID.randomUUID().toString()
             /* //TODO Implement plans remove hard coded plan (in 2020 road-map)
-             val iterator = ReferralLibrary.getInstance().getPlanDefinitionRepository()
+             val iterator = referralLibrary.planDefinitionRepository
                  .findAllPlanDefinitionIds().iterator()
              if (iterator.hasNext()) {
                  planIdentifier = iterator.next()
@@ -46,6 +45,6 @@ object ReferralUtil {
             location =
                 allSharedPreferences.fetchUserLocalityId(allSharedPreferences.fetchRegisteredANM())
         }
-        ReferralLibrary.getInstance().taskRepository.addOrUpdate(task)
+        referralLibrary.taskRepository.addOrUpdate(task)
     }
 }

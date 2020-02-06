@@ -3,6 +3,8 @@ package org.smartregister.chw.referral.repository
 import android.content.ContentValues
 import android.database.Cursor
 import com.google.gson.Gson
+import org.koin.core.KoinComponent
+import org.koin.core.inject
 import org.smartregister.chw.referral.ReferralLibrary
 import org.smartregister.chw.referral.domain.FollowupFeedbackObject
 import org.smartregister.commonregistry.CommonPersonObjectClient
@@ -24,7 +26,9 @@ private const val IS_ACTIVE = "is_active"
 private const val DETAILS_COLUMN = "details"
 private val TABLE_COLUMNS = arrayOf(ID, FEEDBACK_NAME_EN, FEEDBACK_NAME_SW, IS_ACTIVE)
 
-class FollowupFeedbackRepository : BaseRepository() {
+class FollowupFeedbackRepository : BaseRepository(), KoinComponent {
+
+    val referralLibrary by inject<ReferralLibrary>()
 
     fun getFeedbackById(_id: String): FollowupFeedbackObject? {
         var mCursor: Cursor? = null
@@ -39,7 +43,7 @@ class FollowupFeedbackRepository : BaseRepository() {
             if (mCursor != null && mCursor.count > 0 && mCursor.moveToFirst()) {
                 return FollowupFeedbackObject(CommonPersonObjectClient("", null, "")
                     .apply {
-                        columnmaps = ReferralLibrary.getInstance().context.commonrepository(
+                        columnmaps = referralLibrary.context.commonrepository(
                             TABLE_NAME
                         ).sqliteRowToMap(mCursor)
                     })
@@ -73,8 +77,7 @@ class FollowupFeedbackRepository : BaseRepository() {
                         followupFeedbackList.add(
                             FollowupFeedbackObject(
                                 CommonPersonObjectClient("", null, "").apply {
-                                    columnmaps =
-                                        ReferralLibrary.getInstance().context.commonrepository(
+                                    columnmaps = referralLibrary.context.commonrepository(
                                             TABLE_NAME
                                         ).sqliteRowToMap(cursor)
                                 })

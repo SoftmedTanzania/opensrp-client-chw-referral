@@ -22,6 +22,7 @@ import org.joda.time.Period
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
+import org.koin.android.ext.android.inject
 import org.smartregister.AllConstants
 import org.smartregister.chw.referral.R
 import org.smartregister.chw.referral.ReferralLibrary
@@ -59,6 +60,7 @@ open class BaseIssueReferralActivity : AppCompatActivity(), BaseIssueReferralCon
     private var viewModel: AbstractIssueReferralModel? = null
     private var formBuilder: FormBuilder? = null
     private var jsonForm: JSONObject? = null
+    val referralLibrary by inject<ReferralLibrary>()
 
     protected val locationID: String
         get() = org.smartregister.Context.getInstance().allSharedPreferences()
@@ -92,7 +94,7 @@ open class BaseIssueReferralActivity : AppCompatActivity(), BaseIssueReferralCon
 
         if (jsonForm == null) {
             try {
-                jsonForm = getFormAsJson(formName)
+                jsonForm = getFormAsJson(formName, this)
             } catch (e: Exception) {
                 Timber.e(e)
             }
@@ -136,11 +138,9 @@ open class BaseIssueReferralActivity : AppCompatActivity(), BaseIssueReferralCon
         }
     }
 
-    override fun presenter(): BaseIssueReferralContract.Presenter {
-        return BaseIssueReferralPresenter(
-            baseEntityId!!, this, BaseIssueReferralModel::class.java, BaseIssueReferralInteractor()
-        )
-    }
+    override fun presenter() = BaseIssueReferralPresenter(
+        baseEntityId!!, this, BaseIssueReferralModel::class.java, BaseIssueReferralInteractor()
+    )
 
 
     override fun setProfileViewWithData() = Unit
@@ -246,15 +246,19 @@ open class BaseIssueReferralActivity : AppCompatActivity(), BaseIssueReferralCon
         with(presenter!!) {
             val query = viewModel!!.mainSelect(getMainTable(), getMainCondition())
             Timber.d("Query for the family member = %s", query)
-            val commonRepository =
-                ReferralLibrary.getInstance().context.commonrepository(getMainTable())
+            val commonRepository = referralLibrary.context.commonrepository(getMainTable())
             with(commonRepository.rawCustomQueryForAdapter(query)) {
                 if (moveToFirst()) {
-                    with(commonRepository.readAllcommonforCursorAdapter(this)) {
-                        val commonPersonObjectClient = CommonPersonObjectClient(caseId, details, "")
-                        commonPersonObjectClient.columnmaps = columnmaps
-                        viewModel!!.memberObject = MemberObject(commonPersonObjectClient)
-                    }
+                    commonRepository.readAllcommonforCursorAdapter(this)
+                        .also { commonPersonObject ->
+                            CommonPersonObjectClient(
+                                commonPersonObject.caseId, commonPersonObject.details, ""
+                            ).apply {
+                                this.columnmaps = commonPersonObject.columnmaps
+                            }.also {
+                                viewModel!!.memberObject = MemberObject(it)
+                            }
+                        }
                 }
             }
         }

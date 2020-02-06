@@ -1,5 +1,6 @@
 package org.smartregister.chw.referral.util
 
+import android.content.Context
 import com.nerdstone.neatformcore.domain.model.NFormViewData
 import org.apache.commons.lang3.StringUtils
 import org.json.JSONArray
@@ -14,7 +15,6 @@ import org.smartregister.domain.tag.FormTag
 import org.smartregister.repository.AllSharedPreferences
 import org.smartregister.util.FormUtils
 import org.smartregister.util.JsonFormUtils
-import timber.log.Timber
 import java.util.*
 
 const val METADATA = "metadata"
@@ -23,7 +23,7 @@ object JsonFormUtils : JsonFormUtils() {
     @JvmStatic
     @Throws(Exception::class)
     fun processJsonForm(
-        allSharedPreferences: AllSharedPreferences, entityId: String?,
+        referralLibrary: ReferralLibrary, entityId: String?,
         valuesHashMap: HashMap<String, NFormViewData>, jsonForm: JSONObject?, encounter_type: String
     ): ReferralTask {
         val bindType: String? = when (encounter_type) {
@@ -38,28 +38,30 @@ object JsonFormUtils : JsonFormUtils() {
         val event =
             createEvent(
                 JSONArray(), getJSONObject(jsonForm, METADATA),
-                formTag(allSharedPreferences), entityId, encounter_type, bindType
+                formTag(referralLibrary), entityId, encounter_type, bindType
             ).also { it.obs = getObs(valuesHashMap) }
         return ReferralTask(event)
     }
 
-    private fun formTag(allSharedPreferences: AllSharedPreferences): FormTag =
+    private fun formTag(referralLibrary: ReferralLibrary): FormTag =
         FormTag().also {
-            it.providerId = allSharedPreferences.fetchRegisteredANM()
-            it.appVersion = ReferralLibrary.getInstance().applicationVersion
-            it.databaseVersion = ReferralLibrary.getInstance().databaseVersion
+            it.providerId = referralLibrary.context.allSharedPreferences().fetchRegisteredANM()
+            it.appVersion = referralLibrary.appVersion
+            it.databaseVersion = referralLibrary.databaseVersion
         }
 
 
-    fun tagEvent(allSharedPreferences: AllSharedPreferences, event: Event) {
+    fun tagEvent(referralLibrary: ReferralLibrary, event: Event) {
         event.apply {
-            providerId = allSharedPreferences.fetchRegisteredANM()
-            locationId = locationId(allSharedPreferences)
-            childLocationId = allSharedPreferences.fetchCurrentLocality()
-            team = allSharedPreferences.fetchDefaultTeam(providerId)
-            teamId = allSharedPreferences.fetchDefaultTeamId(providerId)
-            clientApplicationVersion = ReferralLibrary.getInstance().applicationVersion
-            clientDatabaseVersion = ReferralLibrary.getInstance().databaseVersion
+            with(referralLibrary.context.allSharedPreferences()) {
+                providerId = fetchRegisteredANM()
+                locationId = locationId(this)
+                childLocationId = fetchCurrentLocality()
+                team = fetchDefaultTeam(providerId)
+                teamId = fetchDefaultTeamId(providerId)
+                clientApplicationVersion = referralLibrary.appVersion
+                clientDatabaseVersion = referralLibrary.databaseVersion
+            }
         }
     }
 
@@ -82,10 +84,8 @@ object JsonFormUtils : JsonFormUtils() {
 
     @JvmStatic
     @Throws(Exception::class)
-    fun getFormAsJson(formName: String?): JSONObject {
-        return FormUtils.getInstance(ReferralLibrary.getInstance().context.applicationContext())
-            .getFormJson(formName)
-    }
+    fun getFormAsJson(formName: String?, context: Context): JSONObject =
+        FormUtils.getInstance(context).getFormJson(formName)
 
     private fun getObs(detailsHashMap: HashMap<String, NFormViewData>): List<Obs> {
         val obs = ArrayList<Obs>()

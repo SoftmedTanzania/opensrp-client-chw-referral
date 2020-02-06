@@ -1,7 +1,6 @@
 package org.smartregister.chw.referral.contract
 
 import org.apache.commons.lang3.tuple.Triple
-import org.json.JSONObject
 import org.smartregister.view.contract.BaseRegisterContract
 
 interface BaseReferralRegisterContract {
@@ -29,11 +28,6 @@ interface BaseReferralRegisterContract {
         fun saveLanguage(language: String?)
 
         fun getLocationId(locationName: String?): String?
-
-        @Throws(Exception::class)
-        fun getFormAsJson(
-            formName: String?, entityId: String?, currentLocationId: String?
-        ): JSONObject?
 
         val initials: String?
     }

@@ -3,6 +3,8 @@ package org.smartregister.chw.referral.repository
 import android.content.ContentValues
 import android.database.Cursor
 import com.google.gson.Gson
+import org.koin.core.KoinComponent
+import org.koin.core.inject
 import org.smartregister.chw.referral.ReferralLibrary
 import org.smartregister.chw.referral.domain.ReferralServiceIndicatorObject
 import org.smartregister.commonregistry.CommonPersonObjectClient
@@ -27,7 +29,9 @@ private val TABLE_COLUMNS = arrayOf(
     _ID, RELATIONAL_ID, SERVICE_NAME_EN, SERVICE_NAME_SW, IS_ACTIVE
 )
 
-class ReferralServiceIndicatorRepository : BaseRepository() {
+class ReferralServiceIndicatorRepository : BaseRepository(), KoinComponent {
+
+    val referralLibrary by inject<ReferralLibrary>()
 
     fun getServiceIndicatorById(_id: String): ReferralServiceIndicatorObject? {
         var cursor: Cursor? = null
@@ -42,10 +46,9 @@ class ReferralServiceIndicatorRepository : BaseRepository() {
             if (cursor != null && cursor.count > 0 && cursor.moveToFirst()) {
 
                 return ReferralServiceIndicatorObject(CommonPersonObjectClient("", null, "").apply {
-                    columnmaps =
-                        ReferralLibrary.getInstance().context.commonrepository(
-                            TABLE_NAME
-                        ).sqliteRowToMap(cursor)
+                    columnmaps = referralLibrary.context.commonrepository(
+                        TABLE_NAME
+                    ).sqliteRowToMap(cursor)
                 })
             }
         } catch (e: Exception) {
@@ -75,10 +78,9 @@ class ReferralServiceIndicatorRepository : BaseRepository() {
                         ReferralServiceIndicatorObject(
                             CommonPersonObjectClient("", null, "")
                                 .apply {
-                                    columnmaps =
-                                        ReferralLibrary.getInstance().context.commonrepository(
-                                            TABLE_NAME
-                                        ).sqliteRowToMap(cursor)
+                                    columnmaps = referralLibrary.context.commonrepository(
+                                        TABLE_NAME
+                                    ).sqliteRowToMap(cursor)
                                 }
                         )
                     )

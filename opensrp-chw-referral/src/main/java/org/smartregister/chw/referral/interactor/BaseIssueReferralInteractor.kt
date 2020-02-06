@@ -5,17 +5,20 @@ import com.google.gson.Gson
 import com.nerdstone.neatformcore.domain.model.NFormViewData
 import org.apache.commons.lang3.text.WordUtils
 import org.json.JSONObject
+import org.koin.core.inject
 import org.smartregister.chw.referral.ReferralLibrary
 import org.smartregister.chw.referral.contract.BaseIssueReferralContract
 import org.smartregister.chw.referral.util.Constants
 import org.smartregister.chw.referral.util.JsonFormConstants
-import org.smartregister.chw.referral.util.JsonFormUtils.processJsonForm
+import org.smartregister.chw.referral.util.JsonFormUtils
 import org.smartregister.chw.referral.util.ReferralUtil.createReferralTask
 import org.smartregister.chw.referral.util.Util.processEvent
 import timber.log.Timber
 import java.util.*
 
 class BaseIssueReferralInteractor : BaseIssueReferralContract.Interactor {
+
+    val referralLibrary by inject<ReferralLibrary>()
 
     override fun onDestroy(isChangingConfiguration: Boolean) = Unit
 
@@ -33,11 +36,10 @@ class BaseIssueReferralInteractor : BaseIssueReferralContract.Interactor {
     fun saveRegistration(
         baseEntityId: String?, valuesHashMap: HashMap<String, NFormViewData>, jsonObject: JSONObject
     ) {
-        val allSharedPreferences =
-            ReferralLibrary.getInstance().context.allSharedPreferences()
+
         val referralTask =
-            processJsonForm(
-                allSharedPreferences, baseEntityId, valuesHashMap,
+            JsonFormUtils.processJsonForm(
+                referralLibrary, baseEntityId, valuesHashMap,
                 jsonObject, Constants.EventType.REGISTRATION
             )
 
@@ -52,8 +54,8 @@ class BaseIssueReferralInteractor : BaseIssueReferralContract.Interactor {
         }
 
         Timber.i("Referral Event = %s", Gson().toJson(referralTask))
-        processEvent(allSharedPreferences, referralTask.event)
-        createReferralTask(referralTask, allSharedPreferences)
+        processEvent(referralLibrary, referralTask.event)
+        createReferralTask(referralTask, referralLibrary)
     }
 
     private fun extractReferralProblems(valuesHashMap: HashMap<String, NFormViewData>): String? {

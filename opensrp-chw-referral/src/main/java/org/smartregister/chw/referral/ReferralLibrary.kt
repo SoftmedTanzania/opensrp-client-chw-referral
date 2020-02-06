@@ -1,46 +1,33 @@
 package org.smartregister.chw.referral
 
 import com.google.gson.Gson
-import id.zelory.compressor.Compressor
 import org.json.JSONArray
 import org.json.JSONObject
+import org.koin.core.KoinComponent
+import org.koin.core.inject
 import org.smartregister.Context
-import org.smartregister.CoreLibrary
 import org.smartregister.chw.referral.domain.FollowupFeedbackObject
-import org.smartregister.chw.referral.domain.ReferralMetadata
 import org.smartregister.chw.referral.domain.ReferralServiceIndicatorObject
 import org.smartregister.chw.referral.domain.ReferralServiceObject
 import org.smartregister.chw.referral.repository.FollowupFeedbackRepository
 import org.smartregister.chw.referral.repository.ReferralServiceIndicatorRepository
 import org.smartregister.chw.referral.repository.ReferralServiceRepository
 import org.smartregister.chw.referral.util.JsonFormConstants
-import org.smartregister.repository.Repository
-import org.smartregister.repository.TaskNotesRepository
 import org.smartregister.repository.TaskRepository
 import org.smartregister.sync.ClientProcessorForJava
 import org.smartregister.sync.helper.ECSyncHelper
 import org.smartregister.util.AssetHandler
 import timber.log.Timber
 
-class ReferralLibrary private constructor(
-    val context: Context, val repository: Repository,
-    var referralMetadata: ReferralMetadata, val applicationVersion: Int,
-    val databaseVersion: Int
-) {
+class ReferralLibrary private constructor() : KoinComponent {
 
-    val clientProcessorForJava: ClientProcessorForJava by lazy {
-        ClientProcessorForJava.getInstance(context.applicationContext())
-    }
-    val compressor: Compressor by lazy {
-        Compressor.getDefault(context.applicationContext())
-    }
-    val taskRepository: TaskRepository by lazy {
-        TaskRepository(TaskNotesRepository())
-    }
+    val taskRepository: TaskRepository by inject()
+    val context: Context by inject()
+    val syncHelper by inject<ECSyncHelper>()
+    val clientProcessorForJava by inject<ClientProcessorForJava>()
+    var appVersion = 1
+    var databaseVersion = 1
 
-    val ecSyncHelper: ECSyncHelper by lazy {
-        ECSyncHelper.getInstance(context.applicationContext())
-    }
 
     /**
      * Use this method for testing purposes ONLY.
@@ -48,10 +35,10 @@ class ReferralLibrary private constructor(
      * It should be replaced by data synchronized from the server
      * in future versions of the application
      */
-    fun seedSampleReferralServicesAndIndicators() {
+    fun seedSampleReferralServicesAndIndicators() : ReferralLibrary{
         val referralServiceRepository = ReferralServiceRepository()
         val followupFeedbackRepository = FollowupFeedbackRepository()
-        if (referralServiceRepository.referralServices == null) {
+        if (referralServiceRepository.referralServiceObjects == null) {
             try {
                 val referralServicesAndIndicatorsJsonString =
                     AssetHandler.readFileFromAssetsFolder(
@@ -110,33 +97,18 @@ class ReferralLibrary private constructor(
         } catch (e: Exception) {
             Timber.e(e)
         }
+        return this
     }
 
     companion object {
-
         @Volatile
         private var instance: ReferralLibrary? = null
 
         @JvmStatic
-        fun init(
-            context: Context, repository: Repository, referralMetadata: ReferralMetadata,
-            applicationVersion: Int, databaseVersion: Int
-        ) {
-            instance ?: synchronized(this) {
-                ReferralLibrary(
-                    context, repository, referralMetadata, applicationVersion, databaseVersion
-                ).also { instance = it }
+        fun getInstance() = instance ?: synchronized(this) {
+            ReferralLibrary().also {
+                instance = it
             }
         }
-
-        @JvmStatic
-        fun getInstance(): ReferralLibrary {
-            checkNotNull(instance) {
-                (" Instance does not exist!!! Call ${CoreLibrary::class.java.name}" +
-                        ".init method in the onCreate method of  your Application class")
-            }
-            return instance!!
-        }
-
     }
 }

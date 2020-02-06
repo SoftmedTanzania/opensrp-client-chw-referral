@@ -3,9 +3,9 @@ package org.smartregister.chw.referral.contract
 import androidx.lifecycle.ViewModel
 import com.nerdstone.neatformcore.domain.model.NFormViewData
 import org.json.JSONObject
+import org.koin.core.KoinComponent
 import org.smartregister.chw.referral.domain.FollowupFeedbackObject
 import org.smartregister.chw.referral.domain.MemberObject
-import org.smartregister.chw.referral.domain.ReferralFollowupObject
 import java.util.*
 
 interface BaseFollowupContract {
@@ -33,15 +33,9 @@ interface BaseFollowupContract {
     interface Model {
 
         fun followupFeedbackList(): List<FollowupFeedbackObject>?
-
-        @Throws(Exception::class)
-        fun getFormWithValuesAsJson(
-            formName: String, entityId: String,
-            currentLocationId: String, referralFollowupObject: ReferralFollowupObject?
-        ): JSONObject?
     }
 
-    interface Interactor {
+    interface Interactor: KoinComponent {
 
         fun saveFollowup(
             baseEntityId: String, valuesHashMap: HashMap<String, NFormViewData>,

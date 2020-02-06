@@ -5,6 +5,7 @@ import android.util.Log;
 import org.smartregister.Context;
 import org.smartregister.CoreLibrary;
 import org.smartregister.chw.referral.ReferralLibrary;
+import org.smartregister.chw.referral.di.DependencyInjection;
 import org.smartregister.chw.referral.domain.ReferralMetadata;
 import org.smartregister.chw.referral.sample.BuildConfig;
 import org.smartregister.chw.referral.sample.repository.SampleRepository;
@@ -39,6 +40,7 @@ public class SampleApplication extends DrishtiApplication {
         //Initialize Modules
         CoreLibrary.init(context);
         ConfigurableViewsLibrary.init(context, getRepository());
+        DependencyInjection.INSTANCE.init();
         ReferralLibrary.init(context, getRepository(), new ReferralMetadata(), BuildConfig.VERSION_CODE, BuildConfig.DATABASE_VERSION);
 
         SyncStatusBroadcastReceiver.init(this);

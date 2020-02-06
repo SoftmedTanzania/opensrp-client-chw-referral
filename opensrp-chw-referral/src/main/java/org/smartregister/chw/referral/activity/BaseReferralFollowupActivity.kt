@@ -1,7 +1,6 @@
 package org.smartregister.chw.referral.activity
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.graphics.PorterDuff
 import android.os.Build
 import android.os.Bundle
@@ -99,7 +98,7 @@ open class BaseReferralFollowupActivity : AppCompatActivity(), BaseFollowupContr
 
         if (jsonForm == null) {
             try {
-                jsonForm = getFormAsJson(formName)
+                jsonForm = getFormAsJson(formName, this)
             } catch (e: Exception) {
                 Timber.e(e)
             }

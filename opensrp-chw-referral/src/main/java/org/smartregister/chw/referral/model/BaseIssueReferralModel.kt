@@ -1,19 +1,10 @@
 package org.smartregister.chw.referral.model
 
-import androidx.annotation.VisibleForTesting
-import com.google.gson.Gson
-import org.json.JSONArray
-import org.json.JSONException
-import org.json.JSONObject
-import org.smartregister.chw.referral.domain.MemberObject
 import org.smartregister.chw.referral.domain.ReferralServiceIndicatorObject
 import org.smartregister.chw.referral.domain.ReferralServiceObject
 import org.smartregister.chw.referral.repository.ReferralServiceIndicatorRepository
 import org.smartregister.chw.referral.repository.ReferralServiceRepository
 import org.smartregister.chw.referral.util.DBConstants
-import org.smartregister.chw.referral.util.JsonFormConstants
-import org.smartregister.chw.referral.util.JsonFormUtils.addFormMetadata
-import org.smartregister.chw.referral.util.JsonFormUtils.getFormAsJson
 import org.smartregister.cursoradapter.SmartRegisterQueryBuilder
 import org.smartregister.domain.Location
 import org.smartregister.repository.LocationRepository
@@ -64,7 +55,7 @@ open class BaseIssueReferralModel : AbstractIssueReferralModel() {
         return queryBuilder.mainCondition(mainCondition)
     }
 
-    protected open fun mainColumns(tableName: String) = arrayOf(
+     open fun mainColumns(tableName: String) = arrayOf(
         tableName + "." + DBConstants.Key.RELATIONAL_ID,
         tableName + "." + DBConstants.Key.BASE_ENTITY_ID,
         tableName + "." + DBConstants.Key.FIRST_NAME,
@@ -76,51 +67,4 @@ open class BaseIssueReferralModel : AbstractIssueReferralModel() {
         tableName + "." + DBConstants.Key.DOD
     )
 
-    @Throws(Exception::class)
-    override fun getFormWithValuesAsJson(
-        formName: String?, entityId: String?, currentLocationId: String?,
-        memberObject: MemberObject?
-    ): JSONObject? {
-        val jsonForm = getFormAsJson(formName)
-        addFormMetadata(jsonForm, entityId, currentLocationId)
-        return setFormValues(jsonForm, JsonFormConstants.STEP1, memberObject)
-    }
-
-    @VisibleForTesting
-    fun setFormValues(form: JSONObject, step: String?, memberObject: MemberObject?): JSONObject {
-        try {
-            val fieldsArray = form.getJSONObject(step)
-                .getJSONArray(JsonFormConstants.FIELDS)
-            setFieldValues(fieldsArray, memberObject)
-            Timber.i("Form JSON = %s", form.toString())
-        } catch (e: Exception) {
-            Timber.e(e)
-        }
-        return form
-    }
-
-    private fun setFieldValues(fieldsArray: JSONArray, memberObject: MemberObject?) {
-        var memberJSONObject: JSONObject? = null
-        try {
-            memberJSONObject = JSONObject(Gson().toJson(memberObject))
-        } catch (e: JSONException) {
-            Timber.e(e)
-        }
-        (0 until fieldsArray.length()).forEach { i ->
-            val fieldObject: JSONObject
-            try {
-                fieldObject = fieldsArray.getJSONObject(i)
-                val key =
-                    fieldObject.getString(JsonFormConstants.KEY)
-                if (memberJSONObject != null) {
-                    fieldObject.put(
-                        JsonFormConstants.VALUE,
-                        memberJSONObject.getString(key)
-                    )
-                }
-            } catch (e: JSONException) {
-                Timber.e(e)
-            }
-        }
-    }
 }
