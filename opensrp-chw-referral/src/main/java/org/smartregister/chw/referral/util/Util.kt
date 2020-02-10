@@ -116,7 +116,8 @@ object Util : KoinComponent {
         }
     }
 
-    val referralServicesList: List<ReferralServiceObject>? = try {
+    @JvmStatic
+    fun getReferralServicesList(): List<ReferralServiceObject>? = try {
         ReferralServiceRepository().referralServiceObjects
     } catch (e: Exception) {
         Timber.e(e)

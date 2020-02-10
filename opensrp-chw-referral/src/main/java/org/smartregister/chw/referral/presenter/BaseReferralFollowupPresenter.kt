@@ -18,7 +18,7 @@ open class BaseReferralFollowupPresenter(
 ) : BaseFollowupContract.Presenter, BaseFollowupContract.InteractorCallBack {
 
     private val viewReference =  WeakReference(view)
-    private var memberObject: MemberObject? = null
+    var memberObject: MemberObject? = null
 
     override fun saveForm(valuesHashMap: HashMap<String, NFormViewData>, jsonObject: JSONObject) {
         try {
@@ -28,7 +28,7 @@ open class BaseReferralFollowupPresenter(
         }
     }
 
-    override fun getView(): BaseFollowupContract.View? = viewReference?.get()
+    override fun getView(): BaseFollowupContract.View? = viewReference.get()
 
     override fun <T> getViewModel(): Class<T> where T : ViewModel, T : BaseFollowupContract.Model {
         return viewModelClass as Class<T>
@@ -46,5 +46,4 @@ open class BaseReferralFollowupPresenter(
     override fun initializeMemberObject(memberObject: MemberObject) {
         this.memberObject = memberObject
     }
-
 }

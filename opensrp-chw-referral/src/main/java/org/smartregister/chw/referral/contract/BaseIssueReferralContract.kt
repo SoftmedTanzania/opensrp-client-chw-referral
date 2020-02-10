@@ -22,7 +22,7 @@ interface BaseIssueReferralContract {
 
     }
 
-    interface Presenter : BaseRegisterContract.Presenter {
+    interface Presenter  {
 
         fun getView(): View?
 

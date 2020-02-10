@@ -5,9 +5,6 @@ import android.util.Log;
 import org.smartregister.Context;
 import org.smartregister.CoreLibrary;
 import org.smartregister.chw.referral.ReferralLibrary;
-import org.smartregister.chw.referral.di.DependencyInjection;
-import org.smartregister.chw.referral.domain.ReferralMetadata;
-import org.smartregister.chw.referral.sample.BuildConfig;
 import org.smartregister.chw.referral.sample.repository.SampleRepository;
 import org.smartregister.chw.referral.sample.utils.SampleConstants;
 import org.smartregister.chw.referral.util.DBConstants;
@@ -28,54 +25,9 @@ public class SampleApplication extends DrishtiApplication {
     private static CommonFtsObject commonFtsObject;
     private UniqueIdRepository uniqueIdRepository;
 
-    @Override
-    public void onCreate() {
-        super.onCreate();
-
-        mInstance = this;
-        context = Context.getInstance();
-        context.updateApplicationContext(getApplicationContext());
-        context.updateCommonFtsObject(createCommonFtsObject());
-
-        //Initialize Modules
-        CoreLibrary.init(context);
-        ConfigurableViewsLibrary.init(context, getRepository());
-        DependencyInjection.INSTANCE.init();
-        ReferralLibrary.init(context, getRepository(), new ReferralMetadata(), BuildConfig.VERSION_CODE, BuildConfig.DATABASE_VERSION);
-
-        SyncStatusBroadcastReceiver.init(this);
-
-        //Auto login by default
-        String password = "pwd";
-        context.session().start(context.session().lengthInMilliseconds());
-        context.configuration().getDrishtiApplication().setPassword(password);
-        context.session().setPassword(password);
-
-
-        sampleUniqueIds();
-
-    }
-
-    @Override
-    public void logoutCurrentUser() {
-    }
-
     public static synchronized SampleApplication getInstance() {
         return (SampleApplication) mInstance;
     }
-
-    @Override
-    public Repository getRepository() {
-        try {
-            if (repository == null) {
-                repository = new SampleRepository(getInstance().getApplicationContext(), context);
-            }
-        } catch (UnsatisfiedLinkError e) {
-            Log.e(TAG, e.getMessage(), e);
-        }
-        return repository;
-    }
-
 
     public static CommonFtsObject createCommonFtsObject() {
         if (commonFtsObject == null) {
@@ -111,6 +63,50 @@ public class SampleApplication extends DrishtiApplication {
                     .REFERRAL_DATE, DBConstants.Key.DATE_REMOVED};
         }
         return null;
+    }
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+
+        mInstance = this;
+        context = Context.getInstance();
+        context.updateApplicationContext(getApplicationContext());
+        context.updateCommonFtsObject(createCommonFtsObject());
+
+        //Initialize Modules
+        CoreLibrary.init(context);
+        ConfigurableViewsLibrary.init(context, getRepository());
+
+        ReferralLibrary.init(this);
+
+        SyncStatusBroadcastReceiver.init(this);
+
+        //Auto login by default
+        String password = "pwd";
+        context.session().start(context.session().lengthInMilliseconds());
+        context.configuration().getDrishtiApplication().setPassword(password);
+        context.session().setPassword(password);
+
+
+        sampleUniqueIds();
+
+    }
+
+    @Override
+    public void logoutCurrentUser() {
+    }
+
+    @Override
+    public Repository getRepository() {
+        try {
+            if (repository == null) {
+                repository = new SampleRepository(getInstance().getApplicationContext(), context);
+            }
+        } catch (UnsatisfiedLinkError e) {
+            Log.e(TAG, e.getMessage(), e);
+        }
+        return repository;
     }
 
     public UniqueIdRepository getUniqueIdRepository() {

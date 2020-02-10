@@ -2,6 +2,7 @@ package org.smartregister.chw.referral.presenter
 
 import org.smartregister.chw.referral.contract.BaseReferralHistoryContract
 import org.smartregister.chw.referral.domain.MemberObject
+import org.smartregister.chw.referral.util.Constants
 import java.lang.ref.WeakReference
 
 open class BaseReferralHistoryPresenter(
@@ -13,7 +14,7 @@ open class BaseReferralHistoryPresenter(
     override fun getMainCondition() =
         """ec_referral.base_entity_id = '${memberObject.baseEntityId}'"""
 
-    override fun getMainTable() = "ec_referral"
+    override fun getMainTable() =  Constants.Tables.REFERRAL
 
     override fun getView() = viewReference.get()
 

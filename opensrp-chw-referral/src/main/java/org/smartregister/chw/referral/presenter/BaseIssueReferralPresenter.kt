@@ -21,7 +21,7 @@ open class BaseIssueReferralPresenter(
     protected var interactor: BaseIssueReferralContract.Interactor
 ) : BaseIssueReferralContract.Presenter, BaseIssueReferralContract.InteractorCallBack {
 
-    private var memberObject: MemberObject? = null
+    var memberObject: MemberObject? = null
     private var viewReference = WeakReference(view)
 
     override fun getView(): BaseIssueReferralContract.View? {
@@ -60,13 +60,5 @@ open class BaseIssueReferralPresenter(
     override fun onNoUniqueId() = Unit
 
     override fun onRegistrationSaved() = Unit
-
-    override fun registerViewConfigurations(list: List<String>) = Unit
-
-    override fun unregisterViewConfiguration(list: List<String>) = Unit
-
-    override fun onDestroy(b: Boolean) = Unit
-
-    override fun updateInitials() = Unit
 
 }

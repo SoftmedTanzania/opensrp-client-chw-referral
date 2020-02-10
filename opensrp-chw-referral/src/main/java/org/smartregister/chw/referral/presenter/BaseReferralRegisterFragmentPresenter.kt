@@ -19,7 +19,7 @@ open class BaseReferralRegisterFragmentPresenter(
 
     protected var viewReference = WeakReference(view)
     protected var config: RegisterConfiguration
-    protected var visibleColumns: Set<View> = TreeSet()
+    var visibleColumns: Set<View> = TreeSet()
 
     override fun updateSortAndFilter(filterList: List<Field>, sortField: Field) = Unit
 

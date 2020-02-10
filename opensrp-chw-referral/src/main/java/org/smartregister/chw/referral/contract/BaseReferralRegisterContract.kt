@@ -1,6 +1,5 @@
 package org.smartregister.chw.referral.contract
 
-import org.apache.commons.lang3.tuple.Triple
 import org.smartregister.view.contract.BaseRegisterContract
 
 interface BaseReferralRegisterContract {
@@ -9,14 +8,9 @@ interface BaseReferralRegisterContract {
         fun presenter(): Presenter?
     }
 
-    interface Presenter : BaseRegisterContract.Presenter {
-
-        fun saveLanguage(language: String)
-
-        fun closeFamilyRecord(jsonString: String)
+    interface Presenter: BaseRegisterContract.Presenter {
 
         fun getView(): View?
-
     }
 
     interface Model {
@@ -32,23 +26,4 @@ interface BaseReferralRegisterContract {
         val initials: String?
     }
 
-    interface Interactor {
-
-        fun onDestroy(isChangingConfiguration: Boolean)
-
-        fun getNextUniqueId(
-            triple: Triple<String?, String?, String?>?, callBack: InteractorCallBack?
-        )
-
-        fun removeFamilyFromRegister(closeFormJsonString: String?, providerId: String?)
-    }
-
-    interface InteractorCallBack {
-
-        fun onUniqueIdFetched(triple: Triple<String, String, String>, entityId: String)
-
-        fun onNoUniqueId()
-
-        fun onRegistrationSaved()
-    }
 }
