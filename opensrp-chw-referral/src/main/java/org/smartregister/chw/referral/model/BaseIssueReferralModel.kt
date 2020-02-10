@@ -9,6 +9,7 @@ import org.smartregister.cursoradapter.SmartRegisterQueryBuilder
 import org.smartregister.domain.Location
 import org.smartregister.repository.LocationRepository
 import timber.log.Timber
+import java.lang.NullPointerException
 
 open class BaseIssueReferralModel : AbstractIssueReferralModel() {
 
@@ -17,7 +18,7 @@ open class BaseIssueReferralModel : AbstractIssueReferralModel() {
     override val healthFacilities: List<Location>?
         get() = try {
             LocationRepository().allLocations
-        } catch (e: Exception) {
+        } catch (e: NullPointerException) {
             Timber.e(e)
             null
         }
@@ -55,7 +56,7 @@ open class BaseIssueReferralModel : AbstractIssueReferralModel() {
         return queryBuilder.mainCondition(mainCondition)
     }
 
-     open fun mainColumns(tableName: String) = arrayOf(
+    open fun mainColumns(tableName: String) = arrayOf(
         tableName + "." + DBConstants.Key.RELATIONAL_ID,
         tableName + "." + DBConstants.Key.BASE_ENTITY_ID,
         tableName + "." + DBConstants.Key.FIRST_NAME,

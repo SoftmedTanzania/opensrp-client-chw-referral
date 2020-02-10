@@ -3,6 +3,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'jacoco'
 apply plugin: 'com.github.kt3k.coveralls'
+apply plugin: 'org.jetbrains.dokka'
 
 jacoco {
     toolVersion = "0.8.5"
@@ -190,5 +191,21 @@ coveralls {
     jacocoReportPath = "${buildDir}/reports/jacoco/jacocoRootReport/report.xml"
 }
 
+//For Kotlin documentation more here https://github.com/Kotlin/dokka/blob/master/README.md
+dokka {
+    outputFormat = 'html'
+    outputDirectory = "$buildDir/dokka"
+
+    configuration {
+        moduleName = 'opensrp-chw-referral'
+        reportUndocumented = true
+        // Suppress a package
+        perPackageOption {
+            prefix = "kotlin.internal" // will match kotlin.internal and all sub-packages of it
+            suppress = true
+        }
+    }
+
+}
 //apply from: '../maven.gradle'
 

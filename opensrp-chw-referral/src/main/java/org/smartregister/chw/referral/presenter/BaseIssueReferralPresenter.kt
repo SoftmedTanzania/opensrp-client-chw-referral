@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.nerdstone.neatformcore.domain.model.NFormViewData
 import org.apache.commons.lang3.tuple.Triple
+import org.json.JSONException
 import org.json.JSONObject
 import org.smartregister.chw.referral.contract.BaseIssueReferralContract
 import org.smartregister.chw.referral.domain.MemberObject
@@ -51,7 +52,14 @@ open class BaseIssueReferralPresenter(
         try {
             interactor.saveRegistration(baseEntityID, valuesHashMap, jsonObject, this)
         } catch (e: Exception) {
-            Timber.e(Log.getStackTraceString(e))
+            when (e) {
+                is NullPointerException, is JSONException -> {
+                    Timber.e(Log.getStackTraceString(e))
+                }
+                else -> {
+                    Timber.e(Log.getStackTraceString(e))
+                }
+            }
         }
     }
 

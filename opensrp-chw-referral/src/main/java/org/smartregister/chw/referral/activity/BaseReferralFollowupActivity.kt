@@ -36,8 +36,12 @@ import org.smartregister.chw.referral.util.JsonFormConstants
 import org.smartregister.chw.referral.util.JsonFormUtils.addFormMetadata
 import org.smartregister.chw.referral.util.JsonFormUtils.getFormAsJson
 import timber.log.Timber
+import java.io.FileNotFoundException
 import java.util.*
 
+/**
+ * The base class for referral followup activity. implements [BaseFollowupContract.View]
+ */
 open class BaseReferralFollowupActivity : AppCompatActivity(), BaseFollowupContract.View {
 
     var injectValuesFromDb = false
@@ -79,11 +83,9 @@ open class BaseReferralFollowupActivity : AppCompatActivity(), BaseFollowupContr
         viewModel = ViewModelProviders.of(this).get(presenter!!.getViewModel())
         viewModel?.memberObject = memberObject
 
-        val mBinding =
-            DataBindingUtil.setContentView<ActivityFollowupBinding>(
-                this, R.layout.activity_followup
-            ).apply { this.viewModel = viewModel }
-        setContentView(mBinding.root)
+        DataBindingUtil.setContentView<ActivityFollowupBinding>(
+            this, R.layout.activity_followup
+        ).apply { this.viewModel = viewModel }
 
         setUpViews()
 
@@ -99,7 +101,7 @@ open class BaseReferralFollowupActivity : AppCompatActivity(), BaseFollowupContr
         if (jsonForm == null) {
             try {
                 jsonForm = getFormAsJson(formName, this)
-            } catch (e: Exception) {
+            } catch (e: FileNotFoundException) {
                 Timber.e(e)
             }
         }

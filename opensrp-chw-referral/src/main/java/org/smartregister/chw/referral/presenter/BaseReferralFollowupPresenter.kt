@@ -3,6 +3,7 @@ package org.smartregister.chw.referral.presenter
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.nerdstone.neatformcore.domain.model.NFormViewData
+import org.json.JSONException
 import org.json.JSONObject
 import org.smartregister.chw.referral.contract.BaseFollowupContract
 import org.smartregister.chw.referral.domain.MemberObject
@@ -10,6 +11,7 @@ import org.smartregister.chw.referral.model.AbstractReferralFollowupModel
 import timber.log.Timber
 import java.lang.ref.WeakReference
 import java.util.*
+import kotlin.NullPointerException
 
 open class BaseReferralFollowupPresenter(
     view: BaseFollowupContract.View,
@@ -17,16 +19,22 @@ open class BaseReferralFollowupPresenter(
     protected var interactor: BaseFollowupContract.Interactor
 ) : BaseFollowupContract.Presenter, BaseFollowupContract.InteractorCallBack {
 
-    private val viewReference =  WeakReference(view)
+    private val viewReference = WeakReference(view)
     var memberObject: MemberObject? = null
 
-    override fun saveForm(valuesHashMap: HashMap<String, NFormViewData>, jsonObject: JSONObject) {
+    override fun saveForm(valuesHashMap: HashMap<String, NFormViewData>, jsonObject: JSONObject) =
         try {
             interactor.saveFollowup(memberObject!!.baseEntityId!!, valuesHashMap, jsonObject, this)
         } catch (e: Exception) {
-            Timber.e(Log.getStackTraceString(e))
+            when (e) {
+                is NullPointerException, is JSONException -> {
+                    Timber.e(Log.getStackTraceString(e))
+                }
+                else -> {
+                    Timber.e(Log.getStackTraceString(e))
+                }
+            }
         }
-    }
 
     override fun getView(): BaseFollowupContract.View? = viewReference.get()
 

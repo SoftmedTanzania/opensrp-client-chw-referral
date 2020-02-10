@@ -2,6 +2,7 @@ package org.smartregister.chw.referral.model
 
 import org.apache.commons.lang3.StringUtils
 import org.json.JSONArray
+import org.json.JSONException
 import org.koin.core.inject
 import org.smartregister.chw.referral.ReferralLibrary
 import org.smartregister.chw.referral.contract.BaseReferralRegisterFragmentContract
@@ -82,7 +83,7 @@ open class BaseReferralRegisterFragmentModel :
             if (response!!.status() == ResponseStatus.success) {
                 return JSONArray(response.payload())
             }
-        } catch (e: Exception) {
+        } catch (e: JSONException) {
             Timber.e(e)
         }
         return null

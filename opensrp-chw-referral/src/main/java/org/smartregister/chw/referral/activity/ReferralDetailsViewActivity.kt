@@ -22,6 +22,9 @@ import java.math.BigDecimal
 import java.text.SimpleDateFormat
 import java.util.*
 
+/***
+ * This class is for displaying the referral details for the selected client It extends [SecuredActivity]
+ */
 open class ReferralDetailsViewActivity : SecuredActivity() {
 
     protected lateinit var appBarLayout: AppBarLayout
@@ -144,7 +147,7 @@ open class ReferralDetailsViewActivity : SecuredActivity() {
             if (!StringUtils.isEmpty(memberObject!!.servicesBeforeReferralOther)) {
                 preReferralManagement.append(", " + memberObject!!.servicesBeforeReferralOther)
             }
-        } catch (e: Exception) {
+        } catch (e: StringIndexOutOfBoundsException) {
             Timber.e(e)
             preReferralManagement.text = getString(R.string.empty_value)
         }
@@ -179,14 +182,19 @@ open class ReferralDetailsViewActivity : SecuredActivity() {
         }
 
     companion object {
+        /**
+         * This static method is used to launch [ReferralDetailsViewActivity] activity
+         *
+         * @param [activity] the activity that you want to launch [ReferralDetailsViewActivity] from
+         * @param [memberObject] entity class for the client with all the required details
+         */
         @JvmStatic
         fun startReferralDetailsViewActivity(activity: Activity, memberObject: MemberObject?) {
-            val intent = Intent(activity, ReferralDetailsViewActivity::class.java)
-            intent.putExtra(
-                Constants.ReferralMemberObject.MEMBER_OBJECT,
-                memberObject
+            activity.startActivity(
+                Intent(activity, ReferralDetailsViewActivity::class.java).apply {
+                    putExtra(Constants.ReferralMemberObject.MEMBER_OBJECT, memberObject)
+                }
             )
-            activity.startActivity(intent)
         }
     }
 }

@@ -20,7 +20,6 @@ class BaseIssueReferralInteractor : BaseIssueReferralContract.Interactor {
 
     val referralLibrary by inject<ReferralLibrary>()
 
-    override fun onDestroy(isChangingConfiguration: Boolean) = Unit
 
     @Throws(Exception::class)
     override fun saveRegistration(

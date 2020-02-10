@@ -12,15 +12,17 @@ import androidx.annotation.VisibleForTesting
 import org.smartregister.chw.referral.R
 import timber.log.Timber
 
-class ClipboardDialog : Dialog, View.OnClickListener {
+/**
+ * Custom class implementation for launching clipboard as [Dialog]
+ *
+ * @constructor creates a dialog from the and applies the given style
+ *
+ * */
+class ClipboardDialog(context: Context, style: Int) : Dialog(context, style), View.OnClickListener {
 
     @JvmField
     @VisibleForTesting
     var content: String? = null
-
-    constructor(context: Context) : super(context)
-
-    constructor(context: Context, style: Int) : super(context, style)
 
     override fun onCreate(savedInstanceState: Bundle) {
         super.onCreate(savedInstanceState)
@@ -38,7 +40,7 @@ class ClipboardDialog : Dialog, View.OnClickListener {
                 ClipData.newPlainText(context.getString(R.string.copy_to_clipboard), content)
             clipboard.primaryClip = clip
             dismiss()
-        } catch (e: Exception) {
+        } catch (e: IllegalStateException) {
             Timber.e(e)
         }
     }

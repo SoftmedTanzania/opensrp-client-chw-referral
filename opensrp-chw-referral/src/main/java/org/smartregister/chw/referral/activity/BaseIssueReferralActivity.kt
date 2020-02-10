@@ -41,6 +41,7 @@ import org.smartregister.chw.referral.util.JsonFormUtils.getFormAsJson
 import org.smartregister.commonregistry.CommonPersonObjectClient
 import org.smartregister.util.Utils
 import timber.log.Timber
+import java.io.IOException
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -92,49 +93,50 @@ open class BaseIssueReferralActivity : AppCompatActivity(), BaseIssueReferralCon
             this?.fillClientData(viewModel?.memberObject!!)
         }
 
+        createViewsFromJson()
+    }
+
+    private fun createViewsFromJson() {
         if (jsonForm == null) {
             try {
                 jsonForm = getFormAsJson(formName, this)
-            } catch (e: Exception) {
-                Timber.e(e)
+                addFormMetadata(jsonForm!!, baseEntityId, locationID)
+                with(viewModel?.memberObject!!) {
+                    val age = Period(DateTime(this.age), DateTime()).years
+                    jsonForm?.put(
+                        JsonFormConstants.FORM,
+                        "${this.firstName} ${this.middleName} ${this.lastName}, $age"
+
+                    )
+                }
+
+                initializeHealthFacilitiesList(jsonForm)
+                if (serviceId != null && jsonForm != null) injectReferralProblems(jsonForm!!)
+
+                Timber.i("Form with injected values = %s", jsonForm)
+                val formLayout = findViewById<LinearLayout>(R.id.formLayout)
+                val stepperModel = StepperModel.Builder()
+                    .exitButtonDrawableResource(R.drawable.ic_arrow_back_white_24dp)
+                    .indicatorType(IndicatorType.DOT_INDICATOR)
+                    .toolbarColorResource(R.color.family_actionbar)
+                    .build()
+                val jsonFormStepBuilderModel =
+                    JsonFormStepBuilderModel.Builder(this, stepperModel).build()
+                val customLayouts = ArrayList<View>()
+                customLayouts.add(layoutInflater.inflate(R.layout.referral_form_view, null))
+                if (jsonForm != null) {
+                    formBuilder = JsonFormBuilder(jsonForm.toString(), this, formLayout)
+                        .buildForm(jsonFormStepBuilderModel, customLayouts)
+                    formLayout.addView(formBuilder!!.neatStepperLayout)
+                }
+
+            } catch (ex: Exception) {
+                when (ex) {
+                    is IOException, is JSONException, is IllegalArgumentException -> {
+                        Timber.e(ex)
+                    }
+                }
             }
-        }
-
-        try {
-            addFormMetadata(jsonForm!!, baseEntityId, locationID)
-            with(viewModel?.memberObject!!) {
-                val age = Period(DateTime(this.age), DateTime()).years
-                jsonForm?.put(
-                    JsonFormConstants.FORM,
-                    "${this.firstName} ${this.middleName} ${this.lastName}, $age"
-
-                )
-            }
-        } catch (e: IllegalArgumentException) {
-            Timber.e(e)
-        }
-
-        try {
-            initializeHealthFacilitiesList(jsonForm)
-            if (serviceId != null && jsonForm != null) injectReferralProblems(jsonForm!!)
-        } catch (e: JSONException) {
-            Timber.e(e)
-        }
-
-        Timber.i("Form with injected values = %s", jsonForm)
-        val formLayout = findViewById<LinearLayout>(R.id.formLayout)
-        val stepperModel = StepperModel.Builder()
-            .exitButtonDrawableResource(R.drawable.ic_arrow_back_white_24dp)
-            .indicatorType(IndicatorType.DOT_INDICATOR)
-            .toolbarColorResource(R.color.family_actionbar)
-            .build()
-        val jsonFormStepBuilderModel = JsonFormStepBuilderModel.Builder(this, stepperModel).build()
-        val customLayouts = ArrayList<View>()
-        customLayouts.add(layoutInflater.inflate(R.layout.referral_form_view, null))
-        if (jsonForm != null) {
-            formBuilder = JsonFormBuilder(jsonForm.toString(), this, formLayout)
-                .buildForm(jsonFormStepBuilderModel, customLayouts)
-            formLayout.addView(formBuilder!!.neatStepperLayout)
         }
     }
 

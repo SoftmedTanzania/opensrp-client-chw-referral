@@ -15,6 +15,9 @@ import org.smartregister.chw.referral.domain.MemberObject
 import org.smartregister.chw.referral.presenter.BaseReferralHistoryPresenter
 import org.smartregister.chw.referral.util.Constants
 
+/***
+ * This class is for creating referral history page. It implements [BaseReferralHistoryContract.View]
+ */
 open class BaseReferralHistoryActivity : AppCompatActivity(),
     BaseReferralHistoryContract.View {
 

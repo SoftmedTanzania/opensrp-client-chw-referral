@@ -5,6 +5,7 @@ import org.smartregister.chw.referral.R
 import org.smartregister.chw.referral.fragment.BaseReferralCallDialogFragment
 import org.smartregister.chw.referral.util.Util
 import timber.log.Timber
+import java.lang.IllegalStateException
 
 class BaseReferralCallWidgetDialogListener(private val callDialogFragment: BaseReferralCallDialogFragment) :
     View.OnClickListener {
@@ -18,7 +19,7 @@ class BaseReferralCallWidgetDialogListener(private val callDialogFragment: BaseR
                     val phoneNumber = view.tag as String
                     Util.launchDialer(callDialogFragment.activity, callDialogFragment, phoneNumber)
                     callDialogFragment.dismiss()
-                } catch (e: Exception) {
+                } catch (e: IllegalStateException) {
                     Timber.e(e)
                 }
             }

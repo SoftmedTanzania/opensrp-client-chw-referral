@@ -19,14 +19,21 @@ import java.util.*
 
 const val METADATA = "metadata"
 
+/**
+ * Utility functions for handling JSON forms, extends [JsonFormUtils]
+ */
 object JsonFormUtils : JsonFormUtils() {
+    /**
+     * Creates a event using the [valuesHashMap] and [jsonForm] then returns [ReferralTask] for client with UUID [entityId],
+     * [encounterType] is the name of the form
+     */
     @JvmStatic
     @Throws(Exception::class)
     fun processJsonForm(
         referralLibrary: ReferralLibrary, entityId: String?,
-        valuesHashMap: HashMap<String, NFormViewData>, jsonForm: JSONObject?, encounter_type: String
+        valuesHashMap: HashMap<String, NFormViewData>, jsonForm: JSONObject?, encounterType: String
     ): ReferralTask {
-        val bindType: String? = when (encounter_type) {
+        val bindType: String? = when (encounterType) {
             Constants.EventType.REGISTRATION -> {
                 Tables.REFERRAL
             }
@@ -38,7 +45,7 @@ object JsonFormUtils : JsonFormUtils() {
         val event =
             createEvent(
                 JSONArray(), getJSONObject(jsonForm, METADATA),
-                formTag(referralLibrary), entityId, encounter_type, bindType
+                formTag(referralLibrary), entityId, encounterType, bindType
             ).also { it.obs = getObs(valuesHashMap) }
         return ReferralTask(event)
     }
@@ -51,6 +58,9 @@ object JsonFormUtils : JsonFormUtils() {
         }
 
 
+    /**
+     * Applies attributes to [event], also including app and database version from [referralLibrary]
+     */
     fun tagEvent(referralLibrary: ReferralLibrary, event: Event) {
         event.apply {
             with(referralLibrary.context.allSharedPreferences()) {
@@ -74,6 +84,9 @@ object JsonFormUtils : JsonFormUtils() {
         }
     }
 
+    /**
+     * Adds [entityId],[currentLocationId] metadata to the [jsonObject]
+     */
     @JvmStatic
     @Throws(JSONException::class)
     fun addFormMetadata(jsonObject: JSONObject, entityId: String?, currentLocationId: String?) {
@@ -82,6 +95,9 @@ object JsonFormUtils : JsonFormUtils() {
             .put(ENTITY_ID, entityId)
     }
 
+    /**
+     * Obtains a json form named [formName] using the provided [context]
+     */
     @JvmStatic
     @Throws(Exception::class)
     fun getFormAsJson(formName: String?, context: Context): JSONObject =

@@ -1,7 +1,9 @@
 package org.smartregister.chw.referral.util
 
+/**
+ * Contains constants used thought the application
+ */
 object Constants {
-
     const val EN ="en"
     const val SW ="sw"
     const val REQUEST_CODE_GET_JSON = 2244

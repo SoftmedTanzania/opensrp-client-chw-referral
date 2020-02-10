@@ -9,7 +9,13 @@ import org.smartregister.domain.Task
 import org.smartregister.repository.BaseRepository
 import java.util.*
 
+/**
+ * Offers utility functionality for Referrals
+ */
 object ReferralUtil {
+    /**
+     * Adds [referralTask] to the task repository defined in the [referralLibrary]
+     */
     @JvmStatic
     fun createReferralTask(
         referralTask: ReferralTask, referralLibrary: ReferralLibrary

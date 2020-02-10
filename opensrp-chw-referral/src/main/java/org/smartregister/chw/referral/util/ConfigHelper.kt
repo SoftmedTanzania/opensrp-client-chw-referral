@@ -6,7 +6,14 @@ import org.smartregister.configurableviews.model.Field
 import org.smartregister.configurableviews.model.RegisterConfiguration
 import java.util.*
 
+/**
+ * Helper functions for Registration config
+ */
 object ConfigHelper {
+
+    /**
+     * Returns [RegisterConfiguration] used on the referral register.
+     */
     @JvmStatic
     fun defaultRegisterConfiguration(context: Context?): RegisterConfiguration? {
         return RegisterConfiguration().apply {

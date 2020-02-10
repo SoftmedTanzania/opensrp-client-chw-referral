@@ -8,6 +8,7 @@ import org.smartregister.configurableviews.model.Field
 import org.smartregister.configurableviews.model.RegisterConfiguration
 import org.smartregister.configurableviews.model.View
 import timber.log.Timber
+import java.lang.NullPointerException
 import java.lang.ref.WeakReference
 import java.util.*
 
@@ -42,7 +43,7 @@ open class BaseReferralRegisterFragmentPresenter(
             if (config.searchBarText != null && getView() != null) {
                 getView()?.updateSearchBarHint(config.searchBarText)
             }
-        } catch (e: Exception) {
+        } catch (e: NullPointerException) {
             Timber.e(e)
         }
     }

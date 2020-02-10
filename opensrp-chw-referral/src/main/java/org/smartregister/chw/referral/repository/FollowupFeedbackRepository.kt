@@ -2,6 +2,7 @@ package org.smartregister.chw.referral.repository
 
 import android.content.ContentValues
 import android.database.Cursor
+import android.database.sqlite.SQLiteException
 import com.google.gson.Gson
 import org.koin.core.KoinComponent
 import org.koin.core.inject
@@ -26,10 +27,16 @@ private const val IS_ACTIVE = "is_active"
 private const val DETAILS_COLUMN = "details"
 private val TABLE_COLUMNS = arrayOf(ID, FEEDBACK_NAME_EN, FEEDBACK_NAME_SW, IS_ACTIVE)
 
+/**
+ * repository interface for handling accessing and saving feedback referrals. It extends [BaseRepository] and implements [KoinComponent]
+ */
 class FollowupFeedbackRepository : BaseRepository(), KoinComponent {
 
     val referralLibrary by inject<ReferralLibrary>()
 
+    /**
+     * Returns [FollowupFeedbackObject] for the provided [_id]
+     */
     fun getFeedbackById(_id: String): FollowupFeedbackObject? {
         var mCursor: Cursor? = null
         try {
@@ -56,7 +63,9 @@ class FollowupFeedbackRepository : BaseRepository(), KoinComponent {
         return null
     }
 
-    //TODO improve this query mechanism
+    /**
+     * Returns a list of [FollowupFeedbackObject]
+     */
     val followupFeedbacks: List<FollowupFeedbackObject>?
         get() {
             val followupFeedbackList = ArrayList<FollowupFeedbackObject>()
@@ -85,7 +94,7 @@ class FollowupFeedbackRepository : BaseRepository(), KoinComponent {
                     }
                 }
                 return followupFeedbackList
-            } catch (e: Exception) {
+            } catch (e: SQLiteException) {
                 Timber.e(e)
             } finally {
                 cursor?.close()
@@ -106,6 +115,9 @@ class FollowupFeedbackRepository : BaseRepository(), KoinComponent {
         this.writableDatabase.insert(TABLE_NAME, null, values)
     }
 
+    /**
+     * Saves [followupFeedbackObject] to the database
+     */
     fun saveFollowupFeedback(followupFeedbackObject: FollowupFeedbackObject) {
         insertValues(createValuesFor(followupFeedbackObject))
         Timber.i("Successfully saved Feedback = %s", Gson().toJson(followupFeedbackObject))

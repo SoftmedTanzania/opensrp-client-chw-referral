@@ -18,6 +18,10 @@ import org.smartregister.repository.TaskRepository
 import org.smartregister.sync.ClientProcessorForJava
 import org.smartregister.sync.helper.ECSyncHelper
 
+/**
+ * This class is the main entry point of the library. Used to initialize all the required dependencies
+ * and load the referral service indicators
+ */
 class ReferralLibrary private constructor() : KoinComponent {
 
     val taskRepository: TaskRepository by inject()
@@ -28,6 +32,9 @@ class ReferralLibrary private constructor() : KoinComponent {
     var databaseVersion = 1
     private val referralRepositoryProvider by inject<ReferralRepositoryProvider>()
 
+    /**
+     * Load referral service indicators
+     */
     fun loadReferralServiceIndicators() {
         referralRepositoryProvider.seedSampleReferralServicesAndIndicators()
     }
@@ -43,6 +50,9 @@ class ReferralLibrary private constructor() : KoinComponent {
             }
         }
 
+        /**
+         * Initializes the library with tha context [application]
+         */
         @JvmStatic
         fun init(application: Application) {
             startKoin {

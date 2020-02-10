@@ -2,6 +2,7 @@ package org.smartregister.chw.referral.repository
 
 import android.content.ContentValues
 import android.database.Cursor
+import android.database.sqlite.SQLiteException
 import com.google.gson.Gson
 import org.koin.core.KoinComponent
 import org.koin.core.inject
@@ -28,10 +29,16 @@ private val TABLE_COLUMNS = arrayOf(
     ID, SERVICE_NAME_EN, SERVICE_NAME_SW, SERVICE_IDENTIFIER, IS_ACTIVE
 )
 
+/**
+ * Repository for referral services, extends [BaseRepository] and implements [KoinComponent] for dependency injection
+ */
 class ReferralServiceRepository : BaseRepository(), KoinComponent {
 
     val referralLibrary by inject<ReferralLibrary>()
 
+    /**
+     * return [ReferralServiceObject] for the given [_id]
+     */
     fun getReferralServiceById(_id: String): ReferralServiceObject? {
         var cursor: Cursor? = null
         try {
@@ -58,7 +65,9 @@ class ReferralServiceRepository : BaseRepository(), KoinComponent {
         return null
     }
 
-    //improve this query mechanism
+    /**
+     * a property that returns the list of [ReferralServiceObject]
+     */
     val referralServiceObjects: List<ReferralServiceObject>?
         get() {
             val referralServices = ArrayList<ReferralServiceObject>()
@@ -86,7 +95,7 @@ class ReferralServiceRepository : BaseRepository(), KoinComponent {
                     }
                     return referralServices
                 }
-            } catch (e: Exception) {
+            } catch (e: SQLiteException) {
                 Timber.e(e)
             } finally {
                 cursor?.close()
@@ -108,6 +117,9 @@ class ReferralServiceRepository : BaseRepository(), KoinComponent {
         this.writableDatabase.insert(TABLE_NAME, null, values)
     }
 
+    /**
+     * Saves the give n [referralServiceObject] to the database
+     */
     fun saveReferralService(referralServiceObject: ReferralServiceObject) {
         insertValues(createValuesFor(referralServiceObject))
         Timber.i("Successfully saved Referral Service = %s", Gson().toJson(referralServiceObject))

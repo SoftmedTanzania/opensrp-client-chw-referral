@@ -18,6 +18,10 @@ import org.smartregister.helper.BottomNavigationHelper
 import org.smartregister.listener.BottomNavigationListener
 import org.smartregister.view.activity.BaseRegisterActivity
 
+/***
+ * This class is for displaying register for all the referred clients with their status i.e PENDING, CANCELED or COMPLETE
+ * it implements [BaseReferralRegisterContract.View]
+ */
 open class BaseReferralRegisterActivity : BaseRegisterActivity(),
     BaseReferralRegisterContract.View {
 

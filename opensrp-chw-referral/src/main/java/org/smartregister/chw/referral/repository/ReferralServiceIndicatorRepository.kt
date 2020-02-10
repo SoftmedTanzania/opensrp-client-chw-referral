@@ -2,6 +2,7 @@ package org.smartregister.chw.referral.repository
 
 import android.content.ContentValues
 import android.database.Cursor
+import android.database.sqlite.SQLiteException
 import com.google.gson.Gson
 import org.koin.core.KoinComponent
 import org.koin.core.inject
@@ -29,10 +30,17 @@ private val TABLE_COLUMNS = arrayOf(
     _ID, RELATIONAL_ID, SERVICE_NAME_EN, SERVICE_NAME_SW, IS_ACTIVE
 )
 
+/**
+ * Referral service indicator repository that interfaces how to interact with the database
+ * and obtain all the service indicators, extends [BaseRepository] and implements [KoinComponent] for DI
+ */
 class ReferralServiceIndicatorRepository : BaseRepository(), KoinComponent {
 
     val referralLibrary by inject<ReferralLibrary>()
 
+    /**
+     * Returns a [ReferralServiceIndicatorObject] for the given [_id]
+     */
     fun getServiceIndicatorById(_id: String): ReferralServiceIndicatorObject? {
         var cursor: Cursor? = null
         try {
@@ -59,6 +67,9 @@ class ReferralServiceIndicatorRepository : BaseRepository(), KoinComponent {
         return null
     }
 
+    /**
+     * Returns a list of [ReferralServiceIndicatorObject] for the serves with the id matching [referralServiceId]
+     */
     fun getServiceIndicatorsByServiceId(referralServiceId: String): List<ReferralServiceIndicatorObject>? {
         val referralServiceIndicators: MutableList<ReferralServiceIndicatorObject> =
             ArrayList()
@@ -87,7 +98,7 @@ class ReferralServiceIndicatorRepository : BaseRepository(), KoinComponent {
                 }
                 return referralServiceIndicators
             }
-        } catch (e: Exception) {
+        } catch (e: SQLiteException) {
             Timber.e(e)
         } finally {
             cursor?.close()
@@ -109,6 +120,9 @@ class ReferralServiceIndicatorRepository : BaseRepository(), KoinComponent {
         this.writableDatabase.insert(TABLE_NAME, null, values)
     }
 
+    /**
+     * Saves [referralServiceIndicatorObject] to that referral service indicator table
+     */
     fun saveReferralServiceIndicator(referralServiceIndicatorObject: ReferralServiceIndicatorObject) {
         insertValues(createValuesFor(referralServiceIndicatorObject))
         Timber.i(

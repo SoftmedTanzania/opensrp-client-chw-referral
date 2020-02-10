@@ -130,7 +130,7 @@ open class ReferralRegisterProvider(
                     Utils.getValue(pc.columnmaps, DBConstants.Key.REFERRAL_STATUS, true)
                 )
             }
-        } catch (e: Exception) {
+        } catch (e: NullPointerException) {
             Timber.e(e)
         }
     }

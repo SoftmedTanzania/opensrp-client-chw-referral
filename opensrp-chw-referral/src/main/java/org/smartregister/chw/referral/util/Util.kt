@@ -34,8 +34,14 @@ import org.smartregister.util.Utils
 import timber.log.Timber
 import java.util.*
 
+/**
+ * This provides common utilities functions
+ */
 object Util : KoinComponent {
 
+    /**
+     * Uses the [referralLibrary] client processor to to save the given OpenSRP [baseEvent]
+     */
     @JvmStatic
     @Throws(Exception::class)
     fun processEvent(referralLibrary: ReferralLibrary, baseEvent: Event?) {
@@ -66,6 +72,9 @@ object Util : KoinComponent {
         }
     }
 
+    /**
+     * Launches call dialer with [phoneNumber] using [activity] as the context from the [callView]
+     */
     fun launchDialer(
         activity: Activity, callView: BaseReferralCallDialogContract.View?, phoneNumber: String?
     ): Boolean = when {
@@ -116,10 +125,13 @@ object Util : KoinComponent {
         }
     }
 
+    /**
+     * Returns a list of [ReferralServiceObject]
+     */
     @JvmStatic
     fun getReferralServicesList(): List<ReferralServiceObject>? = try {
         ReferralServiceRepository().referralServiceObjects
-    } catch (e: Exception) {
+    } catch (e: NullPointerException) {
         Timber.e(e)
         ArrayList()
     }
