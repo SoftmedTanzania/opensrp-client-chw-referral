@@ -69,7 +69,6 @@ class ReferralRepositoryProvider : KoinComponent {
             } catch (e: SQLiteException) {
                 Timber.e(e)
             }
-
         }
 
         if (followupFeedbackRepository.getFollowupFeedBacks()!!.isEmpty()) {
@@ -89,7 +88,9 @@ class ReferralRepositoryProvider : KoinComponent {
                         )
                     followupFeedbackRepository.saveFollowupFeedback(followupFeedbackObject)
                 }
-            } catch (e: Exception) {
+            } catch (e: JSONException) {
+                Timber.e(e)
+            } catch (e: SQLiteException) {
                 Timber.e(e)
             }
         }
