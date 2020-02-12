@@ -13,12 +13,6 @@ import org.smartregister.repository.BaseRepository
 import timber.log.Timber
 import java.util.*
 
-/**
- * Created by cozej4 on 2019-10-20.
- *
- * @cozej4 https://github.com/cozej4
- */
-
 private const val TABLE_NAME = "ec_followup_feedback"
 private const val FEEDBACK_NAME_EN = "name_en"
 private const val ID = "id"
@@ -55,7 +49,7 @@ class FollowupFeedbackRepository : BaseRepository(), KoinComponent {
                         ).sqliteRowToMap(mCursor)
                     })
             }
-        } catch (e: Exception) {
+        } catch (e: SQLiteException) {
             Timber.e(e)
         } finally {
             mCursor?.close()

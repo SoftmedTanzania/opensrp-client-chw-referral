@@ -37,6 +37,7 @@ import org.smartregister.chw.referral.util.JsonFormUtils.addFormMetadata
 import org.smartregister.chw.referral.util.JsonFormUtils.getFormAsJson
 import timber.log.Timber
 import java.io.FileNotFoundException
+import java.lang.NullPointerException
 import java.util.*
 
 /**
@@ -93,7 +94,7 @@ open class BaseReferralFollowupActivity : AppCompatActivity(), BaseFollowupContr
             it.fillProfileData(memberObject)
             try {
                 it.initializeMemberObject(viewModel?.memberObject!!)
-            } catch (e: Exception) {
+            } catch (e: NullPointerException) {
                 Timber.e(e)
             }
         }

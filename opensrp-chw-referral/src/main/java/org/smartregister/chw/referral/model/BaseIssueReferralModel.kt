@@ -1,5 +1,6 @@
 package org.smartregister.chw.referral.model
 
+import android.database.sqlite.SQLiteException
 import org.smartregister.chw.referral.domain.ReferralServiceIndicatorObject
 import org.smartregister.chw.referral.domain.ReferralServiceObject
 import org.smartregister.chw.referral.repository.ReferralServiceIndicatorRepository
@@ -9,7 +10,6 @@ import org.smartregister.cursoradapter.SmartRegisterQueryBuilder
 import org.smartregister.domain.Location
 import org.smartregister.repository.LocationRepository
 import timber.log.Timber
-import java.lang.NullPointerException
 
 open class BaseIssueReferralModel : AbstractIssueReferralModel() {
 
@@ -18,7 +18,7 @@ open class BaseIssueReferralModel : AbstractIssueReferralModel() {
     override val healthFacilities: List<Location>?
         get() = try {
             LocationRepository().allLocations
-        } catch (e: NullPointerException) {
+        } catch (e: SQLiteException) {
             Timber.e(e)
             null
         }
@@ -26,16 +26,8 @@ open class BaseIssueReferralModel : AbstractIssueReferralModel() {
 
     override fun getReferralServicesList(referralServiceId: String): ReferralServiceObject? {
         return try {
-            val referralServiceRepository = ReferralServiceRepository()
-            var referralServiceObject: ReferralServiceObject? = null
-            try {
-                referralServiceObject =
-                    referralServiceRepository.getReferralServiceById(referralServiceId)
-            } catch (e: Exception) {
-                Timber.e(e)
-            }
-            referralServiceObject
-        } catch (e: Exception) {
+            ReferralServiceRepository().getReferralServiceById(referralServiceId)
+        } catch (e: SQLiteException) {
             Timber.e(e)
             null
         }
@@ -44,7 +36,7 @@ open class BaseIssueReferralModel : AbstractIssueReferralModel() {
     override fun getIndicatorsByServiceId(serviceId: String): List<ReferralServiceIndicatorObject>? {
         return try {
             ReferralServiceIndicatorRepository().getServiceIndicatorsByServiceId(serviceId)
-        } catch (e: Exception) {
+        } catch (e: SQLiteException) {
             Timber.e(e)
             null
         }

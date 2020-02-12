@@ -41,7 +41,6 @@ import org.smartregister.chw.referral.util.JsonFormUtils.getFormAsJson
 import org.smartregister.commonregistry.CommonPersonObjectClient
 import org.smartregister.util.Utils
 import timber.log.Timber
-import java.io.IOException
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -82,7 +81,7 @@ open class BaseIssueReferralActivity : AppCompatActivity(), BaseIssueReferralCon
             formName = getStringExtra(Constants.ActivityPayload.REFERRAL_FORM_NAME)
             try {
                 jsonForm = JSONObject(getStringExtra(Constants.ActivityPayload.JSON_FORM))
-            } catch (e: Exception) {
+            } catch (e: JSONException) {
                 Timber.e(e)
             }
         }
@@ -137,12 +136,8 @@ open class BaseIssueReferralActivity : AppCompatActivity(), BaseIssueReferralCon
                 formLayout.addView(formBuilder!!.neatStepperLayout)
             }
 
-        } catch (ex: Exception) {
-            when (ex) {
-                is IOException, is JSONException, is IllegalArgumentException -> {
-                    Timber.e(ex)
-                }
-            }
+        } catch (ex: JSONException) {
+            Timber.e(ex)
         }
     }
 

@@ -126,7 +126,7 @@ open class ReferralDetailsViewActivity : SecuredActivity() {
             if (!StringUtils.isEmpty(memberObject!!.problemOther)) {
                 clientReferralProblem.append(", " + memberObject!!.problemOther)
             }
-        } catch (e: Exception) {
+        } catch (e: IllegalStateException) {
             Timber.e(e)
             clientReferralProblem.text = getString(R.string.empty_value)
         }

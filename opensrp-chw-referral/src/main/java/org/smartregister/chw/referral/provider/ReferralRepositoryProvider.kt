@@ -1,10 +1,13 @@
 package org.smartregister.chw.referral.provider
 
 import android.content.Context
+import android.database.sqlite.SQLiteException
 import com.google.gson.Gson
 import org.json.JSONArray
+import org.json.JSONException
 import org.json.JSONObject
 import org.koin.core.KoinComponent
+import org.koin.core.get
 import org.koin.core.inject
 import org.smartregister.chw.referral.domain.FollowupFeedbackObject
 import org.smartregister.chw.referral.domain.ReferralServiceIndicatorObject
@@ -18,9 +21,11 @@ import timber.log.Timber
 
 class ReferralRepositoryProvider : KoinComponent {
 
-    private val referralServiceRepository by inject<ReferralServiceRepository>()
+    private val referralServiceRepository  = get<ReferralServiceRepository>()
     private val followupFeedbackRepository by inject<FollowupFeedbackRepository>()
     private val context by inject<Context>()
+    private val referralServiceObjects =  referralServiceRepository.referralServiceObjects
+
     /**
      * Use this method for testing purposes ONLY.
      * It seeds various data required by the module
@@ -29,7 +34,7 @@ class ReferralRepositoryProvider : KoinComponent {
      */
     fun seedSampleReferralServicesAndIndicators() {
 
-        if (referralServiceRepository.referralServiceObjects == null) {
+        if (referralServiceObjects == null) {
             try {
                 val referralServicesAndIndicatorsJsonString =
                     AssetHandler.readFileFromAssetsFolder(
@@ -61,9 +66,12 @@ class ReferralRepositoryProvider : KoinComponent {
                         )
                     }
                 }
-            } catch (e: Exception) {
+            } catch (e: JSONException) {
+                Timber.e(e)
+            } catch (e: SQLiteException) {
                 Timber.e(e)
             }
+
         }
         try {
             if (followupFeedbackRepository.followupFeedbacks!!.isEmpty()) {

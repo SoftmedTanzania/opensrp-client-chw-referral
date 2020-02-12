@@ -12,6 +12,7 @@ import org.smartregister.chw.referral.model.AbstractIssueReferralModel
 import org.smartregister.chw.referral.util.Constants
 import org.smartregister.chw.referral.util.DBConstants
 import timber.log.Timber
+import java.lang.NullPointerException
 import java.lang.ref.WeakReference
 import java.util.*
 
@@ -51,15 +52,10 @@ open class BaseIssueReferralPresenter(
     override fun saveForm(valuesHashMap: HashMap<String, NFormViewData>, jsonObject: JSONObject) {
         try {
             interactor.saveRegistration(baseEntityID, valuesHashMap, jsonObject, this)
-        } catch (e: Exception) {
-            when (e) {
-                is NullPointerException, is JSONException -> {
-                    Timber.e(Log.getStackTraceString(e))
-                }
-                else -> {
-                    Timber.e(Log.getStackTraceString(e))
-                }
-            }
+        } catch (e: JSONException) {
+            Timber.e(Log.getStackTraceString(e))
+        } catch (e: NullPointerException) {
+            Timber.e(Log.getStackTraceString(e))
         }
     }
 

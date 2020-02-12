@@ -7,6 +7,7 @@ import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.database.sqlite.SQLiteException
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
@@ -131,7 +132,7 @@ object Util : KoinComponent {
     @JvmStatic
     fun getReferralServicesList(): List<ReferralServiceObject>? = try {
         ReferralServiceRepository().referralServiceObjects
-    } catch (e: NullPointerException) {
+    } catch (e: SQLiteException) {
         Timber.e(e)
         ArrayList()
     }

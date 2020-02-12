@@ -9,9 +9,9 @@ import org.smartregister.chw.referral.contract.BaseFollowupContract
 import org.smartregister.chw.referral.domain.MemberObject
 import org.smartregister.chw.referral.model.AbstractReferralFollowupModel
 import timber.log.Timber
+import java.lang.NullPointerException
 import java.lang.ref.WeakReference
 import java.util.*
-import kotlin.NullPointerException
 
 open class BaseReferralFollowupPresenter(
     view: BaseFollowupContract.View,
@@ -25,15 +25,10 @@ open class BaseReferralFollowupPresenter(
     override fun saveForm(valuesHashMap: HashMap<String, NFormViewData>, jsonObject: JSONObject) =
         try {
             interactor.saveFollowup(memberObject!!.baseEntityId!!, valuesHashMap, jsonObject, this)
-        } catch (e: Exception) {
-            when (e) {
-                is NullPointerException, is JSONException -> {
-                    Timber.e(Log.getStackTraceString(e))
-                }
-                else -> {
-                    Timber.e(Log.getStackTraceString(e))
-                }
-            }
+        } catch (e: JSONException) {
+            Timber.e(Log.getStackTraceString(e))
+        } catch (e: NullPointerException) {
+            Timber.e(Log.getStackTraceString(e))
         }
 
     override fun getView(): BaseFollowupContract.View? = viewReference.get()

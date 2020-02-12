@@ -8,7 +8,7 @@ import org.smartregister.configurableviews.model.Field
 import org.smartregister.configurableviews.model.RegisterConfiguration
 import org.smartregister.configurableviews.model.View
 import timber.log.Timber
-import java.lang.NullPointerException
+import java.lang.IndexOutOfBoundsException
 import java.lang.ref.WeakReference
 import java.util.*
 
@@ -39,12 +39,8 @@ open class BaseReferralRegisterFragmentPresenter(
             config = viewConfiguration.metadata as RegisterConfiguration
             visibleColumns = model.getRegisterActiveColumns(viewConfigurationIdentifier)!!
         }
-        try {
-            if (config.searchBarText != null && getView() != null) {
-                getView()?.updateSearchBarHint(config.searchBarText)
-            }
-        } catch (e: NullPointerException) {
-            Timber.e(e)
+        if (config.searchBarText != null && getView() != null) {
+            getView()?.updateSearchBarHint(config.searchBarText)
         }
     }
 
@@ -72,7 +68,8 @@ open class BaseReferralRegisterFragmentPresenter(
 
     override fun getMainTable() = Constants.Tables.REFERRAL
 
-    override fun getDueFilterCondition() = "referral_status = ' ${Constants.ReferralStatus.PENDING}'"
+    override fun getDueFilterCondition() =
+        "referral_status = ' ${Constants.ReferralStatus.PENDING}'"
 
     init {
         config = model.defaultRegisterConfiguration()!!

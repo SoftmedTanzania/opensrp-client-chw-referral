@@ -57,7 +57,7 @@ class ReferralServiceRepository : BaseRepository(), KoinComponent {
                         ).sqliteRowToMap(cursor)
                     })
             }
-        } catch (e: Exception) {
+        } catch (e: SQLiteException) {
             Timber.e(e)
         } finally {
             cursor?.close()
