@@ -44,7 +44,7 @@ object ReferralUtil {
             executionStartDate = now
             authoredOn = now
             lastModified = now
-            reasonReference = referralTask.event.eventId
+            reasonReference = referralTask.event.formSubmissionId
             owner = allSharedPreferences.fetchRegisteredANM()
             syncStatus = BaseRepository.TYPE_Created
             requester =
