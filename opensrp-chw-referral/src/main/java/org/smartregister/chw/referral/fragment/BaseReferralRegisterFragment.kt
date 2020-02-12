@@ -18,6 +18,12 @@ import org.smartregister.view.customcontrols.FontVariant
 import org.smartregister.view.fragment.BaseRegisterFragment
 import java.util.*
 
+/**
+ * This register displays list of all the referred clients, it implements [BaseReferralRegisterFragmentContract.View] and extends
+ * OpenSRP's [BaseRegisterFragment] which provides common functionality and consistency when creating
+ * register.
+ *
+ */
 open class BaseReferralRegisterFragment : BaseRegisterFragment(),
     BaseReferralRegisterFragmentContract.View {
 

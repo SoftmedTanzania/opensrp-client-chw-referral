@@ -12,6 +12,11 @@ import org.smartregister.chw.referral.util.JsonFormUtils
 import timber.log.Timber
 import java.util.*
 
+
+/**
+ * This interactor class provides actual implementations for all the functionality used in the
+ * follow up referral forms, it implements [BaseFollowupContract.Interactor]
+ */
 class BaseReferralFollowupInteractor : BaseFollowupContract.Interactor {
 
     val referralLibrary by inject<ReferralLibrary>()

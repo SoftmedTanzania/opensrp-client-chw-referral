@@ -5,7 +5,6 @@ import org.koin.android.ext.koin.androidApplication
 import org.koin.dsl.module
 import org.smartregister.Context
 import org.smartregister.chw.referral.ReferralLibrary
-import org.smartregister.chw.referral.domain.ReferralMetadata
 import org.smartregister.chw.referral.provider.ReferralRepositoryProvider
 import org.smartregister.chw.referral.repository.FollowupFeedbackRepository
 import org.smartregister.chw.referral.repository.ReferralServiceRepository
@@ -14,7 +13,13 @@ import org.smartregister.repository.TaskRepository
 import org.smartregister.sync.ClientProcessorForJava
 import org.smartregister.sync.helper.ECSyncHelper
 
+/**
+ * This provide modules used in Dependency Injection by the Koin library.
+ */
 object ReferralKoinModule {
+    /**
+     * [appModule] provides common modules used within the application
+     */
     @JvmField
     val appModule = module {
         single { ReferralLibrary.getInstance() }
@@ -24,15 +29,20 @@ object ReferralKoinModule {
         single { ECSyncHelper.getInstance(androidApplication()) }
         single { TaskRepository(get()) }
         single { TaskNotesRepository() }
-        factory { ReferralMetadata() }
     }
 
+    /**
+     * [repositoryModule] provides repository modules including: [ReferralServiceRepository], [FollowupFeedbackRepository]
+     */
     @JvmField
     val repositoryModule = module {
         single { ReferralServiceRepository() }
         single { FollowupFeedbackRepository() }
     }
 
+    /**
+     * [providerModule] provides modules for the Provider classes including: [ReferralRepositoryProvider]
+     */
     @JvmField
     val providerModule = module {
         single { ReferralRepositoryProvider() }

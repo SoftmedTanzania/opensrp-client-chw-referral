@@ -22,6 +22,9 @@ import java.util.*
 const val CLICK_VIEW_NORMAL = "click_view_normal"
 const val FOLLOW_UP_VISIT = "follow_up_visit"
 
+/**
+ * Fragment used for referral Followup, extends OpenSRP's [BaseRegisterFragment] and implements [BaseReferralRegisterFragmentContract.View]
+ */
 open class BaseFollowupRegisterFragment : BaseRegisterFragment(),
     BaseReferralRegisterFragmentContract.View {
 

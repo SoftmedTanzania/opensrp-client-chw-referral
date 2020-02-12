@@ -15,6 +15,10 @@ import org.smartregister.chw.referral.contract.BaseReferralCallDialogContract
 import org.smartregister.chw.referral.listener.BaseReferralCallWidgetDialogListener
 import org.smartregister.util.Utils
 
+
+/**
+ * Fragment used for launching a call dialog; implements [BaseReferralCallDialogContract.View]
+ */
 open class BaseReferralCallDialogFragment : DialogFragment(),
     BaseReferralCallDialogContract.View {
 

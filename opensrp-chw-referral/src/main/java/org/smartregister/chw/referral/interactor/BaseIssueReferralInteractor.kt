@@ -16,6 +16,10 @@ import org.smartregister.chw.referral.util.Util.processEvent
 import timber.log.Timber
 import java.util.*
 
+/**
+ * This interactor class provides actual implementations for all the functionality used in the
+ * Referral forms, it implements [BaseIssueReferralContract.Interactor]
+ */
 class BaseIssueReferralInteractor : BaseIssueReferralContract.Interactor {
 
     val referralLibrary by inject<ReferralLibrary>()

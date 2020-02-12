@@ -5,6 +5,11 @@ import org.smartregister.chw.referral.util.DBConstants
 import org.smartregister.commonregistry.CommonPersonObjectClient
 import java.io.Serializable
 
+
+/**
+ * This class wraps [client] into a new entity class used to pass data between activities,
+ * it implements [Serializable]
+ */
 data class MemberObject(val client: CommonPersonObjectClient) : Serializable {
 
     var firstName = client.columnmaps[DBConstants.Key.FIRST_NAME] ?: ""

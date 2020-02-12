@@ -7,6 +7,9 @@ import org.smartregister.chw.referral.util.Util
 import timber.log.Timber
 import java.lang.IllegalStateException
 
+/**
+ * This is the listener implementation for the provided [callDialogFragment]. It handles the click listeners
+ */
 class BaseReferralCallWidgetDialogListener(private val callDialogFragment: BaseReferralCallDialogFragment) :
     View.OnClickListener {
     override fun onClick(view: View) {

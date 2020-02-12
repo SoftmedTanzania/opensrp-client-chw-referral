@@ -51,6 +51,11 @@ import java.util.*
  *
  * @cozej4 https://github.com/cozej4
  */
+/**
+ * This is the activity for loading the Referral JSON forms. It implements [BaseIssueReferralContract.View]
+ * and [StepperActions] (which is from the neat form library) that provides callback methods from the
+ * form builder. It exposes a method to receiving the data from the views and exiting the activity
+ */
 open class BaseIssueReferralActivity : AppCompatActivity(), BaseIssueReferralContract.View,
     StepperActions {
 
@@ -97,44 +102,45 @@ open class BaseIssueReferralActivity : AppCompatActivity(), BaseIssueReferralCon
     }
 
     private fun createViewsFromJson() {
-        if (jsonForm == null) {
-            try {
-                jsonForm = getFormAsJson(formName, this)
-                addFormMetadata(jsonForm!!, baseEntityId, locationID)
+        val formJsonObject: JSONObject? = jsonForm ?: getFormAsJson(formName, this)
+        try {
+            formJsonObject?.also {
+                addFormMetadata(it, baseEntityId, locationID)
                 with(viewModel?.memberObject!!) {
                     val age = Period(DateTime(this.age), DateTime()).years
-                    jsonForm?.put(
+                    it.put(
                         JsonFormConstants.FORM,
                         "${this.firstName} ${this.middleName} ${this.lastName}, $age"
 
                     )
                 }
 
-                initializeHealthFacilitiesList(jsonForm)
-                if (serviceId != null && jsonForm != null) injectReferralProblems(jsonForm!!)
+                initializeHealthFacilitiesList(it)
+                if (serviceId != null) injectReferralProblems(it)
 
-                Timber.i("Form with injected values = %s", jsonForm)
                 val formLayout = findViewById<LinearLayout>(R.id.formLayout)
                 val stepperModel = StepperModel.Builder()
                     .exitButtonDrawableResource(R.drawable.ic_arrow_back_white_24dp)
                     .indicatorType(IndicatorType.DOT_INDICATOR)
                     .toolbarColorResource(R.color.family_actionbar)
                     .build()
-                val jsonFormStepBuilderModel =
-                    JsonFormStepBuilderModel.Builder(this, stepperModel).build()
-                val customLayouts = ArrayList<View>()
-                customLayouts.add(layoutInflater.inflate(R.layout.referral_form_view, null))
-                if (jsonForm != null) {
-                    formBuilder = JsonFormBuilder(jsonForm.toString(), this, formLayout)
-                        .buildForm(jsonFormStepBuilderModel, customLayouts)
-                    formLayout.addView(formBuilder!!.neatStepperLayout)
+
+                val customLayouts = ArrayList<View>().also { list ->
+                    list.add(layoutInflater.inflate(R.layout.referral_form_view, null))
                 }
 
-            } catch (ex: Exception) {
-                when (ex) {
-                    is IOException, is JSONException, is IllegalArgumentException -> {
-                        Timber.e(ex)
-                    }
+                formBuilder = JsonFormBuilder(it.toString(), this, formLayout)
+                    .buildForm(
+                        JsonFormStepBuilderModel.Builder(this, stepperModel).build(),
+                        customLayouts
+                    )
+                formLayout.addView(formBuilder!!.neatStepperLayout)
+            }
+
+        } catch (ex: Exception) {
+            when (ex) {
+                is IOException, is JSONException, is IllegalArgumentException -> {
+                    Timber.e(ex)
                 }
             }
         }
@@ -262,6 +268,7 @@ open class BaseIssueReferralActivity : AppCompatActivity(), BaseIssueReferralCon
                             }
                         }
                 }
+
             }
         }
     }

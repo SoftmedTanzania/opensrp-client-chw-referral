@@ -6,7 +6,9 @@ import org.koin.dsl.module
 import org.smartregister.Context
 import org.smartregister.CoreLibrary
 import org.smartregister.chw.referral.ReferralLibrary
-import org.smartregister.chw.referral.domain.ReferralMetadata
+import org.smartregister.chw.referral.di.modules.TestReferralKoinModule.appModule
+import org.smartregister.chw.referral.di.modules.TestReferralKoinModule.providerModule
+import org.smartregister.chw.referral.di.modules.TestReferralKoinModule.repositoryModule
 import org.smartregister.chw.referral.provider.ReferralRepositoryProvider
 import org.smartregister.chw.referral.repository.FollowupFeedbackRepository
 import org.smartregister.chw.referral.repository.ReferralServiceRepository
@@ -15,6 +17,10 @@ import org.smartregister.repository.TaskRepository
 import org.smartregister.sync.ClientProcessorForJava
 import org.smartregister.sync.helper.ECSyncHelper
 
+/**
+ * This is used internally to provide modules for testing, it includes:
+ * [appModule], [repositoryModule] and [providerModule]
+ */
 object TestReferralKoinModule {
     @JvmField
     val appModule = module {
@@ -26,7 +32,6 @@ object TestReferralKoinModule {
         single { CoreLibrary.init(get()) }
         single { TaskRepository(get()) }
         single { TaskNotesRepository() }
-        factory { ReferralMetadata() }
     }
 
     @JvmField

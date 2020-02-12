@@ -4,6 +4,10 @@ import org.smartregister.chw.referral.util.DBConstants
 import org.smartregister.commonregistry.CommonPersonObjectClient
 import java.io.Serializable
 
+/**
+ * Entity class for referral services. It maps the data from [client] into a new [ReferralServiceObject].
+ * It also implements [Serializable]
+ */
 data class ReferralServiceObject(val client: CommonPersonObjectClient) : Serializable {
     var id = client.columnmaps[DBConstants.Key.ID]
     var nameEn = client.columnmaps[DBConstants.Key.NAME_EN] ?: ""

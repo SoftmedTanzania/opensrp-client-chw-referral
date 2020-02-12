@@ -6,6 +6,10 @@ import org.smartregister.chw.referral.R
 import org.smartregister.listener.BottomNavigationListener
 import org.smartregister.view.activity.BaseRegisterActivity
 
+
+/**
+ * This is the listener implementation for the provided [context]. It handles the menu item selection events
+ */
 class ReferralBottomNavigationListener(private val context: Activity) :
     BottomNavigationListener(context) {
     override fun onNavigationItemSelected(item: MenuItem): Boolean {

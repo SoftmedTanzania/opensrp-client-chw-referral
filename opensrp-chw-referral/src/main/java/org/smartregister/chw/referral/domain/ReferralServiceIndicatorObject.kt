@@ -5,6 +5,9 @@ import org.smartregister.chw.referral.util.DBConstants
 import org.smartregister.commonregistry.CommonPersonObjectClient
 import java.io.Serializable
 
+/**
+ * This is the entity class for the referral service indicators that wraps the content of [client] and implements [Serializable]
+ */
 data class ReferralServiceIndicatorObject(val client: CommonPersonObjectClient) :
     Serializable {
 
