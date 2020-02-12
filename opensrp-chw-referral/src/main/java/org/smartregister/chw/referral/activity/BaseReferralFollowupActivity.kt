@@ -37,7 +37,6 @@ import org.smartregister.chw.referral.util.JsonFormUtils.addFormMetadata
 import org.smartregister.chw.referral.util.JsonFormUtils.getFormAsJson
 import timber.log.Timber
 import java.io.FileNotFoundException
-import java.lang.NullPointerException
 import java.util.*
 
 /**
@@ -92,11 +91,7 @@ open class BaseReferralFollowupActivity : AppCompatActivity(), BaseFollowupContr
 
         presenter?.also {
             it.fillProfileData(memberObject)
-            try {
-                it.initializeMemberObject(viewModel?.memberObject!!)
-            } catch (e: NullPointerException) {
-                Timber.e(e)
-            }
+            it.initializeMemberObject(viewModel?.memberObject!!)
         }
 
         if (jsonForm == null) {
@@ -194,24 +189,9 @@ open class BaseReferralFollowupActivity : AppCompatActivity(), BaseFollowupContr
                     }
                 }
             }
-            val followupFeedbackNeatFormOptions = ArrayList<NeatFormOption>()
-            val followupFeedBacks = viewModel!!.followupFeedbackList()
-            followupFeedBacks?.forEach { followupFeedbackObject ->
-                val option = NeatFormOption().apply {
-                    name = followupFeedbackObject.nameEn
-                    text = followupFeedbackObject.nameEn
-                    neatFormMetaData = NeatFormMetaData().apply {
-                        openmrsEntity = JsonFormConstants.CONCEPT
-                        openmrsEntityId = followupFeedbackObject.id
-                        openmrsEntityParent = ""
-                    }
-                }
-                followupFeedbackNeatFormOptions.add(option)
-            }
 
             if (feedbackField != null) {
-                val optionsArray = JSONArray(Gson().toJson(followupFeedbackNeatFormOptions))
-                Timber.e("Feedback options = %s", Gson().toJson(followupFeedBacks))
+                val optionsArray = JSONArray(Gson().toJson( addOptions()))
                 (0 until feedbackField!!.getJSONArray(JsonFormConstants.OPTIONS).length()).forEach { i ->
                     optionsArray.put(feedbackField!!.getJSONArray(JsonFormConstants.OPTIONS)[i])
                 }
@@ -220,5 +200,23 @@ open class BaseReferralFollowupActivity : AppCompatActivity(), BaseFollowupContr
         } catch (e: JSONException) {
             Timber.e(e)
         }
+    }
+
+    private fun addOptions(): ArrayList<NeatFormOption> {
+        val followupFeedbackNeatFormOptions = ArrayList<NeatFormOption>()
+        val followupFeedBacks = viewModel!!.followupFeedbackList()
+        followupFeedBacks?.forEach { followupFeedbackObject ->
+            val option = NeatFormOption().apply {
+                name = followupFeedbackObject.nameEn
+                text = followupFeedbackObject.nameEn
+                neatFormMetaData = NeatFormMetaData().apply {
+                    openmrsEntity = JsonFormConstants.CONCEPT
+                    openmrsEntityId = followupFeedbackObject.id
+                    openmrsEntityParent = ""
+                }
+            }
+            followupFeedbackNeatFormOptions.add(option)
+        }
+        return followupFeedbackNeatFormOptions
     }
 }

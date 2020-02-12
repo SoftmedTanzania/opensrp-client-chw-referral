@@ -131,7 +131,7 @@ object Util : KoinComponent {
      */
     @JvmStatic
     fun getReferralServicesList(): List<ReferralServiceObject>? = try {
-        ReferralServiceRepository().referralServiceObjects
+        ReferralServiceRepository().getReferralServiceObjects()
     } catch (e: SQLiteException) {
         Timber.e(e)
         ArrayList()

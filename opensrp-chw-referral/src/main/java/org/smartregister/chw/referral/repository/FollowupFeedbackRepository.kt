@@ -60,41 +60,40 @@ class FollowupFeedbackRepository : BaseRepository(), KoinComponent {
     /**
      * Returns a list of [FollowupFeedbackObject]
      */
-    val followupFeedbacks: List<FollowupFeedbackObject>?
-        get() {
-            val followupFeedbackList = ArrayList<FollowupFeedbackObject>()
-            val database = readableDatabase
-            var cursor: Cursor? = null
-            try {
-                if (database == null) {
-                    return null
-                }
-
-                cursor = database.query(
-                    TABLE_NAME, TABLE_COLUMNS, "$IS_ACTIVE = ? $COLLATE_NOCASE", arrayOf("1"),
-                    null, null, null
-                )
-                if (cursor != null && cursor.count > 0) {
-                    for (i in 0 until cursor.count) {
-                        cursor.moveToPosition(i)
-                        followupFeedbackList.add(
-                            FollowupFeedbackObject(
-                                CommonPersonObjectClient("", null, "").apply {
-                                    columnmaps = referralLibrary.context.commonrepository(
-                                            TABLE_NAME
-                                        ).sqliteRowToMap(cursor)
-                                })
-                        )
-                    }
-                }
-                return followupFeedbackList
-            } catch (e: SQLiteException) {
-                Timber.e(e)
-            } finally {
-                cursor?.close()
+    fun getFollowupFeedBacks(): List<FollowupFeedbackObject>? {
+        val followupFeedbackList = ArrayList<FollowupFeedbackObject>()
+        val database = readableDatabase
+        var cursor: Cursor? = null
+        try {
+            if (database == null) {
+                return null
             }
-            return null
+
+            cursor = database.query(
+                TABLE_NAME, TABLE_COLUMNS, "$IS_ACTIVE = ? $COLLATE_NOCASE", arrayOf("1"),
+                null, null, null
+            )
+            if (cursor != null && cursor.count > 0) {
+                for (i in 0 until cursor.count) {
+                    cursor.moveToPosition(i)
+                    followupFeedbackList.add(
+                        FollowupFeedbackObject(
+                            CommonPersonObjectClient("", null, "").apply {
+                                columnmaps = referralLibrary.context.commonrepository(
+                                    TABLE_NAME
+                                ).sqliteRowToMap(cursor)
+                            })
+                    )
+                }
+            }
+            return followupFeedbackList
+        } catch (e: SQLiteException) {
+            Timber.e(e)
+        } finally {
+            cursor?.close()
         }
+        return null
+    }
 
     private fun createValuesFor(followupFeedbackObject: FollowupFeedbackObject) =
         ContentValues().apply {

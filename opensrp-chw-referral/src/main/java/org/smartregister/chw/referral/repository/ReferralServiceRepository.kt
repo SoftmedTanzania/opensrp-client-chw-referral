@@ -13,11 +13,6 @@ import org.smartregister.repository.BaseRepository
 import timber.log.Timber
 import java.util.*
 
-/**
- * Created by cozej4 on 2019-10-20.
- *
- * @cozej4 https://github.com/cozej4
- */
 private const val TABLE_NAME = "ec_referral_service"
 private const val SERVICE_NAME_EN = "name_en"
 private const val SERVICE_NAME_SW = "name_sw"
@@ -66,42 +61,41 @@ class ReferralServiceRepository : BaseRepository(), KoinComponent {
     }
 
     /**
-     * a property that returns the list of [ReferralServiceObject]
+     * a function that returns the list of [ReferralServiceObject]
      */
-    val referralServiceObjects: List<ReferralServiceObject>?
-        get() {
-            val referralServices = ArrayList<ReferralServiceObject>()
-            var cursor: Cursor? = null
-            try {
-                if (readableDatabase == null) {
-                    return null
-                }
-
-                cursor = readableDatabase.query(
-                    TABLE_NAME, TABLE_COLUMNS, "$IS_ACTIVE = ? $COLLATE_NOCASE", arrayOf("1"),
-                    null, null, null
-                )
-                if (cursor != null && cursor.count > 0) {
-                    for (i in 0 until cursor.count) {
-                        cursor.moveToPosition(i)
-                        referralServices.add(
-                            ReferralServiceObject(CommonPersonObjectClient("", null, "")
-                                .apply {
-                                    columnmaps = referralLibrary.context.commonrepository(
-                                        TABLE_NAME
-                                    ).sqliteRowToMap(cursor)
-                                })
-                        )
-                    }
-                    return referralServices
-                }
-            } catch (e: SQLiteException) {
-                Timber.e(e)
-            } finally {
-                cursor?.close()
+    fun getReferralServiceObjects(): List<ReferralServiceObject>? {
+        val referralServices = ArrayList<ReferralServiceObject>()
+        var cursor: Cursor? = null
+        try {
+            if (readableDatabase == null) {
+                return null
             }
-            return null
+
+            cursor = readableDatabase.query(
+                TABLE_NAME, TABLE_COLUMNS, "$IS_ACTIVE = ? $COLLATE_NOCASE", arrayOf("1"),
+                null, null, null
+            )
+            if (cursor != null && cursor.count > 0) {
+                for (i in 0 until cursor.count) {
+                    cursor.moveToPosition(i)
+                    referralServices.add(
+                        ReferralServiceObject(CommonPersonObjectClient("", null, "")
+                            .apply {
+                                columnmaps = referralLibrary.context.commonrepository(
+                                    TABLE_NAME
+                                ).sqliteRowToMap(cursor)
+                            })
+                    )
+                }
+                return referralServices
+            }
+        } catch (e: SQLiteException) {
+            Timber.e(e)
+        } finally {
+            cursor?.close()
         }
+        return null
+    }
 
     private fun createValuesFor(referralServiceObject: ReferralServiceObject) =
         ContentValues().apply {

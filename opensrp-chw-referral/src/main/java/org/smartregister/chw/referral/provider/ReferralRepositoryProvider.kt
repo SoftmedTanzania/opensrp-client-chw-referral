@@ -7,7 +7,6 @@ import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
 import org.koin.core.KoinComponent
-import org.koin.core.get
 import org.koin.core.inject
 import org.smartregister.chw.referral.domain.FollowupFeedbackObject
 import org.smartregister.chw.referral.domain.ReferralServiceIndicatorObject
@@ -21,10 +20,9 @@ import timber.log.Timber
 
 class ReferralRepositoryProvider : KoinComponent {
 
-    private val referralServiceRepository  = get<ReferralServiceRepository>()
+    private val referralServiceRepository by inject<ReferralServiceRepository>()
     private val followupFeedbackRepository by inject<FollowupFeedbackRepository>()
     private val context by inject<Context>()
-    private val referralServiceObjects =  referralServiceRepository.referralServiceObjects
 
     /**
      * Use this method for testing purposes ONLY.
@@ -34,7 +32,7 @@ class ReferralRepositoryProvider : KoinComponent {
      */
     fun seedSampleReferralServicesAndIndicators() {
 
-        if (referralServiceObjects == null) {
+        if (referralServiceRepository.getReferralServiceObjects() == null) {
             try {
                 val referralServicesAndIndicatorsJsonString =
                     AssetHandler.readFileFromAssetsFolder(
@@ -73,9 +71,9 @@ class ReferralRepositoryProvider : KoinComponent {
             }
 
         }
-        try {
-            if (followupFeedbackRepository.followupFeedbacks!!.isEmpty()) {
 
+        if (followupFeedbackRepository.getFollowupFeedBacks()!!.isEmpty()) {
+            try {
                 val followupFeedbackJSONArrayList =
                     JSONArray(
                         AssetHandler.readFileFromAssetsFolder(
@@ -91,9 +89,9 @@ class ReferralRepositoryProvider : KoinComponent {
                         )
                     followupFeedbackRepository.saveFollowupFeedback(followupFeedbackObject)
                 }
+            } catch (e: Exception) {
+                Timber.e(e)
             }
-        } catch (e: Exception) {
-            Timber.e(e)
         }
     }
 }

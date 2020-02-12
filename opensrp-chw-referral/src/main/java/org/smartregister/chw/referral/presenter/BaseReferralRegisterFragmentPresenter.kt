@@ -7,8 +7,6 @@ import org.smartregister.chw.referral.util.DBConstants
 import org.smartregister.configurableviews.model.Field
 import org.smartregister.configurableviews.model.RegisterConfiguration
 import org.smartregister.configurableviews.model.View
-import timber.log.Timber
-import java.lang.IndexOutOfBoundsException
 import java.lang.ref.WeakReference
 import java.util.*
 

@@ -10,7 +10,7 @@ open class BaseReferralFollowupModel : AbstractReferralFollowupModel() {
 
     override fun followupFeedbackList(): List<FollowupFeedbackObject>? {
         return try {
-            FollowupFeedbackRepository().followupFeedbacks
+            FollowupFeedbackRepository().getFollowupFeedBacks()
         } catch (e: SQLiteException) {
             Timber.e(e)
             null

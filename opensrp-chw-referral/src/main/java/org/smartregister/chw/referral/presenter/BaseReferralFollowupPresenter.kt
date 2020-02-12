@@ -1,5 +1,6 @@
 package org.smartregister.chw.referral.presenter
 
+import android.database.sqlite.SQLiteException
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.nerdstone.neatformcore.domain.model.NFormViewData
@@ -9,7 +10,6 @@ import org.smartregister.chw.referral.contract.BaseFollowupContract
 import org.smartregister.chw.referral.domain.MemberObject
 import org.smartregister.chw.referral.model.AbstractReferralFollowupModel
 import timber.log.Timber
-import java.lang.NullPointerException
 import java.lang.ref.WeakReference
 import java.util.*
 
@@ -27,7 +27,7 @@ open class BaseReferralFollowupPresenter(
             interactor.saveFollowup(memberObject!!.baseEntityId!!, valuesHashMap, jsonObject, this)
         } catch (e: JSONException) {
             Timber.e(Log.getStackTraceString(e))
-        } catch (e: NullPointerException) {
+        } catch (e: SQLiteException) {
             Timber.e(Log.getStackTraceString(e))
         }
 

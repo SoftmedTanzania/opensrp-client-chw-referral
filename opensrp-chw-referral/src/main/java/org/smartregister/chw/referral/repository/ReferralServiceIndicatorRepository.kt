@@ -13,12 +13,6 @@ import org.smartregister.repository.BaseRepository
 import timber.log.Timber
 import java.util.*
 
-/**
- * Created by cozej4 on 2019-10-20.
- *
- * @cozej4 https://github.com/cozej4
- */
-
 private const val TABLE_NAME = "ec_referral_service_indicator"
 private const val SERVICE_NAME_EN = "name_en"
 private const val SERVICE_NAME_SW = "name_sw"

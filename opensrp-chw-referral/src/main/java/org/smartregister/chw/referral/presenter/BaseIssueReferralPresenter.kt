@@ -1,5 +1,6 @@
 package org.smartregister.chw.referral.presenter
 
+import android.database.sqlite.SQLiteException
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.nerdstone.neatformcore.domain.model.NFormViewData
@@ -12,7 +13,6 @@ import org.smartregister.chw.referral.model.AbstractIssueReferralModel
 import org.smartregister.chw.referral.util.Constants
 import org.smartregister.chw.referral.util.DBConstants
 import timber.log.Timber
-import java.lang.NullPointerException
 import java.lang.ref.WeakReference
 import java.util.*
 
@@ -54,7 +54,7 @@ open class BaseIssueReferralPresenter(
             interactor.saveRegistration(baseEntityID, valuesHashMap, jsonObject, this)
         } catch (e: JSONException) {
             Timber.e(Log.getStackTraceString(e))
-        } catch (e: NullPointerException) {
+        } catch (e: SQLiteException) {
             Timber.e(Log.getStackTraceString(e))
         }
     }
