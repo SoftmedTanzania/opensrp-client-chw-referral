@@ -71,7 +71,11 @@ class ReferralRepositoryProvider : KoinComponent {
             }
         }
 
-        if (followupFeedbackRepository.getFollowupFeedBacks()!!.isEmpty()) {
+        seedFollowupReferrals()
+    }
+
+    private fun seedFollowupReferrals() {
+        if (followupFeedbackRepository.getFollowupFeedBacks() == null) {
             try {
                 val followupFeedbackJSONArrayList =
                     JSONArray(
