@@ -1,6 +1,5 @@
 package org.smartregister.chw.referral.interactor
 
-import androidx.annotation.VisibleForTesting
 import com.google.gson.Gson
 import com.nerdstone.neatformcore.domain.model.NFormViewData
 import org.apache.commons.lang3.text.WordUtils
