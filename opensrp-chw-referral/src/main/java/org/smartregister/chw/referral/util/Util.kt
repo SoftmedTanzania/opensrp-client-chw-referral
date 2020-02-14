@@ -50,7 +50,7 @@ object Util : KoinComponent {
             JsonFormUtils.tagEvent(referralLibrary, baseEvent)
             val eventJson =
                 JSONObject(org.smartregister.util.JsonFormUtils.gson.toJson(baseEvent))
-            referralLibrary.syncHelper.addEvent(baseEvent.baseEntityId, eventJson)
+            referralLibrary.syncHelper.addEvent(baseEvent.formSubmissionId, eventJson)
             val lastSyncDate =
                 Date(referralLibrary.context.allSharedPreferences().fetchLastUpdatedAtDate(0))
             val eventClient =
