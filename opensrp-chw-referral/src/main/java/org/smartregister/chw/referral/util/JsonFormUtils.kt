@@ -145,13 +145,16 @@ object JsonFormUtils : JsonFormUtils() {
     private fun addHumanReadableValues(
         obs: Obs, humanReadableValues: MutableList<Any?>, valuesHashMap: HashMap<*, *>?
     ) {
-        valuesHashMap!!.keys.forEach { optionsValues ->
-            if (valuesHashMap[optionsValues] is NFormViewData && valuesHashMap[optionsValues] != null) {
-                saveValues(
-                    (valuesHashMap[optionsValues] as NFormViewData), obs, humanReadableValues
-                )
-            } else {
-                obs.value = valuesHashMap[optionsValues]
+        valuesHashMap!!.keys.forEach { key ->
+            valuesHashMap[key]?.also {
+                when (it) {
+                    is NFormViewData -> {
+                        saveValues(it, obs, humanReadableValues)
+                    }
+                    else -> {
+                        obs.value = valuesHashMap[key]
+                    }
+                }
             }
         }
     }
