@@ -103,7 +103,7 @@ object JsonFormUtils : JsonFormUtils() {
     fun getFormAsJson(formName: String?, context: Context): JSONObject =
         FormUtils.getInstance(context).getFormJson(formName)
 
-    private fun getObs(detailsHashMap: HashMap<String, NFormViewData>): List<Obs> {
+    fun getObs(detailsHashMap: HashMap<String, NFormViewData>): List<Obs> {
         val obs = ArrayList<Obs>()
         detailsHashMap.keys.forEach { key ->
             detailsHashMap[key]?.also { viewData ->
