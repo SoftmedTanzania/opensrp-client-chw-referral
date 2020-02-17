@@ -31,7 +31,7 @@ class BaseIssueReferralInteractor : BaseIssueReferralContract.Interactor {
         jsonObject: JSONObject, callBack: BaseIssueReferralContract.InteractorCallBack
     ) {
         val extractReferralProblems = extractReferralProblems(valuesHashMap)
-        val hasProblems = extractReferralProblems != null && extractReferralProblems.isNotEmpty()
+        val hasProblems = !extractReferralProblems.isNullOrEmpty()
         if (hasProblems) {
             val referralTask: ReferralTask =
                 JsonFormUtils.processJsonForm(
@@ -41,7 +41,8 @@ class BaseIssueReferralInteractor : BaseIssueReferralContract.Interactor {
 
             referralTask.apply {
                 groupId =
-                    (valuesHashMap["chw_referral_hf"]?.value as NFormViewData?)?.metadata?.get("openmrs_entity_id")
+                    (valuesHashMap[JsonFormConstants.CHW_REFERRAL_HF]?.value as NFormViewData?)
+                        ?.metadata?.get(JsonFormConstants.OPENMRS_ENTITY_ID)
                         .toString()
                 focus =
                     WordUtils.capitalize(jsonObject.getString(JsonFormConstants.REFERRAL_TASK_FOCUS))
