@@ -126,6 +126,6 @@ interface BaseIssueReferralContract {
 
         fun onNoUniqueId()
 
-        fun onRegistrationSaved()
+        fun onRegistrationSaved(saveSuccessful: Boolean)
     }
 }

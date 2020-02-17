@@ -1,5 +1,6 @@
 package org.smartregister.chw.referral.presenter
 
+import android.app.Activity
 import android.database.sqlite.SQLiteException
 import android.util.Log
 import androidx.lifecycle.ViewModel
@@ -7,11 +8,13 @@ import com.nerdstone.neatformcore.domain.model.NFormViewData
 import org.apache.commons.lang3.tuple.Triple
 import org.json.JSONException
 import org.json.JSONObject
+import org.smartregister.chw.referral.R
 import org.smartregister.chw.referral.contract.BaseIssueReferralContract
 import org.smartregister.chw.referral.domain.MemberObject
 import org.smartregister.chw.referral.model.AbstractIssueReferralModel
 import org.smartregister.chw.referral.util.Constants
 import org.smartregister.chw.referral.util.DBConstants
+import org.smartregister.util.Utils
 import timber.log.Timber
 import java.lang.ref.WeakReference
 import java.util.*
@@ -63,6 +66,10 @@ open class BaseIssueReferralPresenter(
 
     override fun onNoUniqueId() = Unit
 
-    override fun onRegistrationSaved() = Unit
-
+    override fun onRegistrationSaved(saveSuccessful: Boolean) {
+        val context = getView() as Activity
+        val toastMessage = if (saveSuccessful) context.getString(R.string.referral_submitted)
+        else context.getString(R.string.referral_not_submitted)
+        Utils.showToast(context, toastMessage)
+    }
 }

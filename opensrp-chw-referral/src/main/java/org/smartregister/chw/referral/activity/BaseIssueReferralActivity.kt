@@ -304,7 +304,6 @@ open class BaseIssueReferralActivity : AppCompatActivity(), BaseIssueReferralCon
             }
             presenter!!.saveForm(formData, jsonForm!!)
             Timber.i("Saved data = %s", Gson().toJson(formData))
-            Utils.showToast(this, this.getString(R.string.referral_submitted))
             finish()
         }
     }

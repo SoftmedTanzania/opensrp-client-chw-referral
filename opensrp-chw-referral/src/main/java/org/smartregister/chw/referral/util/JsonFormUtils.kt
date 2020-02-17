@@ -103,7 +103,7 @@ object JsonFormUtils : JsonFormUtils() {
     fun getFormAsJson(formName: String?, context: Context): JSONObject =
         FormUtils.getInstance(context).getFormJson(formName)
 
-    private fun getObs(detailsHashMap: HashMap<String, NFormViewData>): List<Obs> {
+    fun getObs(detailsHashMap: HashMap<String, NFormViewData>): List<Obs> {
         val obs = ArrayList<Obs>()
         detailsHashMap.keys.forEach { key ->
             detailsHashMap[key]?.also { viewData ->
@@ -145,13 +145,16 @@ object JsonFormUtils : JsonFormUtils() {
     private fun addHumanReadableValues(
         obs: Obs, humanReadableValues: MutableList<Any?>, valuesHashMap: HashMap<*, *>?
     ) {
-        valuesHashMap!!.keys.forEach { optionsValues ->
-            if (valuesHashMap[optionsValues] is NFormViewData && valuesHashMap[optionsValues] != null) {
-                saveValues(
-                    (valuesHashMap[optionsValues] as NFormViewData), obs, humanReadableValues
-                )
-            } else {
-                obs.value = valuesHashMap[optionsValues]
+        valuesHashMap!!.keys.forEach { key ->
+            valuesHashMap[key]?.also {
+                when (it) {
+                    is NFormViewData -> {
+                        saveValues(it, obs, humanReadableValues)
+                    }
+                    else -> {
+                        obs.value = valuesHashMap[key]
+                    }
+                }
             }
         }
     }

@@ -50,20 +50,9 @@ open class BaseReferralRegisterFragmentModel :
 
     protected open fun mainColumns(tableName: String?) = arrayOf("$tableName.relationalid")
 
-    override fun getFilterText(
-        list: List<Field?>?,
-        filterTitle: String?
-    ): String? {
-        var filterList =
-            list
-        if (filterList == null) {
-            filterList = ArrayList()
-        }
-        var filter = filterTitle
-        if (filter == null) {
-            filter = ""
-        }
-        return "<font color=#727272>" + filter + "</font> <font color=#f0ab41>(" + filterList.size + ")</font>"
+    override fun getFilterText(filterList: List<Field?>?, filter: String?): String? {
+        return """<font color=#727272>${filter ?: ""}</font> <font color=#f0ab41>("${(filterList
+            ?: arrayListOf()).size}")</font>"""
     }
 
     override fun getSortText(sortField: Field?): String? {

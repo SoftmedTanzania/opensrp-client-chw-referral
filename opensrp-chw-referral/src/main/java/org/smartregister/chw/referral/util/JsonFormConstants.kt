@@ -4,6 +4,7 @@ package org.smartregister.chw.referral.util
  * Has Constants used in procession the json forms
  */
 object JsonFormConstants {
+    const val OPENMRS_ENTITY_ID = "openmrs_entity_id"
     const val INDICATORS = "indicators"
     const val SERVICES = "services"
     const val FORM = "form"

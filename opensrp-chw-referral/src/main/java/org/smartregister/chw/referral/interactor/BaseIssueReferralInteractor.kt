@@ -1,6 +1,5 @@
 package org.smartregister.chw.referral.interactor
 
-import androidx.annotation.VisibleForTesting
 import com.google.gson.Gson
 import com.nerdstone.neatformcore.domain.model.NFormViewData
 import org.apache.commons.lang3.text.WordUtils
@@ -8,6 +7,7 @@ import org.json.JSONObject
 import org.koin.core.inject
 import org.smartregister.chw.referral.ReferralLibrary
 import org.smartregister.chw.referral.contract.BaseIssueReferralContract
+import org.smartregister.chw.referral.domain.ReferralTask
 import org.smartregister.chw.referral.util.Constants
 import org.smartregister.chw.referral.util.JsonFormConstants
 import org.smartregister.chw.referral.util.JsonFormUtils
@@ -30,41 +30,40 @@ class BaseIssueReferralInteractor : BaseIssueReferralContract.Interactor {
         baseEntityId: String, valuesHashMap: HashMap<String, NFormViewData>,
         jsonObject: JSONObject, callBack: BaseIssueReferralContract.InteractorCallBack
     ) {
-        saveRegistration(baseEntityId, valuesHashMap, jsonObject)
-        callBack.onRegistrationSaved()
-    }
+        val extractReferralProblems = extractReferralProblems(valuesHashMap)
+        val hasProblems = !extractReferralProblems.isNullOrEmpty()
+        if (hasProblems) {
+            val referralTask: ReferralTask =
+                JsonFormUtils.processJsonForm(
+                    referralLibrary, baseEntityId, valuesHashMap,
+                    jsonObject, Constants.EventType.REGISTRATION
+                )
 
-    @VisibleForTesting
-    @Throws(Exception::class)
-    fun saveRegistration(
-        baseEntityId: String?, valuesHashMap: HashMap<String, NFormViewData>, jsonObject: JSONObject
-    ) {
+            referralTask.apply {
+                groupId =
+                    (valuesHashMap[JsonFormConstants.CHW_REFERRAL_HF]?.value as NFormViewData?)
+                        ?.metadata?.get(JsonFormConstants.OPENMRS_ENTITY_ID)
+                        .toString()
+                focus =
+                    WordUtils.capitalize(jsonObject.getString(JsonFormConstants.REFERRAL_TASK_FOCUS))
+                referralDescription = extractReferralProblems
+                event.eventId = UUID.randomUUID().toString()
+            }
 
-        val referralTask =
-            JsonFormUtils.processJsonForm(
-                referralLibrary, baseEntityId, valuesHashMap,
-                jsonObject, Constants.EventType.REGISTRATION
-            )
+            Timber.i("Referral Event = %s", Gson().toJson(referralTask))
 
-        referralTask.apply {
-            groupId =
-                (valuesHashMap["chw_referral_hf"]?.value as NFormViewData?)?.metadata?.get("openmrs_entity_id")
-                    .toString()
-            focus =
-                WordUtils.capitalize(jsonObject.getString(JsonFormConstants.REFERRAL_TASK_FOCUS))
-            referralDescription = extractReferralProblems(valuesHashMap)
-            event.eventId = UUID.randomUUID().toString()
+            processEvent(referralLibrary, referralTask.event)
+            createReferralTask(referralTask, referralLibrary)
         }
-
-        Timber.i("Referral Event = %s", Gson().toJson(referralTask))
-        processEvent(referralLibrary, referralTask.event)
-        createReferralTask(referralTask, referralLibrary)
+        callBack.onRegistrationSaved(hasProblems)
     }
 
     private fun extractReferralProblems(valuesHashMap: HashMap<String, NFormViewData>): String? {
         val valuesMap = valuesHashMap[JsonFormConstants.PROBLEM]?.value as HashMap<*, *>?
         valuesMap?.also { mapValues ->
-            return mapValues.map { (it.value as NFormViewData).value as String }
+            return mapValues
+                .filter { it.value != null }
+                .map { (it.value as NFormViewData).value as String }
                 .toList()
                 .joinToString()
         }

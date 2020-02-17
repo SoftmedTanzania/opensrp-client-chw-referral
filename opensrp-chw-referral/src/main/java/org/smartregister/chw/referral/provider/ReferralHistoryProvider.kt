@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import org.smartregister.chw.referral.R
 import org.smartregister.chw.referral.provider.ReferralHistoryProvider.HistoryViewHolder
 
-class ReferralHistoryProvider(private val referrals: Collection<*>) :
+class ReferralHistoryProvider(private val referrals: List<*>) :
     RecyclerView.Adapter<HistoryViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
