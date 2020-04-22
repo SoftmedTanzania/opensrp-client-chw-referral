@@ -115,7 +115,6 @@ open class BaseIssueReferralActivity : AppCompatActivity(), BaseIssueReferralCon
                 }
 
                 initializeHealthFacilitiesList(it)
-                if (serviceId != null) injectReferralProblems(it)
 
                 val formLayout = findViewById<LinearLayout>(R.id.formLayout)
                 val stepperModel = StepperModel.Builder()
@@ -147,62 +146,6 @@ open class BaseIssueReferralActivity : AppCompatActivity(), BaseIssueReferralCon
 
 
     override fun setProfileViewWithData() = Unit
-
-    @Throws(JSONException::class)
-    private fun injectReferralProblems(form: JSONObject) {
-        val stepsJsonObject = form.getJSONArray(JsonFormConstants.STEPS).getJSONObject(0)
-        val fields = stepsJsonObject.getJSONArray(JsonFormConstants.FIELDS)
-        var problems: JSONObject? = null
-
-        for (i in 0 until (fields?.length() ?: 0)) {
-            if (fields!!.getJSONObject(i).getString(JsonFormConstants.NAME) == JsonFormConstants.PROBLEM) {
-                problems = fields.getJSONObject(i)
-                break
-            }
-        }
-
-        val problemsOptions = ArrayList<NeatFormOption>()
-        with(viewModel!!) {
-            referralService = getReferralServicesList(serviceId!!)
-            when (resources.configuration.locale.language) {
-                Constants.EN -> {
-                    stepsJsonObject.put(JsonFormConstants.TITLE, referralService?.nameEn)
-                }
-                Constants.SW -> {
-                    stepsJsonObject.put(JsonFormConstants.TITLE, referralService?.nameSw)
-                }
-            }
-            val indicatorsByServiceId = getIndicatorsByServiceId(serviceId!!)
-            Timber.i("referral problems from DB = %s", Gson().toJson(indicatorsByServiceId))
-
-            indicatorsByServiceId?.forEach { indicatorObject ->
-                val option = NeatFormOption()
-                when (resources.configuration.locale.language) {
-                    Constants.EN -> {
-                        option.name = indicatorObject.nameEn
-                        option.text = indicatorObject.nameEn
-                    }
-                    Constants.SW -> {
-                        option.name = indicatorObject.nameSw
-                        option.text = indicatorObject.nameSw
-                    }
-                }
-                option.neatFormMetaData = NeatFormMetaData().also {
-                    it.openmrsEntity = JsonFormConstants.CONCEPT
-                    it.openmrsEntityId = indicatorObject.id
-                    it.openmrsEntityParent = ""
-                }
-                problemsOptions.add(option)
-            }
-            problems?.also {
-                val optionsArray = JSONArray(Gson().toJson(problemsOptions))
-                for (i in 0 until it.getJSONArray(JsonFormConstants.OPTIONS).length()) {
-                    optionsArray.put(it.getJSONArray(JsonFormConstants.OPTIONS)[i])
-                }
-                it.put(JsonFormConstants.OPTIONS, optionsArray)
-            }
-        }
-    }
 
     @Throws(JSONException::class)
     private fun initializeHealthFacilitiesList(form: JSONObject?) {

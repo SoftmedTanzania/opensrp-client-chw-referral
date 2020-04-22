@@ -17,7 +17,6 @@ import com.nerdstone.neatformcore.domain.builders.FormBuilder
 import com.nerdstone.neatformcore.form.json.JsonFormBuilder
 import org.joda.time.DateTime
 import org.joda.time.Period
-import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
 import org.smartregister.AllConstants
@@ -25,19 +24,15 @@ import org.smartregister.chw.referral.R
 import org.smartregister.chw.referral.contract.BaseFollowupContract
 import org.smartregister.chw.referral.databinding.ActivityFollowupBinding
 import org.smartregister.chw.referral.domain.MemberObject
-import org.smartregister.chw.referral.domain.NeatFormMetaData
-import org.smartregister.chw.referral.domain.NeatFormOption
 import org.smartregister.chw.referral.interactor.BaseReferralFollowupInteractor
 import org.smartregister.chw.referral.model.AbstractReferralFollowupModel
 import org.smartregister.chw.referral.model.BaseReferralFollowupModel
 import org.smartregister.chw.referral.presenter.BaseReferralFollowupPresenter
 import org.smartregister.chw.referral.util.Constants
-import org.smartregister.chw.referral.util.JsonFormConstants
 import org.smartregister.chw.referral.util.JsonFormUtils.addFormMetadata
 import org.smartregister.chw.referral.util.JsonFormUtils.getFormAsJson
 import timber.log.Timber
 import java.io.FileNotFoundException
-import java.util.*
 
 /**
  * The base class for referral followup activity. implements [BaseFollowupContract.View]
@@ -108,11 +103,6 @@ open class BaseReferralFollowupActivity : AppCompatActivity(), BaseFollowupContr
             Timber.e(e)
         }
 
-        if (injectValuesFromDb && jsonForm != null) {
-            injectReferralFeedback(jsonForm!!)
-            Timber.i("Form with injected values = %s", jsonForm)
-        }
-
         jsonForm?.also {
             formBuilder = JsonFormBuilder(
                 it.toString(), this, findViewById<LinearLayout>(R.id.formLayout)
@@ -171,52 +161,4 @@ open class BaseReferralFollowupActivity : AppCompatActivity(), BaseFollowupContr
     private val locationID
         get() = org.smartregister.Context.getInstance().allSharedPreferences()
             .getPreference(AllConstants.CURRENT_LOCATION_ID)
-
-    private fun injectReferralFeedback(form: JSONObject) {
-        val fields: JSONArray?
-        try {
-            fields = form.getJSONArray(JsonFormConstants.STEPS)
-                .getJSONObject(0).getJSONArray(JsonFormConstants.FIELDS)
-
-            var feedbackField: JSONObject? = null
-            fields?.also {
-                for (i in 0 until it.length()) {
-                    if (it.getJSONObject(i)?.getString(JsonFormConstants.NAME) ==
-                        JsonFormConstants.CHW_FOLLOWUP_FEEDBACK
-                    ) {
-                        feedbackField = fields.getJSONObject(i)
-                        break
-                    }
-                }
-            }
-
-            if (feedbackField != null) {
-                val optionsArray = JSONArray(Gson().toJson( addOptions()))
-                (0 until feedbackField!!.getJSONArray(JsonFormConstants.OPTIONS).length()).forEach { i ->
-                    optionsArray.put(feedbackField!!.getJSONArray(JsonFormConstants.OPTIONS)[i])
-                }
-                feedbackField!!.put(JsonFormConstants.OPTIONS, optionsArray)
-            }
-        } catch (e: JSONException) {
-            Timber.e(e)
-        }
-    }
-
-    private fun addOptions(): ArrayList<NeatFormOption> {
-        val followupFeedbackNeatFormOptions = ArrayList<NeatFormOption>()
-        val followupFeedBacks = viewModel!!.followupFeedbackList()
-        followupFeedBacks?.forEach { followupFeedbackObject ->
-            val option = NeatFormOption().apply {
-                name = followupFeedbackObject.nameEn
-                text = followupFeedbackObject.nameEn
-                neatFormMetaData = NeatFormMetaData().apply {
-                    openmrsEntity = JsonFormConstants.CONCEPT
-                    openmrsEntityId = followupFeedbackObject.id
-                    openmrsEntityParent = ""
-                }
-            }
-            followupFeedbackNeatFormOptions.add(option)
-        }
-        return followupFeedbackNeatFormOptions
-    }
 }

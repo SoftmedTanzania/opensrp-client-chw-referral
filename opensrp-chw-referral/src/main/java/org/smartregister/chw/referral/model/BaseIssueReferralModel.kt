@@ -1,10 +1,6 @@
 package org.smartregister.chw.referral.model
 
 import android.database.sqlite.SQLiteException
-import org.smartregister.chw.referral.domain.ReferralServiceIndicatorObject
-import org.smartregister.chw.referral.domain.ReferralServiceObject
-import org.smartregister.chw.referral.repository.ReferralServiceIndicatorRepository
-import org.smartregister.chw.referral.repository.ReferralServiceRepository
 import org.smartregister.chw.referral.util.DBConstants
 import org.smartregister.cursoradapter.SmartRegisterQueryBuilder
 import org.smartregister.domain.Location
@@ -23,24 +19,6 @@ open class BaseIssueReferralModel : AbstractIssueReferralModel() {
             null
         }
 
-
-    override fun getReferralServicesList(referralServiceId: String): ReferralServiceObject? {
-        return try {
-            ReferralServiceRepository().getReferralServiceById(referralServiceId)
-        } catch (e: SQLiteException) {
-            Timber.e(e)
-            null
-        }
-    }
-
-    override fun getIndicatorsByServiceId(serviceId: String): List<ReferralServiceIndicatorObject>? {
-        return try {
-            ReferralServiceIndicatorRepository().getServiceIndicatorsByServiceId(serviceId)
-        } catch (e: SQLiteException) {
-            Timber.e(e)
-            null
-        }
-    }
 
     override fun mainSelect(tableName: String, mainCondition: String): String {
         val queryBuilder = SmartRegisterQueryBuilder()

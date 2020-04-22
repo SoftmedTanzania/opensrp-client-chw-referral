@@ -93,16 +93,6 @@ interface BaseIssueReferralContract {
          * Returns a list of [Location] for the health facilities
          */
         val healthFacilities: List<Location>?
-
-        /**
-         * Returns [ReferralServiceObject] given [referralServiceId]
-         */
-        fun getReferralServicesList(referralServiceId: String): ReferralServiceObject?
-
-        /**
-         * Returns a list of [ReferralServiceIndicatorObject] given the [serviceId]
-         */
-        fun getIndicatorsByServiceId(serviceId: String): List<ReferralServiceIndicatorObject>?
     }
 
     /**

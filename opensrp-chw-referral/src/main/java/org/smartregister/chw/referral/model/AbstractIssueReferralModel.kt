@@ -9,6 +9,4 @@ abstract class AbstractIssueReferralModel : ViewModel(),
     BaseIssueReferralContract.Model {
 
     var memberObject: MemberObject? = null
-    var referralService: ReferralServiceObject? = null
-    var selectedReferralService: ReferralServiceObject? = null
 }

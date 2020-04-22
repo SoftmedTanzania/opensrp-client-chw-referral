@@ -7,11 +7,6 @@ import org.smartregister.Context
 import org.smartregister.CoreLibrary
 import org.smartregister.chw.referral.ReferralLibrary
 import org.smartregister.chw.referral.di.modules.TestReferralKoinModule.appModule
-import org.smartregister.chw.referral.di.modules.TestReferralKoinModule.providerModule
-import org.smartregister.chw.referral.di.modules.TestReferralKoinModule.repositoryModule
-import org.smartregister.chw.referral.provider.ReferralRepositoryProvider
-import org.smartregister.chw.referral.repository.FollowupFeedbackRepository
-import org.smartregister.chw.referral.repository.ReferralServiceRepository
 import org.smartregister.repository.TaskNotesRepository
 import org.smartregister.repository.TaskRepository
 import org.smartregister.sync.ClientProcessorForJava
@@ -34,14 +29,4 @@ object TestReferralKoinModule {
         single { TaskNotesRepository() }
     }
 
-    @JvmField
-    val repositoryModule = module {
-        single { ReferralServiceRepository() }
-        single { FollowupFeedbackRepository() }
-    }
-
-    @JvmField
-    val providerModule = module {
-        single { ReferralRepositoryProvider() }
-    }
 }
