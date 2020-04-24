@@ -39,7 +39,6 @@ import org.smartregister.chw.referral.util.JsonFormConstants
 import org.smartregister.chw.referral.util.JsonFormUtils.addFormMetadata
 import org.smartregister.chw.referral.util.JsonFormUtils.getFormAsJson
 import org.smartregister.commonregistry.CommonPersonObjectClient
-import org.smartregister.util.Utils
 import timber.log.Timber
 import java.text.DateFormat
 import java.text.SimpleDateFormat
