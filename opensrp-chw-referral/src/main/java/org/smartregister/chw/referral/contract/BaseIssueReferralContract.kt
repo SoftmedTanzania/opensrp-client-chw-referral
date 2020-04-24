@@ -6,8 +6,6 @@ import org.apache.commons.lang3.tuple.Triple
 import org.json.JSONObject
 import org.koin.core.KoinComponent
 import org.smartregister.chw.referral.domain.MemberObject
-import org.smartregister.chw.referral.domain.ReferralServiceIndicatorObject
-import org.smartregister.chw.referral.domain.ReferralServiceObject
 import org.smartregister.domain.Location
 import java.util.*
 
