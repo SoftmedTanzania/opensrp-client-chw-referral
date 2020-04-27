@@ -99,9 +99,4 @@
     <string name="empty_value">None</string>
     <string name="save">Save</string>
 
-    <!--Referral Status Strings -->
-    <string name="pending">PENDING</string>
-    <string name="failed">FAILED</string>
-    <string name="successful">SUCCESSFUL</string>
-
 </resources>

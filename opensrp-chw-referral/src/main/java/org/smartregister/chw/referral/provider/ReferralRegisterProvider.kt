@@ -142,19 +142,19 @@ open class ReferralRegisterProvider(
                 textViewStatus.setTextColor(
                     ContextCompat.getColor(context, R.color.alert_in_progress_blue)
                 )
-                textViewStatus.text = context.getString(R.string.pending)
+                textViewStatus.text = context.getString(R.string.referral_status_pending)
             }
             Task.TaskStatus.FAILED.name -> {
                 textViewStatus.setTextColor(
                     ContextCompat.getColor(context, R.color.alert_urgent_red)
                 )
-                textViewStatus.text = context.getString(R.string.failed)
+                textViewStatus.text = context.getString(R.string.referral_status_failed)
             }
             Task.TaskStatus.COMPLETED.name -> {
                 textViewStatus.setTextColor(
                     ContextCompat.getColor(context, R.color.alert_complete_green)
                 )
-                textViewStatus.text = context.getString(R.string.successful)
+                textViewStatus.text = context.getString(R.string.referral_status_successful)
             }
         }
     }
