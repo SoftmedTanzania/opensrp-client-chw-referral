@@ -17,6 +17,7 @@ import org.smartregister.chw.referral.util.Constants
 import org.smartregister.chw.referral.util.DBConstants
 import org.smartregister.commonregistry.CommonPersonObjectClient
 import org.smartregister.cursoradapter.RecyclerViewProvider
+import org.smartregister.domain.Task
 import org.smartregister.util.Utils
 import org.smartregister.view.contract.SmartRegisterClient
 import org.smartregister.view.dialog.FilterOption
@@ -136,17 +137,25 @@ open class ReferralRegisterProvider(
     }
 
     private fun setReferralStatusColor(context: Context, textViewStatus: TextView, status: String) {
-        textViewStatus.text = status
         when (status) {
-            Constants.ReferralStatus.PENDING -> textViewStatus.setTextColor(
-                ContextCompat.getColor(context, R.color.alert_in_progress_blue)
-            )
-            Constants.ReferralStatus.FAILED -> textViewStatus.setTextColor(
-                ContextCompat.getColor(context, R.color.alert_urgent_red)
-            )
-            Constants.ReferralStatus.SUCCESSFUL -> textViewStatus.setTextColor(
-                ContextCompat.getColor(context, R.color.alert_complete_green)
-            )
+            Task.TaskStatus.READY.name -> {
+                textViewStatus.setTextColor(
+                    ContextCompat.getColor(context, R.color.alert_in_progress_blue)
+                )
+                textViewStatus.text = context.getString(R.string.pending)
+            }
+            Task.TaskStatus.FAILED.name -> {
+                textViewStatus.setTextColor(
+                    ContextCompat.getColor(context, R.color.alert_urgent_red)
+                )
+                textViewStatus.text = context.getString(R.string.failed)
+            }
+            Task.TaskStatus.COMPLETED.name -> {
+                textViewStatus.setTextColor(
+                    ContextCompat.getColor(context, R.color.alert_complete_green)
+                )
+                textViewStatus.text = context.getString(R.string.successful)
+            }
         }
     }
 
