@@ -242,7 +242,7 @@ open class BaseIssueReferralActivity : AppCompatActivity(), BaseIssueReferralCon
             }
             //Saving referral status
             formData[JsonFormConstants.REFERRAL_STATUS] = NFormViewData().apply {
-                value = Constants.ReferralStatus.PENDING
+                value = Constants.BusinessStatus.REFERRED
             }
             presenter!!.saveForm(formData, jsonForm!!)
             Timber.i("Saved data = %s", Gson().toJson(formData))

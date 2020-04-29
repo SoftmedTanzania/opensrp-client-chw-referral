@@ -64,7 +64,7 @@ class BaseReferralRegisterFragmentPresenterTest {
     fun `Should return the due filter query`() {
         assertEquals(
             referralRegisterFragmentPresenter.getDueFilterCondition(),
-            "referral_status = ' ${Constants.ReferralStatus.PENDING}'"
+            "referral_status = ' ${Constants.BusinessStatus.REFERRED}'"
         )
     }
 
