@@ -20,12 +20,6 @@ object Constants {
         const val COMMON_PERSON_OBJECT = "commonPersonObjectClient"
     }
 
-    object ReferralStatus {
-        const val PENDING = "PENDING"
-        const val SUCCESSFUL = "SUCCESSFUL"
-        const val FAILED = "FAILED"
-    }
-
     object ReferralType {
         const val COMMUNITY_TO_FACILITY_REFERRAL = "community_to_facility_referral"
         const val FACILITY_TO_COMMUNITY_REFERRAL = "facility_to_community_referral"

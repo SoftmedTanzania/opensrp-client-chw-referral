@@ -147,7 +147,10 @@ open class ReferralDetailsViewActivity : SecuredActivity() {
             if (!StringUtils.isEmpty(memberObject!!.servicesBeforeReferralOther)) {
                 preReferralManagement.append(", " + memberObject!!.servicesBeforeReferralOther)
             }
-        } catch (e: Exception) {
+        } catch (e: StringIndexOutOfBoundsException) {
+            Timber.e(e)
+            preReferralManagement.text = getString(R.string.empty_value)
+        } catch (e: NullPointerException) {
             Timber.e(e)
             preReferralManagement.text = getString(R.string.empty_value)
         }

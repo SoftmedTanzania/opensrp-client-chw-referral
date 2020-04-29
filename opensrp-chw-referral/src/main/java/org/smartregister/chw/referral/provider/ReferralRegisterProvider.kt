@@ -17,7 +17,6 @@ import org.smartregister.chw.referral.util.Constants
 import org.smartregister.chw.referral.util.DBConstants
 import org.smartregister.commonregistry.CommonPersonObjectClient
 import org.smartregister.cursoradapter.RecyclerViewProvider
-import org.smartregister.domain.Task
 import org.smartregister.util.Utils
 import org.smartregister.view.contract.SmartRegisterClient
 import org.smartregister.view.dialog.FilterOption
@@ -138,19 +137,19 @@ open class ReferralRegisterProvider(
 
     private fun setReferralStatusColor(context: Context, textViewStatus: TextView, status: String) {
         when (status) {
-            Task.TaskStatus.READY.name -> {
+            Constants.BusinessStatus.REFERRED -> {
                 textViewStatus.setTextColor(
                     ContextCompat.getColor(context, R.color.alert_in_progress_blue)
                 )
                 textViewStatus.text = context.getString(R.string.referral_status_pending)
             }
-            Task.TaskStatus.FAILED.name -> {
+            Constants.BusinessStatus.EXPIRED -> {
                 textViewStatus.setTextColor(
                     ContextCompat.getColor(context, R.color.alert_urgent_red)
                 )
                 textViewStatus.text = context.getString(R.string.referral_status_failed)
             }
-            Task.TaskStatus.COMPLETED.name -> {
+            Constants.BusinessStatus.COMPLETE -> {
                 textViewStatus.setTextColor(
                     ContextCompat.getColor(context, R.color.alert_complete_green)
                 )
