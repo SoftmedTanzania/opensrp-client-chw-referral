@@ -134,8 +134,8 @@ open class ReferralDetailsViewActivity : SecuredActivity() {
 
     private fun updatePreReferralServicesDisplay() {
         try {
-            var preReferralServices =
-                memberObject!!.servicesBeforeReferral!!.trim { it <= ' ' }
+            var preReferralServices = memberObject!!.servicesBeforeReferral?.trim { it <= ' ' }
+                ?: getString(R.string.empty_value)
             if (preReferralServices[0] == '[') {
                 preReferralServices = preReferralServices.substring(1)
             }
@@ -148,9 +148,6 @@ open class ReferralDetailsViewActivity : SecuredActivity() {
                 preReferralManagement.append(", " + memberObject!!.servicesBeforeReferralOther)
             }
         } catch (e: StringIndexOutOfBoundsException) {
-            Timber.e(e)
-            preReferralManagement.text = getString(R.string.empty_value)
-        } catch (e: NullPointerException) {
             Timber.e(e)
             preReferralManagement.text = getString(R.string.empty_value)
         }
