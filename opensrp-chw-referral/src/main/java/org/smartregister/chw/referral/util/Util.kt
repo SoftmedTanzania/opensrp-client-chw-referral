@@ -7,7 +7,6 @@ import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.database.sqlite.SQLiteException
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
@@ -26,8 +25,6 @@ import org.smartregister.chw.referral.ReferralLibrary
 import org.smartregister.chw.referral.contract.BaseReferralCallDialogContract
 import org.smartregister.chw.referral.contract.BaseReferralCallDialogContract.Dialer
 import org.smartregister.chw.referral.custom_views.ClipboardDialog
-import org.smartregister.chw.referral.domain.ReferralServiceObject
-import org.smartregister.chw.referral.repository.ReferralServiceRepository
 import org.smartregister.clientandeventmodel.Event
 import org.smartregister.repository.BaseRepository
 import org.smartregister.util.PermissionUtils
@@ -126,14 +123,4 @@ object Util : KoinComponent {
         }
     }
 
-    /**
-     * Returns a list of [ReferralServiceObject]
-     */
-    @JvmStatic
-    fun getReferralServicesList(): List<ReferralServiceObject>? = try {
-        ReferralServiceRepository().getReferralServiceObjects()
-    } catch (e: SQLiteException) {
-        Timber.e(e)
-        ArrayList()
-    }
 }

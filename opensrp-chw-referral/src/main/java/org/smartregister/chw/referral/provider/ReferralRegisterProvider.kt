@@ -136,17 +136,25 @@ open class ReferralRegisterProvider(
     }
 
     private fun setReferralStatusColor(context: Context, textViewStatus: TextView, status: String) {
-        textViewStatus.text = status
         when (status) {
-            Constants.ReferralStatus.PENDING -> textViewStatus.setTextColor(
-                ContextCompat.getColor(context, R.color.alert_in_progress_blue)
-            )
-            Constants.ReferralStatus.FAILED -> textViewStatus.setTextColor(
-                ContextCompat.getColor(context, R.color.alert_urgent_red)
-            )
-            Constants.ReferralStatus.SUCCESSFUL -> textViewStatus.setTextColor(
-                ContextCompat.getColor(context, R.color.alert_complete_green)
-            )
+            Constants.BusinessStatus.REFERRED -> {
+                textViewStatus.setTextColor(
+                    ContextCompat.getColor(context, R.color.alert_in_progress_blue)
+                )
+                textViewStatus.text = context.getString(R.string.referral_status_pending)
+            }
+            Constants.BusinessStatus.EXPIRED -> {
+                textViewStatus.setTextColor(
+                    ContextCompat.getColor(context, R.color.alert_urgent_red)
+                )
+                textViewStatus.text = context.getString(R.string.referral_status_failed)
+            }
+            Constants.BusinessStatus.COMPLETE -> {
+                textViewStatus.setTextColor(
+                    ContextCompat.getColor(context, R.color.alert_complete_green)
+                )
+                textViewStatus.text = context.getString(R.string.referral_status_successful)
+            }
         }
     }
 

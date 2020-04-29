@@ -10,10 +10,7 @@ import org.koin.core.inject
 import org.koin.core.logger.EmptyLogger
 import org.smartregister.Context
 import org.smartregister.chw.referral.di.modules.ReferralKoinModule.appModule
-import org.smartregister.chw.referral.di.modules.ReferralKoinModule.providerModule
-import org.smartregister.chw.referral.di.modules.ReferralKoinModule.repositoryModule
 import org.smartregister.chw.referral.di.modules.TestReferralKoinModule
-import org.smartregister.chw.referral.provider.ReferralRepositoryProvider
 import org.smartregister.repository.TaskRepository
 import org.smartregister.sync.ClientProcessorForJava
 import org.smartregister.sync.helper.ECSyncHelper
@@ -30,14 +27,6 @@ class ReferralLibrary private constructor() : KoinComponent {
     val clientProcessorForJava by inject<ClientProcessorForJava>()
     var appVersion = 1
     var databaseVersion = 1
-    private val referralRepositoryProvider by inject<ReferralRepositoryProvider>()
-
-    /**
-     * Load referral service indicators
-     */
-    fun loadReferralServiceIndicators() {
-        referralRepositoryProvider.seedSampleReferralServicesAndIndicators()
-    }
 
     companion object {
         @Volatile
@@ -58,7 +47,7 @@ class ReferralLibrary private constructor() : KoinComponent {
             startKoin {
                 if (BuildConfig.DEBUG) androidLogger() else EmptyLogger()
                 androidContext(application)
-                modules(listOf(appModule, repositoryModule, providerModule))
+                modules(listOf(appModule))
             }
         }
 
@@ -69,9 +58,7 @@ class ReferralLibrary private constructor() : KoinComponent {
                 androidContext(application)
                 modules(
                     listOf(
-                        TestReferralKoinModule.appModule,
-                        TestReferralKoinModule.repositoryModule,
-                        TestReferralKoinModule.providerModule
+                        TestReferralKoinModule.appModule
                     )
                 )
             }

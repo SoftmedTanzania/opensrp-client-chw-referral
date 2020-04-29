@@ -67,7 +67,7 @@ open class BaseReferralRegisterFragmentPresenter(
     override fun getMainTable() = Constants.Tables.REFERRAL
 
     override fun getDueFilterCondition() =
-        "referral_status = ' ${Constants.ReferralStatus.PENDING}'"
+        "task.business_status = '${Constants.BusinessStatus.REFERRED}'"
 
     init {
         config = model.defaultRegisterConfiguration()!!

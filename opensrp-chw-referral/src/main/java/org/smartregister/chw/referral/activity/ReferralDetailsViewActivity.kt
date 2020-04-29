@@ -134,8 +134,8 @@ open class ReferralDetailsViewActivity : SecuredActivity() {
 
     private fun updatePreReferralServicesDisplay() {
         try {
-            var preReferralServices =
-                memberObject!!.servicesBeforeReferral!!.trim { it <= ' ' }
+            var preReferralServices = memberObject!!.servicesBeforeReferral?.trim { it <= ' ' }
+                ?: getString(R.string.empty_value)
             if (preReferralServices[0] == '[') {
                 preReferralServices = preReferralServices.substring(1)
             }
