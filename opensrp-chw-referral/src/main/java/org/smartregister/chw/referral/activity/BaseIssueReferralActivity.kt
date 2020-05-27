@@ -1,22 +1,23 @@
 package org.smartregister.chw.referral.activity
 
+import android.app.Activity
 import android.app.AlertDialog
 import android.content.DialogInterface
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.ViewModelProviders
 import com.google.gson.Gson
 import com.nerdstone.neatandroidstepper.core.domain.StepperActions
-import com.nerdstone.neatandroidstepper.core.model.StepperModel
-import com.nerdstone.neatandroidstepper.core.model.StepperModel.IndicatorType
-import com.nerdstone.neatandroidstepper.core.stepper.Step
-import com.nerdstone.neatandroidstepper.core.stepper.StepVerificationState
 import com.nerdstone.neatformcore.domain.builders.FormBuilder
-import com.nerdstone.neatformcore.domain.model.JsonFormStepBuilderModel
-import com.nerdstone.neatformcore.domain.model.NFormViewData
 import com.nerdstone.neatformcore.form.json.JsonFormBuilder
+import com.nerdstone.neatformcore.form.json.JsonFormEmbedded
 import org.joda.time.DateTime
 import org.joda.time.Period
 import org.json.JSONArray
@@ -40,8 +41,6 @@ import org.smartregister.chw.referral.util.JsonFormUtils.addFormMetadata
 import org.smartregister.chw.referral.util.JsonFormUtils.getFormAsJson
 import org.smartregister.commonregistry.CommonPersonObjectClient
 import timber.log.Timber
-import java.text.DateFormat
-import java.text.SimpleDateFormat
 import java.util.*
 
 /**
@@ -54,8 +53,7 @@ import java.util.*
  * and [StepperActions] (which is from the neat form library) that provides callback methods from the
  * form builder. It exposes a method to receiving the data from the views and exiting the activity
  */
-open class BaseIssueReferralActivity : AppCompatActivity(), BaseIssueReferralContract.View,
-    StepperActions {
+open class BaseIssueReferralActivity : AppCompatActivity(), BaseIssueReferralContract.View {
 
     protected var presenter: BaseIssueReferralContract.Presenter? = null
     protected var baseEntityId: String? = null
@@ -64,6 +62,12 @@ open class BaseIssueReferralActivity : AppCompatActivity(), BaseIssueReferralCon
     private var viewModel: AbstractIssueReferralModel? = null
     private var formBuilder: FormBuilder? = null
     private var jsonForm: JSONObject? = null
+    private lateinit var formLayout: LinearLayout
+    private lateinit var mainLayout: LinearLayout
+    private lateinit var sampleToolBar: Toolbar
+    private lateinit var pageTitleTextView: TextView
+    private lateinit var exitFormImageView: ImageView
+    private lateinit var completeButton: ImageView
     val referralLibrary by inject<ReferralLibrary>()
 
     protected val locationID: String
@@ -72,6 +76,13 @@ open class BaseIssueReferralActivity : AppCompatActivity(), BaseIssueReferralCon
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_referral_registration)
+        mainLayout = findViewById(R.id.mainLayout)
+        formLayout = findViewById(R.id.formLayout)
+        sampleToolBar = findViewById(R.id.sampleToolBar)
+        pageTitleTextView = findViewById(R.id.pageTitleTextView)
+        exitFormImageView = findViewById(R.id.exitFormImageView)
+        completeButton = findViewById(R.id.completeButton)
 
         with(this.intent) {
             baseEntityId = getStringExtra(Constants.ActivityPayload.BASE_ENTITY_ID)
@@ -83,18 +94,72 @@ open class BaseIssueReferralActivity : AppCompatActivity(), BaseIssueReferralCon
             } catch (e: JSONException) {
                 Timber.e(e)
             }
+            presenter = presenter()
+            viewModel = ViewModelProviders.of(this@BaseIssueReferralActivity)
+                .get(presenter!!.getViewModel<AbstractIssueReferralModel>())
+
+            updateMemberObject()
+
+            with(presenter) {
+                this?.initializeMemberObject(viewModel?.memberObject!!)
+                this?.fillClientData(viewModel?.memberObject!!)
+            }
+
+            with(viewModel?.memberObject!!) {
+                val age = Period(DateTime(this.age), DateTime()).years
+                pageTitleTextView.text =
+                    "${this.firstName} ${this.middleName} ${this.lastName}, $age"
+            }
+
+            exitFormImageView.setOnClickListener {
+                if (it.id == R.id.exitFormImageView) {
+                    AlertDialog.Builder(
+                        this@BaseIssueReferralActivity,
+                        R.style.AlertDialogTheme
+                    )
+                        .setTitle(getString(R.string.confirm_form_close))
+                        .setMessage(getString(R.string.confirm_form_close_explanation))
+                        .setNegativeButton(R.string.yes) { _: DialogInterface?, _: Int -> finish() }
+                        .setPositiveButton(R.string.no) { _: DialogInterface?, _: Int ->
+                            Timber.d("Do Nothing exit confirm dialog")
+                        }
+                        .create()
+                        .show()
+                }
+            }
+
+            completeButton.setOnClickListener {
+                if (it.id == R.id.completeButton) {
+                    if (formBuilder?.getFormDataAsJson() != "") {
+
+                        val formData = formBuilder!!.getFormData()
+                        if (formData.isNotEmpty()) {
+                            presenter!!.saveForm(formData, jsonForm!!)
+
+                            Toast.makeText(
+                                applicationContext,
+                                getString(R.string.successful_issued_referral),
+                                Toast.LENGTH_LONG
+                            ).show()
+                            Timber.d("Saved Data = %s", formBuilder?.getFormDataAsJson())
+                            val intent = Intent()
+                            setResult(Activity.RESULT_OK, intent);
+                            finish()
+                        }
+
+
+                        finish()
+                    }
+                }
+            }
+
+            createViewsFromJson()
+
+
         }
 
-        presenter = presenter()
-        viewModel =
-            ViewModelProviders.of(this).get(presenter!!.getViewModel<AbstractIssueReferralModel>())
-        setContentView(R.layout.activity_referral_registration)
-        updateMemberObject()
 
-        with(presenter) {
-            this?.initializeMemberObject(viewModel?.memberObject!!)
-            this?.fillClientData(viewModel?.memberObject!!)
-        }
+
 
         createViewsFromJson()
     }
@@ -104,34 +169,17 @@ open class BaseIssueReferralActivity : AppCompatActivity(), BaseIssueReferralCon
         try {
             formJsonObject?.also {
                 addFormMetadata(it, baseEntityId, locationID)
-                with(viewModel?.memberObject!!) {
-                    val age = Period(DateTime(this.age), DateTime()).years
-                    it.put(
-                        JsonFormConstants.FORM,
-                        "${this.firstName} ${this.middleName} ${this.lastName}, $age"
-
-                    )
-                }
-
                 initializeHealthFacilitiesList(it)
-
-                val formLayout = findViewById<LinearLayout>(R.id.formLayout)
-                val stepperModel = StepperModel.Builder()
-                    .exitButtonDrawableResource(R.drawable.ic_arrow_back_white_24dp)
-                    .indicatorType(IndicatorType.DOT_INDICATOR)
-                    .toolbarColorResource(R.color.family_actionbar)
-                    .build()
 
                 val customLayouts = ArrayList<View>().also { list ->
                     list.add(layoutInflater.inflate(R.layout.referral_form_view, null))
                 }
 
-                formBuilder = JsonFormBuilder(it.toString(), this, formLayout)
-                    .buildForm(
-                        JsonFormStepBuilderModel.Builder(this, stepperModel).build(),
-                        customLayouts
-                    )
-                formLayout.addView(formBuilder!!.neatStepperLayout)
+                formBuilder = JsonFormBuilder(jsonForm.toString(), this)
+                JsonFormEmbedded(
+                    formBuilder as JsonFormBuilder,
+                    formLayout
+                ).buildForm(customLayouts)
             }
 
         } catch (ex: JSONException) {
@@ -155,7 +203,8 @@ open class BaseIssueReferralActivity : AppCompatActivity(), BaseIssueReferralCon
                 .getJSONArray(JsonFormConstants.FIELDS)
             var referralHealthFacilities: JSONObject? = null
             for (i in 0 until (fields?.length() ?: 0)) {
-                if (fields!!.getJSONObject(i).getString(JsonFormConstants.NAME) == JsonFormConstants.CHW_REFERRAL_HF
+                if (fields!!.getJSONObject(i)
+                        .getString(JsonFormConstants.NAME) == JsonFormConstants.CHW_REFERRAL_HF
                 ) {
                     referralHealthFacilities = fields.getJSONObject(i)
                     break
@@ -176,7 +225,8 @@ open class BaseIssueReferralActivity : AppCompatActivity(), BaseIssueReferralCon
             }
             if (referralHealthFacilities != null) {
                 val optionsArray = JSONArray()
-                (0 until referralHealthFacilities.getJSONArray(JsonFormConstants.OPTIONS).length()).forEach { i ->
+                (0 until referralHealthFacilities.getJSONArray(JsonFormConstants.OPTIONS)
+                    .length()).forEach { i ->
                     optionsArray.put(referralHealthFacilities.getJSONArray(JsonFormConstants.OPTIONS)[i])
                 }
                 referralHealthFacilities.put(
@@ -210,59 +260,41 @@ open class BaseIssueReferralActivity : AppCompatActivity(), BaseIssueReferralCon
         }
     }
 
-    override fun onButtonNextClick(step: Step) = Unit
 
-    override fun onButtonPreviousClick(step: Step) = Unit
+//    override fun onCompleteStepper() {
+//        val formData = formBuilder!!.getFormData()
+//        if (formData.isNotEmpty()) {
+//            try {
+//                val referralTaskFocus =
+//                    jsonForm!!.getString(JsonFormConstants.REFERRAL_TASK_FOCUS) ?: ""
+//                formData[JsonFormConstants.CHW_REFERRAL_SERVICE] =
+//                    NFormViewData().apply { value = referralTaskFocus }
+//            } catch (e: JSONException) {
+//                Timber.e(e)
+//            }
+//
+//            //Saving referral Date
+//            formData[JsonFormConstants.REFERRAL_DATE] = NFormViewData().apply {
+//                value = Calendar.getInstance().timeInMillis
+//            }
+//            //Saving referral time
+//            val dateFormat: DateFormat =
+//                SimpleDateFormat("HH:mm:ss.SSS", Locale.getDefault())
+//            formData[JsonFormConstants.REFERRAL_TIME] = NFormViewData().apply {
+//                value = dateFormat.format(Date())
+//            }
+//            //Saving referral type
+//            formData[JsonFormConstants.REFERRAL_TYPE] = NFormViewData().apply {
+//                value = Constants.ReferralType.COMMUNITY_TO_FACILITY_REFERRAL
+//            }
+//            //Saving referral status
+//            formData[JsonFormConstants.REFERRAL_STATUS] = NFormViewData().apply {
+//                value = Constants.BusinessStatus.REFERRED
+//            }
+//            presenter!!.saveForm(formData, jsonForm!!)
+//            Timber.i("Saved data = %s", Gson().toJson(formData))
+//            finish()
+//        }
+//    }
 
-    override fun onCompleteStepper() {
-        val formData = formBuilder!!.getFormData()
-        if (formData.isNotEmpty()) {
-            try {
-                val referralTaskFocus =
-                    jsonForm!!.getString(JsonFormConstants.REFERRAL_TASK_FOCUS) ?: ""
-                formData[JsonFormConstants.CHW_REFERRAL_SERVICE] =
-                    NFormViewData().apply { value = referralTaskFocus }
-            } catch (e: JSONException) {
-                Timber.e(e)
-            }
-
-            //Saving referral Date
-            formData[JsonFormConstants.REFERRAL_DATE] = NFormViewData().apply {
-                value = Calendar.getInstance().timeInMillis
-            }
-            //Saving referral time
-            val dateFormat: DateFormat =
-                SimpleDateFormat("HH:mm:ss.SSS", Locale.getDefault())
-            formData[JsonFormConstants.REFERRAL_TIME] = NFormViewData().apply {
-                value = dateFormat.format(Date())
-            }
-            //Saving referral type
-            formData[JsonFormConstants.REFERRAL_TYPE] = NFormViewData().apply {
-                value = Constants.ReferralType.COMMUNITY_TO_FACILITY_REFERRAL
-            }
-            //Saving referral status
-            formData[JsonFormConstants.REFERRAL_STATUS] = NFormViewData().apply {
-                value = Constants.BusinessStatus.REFERRED
-            }
-            presenter!!.saveForm(formData, jsonForm!!)
-            Timber.i("Saved data = %s", Gson().toJson(formData))
-            finish()
-        }
-    }
-
-    override fun onExitStepper() {
-        AlertDialog.Builder(this, R.style.AlertDialogTheme)
-            .setTitle(getString(R.string.confirm_form_close))
-            .setMessage(getString(R.string.confirm_form_close_explanation))
-            .setNegativeButton(R.string.yes) { _: DialogInterface?, _: Int -> finish() }
-            .setPositiveButton(R.string.no) { _: DialogInterface?, _: Int ->
-                Timber.d("Do Nothing exit confirm dialog")
-            }
-            .create()
-            .show()
-    }
-
-    override fun onStepComplete(step: Step) = Unit
-
-    override fun onStepError(stepVerificationState: StepVerificationState) = Unit
 }
