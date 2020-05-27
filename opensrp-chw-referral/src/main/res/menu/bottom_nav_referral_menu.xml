@@ -4,14 +4,8 @@
     <item
         android:id="@+id/action_sent_referrals"
         android:enabled="true"
-        android:icon="@drawable/ic_trending_up_black_24dp"
-        android:title="@string/action_sent_referrals"
-        app:showAsAction="ifRoom" />
-    <item
-        android:id="@+id/action_received_referrals"
-        android:enabled="true"
-        android:icon="@drawable/ic_trending_down_black_24dp"
-        android:title="@string/action_received_followup_referrals"
+        android:icon="@mipmap/ic_home"
+        android:title="@string/home"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_scan_qr"
