@@ -16,6 +16,7 @@ import androidx.lifecycle.ViewModelProviders
 import com.google.gson.Gson
 import com.nerdstone.neatandroidstepper.core.domain.StepperActions
 import com.nerdstone.neatformcore.domain.builders.FormBuilder
+import com.nerdstone.neatformcore.domain.model.NFormViewData
 import com.nerdstone.neatformcore.form.json.JsonFormBuilder
 import com.nerdstone.neatformcore.form.json.JsonFormEmbedded
 import org.joda.time.DateTime
@@ -134,6 +135,12 @@ open class BaseIssueReferralActivity : AppCompatActivity(), BaseIssueReferralCon
 
                         val formData = formBuilder!!.getFormData()
                         if (formData.isNotEmpty()) {
+                            val referralTaskFocus =
+                                jsonForm!!.getString(JsonFormConstants.REFERRAL_TASK_FOCUS) ?: ""
+                            formData[JsonFormConstants.CHW_REFERRAL_SERVICE] =
+                                NFormViewData().apply { value = referralTaskFocus }
+                            formData.put(JsonFormConstants.CHW_REFERRAL_SERVICE, NFormViewData().apply { value = referralTaskFocus })
+
                             presenter!!.saveForm(formData, jsonForm!!)
 
                             Toast.makeText(
@@ -147,39 +154,32 @@ open class BaseIssueReferralActivity : AppCompatActivity(), BaseIssueReferralCon
                             finish()
                         }
 
-
                         finish()
                     }
                 }
             }
-
             createViewsFromJson()
 
 
         }
-
-
-
-
-        createViewsFromJson()
     }
 
     private fun createViewsFromJson() {
-        val formJsonObject: JSONObject? = jsonForm ?: getFormAsJson(formName, this)
         try {
-            formJsonObject?.also {
+            jsonForm?.also {
                 addFormMetadata(it, baseEntityId, locationID)
                 initializeHealthFacilitiesList(it)
 
                 val customLayouts = ArrayList<View>().also { list ->
                     list.add(layoutInflater.inflate(R.layout.referral_form_view, null))
                 }
-
-                formBuilder = JsonFormBuilder(jsonForm.toString(), this)
+                Timber.e("Coze :: Loading form builder")
+                Timber.e("Coze :: Loading json = "+it)
+                formBuilder = JsonFormBuilder(it.toString(), this)
                 JsonFormEmbedded(
                     formBuilder as JsonFormBuilder,
                     formLayout
-                ).buildForm(customLayouts)
+                ).buildForm(null)
             }
 
         } catch (ex: JSONException) {
@@ -259,42 +259,5 @@ open class BaseIssueReferralActivity : AppCompatActivity(), BaseIssueReferralCon
             }
         }
     }
-
-
-//    override fun onCompleteStepper() {
-//        val formData = formBuilder!!.getFormData()
-//        if (formData.isNotEmpty()) {
-//            try {
-//                val referralTaskFocus =
-//                    jsonForm!!.getString(JsonFormConstants.REFERRAL_TASK_FOCUS) ?: ""
-//                formData[JsonFormConstants.CHW_REFERRAL_SERVICE] =
-//                    NFormViewData().apply { value = referralTaskFocus }
-//            } catch (e: JSONException) {
-//                Timber.e(e)
-//            }
-//
-//            //Saving referral Date
-//            formData[JsonFormConstants.REFERRAL_DATE] = NFormViewData().apply {
-//                value = Calendar.getInstance().timeInMillis
-//            }
-//            //Saving referral time
-//            val dateFormat: DateFormat =
-//                SimpleDateFormat("HH:mm:ss.SSS", Locale.getDefault())
-//            formData[JsonFormConstants.REFERRAL_TIME] = NFormViewData().apply {
-//                value = dateFormat.format(Date())
-//            }
-//            //Saving referral type
-//            formData[JsonFormConstants.REFERRAL_TYPE] = NFormViewData().apply {
-//                value = Constants.ReferralType.COMMUNITY_TO_FACILITY_REFERRAL
-//            }
-//            //Saving referral status
-//            formData[JsonFormConstants.REFERRAL_STATUS] = NFormViewData().apply {
-//                value = Constants.BusinessStatus.REFERRED
-//            }
-//            presenter!!.saveForm(formData, jsonForm!!)
-//            Timber.i("Saved data = %s", Gson().toJson(formData))
-//            finish()
-//        }
-//    }
 
 }
