@@ -15,20 +15,7 @@ import org.smartregister.util.JsonFormUtils
 class UtilTest {
 
     @Test
-    fun extractReferralProblemsTest() {
-        val problemHashMap = hashMapOf("problem" to NFormViewData().apply {
-            value =
-                hashMapOf(
-                    "value" to hashMapOf(
-                        "Severe_abdominal_pain" to NFormViewData().apply {
-                            value = "Severe abdominal pain"
-                        },
-                        "High_blood_pressure" to NFormViewData().apply {
-                            value = "High blood pressure"
-                        }
-                    ))
-        })
-
+    fun `Testing extraction of problem string`() {
         Assert.assertEquals(
             "Severe abdominal pain, High blood pressure",
             extractReferralProblems(getValues())
