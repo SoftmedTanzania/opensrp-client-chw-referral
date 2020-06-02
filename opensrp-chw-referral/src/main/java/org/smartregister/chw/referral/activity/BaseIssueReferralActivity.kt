@@ -12,7 +12,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import com.google.gson.Gson
 import com.nerdstone.neatandroidstepper.core.domain.StepperActions
 import com.nerdstone.neatformcore.domain.builders.FormBuilder
@@ -39,7 +39,6 @@ import org.smartregister.chw.referral.presenter.BaseIssueReferralPresenter
 import org.smartregister.chw.referral.util.Constants
 import org.smartregister.chw.referral.util.JsonFormConstants
 import org.smartregister.chw.referral.util.JsonFormUtils.addFormMetadata
-import org.smartregister.chw.referral.util.JsonFormUtils.getFormAsJson
 import org.smartregister.commonregistry.CommonPersonObjectClient
 import timber.log.Timber
 import java.util.*
@@ -74,7 +73,7 @@ open class BaseIssueReferralActivity : AppCompatActivity(), BaseIssueReferralCon
 
     protected val locationID: String
         get() = org.smartregister.Context.getInstance().allSharedPreferences()
-            .getPreference(AllConstants.CURRENT_LOCATION_ID)
+                .getPreference(AllConstants.CURRENT_LOCATION_ID)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -98,8 +97,8 @@ open class BaseIssueReferralActivity : AppCompatActivity(), BaseIssueReferralCon
                 Timber.e(e)
             }
             presenter = presenter()
-            viewModel = ViewModelProviders.of(this@BaseIssueReferralActivity)
-                .get(presenter!!.getViewModel<AbstractIssueReferralModel>())
+            viewModel = ViewModelProvider(this@BaseIssueReferralActivity)
+                    .get(presenter!!.getViewModel<AbstractIssueReferralModel>())
 
             updateMemberObject()
 
@@ -111,26 +110,27 @@ open class BaseIssueReferralActivity : AppCompatActivity(), BaseIssueReferralCon
             with(viewModel?.memberObject!!) {
                 val age = Period(DateTime(this.age), DateTime()).years
                 clientNameTitleTextView.text =
-                    "${this.firstName} ${this.middleName} ${this.lastName}, $age"
+                        "${this.firstName} ${this.middleName} ${this.lastName}, $age"
 
                 pageTitleTextView.text =
-                    jsonForm?.getJSONArray("steps")?.getJSONObject(0)?.getString("title") ?: "Referral Form"
+                        jsonForm?.getJSONArray("steps")?.getJSONObject(0)?.getString("title")
+                                ?: "Referral Form"
             }
 
             exitFormImageView.setOnClickListener {
                 if (it.id == R.id.exitFormImageView) {
                     AlertDialog.Builder(
-                        this@BaseIssueReferralActivity,
-                        R.style.AlertDialogTheme
+                            this@BaseIssueReferralActivity,
+                            R.style.AlertDialogTheme
                     )
-                        .setTitle(getString(R.string.confirm_form_close))
-                        .setMessage(getString(R.string.confirm_form_close_explanation))
-                        .setNegativeButton(R.string.yes) { _: DialogInterface?, _: Int -> finish() }
-                        .setPositiveButton(R.string.no) { _: DialogInterface?, _: Int ->
-                            Timber.d("Do Nothing exit confirm dialog")
-                        }
-                        .create()
-                        .show()
+                            .setTitle(getString(R.string.confirm_form_close))
+                            .setMessage(getString(R.string.confirm_form_close_explanation))
+                            .setNegativeButton(R.string.yes) { _: DialogInterface?, _: Int -> finish() }
+                            .setPositiveButton(R.string.no) { _: DialogInterface?, _: Int ->
+                                Timber.d("Do Nothing exit confirm dialog")
+                            }
+                            .create()
+                            .show()
                 }
             }
 
@@ -141,17 +141,18 @@ open class BaseIssueReferralActivity : AppCompatActivity(), BaseIssueReferralCon
                         val formData = formBuilder!!.getFormData()
                         if (formData.isNotEmpty()) {
                             val referralTaskFocus =
-                                jsonForm!!.getString(JsonFormConstants.REFERRAL_TASK_FOCUS) ?: ""
+                                    jsonForm!!.getString(JsonFormConstants.REFERRAL_TASK_FOCUS)
+                                            ?: ""
                             formData[JsonFormConstants.CHW_REFERRAL_SERVICE] =
-                                NFormViewData().apply { value = referralTaskFocus }
-                            formData.put(JsonFormConstants.CHW_REFERRAL_SERVICE, NFormViewData().apply { value = referralTaskFocus })
+                                    NFormViewData().apply { value = referralTaskFocus }
+                            formData[JsonFormConstants.CHW_REFERRAL_SERVICE] = NFormViewData().apply { value = referralTaskFocus }
 
                             presenter!!.saveForm(formData, jsonForm!!)
 
                             Toast.makeText(
-                                applicationContext,
-                                getString(R.string.successful_issued_referral),
-                                Toast.LENGTH_LONG
+                                    applicationContext,
+                                    getString(R.string.successful_issued_referral),
+                                    Toast.LENGTH_LONG
                             ).show()
                             Timber.d("Saved Data = %s", formBuilder?.getFormDataAsJson())
                             val intent = Intent()
@@ -164,8 +165,6 @@ open class BaseIssueReferralActivity : AppCompatActivity(), BaseIssueReferralCon
                 }
             }
             createViewsFromJson()
-
-
         }
     }
 
@@ -178,13 +177,10 @@ open class BaseIssueReferralActivity : AppCompatActivity(), BaseIssueReferralCon
                 val customLayouts = ArrayList<View>().also { list ->
                     list.add(layoutInflater.inflate(R.layout.referral_form_view, null))
                 }
-                Timber.e("Coze :: Loading form builder")
-                Timber.e("Coze :: Loading json = "+it)
+                Timber.e("FormBuilder :: Loading form builder")
+                Timber.e("FormBuilder :: loaded json = %s", it)
                 formBuilder = JsonFormBuilder(it.toString(), this)
-                JsonFormEmbedded(
-                    formBuilder as JsonFormBuilder,
-                    formLayout
-                ).buildForm(null)
+                JsonFormEmbedded(formBuilder as JsonFormBuilder, formLayout).buildForm(customLayouts)
             }
 
         } catch (ex: JSONException) {
@@ -193,7 +189,7 @@ open class BaseIssueReferralActivity : AppCompatActivity(), BaseIssueReferralCon
     }
 
     override fun presenter() = BaseIssueReferralPresenter(
-        baseEntityId!!, this, BaseIssueReferralModel::class.java, BaseIssueReferralInteractor()
+            baseEntityId!!, this, BaseIssueReferralModel::class.java, BaseIssueReferralInteractor()
     )
 
 
@@ -204,12 +200,12 @@ open class BaseIssueReferralActivity : AppCompatActivity(), BaseIssueReferralCon
         val locations = viewModel!!.healthFacilities
         if (locations != null && form != null) {
             val fields = form.getJSONArray(JsonFormConstants.STEPS)
-                .getJSONObject(0)
-                .getJSONArray(JsonFormConstants.FIELDS)
+                    .getJSONObject(0)
+                    .getJSONArray(JsonFormConstants.FIELDS)
             var referralHealthFacilities: JSONObject? = null
             for (i in 0 until (fields?.length() ?: 0)) {
                 if (fields!!.getJSONObject(i)
-                        .getString(JsonFormConstants.NAME) == JsonFormConstants.CHW_REFERRAL_HF
+                                .getString(JsonFormConstants.NAME) == JsonFormConstants.CHW_REFERRAL_HF
                 ) {
                     referralHealthFacilities = fields.getJSONObject(i)
                     break
@@ -231,11 +227,11 @@ open class BaseIssueReferralActivity : AppCompatActivity(), BaseIssueReferralCon
             if (referralHealthFacilities != null) {
                 val optionsArray = JSONArray()
                 (0 until referralHealthFacilities.getJSONArray(JsonFormConstants.OPTIONS)
-                    .length()).forEach { i ->
+                        .length()).forEach { i ->
                     optionsArray.put(referralHealthFacilities.getJSONArray(JsonFormConstants.OPTIONS)[i])
                 }
                 referralHealthFacilities.put(
-                    JsonFormConstants.OPTIONS, JSONArray(Gson().toJson(healthFacilitiesOptions))
+                        JsonFormConstants.OPTIONS, JSONArray(Gson().toJson(healthFacilitiesOptions))
                 )
             }
         }
@@ -250,19 +246,18 @@ open class BaseIssueReferralActivity : AppCompatActivity(), BaseIssueReferralCon
             with(commonRepository.rawCustomQueryForAdapter(query)) {
                 if (moveToFirst()) {
                     commonRepository.readAllcommonforCursorAdapter(this)
-                        .also { commonPersonObject ->
-                            CommonPersonObjectClient(
-                                commonPersonObject.caseId, commonPersonObject.details, ""
-                            ).apply {
-                                this.columnmaps = commonPersonObject.columnmaps
-                            }.also {
-                                viewModel!!.memberObject = MemberObject(it)
+                            .also { commonPersonObject ->
+                                CommonPersonObjectClient(
+                                        commonPersonObject.caseId, commonPersonObject.details, ""
+                                ).apply {
+                                    this.columnmaps = commonPersonObject.columnmaps
+                                }.also {
+                                    viewModel!!.memberObject = MemberObject(it)
+                                }
                             }
-                        }
                 }
 
             }
         }
     }
-
 }
