@@ -19,9 +19,6 @@ class ReferralBottomNavigationListener(private val context: Activity) :
             R.id.action_sent_referrals -> {
                 baseRegisterActivity.switchToBaseFragment()
             }
-            R.id.action_received_referrals -> {
-                baseRegisterActivity.switchToFragment(1)
-            }
             R.id.action_scan_qr -> {
                 baseRegisterActivity.startQrCodeScanner()
             }

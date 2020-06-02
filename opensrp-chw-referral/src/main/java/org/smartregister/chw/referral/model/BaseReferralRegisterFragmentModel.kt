@@ -38,13 +38,13 @@ open class BaseReferralRegisterFragmentModel :
 
     override fun countSelect(tableName: String?, mainCondition: String?): String? {
         val countQueryBuilder = SmartRegisterQueryBuilder()
-        countQueryBuilder.SelectInitiateMainTableCounts(tableName)
+        countQueryBuilder.selectInitiateMainTableCounts(tableName)
         return countQueryBuilder.mainCondition(mainCondition)
     }
 
     override fun mainSelect(tableName: String?, mainCondition: String?): String? {
         val queryBUilder = SmartRegisterQueryBuilder()
-        queryBUilder.SelectInitiateMainTable(tableName, mainColumns(tableName))
+        queryBUilder.selectInitiateMainTable(tableName, mainColumns(tableName))
         return queryBUilder.mainCondition(mainCondition)
     }
 

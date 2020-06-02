@@ -18,6 +18,7 @@ import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.google.gson.Gson
+import com.nerdstone.neatformcore.domain.model.NFormViewData
 import org.json.JSONObject
 import org.koin.core.KoinComponent
 import org.smartregister.chw.referral.R
@@ -121,6 +122,19 @@ object Util : KoinComponent {
             }
             true
         }
+    }
+
+    @JvmStatic
+    fun extractReferralProblems(valuesHashMap: HashMap<String, NFormViewData>): String? {
+        val valuesMap = valuesHashMap[JsonFormConstants.PROBLEM]?.value as HashMap<*, *>?
+        valuesMap?.also { mapValues ->
+            return mapValues
+                .filter { it.value != null }
+                .map { (it.value as NFormViewData).value as String }
+                .toList()
+                .joinToString()
+        }
+        return null
     }
 
 }

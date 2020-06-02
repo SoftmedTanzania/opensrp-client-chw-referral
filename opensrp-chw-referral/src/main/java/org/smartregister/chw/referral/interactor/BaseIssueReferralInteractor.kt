@@ -12,6 +12,7 @@ import org.smartregister.chw.referral.util.Constants
 import org.smartregister.chw.referral.util.JsonFormConstants
 import org.smartregister.chw.referral.util.JsonFormUtils
 import org.smartregister.chw.referral.util.ReferralUtil.createReferralTask
+import org.smartregister.chw.referral.util.Util.extractReferralProblems
 import org.smartregister.chw.referral.util.Util.processEvent
 import timber.log.Timber
 import java.util.*
@@ -58,15 +59,4 @@ class BaseIssueReferralInteractor : BaseIssueReferralContract.Interactor {
         callBack.onRegistrationSaved(hasProblems)
     }
 
-    private fun extractReferralProblems(valuesHashMap: HashMap<String, NFormViewData>): String? {
-        val valuesMap = valuesHashMap[JsonFormConstants.PROBLEM]?.value as HashMap<*, *>?
-        valuesMap?.also { mapValues ->
-            return mapValues
-                .filter { it.value != null }
-                .map { (it.value as NFormViewData).value as String }
-                .toList()
-                .joinToString()
-        }
-        return null
-    }
 }

@@ -50,7 +50,11 @@ open class BaseReferralCallDialogFragment : DialogFragment(),
 
             rootView.findViewById<TextView>(R.id.call_referral_client_phone)?.apply {
                 tag = referralClientPhoneNumber
-                text = Utils.getName(getString(R.string.call), referralClientPhoneNumber)
+                text = referralClientPhoneNumber?.let {
+                    Utils.getName(getString(R.string.call),
+                        it
+                    )
+                }
                 setOnClickListener(listener)
             }
 
@@ -65,7 +69,11 @@ open class BaseReferralCallDialogFragment : DialogFragment(),
             rootView.findViewById<TextView>(R.id.referral_call_head_phone)
                 ?.apply {
                     tag = referralFamilyHeadPhone
-                    text = Utils.getName(getString(R.string.call), referralFamilyHeadPhone)
+                    text = referralFamilyHeadPhone?.let {
+                        Utils.getName(getString(R.string.call),
+                            it
+                        )
+                    }
                     setOnClickListener(listener)
                 }
         } else {

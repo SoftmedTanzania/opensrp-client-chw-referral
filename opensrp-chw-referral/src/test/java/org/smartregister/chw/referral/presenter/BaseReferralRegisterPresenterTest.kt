@@ -4,13 +4,8 @@ import io.mockk.spyk
 import org.junit.Test
 
 import org.junit.Assert.*
-import org.smartregister.chw.referral.contract.BaseReferralHistoryContract
 import org.smartregister.chw.referral.contract.BaseReferralRegisterContract
-import org.smartregister.chw.referral.domain.MemberObject
-import org.smartregister.chw.referral.model.BaseIssueReferralModel
 import org.smartregister.chw.referral.model.BaseReferralRegisterModel
-import org.smartregister.chw.referral.util.Constants
-import org.smartregister.commonregistry.CommonPersonObjectClient
 
 class BaseReferralRegisterPresenterTest {
 
