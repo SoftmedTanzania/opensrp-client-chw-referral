@@ -185,5 +185,5 @@ dokka {
     }
 
 }
-//apply from: '../maven.gradle'
+apply from: '../maven.gradle'
 
