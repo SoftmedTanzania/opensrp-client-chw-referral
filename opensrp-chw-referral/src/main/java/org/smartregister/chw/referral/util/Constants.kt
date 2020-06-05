@@ -62,13 +62,11 @@ object Constants {
 
     object ActivityPayload {
         const val BASE_ENTITY_ID = "BASE_ENTITY_ID"
-        const val MEMBER_OBJECT = "MEMBER_OBJECT"
         const val ACTION = "ACTION"
         const val REFERRAL_FORM_NAME = "REFERRAL_FORM_NAME"
-        const val INJECT_VALUES_FROM_DB = "INJECT_VALUES_FROM_DB"
         const val JSON_FORM = "JSON_FORM"
-        const val REFERRAL_FOLLOWUP_FORM_NAME = "REFERRAL_FOLLOWUP_FORM_NAME"
         const val REFERRAL_SERVICE_IDS = "REFERRAL_SERVICE_IDS"
+        const val USE_CUSTOM_LAYOUT = "USE_CUSTOM_LAYOUT"
     }
 
     object ActivityPayloadType {

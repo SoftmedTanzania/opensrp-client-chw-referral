@@ -102,6 +102,7 @@ interface BaseIssueReferralContract {
          * Saves referral for the given [baseEntityId] using the values obtained from the views [valuesHashMap]
          * then creates an event for the form using the provided [jsonObject] and call the [callBack] method
          */
+        @Throws(Exception::class)
         fun saveRegistration(
             baseEntityId: String, valuesHashMap: HashMap<String, NFormViewData>,
             jsonObject: JSONObject, callBack: InteractorCallBack

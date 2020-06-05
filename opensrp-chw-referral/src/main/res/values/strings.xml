@@ -72,7 +72,7 @@
     <string name="missing_facility">Please fill in the referral facility</string>
     <string name="missing_services">Please fill in the referral service</string>
     <string name="wrong_facility">Please fill in the correct referral facility</string>
-    <string name="successful_issued_referral">Referral Saved Successful</string>
+    <string name="referral_submitted_successfully">Referral sent to the facility</string>
     <string name="missing_client_condition_during_visit">Please fill in the client condition during the visit</string>
     <string name="missing_feedback">Please select feedback</string>
     <string name="complete">Complete</string>
@@ -98,5 +98,6 @@
     <string name="no">No</string>
     <string name="empty_value">None</string>
     <string name="save">Save</string>
+    <string name="other">Other: %1$s </string>
 
 </resources>

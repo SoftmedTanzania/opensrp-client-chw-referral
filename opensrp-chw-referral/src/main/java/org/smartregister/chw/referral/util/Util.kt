@@ -10,10 +10,7 @@ import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
-import android.os.Build
 import android.telephony.TelephonyManager
-import android.text.Html
-import android.text.Spanned
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -27,6 +24,7 @@ import org.smartregister.chw.referral.contract.BaseReferralCallDialogContract
 import org.smartregister.chw.referral.contract.BaseReferralCallDialogContract.Dialer
 import org.smartregister.chw.referral.custom_views.ClipboardDialog
 import org.smartregister.clientandeventmodel.Event
+import org.smartregister.domain.db.EventClient
 import org.smartregister.repository.BaseRepository
 import org.smartregister.util.PermissionUtils
 import org.smartregister.util.Utils
@@ -51,25 +49,19 @@ object Util : KoinComponent {
             referralLibrary.syncHelper.addEvent(baseEvent.formSubmissionId, eventJson)
             val lastSyncDate =
                 Date(referralLibrary.context.allSharedPreferences().fetchLastUpdatedAtDate(0))
-            val eventClient =
-                referralLibrary.syncHelper.getEvents(lastSyncDate, BaseRepository.TYPE_Unsynced)
-            Timber.i("EventClient = %s", Gson().toJson(eventClient))
-            referralLibrary.clientProcessorForJava.processClient(eventClient)
+            Timber.i(
+                "EventClient = %s",
+                Gson().toJson(
+                    referralLibrary.syncHelper.getEvents(lastSyncDate, BaseRepository.TYPE_Unsynced)
+                )
+            )
+            referralLibrary.clientProcessorForJava.processClient(
+                referralLibrary.syncHelper.getEvents(mutableListOf(baseEvent.formSubmissionId))
+            )
             Utils.getAllSharedPreferences().saveLastUpdatedAtDate(lastSyncDate.time)
         }
     }
 
-
-    fun fromHtml(text: String?): Spanned {
-        return when {
-            Build.VERSION.SDK_INT >= Build.VERSION_CODES.N -> {
-                Html.fromHtml(text, Html.FROM_HTML_MODE_LEGACY)
-            }
-            else -> {
-                Html.fromHtml(text)
-            }
-        }
-    }
 
     /**
      * Launches call dialer with [phoneNumber] using [activity] as the context from the [callView]
@@ -126,15 +118,28 @@ object Util : KoinComponent {
 
     @JvmStatic
     fun extractReferralProblems(valuesHashMap: HashMap<String, NFormViewData>): String? {
-        val valuesMap = valuesHashMap[JsonFormConstants.PROBLEM]?.value as HashMap<*, *>?
-        valuesMap?.also { mapValues ->
-            return mapValues
+        val problemViewData = valuesHashMap[JsonFormConstants.PROBLEM]?.value as HashMap<*, *>?
+        val problemOtherViewData = valuesHashMap[JsonFormConstants.PROBLEM_OTHER]?.value as String?
+        val fpMethodViewData =
+            valuesHashMap[JsonFormConstants.FAMILY_PLANNING_METHOD]?.value as HashMap<*, *>?
+        //This should be a map with single item since this record is stored in a radio group layout that saves the option name against its label
+        val fpMethod = (fpMethodViewData?.values?.elementAt(0) as NFormViewData?)?.value as String?
+        val formattedFpMethod = fpMethod?.plus(if (problemViewData.isNullOrEmpty()) "" else ": ")
+        val otherProblems =
+            if (problemOtherViewData.isNullOrEmpty()) "" else "Other: $problemOtherViewData"
+        val formattedOtherProblem =
+            if (problemViewData.isNullOrEmpty()) otherProblems else ", $otherProblems"
+
+        problemViewData?.also { problemValue ->
+            val problemDescription = problemValue
                 .filter { it.value != null }
                 .map { (it.value as NFormViewData).value as String }
                 .toList()
                 .joinToString()
+            return "${formattedFpMethod ?: ""}$problemDescription$formattedOtherProblem".trim(
+                ',', ' '
+            )
         }
-        return null
+        return "${formattedFpMethod ?: ""}$formattedOtherProblem".trim(',', ' ')
     }
-
 }
