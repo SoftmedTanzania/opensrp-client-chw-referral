@@ -7,6 +7,7 @@ import android.graphics.PorterDuff
 import android.os.Build
 import android.view.Menu
 import android.view.View
+import android.view.ViewGroup
 import androidx.appcompat.widget.Toolbar
 import com.google.android.material.appbar.AppBarLayout
 import org.apache.commons.lang3.StringUtils
@@ -17,7 +18,6 @@ import org.smartregister.chw.referral.domain.MemberObject
 import org.smartregister.chw.referral.util.Constants
 import org.smartregister.view.activity.SecuredActivity
 import org.smartregister.view.customcontrols.CustomFontTextView
-import timber.log.Timber
 import java.math.BigDecimal
 import java.text.SimpleDateFormat
 import java.util.*
@@ -36,6 +36,8 @@ open class ReferralDetailsViewActivity : SecuredActivity() {
     private lateinit var referralFacility: CustomFontTextView
     private lateinit var preReferralManagement: CustomFontTextView
     private lateinit var referralType: CustomFontTextView
+    private lateinit var problemLayout: ViewGroup
+    private lateinit var preManagementServicesServices: ViewGroup
     val baseEntityId: String? = null
     var memberObject: MemberObject? = null
 
@@ -80,6 +82,8 @@ open class ReferralDetailsViewActivity : SecuredActivity() {
         referralFacility = findViewById(R.id.referral_facility)
         preReferralManagement = findViewById(R.id.pre_referral_management)
         referralType = findViewById(R.id.referral_type)
+        problemLayout = findViewById(R.id.client_referral_problem_layout)
+        preManagementServicesServices = findViewById(R.id.client_pre_referral_management_layout)
         obtainReferralDetails()
     }
 
@@ -95,14 +99,10 @@ open class ReferralDetailsViewActivity : SecuredActivity() {
             referralDate.text = dateFormatter.format(referralDateCalendar.time)
             referralFacility.text = it.chwReferralHf
             referralType.text = it.chwReferralService
-            when (it.primaryCareGiver) {
-                null -> {
-                    careGiverName.visibility = View.GONE
-                }
-                else -> {
-                    careGiverName.text = String.format("CG : %s", it.primaryCareGiver)
-                }
-            }
+            if (!it.primaryCareGiver.isNullOrEmpty() && clientAge.toInt() < 5)
+                careGiverName.text = String.format("CG : %s", it.primaryCareGiver)
+            else
+                careGiverName.visibility = View.GONE
             careGiverPhone.text =
                 if (familyMemberContacts!!.isEmpty() || familyMemberContacts == null) getString(
                     R.string.phone_not_provided
@@ -113,43 +113,47 @@ open class ReferralDetailsViewActivity : SecuredActivity() {
     }
 
     private fun updateProblemDisplay() {
-        try {
-            var problemString = memberObject!!.problem!!.trim { it <= ' ' }
-
-            if (problemString.first() == '[') {
-                problemString = problemString.substring(1)
+        memberObject?.run {
+            when {
+                problem != null -> {
+                    if (problem?.startsWith("[")!! && problem?.endsWith("]")!!) {
+                        clientReferralProblem.text = problem?.substring(1, problem!!.length - 1)
+                    } else {
+                        clientReferralProblem.text = problem
+                    }
+                    if (!StringUtils.isEmpty(problemOther)) {
+                        clientReferralProblem.append(", $problemOther")
+                    }
+                }
+                else -> {
+                    clientReferralProblem.text = getString(R.string.empty_value)
+                    problemLayout.visibility = View.GONE
+                }
             }
-            if (problemString.last() == ']') {
-                problemString = problemString.substring(0, problemString.length - 1)
-            }
-            clientReferralProblem.text = problemString
-            if (!StringUtils.isEmpty(memberObject!!.problemOther)) {
-                clientReferralProblem.append(", " + memberObject!!.problemOther)
-            }
-        } catch (e: IllegalStateException) {
-            Timber.e(e)
-            clientReferralProblem.text = getString(R.string.empty_value)
         }
     }
 
     private fun updatePreReferralServicesDisplay() {
-        try {
-            var preReferralServices = memberObject!!.servicesBeforeReferral?.trim { it <= ' ' }
-                ?: getString(R.string.empty_value)
-            if (preReferralServices[0] == '[') {
-                preReferralServices = preReferralServices.substring(1)
+        memberObject?.run {
+            when {
+                servicesBeforeReferral != null -> {
+                    if (servicesBeforeReferral?.startsWith("[")!! &&
+                        servicesBeforeReferral?.endsWith("]")!!
+                    ) {
+                        preReferralManagement.text = servicesBeforeReferral
+                            ?.substring(1, servicesBeforeReferral!!.length - 1)
+                    } else {
+                        preReferralManagement.text = servicesBeforeReferral
+                    }
+                    if (!StringUtils.isEmpty(servicesBeforeReferralOther)) {
+                        preReferralManagement.append(", $servicesBeforeReferralOther")
+                    }
+                }
+                else -> {
+                    preReferralManagement.text = getString(R.string.empty_value)
+                    preManagementServicesServices.visibility = View.GONE
+                }
             }
-            if (preReferralServices[preReferralServices.length - 1] == ']') {
-                preReferralServices =
-                    preReferralServices.substring(0, preReferralServices.length - 1)
-            }
-            preReferralManagement.text = preReferralServices
-            if (!StringUtils.isEmpty(memberObject!!.servicesBeforeReferralOther)) {
-                preReferralManagement.append(", " + memberObject!!.servicesBeforeReferralOther)
-            }
-        } catch (e: StringIndexOutOfBoundsException) {
-            Timber.e(e)
-            preReferralManagement.text = getString(R.string.empty_value)
         }
     }
 

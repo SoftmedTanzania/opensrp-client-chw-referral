@@ -95,14 +95,6 @@ object JsonFormUtils : JsonFormUtils() {
             .put(ENTITY_ID, entityId)
     }
 
-    /**
-     * Obtains a json form named [formName] using the provided [context]
-     */
-    @JvmStatic
-    @Throws(Exception::class)
-    fun getFormAsJson(formName: String?, context: Context): JSONObject =
-        FormUtils.getInstance(context).getFormJson(formName)
-
     fun getObs(detailsHashMap: HashMap<String, NFormViewData>): List<Obs> {
         val obs = ArrayList<Obs>()
         detailsHashMap.keys.forEach { key ->

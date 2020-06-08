@@ -42,12 +42,10 @@ open class BaseReferralRegisterActivity : BaseRegisterActivity(),
     override fun startFormActivity(formName: String?, entityId: String?, metaData: String?) = Unit
 
     override fun startFormActivity(jsonForm: JSONObject) {
-        val intent = Intent(this, familyFormActivity)
+        val intent = Intent(this, BaseReferralRegisterActivity::class.java)
             .putExtra(Constants.JsonFormExtra.JSON, jsonForm.toString())
         startActivityForResult(intent, Constants.REQUEST_CODE_GET_JSON)
     }
-
-    val familyFormActivity get() = BaseReferralRegisterActivity::class.java
 
     override fun onActivityResultExtended(requestCode: Int, resultCode: Int, data: Intent?) = Unit
 

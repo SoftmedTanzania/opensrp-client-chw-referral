@@ -10,8 +10,8 @@
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/sampleToolBar"
         android:layout_width="match_parent"
-        android:background="@color/primary"
         android:layout_height="wrap_content"
+        android:background="@color/primary"
         android:minHeight="?attr/actionBarSize">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -23,11 +23,11 @@
                 android:id="@+id/exitFormImageView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
                 android:contentDescription="@string/go_back"
                 android:padding="@dimen/toolbar_buttons_padding"
                 android:src="@drawable/ic_clear"
                 android:tint="#fff"
-                android:background="@android:color/transparent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -36,10 +36,11 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                app:layout_constraintStart_toEndOf="@+id/exitFormImageView"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/completeButton"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent">
+                app:layout_constraintStart_toEndOf="@+id/exitFormImageView"
+                app:layout_constraintTop_toTopOf="parent">
+
                 <TextView
                     android:id="@+id/pageTitleTextView"
                     android:layout_width="wrap_content"
@@ -47,6 +48,7 @@
                     android:layout_marginStart="16dp"
                     android:textColor="@color/colorWhite"
                     android:textSize="16sp" />
+
                 <TextView
                     android:id="@+id/clientNameTitleTextView"
                     android:layout_width="wrap_content"
@@ -61,10 +63,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
-                android:src="@drawable/ic_info_check"
                 android:background="@android:color/transparent"
                 android:contentDescription="@string/finish"
                 android:padding="@dimen/toolbar_buttons_padding"
+                android:src="@drawable/ic_info_check"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -77,6 +79,24 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1">
+
+        <TextView
+            android:id="@+id/loadIndicatorText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:layout_marginBottom="@dimen/progress_text_margin"
+            android:text="@string/loading_content" />
+
+        <ProgressBar
+            android:id="@+id/loadIndicatorProgressBar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|center_vertical"
+            android:layout_marginTop="@dimen/progress_bar_top_margin"
+            android:indeterminate="true"
+            android:minWidth="@dimen/progress_bar_min_width" />
 
         <LinearLayout
             android:id="@+id/formLayout"

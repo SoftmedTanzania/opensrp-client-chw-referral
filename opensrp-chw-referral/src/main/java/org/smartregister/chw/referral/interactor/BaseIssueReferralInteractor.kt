@@ -21,9 +21,9 @@ import java.util.*
  * This interactor class provides actual implementations for all the functionality used in the
  * Referral forms, it implements [BaseIssueReferralContract.Interactor]
  */
-class BaseIssueReferralInteractor : BaseIssueReferralContract.Interactor {
+open class BaseIssueReferralInteractor : BaseIssueReferralContract.Interactor {
 
-    val referralLibrary by inject<ReferralLibrary>()
+    private val referralLibrary by inject<ReferralLibrary>()
 
 
     @Throws(Exception::class)
