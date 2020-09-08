@@ -38,7 +38,7 @@ class ClipboardDialog(context: Context, style: Int) : Dialog(context, style), Vi
                 context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
             val clip =
                 ClipData.newPlainText(context.getString(R.string.copy_to_clipboard), content)
-            clipboard.primaryClip = clip
+            clipboard.setPrimaryClip(clip)
             dismiss()
         } catch (e: IllegalStateException) {
             Timber.e(e)

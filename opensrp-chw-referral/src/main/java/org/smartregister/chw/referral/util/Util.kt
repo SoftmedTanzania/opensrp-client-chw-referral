@@ -97,7 +97,7 @@ object Util : KoinComponent {
                 val clip = ClipData.newPlainText(
                     activity.getText(R.string.copied_phone_number), phoneNumber
                 )
-                clipboard.primaryClip = clip
+                clipboard.setPrimaryClip(clip)
                 ClipboardDialog(activity, R.style.ClipboardDialogStyle).also {
                     it.content = phoneNumber
                     it.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
