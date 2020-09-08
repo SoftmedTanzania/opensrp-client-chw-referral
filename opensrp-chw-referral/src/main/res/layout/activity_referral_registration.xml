@@ -79,25 +79,6 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1">
-
-        <TextView
-            android:id="@+id/loadIndicatorText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical|center_horizontal"
-            android:layout_marginBottom="@dimen/progress_text_margin"
-            android:text="@string/loading_content" />
-
-        <ProgressBar
-            android:id="@+id/loadIndicatorProgressBar"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal|center_vertical"
-            android:layout_marginTop="@dimen/progress_bar_top_margin"
-            android:indeterminate="true"
-            android:minWidth="@dimen/progress_bar_min_width" />
-
         <LinearLayout
             android:id="@+id/formLayout"
             android:layout_width="match_parent"

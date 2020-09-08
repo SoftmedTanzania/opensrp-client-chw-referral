@@ -6,9 +6,8 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.*
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.ViewModelProvider
 import com.google.gson.Gson
 import com.nerdstone.neatandroidstepper.core.domain.StepperActions
@@ -16,6 +15,7 @@ import com.nerdstone.neatformcore.domain.builders.FormBuilder
 import com.nerdstone.neatformcore.domain.model.NFormViewData
 import com.nerdstone.neatformcore.form.json.JsonFormBuilder
 import com.nerdstone.neatformcore.form.json.JsonFormEmbedded
+import kotlinx.android.synthetic.main.activity_referral_registration.*
 import org.joda.time.DateTime
 import org.joda.time.Period
 import org.json.JSONArray
@@ -59,15 +59,6 @@ open class BaseIssueReferralActivity : AppCompatActivity(), BaseIssueReferralCon
     private var viewModel: AbstractIssueReferralModel? = null
     private var formBuilder: FormBuilder? = null
     private var jsonForm: JSONObject? = null
-    private lateinit var formLayout: LinearLayout
-    private lateinit var mainLayout: LinearLayout
-    private lateinit var sampleToolBar: Toolbar
-    private lateinit var pageTitleTextView: TextView
-    private lateinit var clientNameTitleTextView: TextView
-    private lateinit var exitFormImageView: ImageView
-    private lateinit var completeButton: ImageView
-    private lateinit var loadIndicatorText: TextView
-    private lateinit var loadIndicatorProgressBar: ProgressBar
     private val referralLibrary by inject<ReferralLibrary>()
     private var useCustomLayout = false
 
@@ -78,16 +69,6 @@ open class BaseIssueReferralActivity : AppCompatActivity(), BaseIssueReferralCon
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_referral_registration)
-        mainLayout = findViewById(R.id.mainLayout)
-        formLayout = findViewById(R.id.formLayout)
-        sampleToolBar = findViewById(R.id.sampleToolBar)
-        pageTitleTextView = findViewById(R.id.pageTitleTextView)
-        clientNameTitleTextView = findViewById(R.id.clientNameTitleTextView)
-        exitFormImageView = findViewById(R.id.exitFormImageView)
-        completeButton = findViewById(R.id.completeButton)
-        loadIndicatorText = findViewById(R.id.loadIndicatorText)
-        loadIndicatorProgressBar = findViewById(R.id.loadIndicatorProgressBar)
-
         with(this.intent) {
             baseEntityId = getStringExtra(Constants.ActivityPayload.BASE_ENTITY_ID)
             serviceId = getStringExtra(Constants.ActivityPayload.REFERRAL_SERVICE_IDS)
@@ -122,17 +103,13 @@ open class BaseIssueReferralActivity : AppCompatActivity(), BaseIssueReferralCon
 
             exitFormImageView.setOnClickListener {
                 if (it.id == R.id.exitFormImageView) {
-                    AlertDialog.Builder(
-                        this@BaseIssueReferralActivity,
-                        R.style.AlertDialogTheme
-                    )
+                    AlertDialog.Builder(this@BaseIssueReferralActivity, R.style.AlertDialogTheme)
                         .setTitle(getString(R.string.confirm_form_close))
                         .setMessage(getString(R.string.confirm_form_close_explanation))
                         .setNegativeButton(R.string.yes) { _: DialogInterface?, _: Int -> finish() }
                         .setPositiveButton(R.string.no) { _: DialogInterface?, _: Int ->
                             Timber.d("Do Nothing exit confirm dialog")
-                        }
-                        .create()
+                        }.create()
                         .show()
                 }
             }
@@ -184,11 +161,8 @@ open class BaseIssueReferralActivity : AppCompatActivity(), BaseIssueReferralCon
                 Timber.i("FormBuilder :: Loading form builder")
                 Timber.i("FormBuilder :: loaded json = %s", it)
                 formBuilder = JsonFormBuilder(it.toString(), this)
-                JsonFormEmbedded(
-                    formBuilder as JsonFormBuilder, formLayout
-                ).buildForm(if (useCustomLayout) customLayouts else null)
-                loadIndicatorProgressBar.visibility = View.GONE
-                loadIndicatorText.visibility = View.GONE
+                JsonFormEmbedded(formBuilder as JsonFormBuilder, formLayout)
+                        .buildForm(if (useCustomLayout) customLayouts else null)
             }
 
         } catch (ex: JSONException) {
