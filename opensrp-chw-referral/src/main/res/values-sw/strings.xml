@@ -1,0 +1,101 @@
+<resources>
+    <string name="error_unable_to_start_form">Hitilafu imetokea wakati wa kufungua fomu</string>
+    <string name="error_unable_to_save_form">Hitilafu imetokea wakati wa kuhifadhi fomu</string>
+    <string name="issued_referrals">Rufaa zilizotolewa</string>
+    <string name="followup_referral">Rufaa za ufuatiliaji</string>
+    <string name="issue_referral">Toa Rufaa</string>
+
+    <!-- menu -->
+    <string name="add_member">Ongeza mwanachama</string>
+    <string name="sort">Panga</string>
+    <string name="home">Nyumbani</string>
+    <string name="add_family">Ongeza mwanafamilia</string>
+    <string name="scan_qr">Scan QR</string>
+    <string name="job_aids">Vitendea kazi</string>
+    <string name="saving_dialog_title">Kuhifadhi</string>
+    <string name="referral_followup_visit">TEMBELEO\nUFUATILIAJI</string>
+    <string name="record_followup">Rekodi ufuatiliaji</string>
+    <string name="return_to_previous">Rudi kwenye rufaa zote</string>
+    <string name="last_visit_40_days_ago">Tembeleo la mwisho %1$s iliyopita</string>
+    <string name="view_medical_history">Angalia historia ya huduma</string>
+    <string name="view_upcoming_services">Angalia huduma zinazotarajiwa</string>
+    <string name="family_has_nothing_due">Hakuna huduma katika kaya iliyofikia muda wake</string>
+    <string name="go_to_family_s_profile">Elekea kwenye taarifa za kaya</string>
+    <string name="family_has_services_due">Huduma katika kaya zimefikia muda wake</string>
+    <string name="primary_care_giver">Mlezi</string>
+    <string name="family_head">Mkuu wa kaya</string>
+    <string name="family_has_service_overdue"><![CDATA[Kaya ina huduma<font color=#FF0000>  zilizopitiliza muda wake </font></b>]]></string>
+    <string name="vaccine_service_upcoming"><![CDATA[%1$s <font color=#7f7f7f> inakaribia (%2$s) </font> </b>]]></string>
+    <string name="vaccine_service_overdue"><![CDATA[%1$s <font color=#f04646> muda umepita (%2$s) </font> </b>]]></string>
+    <string name="vaccine_service_due"><![CDATA[%1$s <font color=#000000> imefika (%2$s)</font> </b>]]></string>
+    <string name="call_referral_client">Piga simu kwa mteja wa rufaa</string>
+    <string name="head_of_family">Mkuu wa kaya</string>
+    <string name="referral_client">Mteja wa rufaa</string>
+    <string name="copy_to_clipboard">Nakili kwenye clipboard</string>
+    <string name="copied_phone_number">Namba ya simu imenakiliwa kwenye clipboard</string>
+    <string name="call">Piga simu</string>
+    <string name="record_anc">Rekodi tembeleo la ujauzito</string>
+    <string name="record_anc_visit_not_done">Tembeleo la ujauzito halijafanyika</string>
+    <string name="action_sent_referrals">Rufaa</string>
+    <string name="action_received_followup_referrals">Ufuatiliaji</string>
+
+
+    <string name="referral_status_pending">INASUBIRI</string>
+    <string name="referral_status_successful">IMEKAMILIKA</string>
+    <string name="referral_status_failed">HAIJAKAMILIKA</string>
+
+    <string name="referral_information">Taarifa za Rufaa</string>
+    <string name="referral_details">Maelezo ya rufaa</string>
+    <string name="visit_facility">Tembelea kituo cha kutolea huduma za afya</string>
+    <string name="referral_services">Huduma za rufaa</string>
+    <string name="visit_facility_hint">Ingiza jina la kituo</string>
+    <string name="emergency_referral_title_label">Rufaa ya dharura</string>
+    <string name="appointment_date_label">Tarehe ya tembeleo la marudio</string>
+    <string name="other_info">Taarifa zingine</string>
+    <string name="referral_reason">Sababu ya rufaa</string>
+    <string name="danger_signs">Dalili za Hatari</string>
+    <string name="button_refer_client">Toa rufaa kwa mteja</string>
+
+    <string name="issue_new_referral">Toa Rufaa Mpya</string>
+    <string name="view_referral_history">Angalia historia ya rufaa</string>
+
+    <string name="followup_feedback">Mrejesho wa ufuatiliaji</string>
+    <string name="feedback">Mrejesho</string>
+    <string name="hint_missing_reasons">Tafadhali chagua mrejesho</string>
+    <string name="other_followup_feedback_information">Taarifa zingine mf. hali</string>
+    <string name="village_title_label">Kijiji</string>
+    <string name="referral_date_label">Tarehe ya rufaa</string>
+    <string name="gender">Jinsia</string>
+    <string name="patient_name_age">Jina la mgonjwa, Umri</string>
+    <string name="missing_facility">Tafadhali jaza kituo kinachopokea rufaa</string>
+    <string name="missing_services">Tafadhali jaza huduma ya rufaa</string>
+    <string name="wrong_facility">Tafadhali jaza kituo sahihi cha kutolea huduma za fya</string>
+    <string name="referral_submitted_successfully">Rufaa imetumwa katika kituo cha kutolea huduma za afya</string>
+    <string name="missing_client_condition_during_visit">Tafadhali jaza hali ya mteja wakati wa tembeleo</string>
+    <string name="missing_feedback">Tafadhali chagua mrejesho</string>
+    <string name="complete">Kamilisha</string>
+    <string name="finish">Mwisho</string>
+    <string name="back_to_referrals">Rudi kwenye rufaa</string>
+    <string name="phone">Namba ya simu</string>
+    <string name="problem">Tatizo</string>
+    <string name="referral_date">Tarehe ya rufaa</string>
+    <string name="chw">MJA</string>
+    <string name="chw_phone">Simu ya MJA</string>
+    <string name="phone_not_provided">Namba ya simu haijatolewa</string>
+    <string name="referral_facility">Kituo kinachopokea rufaa</string>
+    <string name="referral_type">Aina ya Rufaa</string>
+    <string name="pre_referral_management">Huduma ya awali kabla ya kutoa rufaa</string>
+
+
+    <!--Referral Strings -->
+    <string name="referral_submitted">Rufaa imetumwa katika kituo cha kutolea huduma za afya</string>
+    <string name="referral_not_submitted">Rufaa haijatumwa; hakuna tatizo la mteja lililochaguliwa</string>
+    <string name="confirm_form_close">Thibitisha kufunga fomu</string>
+    <string name="confirm_form_close_explanation">Una uhakika unataka kurudi nyuma? Taarifa zote ulizoingiza kwenye fomu zitafutika</string>
+    <string name="yes">Ndiyo</string>
+    <string name="no">Hapana</string>
+    <string name="empty_value">Hakuna</string>
+    <string name="save">Hifadhi</string>
+    <string name="other">Mengineyo: %1$s</string>
+
+</resources>
