@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">opensrp-chw-referral</string>
+    <string name="app_name" translatable="false">opensrp-chw-referral</string>
     <string name="error_unable_to_start_form">An error occurred when starting the form</string>
     <string name="error_unable_to_save_form">An error occurred when saving the form</string>
     <string name="issued_referrals">Referrals Issued</string>
