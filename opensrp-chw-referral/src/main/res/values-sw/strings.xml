@@ -6,10 +6,10 @@
     <string name="issue_referral">Toa Rufaa</string>
 
     <!-- menu -->
-    <string name="add_member">Ongeza mwanachama</string>
+    <string name="add_member">Ongeza mteja</string>
     <string name="sort">Panga</string>
     <string name="home">Nyumbani</string>
-    <string name="add_family">Ongeza mwanafamilia</string>
+    <string name="add_family">Sajili Kaya</string>
     <string name="scan_qr">Scan QR</string>
     <string name="job_aids">Vitendea kazi</string>
     <string name="saving_dialog_title">Kuhifadhi</string>
