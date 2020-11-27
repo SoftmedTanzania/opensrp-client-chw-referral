@@ -16,6 +16,7 @@ import org.joda.time.Period
 import org.smartregister.chw.referral.R
 import org.smartregister.chw.referral.domain.MemberObject
 import org.smartregister.chw.referral.util.Constants
+import org.smartregister.chw.referral.util.ReferralUtil
 import org.smartregister.view.activity.SecuredActivity
 import org.smartregister.view.customcontrols.CustomFontTextView
 import java.math.BigDecimal
@@ -98,7 +99,7 @@ open class ReferralDetailsViewActivity : SecuredActivity() {
             referralDateCalendar.timeInMillis = BigDecimal(it.chwReferralDate).toLong()
             referralDate.text = dateFormatter.format(referralDateCalendar.time)
             referralFacility.text = it.chwReferralHf
-            referralType.text = it.chwReferralService
+            referralType.text = ReferralUtil.getTranslatedReferralServiceType(this, it.chwReferralService!!)
             if (!it.primaryCareGiver.isNullOrEmpty() && clientAge.toInt() < 5)
                 careGiverName.text = String.format("CG : %s", it.primaryCareGiver)
             else

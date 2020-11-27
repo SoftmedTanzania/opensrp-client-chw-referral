@@ -20,6 +20,18 @@ object Constants {
         const val COMMON_PERSON_OBJECT = "commonPersonObjectClient"
     }
 
+    object ReferralServiceType {
+        const val SICK_CHILD = "Sick Child"
+        const val ANC_DANGER_SIGNS = "ANC Danger Signs"
+        const val PNC_DANGER_SIGNS = "PNC Danger Signs"
+        const val FP_SIDE_EFFECTS = "FP Initiation"
+        const val SUSPECTED_MALARIA = "Suspected Malaria"
+        const val SUSPECTED_HIV = "Suspected HIV"
+        const val SUSPECTED_TB = "Suspected TB"
+        const val SUSPECTED_GBV = "Suspected GBV"
+        const val SUSPECTED_CHILD_GBV = "Suspected Child GBV"
+    }
+
     object ReferralType {
         const val COMMUNITY_TO_FACILITY_REFERRAL = "community_to_facility_referral"
         const val FACILITY_TO_COMMUNITY_REFERRAL = "facility_to_community_referral"

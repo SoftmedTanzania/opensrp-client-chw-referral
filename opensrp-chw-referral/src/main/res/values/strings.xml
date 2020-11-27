@@ -99,5 +99,18 @@
     <string name="empty_value">None</string>
     <string name="save">Save</string>
     <string name="other">Other: %1$s </string>
+    <string name="male">Male</string>
+    <string name="female">Female</string>
+
+    <!--Referral Types -->
+    <string name="sick_child">Sick child</string>
+    <string name="pnc_danger_signs">PNC danger signs</string>
+    <string name="anc_danger_signs">ANC danger signs</string>
+    <string name="suspected_malaria">Suspected Malaria</string>
+    <string name="fp_initiation">FP Initiation</string>
+    <string name="suspected_hiv">Suspected HIV</string>
+    <string name="suspected_tb">Suspected TB</string>
+    <string name="suspected_gbv">Suspected GBV</string>
+    <string name="suspected_child_gbv">Suspected Child GBV</string>
 
 </resources>
