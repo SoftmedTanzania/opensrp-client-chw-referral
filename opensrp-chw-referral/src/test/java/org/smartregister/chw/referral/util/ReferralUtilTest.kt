@@ -9,13 +9,29 @@ import org.mockito.Mockito
 import org.mockito.MockitoAnnotations
 import org.smartregister.chw.referral.R
 
+/**
+ *
+ * Referral Utils test class
+ * to increase coverage
+ *
+ */
 class ReferralUtilTest {
 
+    /**
+     *
+     * initial setup
+     *
+     */
     @Before
     fun setup() {
         MockitoAnnotations.initMocks(this)
     }
 
+    /**
+     *
+     * Get gender method test
+     *
+     */
     @Test
     fun getGenderTest() {
         val resources = Mockito.mock(Resources::class.java)
@@ -29,6 +45,11 @@ class ReferralUtilTest {
         Assert.assertEquals(context.resources.getString(R.string.female), utils.getTranslatedGenderString(context, "Female"))
     }
 
+    /**
+     *
+     * Get referral type test
+     *
+     */
     @Test
     fun getReferralTypeTest() {
         val context: Context = Mockito.mock(Context::class.java)
