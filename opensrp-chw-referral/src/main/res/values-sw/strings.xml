@@ -97,5 +97,18 @@
     <string name="empty_value">Hakuna</string>
     <string name="save">Hifadhi</string>
     <string name="other">Mengineyo: %1$s</string>
+    <string name="male">Me</string>
+    <string name="female">Ke</string>
+
+    <!--Referral Types -->
+    <string name="sick_child">Mtoto mgonjwa</string>
+    <string name="pnc_danger_signs">Dalili za hatari baada ya kujifungua</string>
+    <string name="anc_danger_signs">Dalili za hatari za ujauzito</string>
+    <string name="suspected_malaria">Malaria inayoshukiwa</string>
+    <string name="fp_initiation">Kuanza uzazi wa mpango</string>
+    <string name="suspected_hiv">anasadikika kuwa na ukimwi</string>
+    <string name="suspected_tb">anasadikika kuwa na kifuwa kikuu</string>
+    <string name="suspected_gbv">anasadilika kupata unyanyasaji wa kijinsia</string>
+    <string name="suspected_child_gbv">mtoto anasadikika kupata manyanyaso ya kijinsia</string>
 
 </resources>
