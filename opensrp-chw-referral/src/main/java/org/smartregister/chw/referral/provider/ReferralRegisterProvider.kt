@@ -15,6 +15,7 @@ import org.smartregister.chw.referral.R
 import org.smartregister.chw.referral.fragment.BaseReferralRegisterFragment
 import org.smartregister.chw.referral.util.Constants
 import org.smartregister.chw.referral.util.DBConstants
+import org.smartregister.chw.referral.util.ReferralUtil
 import org.smartregister.commonregistry.CommonPersonObjectClient
 import org.smartregister.cursoradapter.RecyclerViewProvider
 import org.smartregister.util.Utils
@@ -28,45 +29,45 @@ import java.util.*
 import org.smartregister.configurableviews.model.View as ConfigurableView
 
 open class ReferralRegisterProvider(
-    private val context: Context, private val paginationClickListener: View.OnClickListener,
-    private var onClickListener: View.OnClickListener,
-    private val visibleColumns: Set<ConfigurableView>?
+        private val context: Context, private val paginationClickListener: View.OnClickListener,
+        private var onClickListener: View.OnClickListener,
+        private val visibleColumns: Set<ConfigurableView>?
 ) : RecyclerViewProvider<ReferralRegisterProvider.RegisterViewHolder> {
 
     private val inflater =
-        context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+            context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
 
     override fun getView(
-        cursor: Cursor, smartRegisterClient: SmartRegisterClient,
-        registerViewHolder: RegisterViewHolder
+            cursor: Cursor, smartRegisterClient: SmartRegisterClient,
+            registerViewHolder: RegisterViewHolder
     ) {
         if (visibleColumns!!.isEmpty())
             populatePatientColumn(
-                smartRegisterClient as CommonPersonObjectClient, registerViewHolder
+                    smartRegisterClient as CommonPersonObjectClient, registerViewHolder
             )
     }
 
     override fun getFooterView(
-        viewHolder: RecyclerView.ViewHolder, currentPageCount: Int, totalPageCount: Int,
-        hasNext: Boolean, hasPrevious: Boolean
+            viewHolder: RecyclerView.ViewHolder, currentPageCount: Int, totalPageCount: Int,
+            hasNext: Boolean, hasPrevious: Boolean
     ) {
         (viewHolder as FooterViewHolder)
-            .apply {
-                pageInfoView.text = MessageFormat.format(
-                    context.getString(org.smartregister.R.string.str_page_info),
-                    currentPageCount,
-                    totalPageCount
-                )
-                nextPageView.visibility = if (hasNext) View.VISIBLE else View.INVISIBLE
-                nextPageView.setOnClickListener(paginationClickListener)
-                previousPageView.visibility = if (hasPrevious) View.VISIBLE else View.INVISIBLE
-                previousPageView.setOnClickListener(paginationClickListener)
-            }
+                .apply {
+                    pageInfoView.text = MessageFormat.format(
+                            context.getString(org.smartregister.R.string.str_page_info),
+                            currentPageCount,
+                            totalPageCount
+                    )
+                    nextPageView.visibility = if (hasNext) View.VISIBLE else View.INVISIBLE
+                    nextPageView.setOnClickListener(paginationClickListener)
+                    previousPageView.visibility = if (hasPrevious) View.VISIBLE else View.INVISIBLE
+                    previousPageView.setOnClickListener(paginationClickListener)
+                }
     }
 
     override fun updateClients(
-        villageFilter: FilterOption?, serviceModeOption: ServiceModeOption?,
-        searchFilter: FilterOption?, sortOption: SortOption?
+            villageFilter: FilterOption?, serviceModeOption: ServiceModeOption?,
+            searchFilter: FilterOption?, sortOption: SortOption?
     ) = null
 
     override fun onServiceModeSelected(serviceModeOption: ServiceModeOption) = Unit
@@ -76,41 +77,44 @@ open class ReferralRegisterProvider(
     override fun inflater() = inflater
 
     override fun createViewHolder(parent: ViewGroup) = RegisterViewHolder(
-        inflater.inflate(R.layout.referral_register_list_row_item, parent, false)
+            inflater.inflate(R.layout.referral_register_list_row_item, parent, false)
     )
 
     override fun createFooterHolder(parent: ViewGroup) = FooterViewHolder(
-        inflater.inflate(R.layout.smart_register_pagination, parent, false)
+            inflater.inflate(R.layout.smart_register_pagination, parent, false)
     )
 
     override fun isFooterViewHolder(viewHolder: RecyclerView.ViewHolder) =
-        viewHolder is FooterViewHolder
+            viewHolder is FooterViewHolder
 
     private fun populatePatientColumn(
-        pc: CommonPersonObjectClient, viewHolder: RegisterViewHolder
+            pc: CommonPersonObjectClient, viewHolder: RegisterViewHolder
     ) {
         try {
             val firstName = Utils.getName(
-                Utils.getValue(pc.columnmaps, DBConstants.Key.FIRST_NAME, true),
-                Utils.getValue(pc.columnmaps, DBConstants.Key.MIDDLE_NAME, true)
+                    Utils.getValue(pc.columnmaps, DBConstants.Key.FIRST_NAME, true),
+                    Utils.getValue(pc.columnmaps, DBConstants.Key.MIDDLE_NAME, true)
             )
             val dobString = Utils.getValue(pc.columnmaps, DBConstants.Key.DOB, false)
             val age = Period(DateTime(dobString), DateTime()).years
             val patientName = Utils.getName(
-                firstName, Utils.getValue(pc.columnmaps, DBConstants.Key.LAST_NAME, true)
+                    firstName, Utils.getValue(pc.columnmaps, DBConstants.Key.LAST_NAME, true)
             )
             with(viewHolder) {
                 this.patientName.text = String.format(
-                    Locale.getDefault(), "%s, %d", patientName, age
+                        Locale.getDefault(), "%s, %d", patientName, age
                 )
-                textViewGender.text = Utils.getValue(pc.columnmaps, DBConstants.Key.GENDER, true)
+                textViewGender.text = ReferralUtil.getTranslatedGenderString(context,
+                        Utils.getValue(pc.columnmaps, DBConstants.Key.GENDER, true))
                 textViewVillage.text =
-                    Utils.getValue(pc.columnmaps, DBConstants.Key.VILLAGE_TOWN, true)
-                textViewService.text = Utils.getValue(
-                    pc.columnmaps, DBConstants.Key.REFERRAL_SERVICE, true
+                        Utils.getValue(pc.columnmaps, DBConstants.Key.VILLAGE_TOWN, true)
+
+                val referralType = Utils.getValue(
+                        pc.columnmaps, DBConstants.Key.REFERRAL_SERVICE, true
                 )
+                textViewService.text = ReferralUtil.getTranslatedReferralServiceType(context, referralType)
                 textViewFacility.text = Utils.getValue(
-                    pc.columnmaps, DBConstants.Key.REFERRAL_HF, true
+                        pc.columnmaps, DBConstants.Key.REFERRAL_HF, true
                 )
 
                 patientColumn.apply {
@@ -126,8 +130,8 @@ open class ReferralRegisterProvider(
                 registerColumns.setOnClickListener(onClickListener)
                 registerColumns.setOnClickListener { patientColumn.performClick() }
                 setReferralStatusColor(
-                    context, textReferralStatus,
-                    Utils.getValue(pc.columnmaps, DBConstants.Key.REFERRAL_STATUS, true)
+                        context, textReferralStatus,
+                        Utils.getValue(pc.columnmaps, DBConstants.Key.REFERRAL_STATUS, true)
                 )
             }
         } catch (e: IllegalStateException) {
@@ -139,19 +143,19 @@ open class ReferralRegisterProvider(
         when (status) {
             Constants.BusinessStatus.REFERRED -> {
                 textViewStatus.setTextColor(
-                    ContextCompat.getColor(context, R.color.alert_in_progress_blue)
+                        ContextCompat.getColor(context, R.color.alert_in_progress_blue)
                 )
                 textViewStatus.text = context.getString(R.string.referral_status_pending)
             }
             Constants.BusinessStatus.EXPIRED -> {
                 textViewStatus.setTextColor(
-                    ContextCompat.getColor(context, R.color.alert_urgent_red)
+                        ContextCompat.getColor(context, R.color.alert_urgent_red)
                 )
                 textViewStatus.text = context.getString(R.string.referral_status_failed)
             }
             Constants.BusinessStatus.COMPLETE -> {
                 textViewStatus.setTextColor(
-                    ContextCompat.getColor(context, R.color.alert_complete_green)
+                        ContextCompat.getColor(context, R.color.alert_complete_green)
                 )
                 textViewStatus.text = context.getString(R.string.referral_status_successful)
             }

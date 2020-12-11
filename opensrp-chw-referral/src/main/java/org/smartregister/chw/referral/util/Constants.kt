@@ -11,20 +11,47 @@ object Constants {
     const val STEP_ONE = "step1"
     const val STEP_TWO = "step2"
 
+    /**
+     * Configuration constants used thought the application
+     */
     object Configuration {
         const val ISSUE_REFERRAL = "issue_referral"
     }
 
+    /**
+     * ReferralMemberObject constants used thought the application
+     */
     object ReferralMemberObject {
         const val MEMBER_OBJECT = "memberObject"
         const val COMMON_PERSON_OBJECT = "commonPersonObjectClient"
     }
 
+    /**
+     * ReferralServiceType constants used thought the application
+     */
+    object ReferralServiceType {
+        const val SICK_CHILD = "Sick Child"
+        const val ANC_DANGER_SIGNS = "ANC Danger Signs"
+        const val PNC_DANGER_SIGNS = "PNC Danger Signs"
+        const val FP_SIDE_EFFECTS = "FP Initiation"
+        const val SUSPECTED_MALARIA = "Suspected Malaria"
+        const val SUSPECTED_HIV = "Suspected HIV"
+        const val SUSPECTED_TB = "Suspected TB"
+        const val SUSPECTED_GBV = "Suspected GBV"
+        const val SUSPECTED_CHILD_GBV = "Suspected Child GBV"
+    }
+
+    /**
+     * ReferralType constants used thought the application
+     */
     object ReferralType {
         const val COMMUNITY_TO_FACILITY_REFERRAL = "community_to_facility_referral"
         const val FACILITY_TO_COMMUNITY_REFERRAL = "facility_to_community_referral"
     }
 
+    /**
+     * BusinessStatus constants used thought the application
+     */
     object BusinessStatus {
         const val REFERRED = "Referred"
         const val IN_PROGRESS = "In-Progress"
@@ -32,26 +59,41 @@ object Constants {
         const val EXPIRED = "Expired"
     }
 
+    /**
+     * Referral constants used thought the application
+     */
     object Referral {
         const val PLAN_ID = "5270285b-5a3b-4647-b772-c0b3c52e2b71"
         const val CODE = "Referral"
     }
-
+    
+    /**
+     * JsonFormExtra constants used thought the application
+     */
     object JsonFormExtra {
         const val JSON = "json"
         const val ENCOUNTER_TYPE = "encounter_type"
     }
 
+    /**
+     * EventType constants used thought the application
+     */
     object EventType {
         const val REGISTRATION = "Referral Registration"
         const val REFERRAL_FOLLOW_UP_VISIT = "Followup Visit"
     }
 
+    /**
+     * Forms constants used thought the application
+     */
     object Forms {
         const val REFERRAL_REGISTRATION = "general_referral_form"
         const val REFERRAL_FOLLOW_UP_VISIT = "referral_followup_visit"
     }
 
+    /**
+     * Tables constants used thought the application
+     */
     object Tables {
         const val REFERRAL = "ec_referral"
         const val REFERRAL_SERVICE = "ec_referral_service"
@@ -60,6 +102,9 @@ object Constants {
         const val FAMILY_MEMBER = "ec_family_member"
     }
 
+    /**
+     * ActivityPayload constants used thought the application
+     */
     object ActivityPayload {
         const val BASE_ENTITY_ID = "BASE_ENTITY_ID"
         const val ACTION = "ACTION"
@@ -69,12 +114,18 @@ object Constants {
         const val USE_CUSTOM_LAYOUT = "USE_CUSTOM_LAYOUT"
     }
 
+    /**
+     * ActivityPayloadType constants used thought the application
+     */
     object ActivityPayloadType {
         const val REGISTRATION = "REGISTRATION"
         const val FOLLOW_UP_VISIT = "FOLLOW_UP_VISIT"
     }
 }
 
+/**
+ * DBConstants constants used thought the application
+ */
 object DBConstants {
     object Key {
         const val ID = "id"
