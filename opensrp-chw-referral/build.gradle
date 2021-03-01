@@ -53,6 +53,9 @@ android {
         exclude 'META-INF/NOTICE.txt'
         exclude 'META-INF/notice.txt'
         exclude 'META-INF/ASL2.0'
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/LICENSE.md'
+        exclude 'META-INF/NOTICE.md'
         exclude 'org/apache/http/version.properties'
         exclude 'org/apache/http/client/version.properties'
     }
@@ -78,13 +81,15 @@ android {
         enabled = true
     }
 
+    defaultConfig.javaCompileOptions.annotationProcessorOptions.includeCompileClasspath = true
+
 }
 
 dependencies {
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    api('org.smartregister:opensrp-client-core:1.11.5-SNAPSHOT@aar') {
+    api('org.smartregister:opensrp-client-core:3.1.0.11-GS-PREVIEW-SNAPSHOT@aar') {
         transitive = true
         exclude group: 'com.github.bmelnychuk', module: 'atv'
         exclude group: 'com.google.guava', module: 'guava'
@@ -113,7 +118,7 @@ dependencies {
     api "org.koin:koin-androidx-scope:$koinVersion"
     api "org.koin:koin-androidx-viewmodel:$koinVersion"
 
-    implementation('org.smartregister:opensrp-client-configurable-views:1.1.5-SNAPSHOT@aar') {
+    implementation('org.smartregister:opensrp-client-configurable-views:1.2.0-GS-PREVIEW-SNAPSHOT@aar') {
         transitive = true
         exclude group: 'org.smartregister', module: 'opensrp-client-core'
         exclude group: 'org.smartregister', module: 'opensrp-client-native-form'
