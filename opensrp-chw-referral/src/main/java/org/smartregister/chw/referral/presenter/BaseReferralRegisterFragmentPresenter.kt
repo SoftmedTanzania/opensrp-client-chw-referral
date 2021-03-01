@@ -6,7 +6,7 @@ import org.smartregister.chw.referral.util.Constants
 import org.smartregister.chw.referral.util.DBConstants
 import org.smartregister.configurableviews.model.Field
 import org.smartregister.configurableviews.model.RegisterConfiguration
-import org.smartregister.configurableviews.model.View
+import org.smartregister.view.contract.IView
 import java.lang.ref.WeakReference
 import java.util.*
 
@@ -18,7 +18,7 @@ open class BaseReferralRegisterFragmentPresenter(
 
     protected var viewReference = WeakReference(view)
     protected var config: RegisterConfiguration
-    var visibleColumns: Set<View> = TreeSet()
+    var visibleColumns: Set<IView> = TreeSet()
 
     override fun updateSortAndFilter(filterList: List<Field>, sortField: Field) = Unit
 

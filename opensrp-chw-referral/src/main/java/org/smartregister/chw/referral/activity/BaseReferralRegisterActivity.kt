@@ -37,6 +37,10 @@ open class BaseReferralRegisterActivity : BaseRegisterActivity(),
         }
     }
 
+    override fun startFormActivity(p0: String?, p1: String?, p2: MutableMap<String, String>?) {
+        TODO("Not yet implemented")
+    }
+
     override fun startRegistration() = Unit
 
     override fun startFormActivity(formName: String?, entityId: String?, metaData: String?) = Unit
