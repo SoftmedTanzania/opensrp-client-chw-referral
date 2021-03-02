@@ -12,6 +12,8 @@ import org.smartregister.chw.referral.provider.ReferralRegisterProvider
 import org.smartregister.commonregistry.CommonPersonObjectClient
 import org.smartregister.cursoradapter.RecyclerViewPaginatedAdapter
 import org.smartregister.cursoradapter.RecyclerViewProvider
+import org.smartregister.view.contract.BaseRegisterFragmentContract
+import org.smartregister.view.contract.ConfigurableRegisterFragmentContract
 import org.smartregister.view.contract.IView
 import org.smartregister.view.customcontrols.CustomFontTextView
 import org.smartregister.view.customcontrols.FontVariant
@@ -25,10 +27,10 @@ import java.util.*
  *
  */
 open class BaseReferralRegisterFragment : BaseRegisterFragment(),
-    BaseReferralRegisterFragmentContract.View {
+        BaseRegisterFragmentContract.View {
 
     @Suppress("INACCESSIBLE_TYPE")
-    override fun initializeAdapter(visibleColumns: Set<IView>?) {
+    override fun initializeAdapter(visibleColumns: MutableSet<IView>?) {
         val referralRegisterProvider = ReferralRegisterProvider(
             activity as Context, paginationViewHandler, registerActionHandler, visibleColumns
         )

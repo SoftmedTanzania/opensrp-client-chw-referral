@@ -32,7 +32,7 @@ open class BaseReferralRegisterFragmentModel :
         ConfigurableViewsLibrary.getInstance().configurableViewsHelper
             .getViewConfiguration(viewConfigurationIdentifier)
 
-    override fun getRegisterActiveColumns(viewConfigurationIdentifier: String?): Set<IView>? {
+    override fun getRegisterActiveColumns(viewConfigurationIdentifier: String?): MutableSet<IView>? {
         return ConfigurableViewsLibrary.getInstance().configurableViewsHelper
             .getRegisterActiveColumns(viewConfigurationIdentifier)
     }

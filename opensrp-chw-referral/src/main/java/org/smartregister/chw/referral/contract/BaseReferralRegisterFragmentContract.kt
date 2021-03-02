@@ -11,35 +11,23 @@ import org.smartregister.view.contract.IView
 
 interface BaseReferralRegisterFragmentContract {
 
-    interface View : BaseRegisterFragmentContract.View {
-
-        override fun initializeAdapter(visibleColumns: Set<IView>?)
-
-        override fun presenter(): Presenter?
-    }
-
     interface Presenter : BaseRegisterFragmentContract.Presenter {
 
-        fun getView() : View?
+        fun getView(): BaseRegisterFragmentContract.View?
 
         fun updateSortAndFilter(filterList: List<Field>, sortField: Field)
 
-        override fun getMainCondition(): String
-
-        override fun getDefaultSortQuery(): String
-
         fun getMainTable(): String
 
-        override fun getDueFilterCondition(): String
     }
 
-    interface Model: KoinComponent {
+    interface Model : KoinComponent {
 
         fun defaultRegisterConfiguration(): RegisterConfiguration?
 
         fun getViewConfiguration(viewConfigurationIdentifier: String?): ViewConfiguration?
 
-        fun getRegisterActiveColumns(viewConfigurationIdentifier: String?): Set<IView>?
+        fun getRegisterActiveColumns(viewConfigurationIdentifier: String?): MutableSet<IView>?
 
         fun countSelect(tableName: String?, mainCondition: String?): String?
 
