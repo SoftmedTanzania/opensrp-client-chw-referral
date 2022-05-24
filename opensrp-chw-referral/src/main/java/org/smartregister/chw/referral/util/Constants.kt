@@ -39,6 +39,7 @@ object Constants {
         const val SUSPECTED_TB = "Suspected TB"
         const val SUSPECTED_GBV = "Suspected GBV"
         const val SUSPECTED_CHILD_GBV = "Suspected Child GBV"
+        const val PREGNANCY_CONFIRMATION = "Pregnancy Confirmation"
     }
 
     /**
