@@ -99,6 +99,9 @@ object ReferralUtil {
             Constants.ReferralServiceType.SUSPECTED_CHILD_GBV.toLowerCase(Locale.getDefault()) -> {
                 return context.getString(R.string.suspected_child_gbv)
             }
+            Constants.ReferralServiceType.PREGNANCY_CONFIRMATION.toLowerCase(Locale.getDefault()) -> {
+                return context.getString(R.string.pregnancy_confirmation)
+            }
         }
         return type
     }
