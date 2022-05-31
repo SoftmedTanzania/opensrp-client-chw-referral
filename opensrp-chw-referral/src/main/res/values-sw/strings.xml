@@ -106,10 +106,11 @@
     <string name="anc_danger_signs">Dalili za hatari za ujauzito</string>
     <string name="suspected_malaria">Malaria inayoshukiwa</string>
     <string name="fp_initiation">Kuanza uzazi wa mpango</string>
-    <string name="suspected_hiv">anasadikika kuwa na ukimwi</string>
-    <string name="suspected_tb">anasadikika kuwa na kifuwa kikuu</string>
-    <string name="suspected_gbv">anasadilika kupata unyanyasaji wa kijinsia</string>
-    <string name="suspected_child_gbv">mtoto anasadikika kupata manyanyaso ya kijinsia</string>
+    <string name="suspected_hiv">Ushauri nasaha na kupima</string>
+    <string name="suspected_tb">Kliniki ya TB</string>
+    <string name="sick_hiv">Kliniki ya Tiba na matunzo (CTC)</string>
+    <string name="suspected_gbv">Huduma ya kuzuia ukatili wa kijinsia</string>
+    <string name="suspected_child_gbv">Huduma ya kuzuia ukatili wa kijinsia (mtoto)</string>
     <string name="pregnancy_confirmation">Uhakiki wa mimba</string>
     <string name="reason">Sababu</string>
 
