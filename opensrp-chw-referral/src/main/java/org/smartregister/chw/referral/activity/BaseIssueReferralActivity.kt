@@ -184,7 +184,7 @@ open class BaseIssueReferralActivity : SecuredActivity(), BaseIssueReferralContr
     override fun setProfileViewWithData() = Unit
 
     @Throws(JSONException::class)
-    private fun initializeHealthFacilitiesList(form: JSONObject?) {
+    protected open fun initializeHealthFacilitiesList(form: JSONObject?) {
         val locations = viewModel!!.healthFacilities
         if (locations != null && form != null) {
             val fields = form.getJSONArray(JsonFormConstants.STEPS)
