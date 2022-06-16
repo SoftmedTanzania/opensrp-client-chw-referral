@@ -19,6 +19,8 @@ import org.smartregister.chw.referral.util.ReferralUtil
 import org.smartregister.commonregistry.CommonPersonObjectClient
 import org.smartregister.cursoradapter.RecyclerViewProvider
 import org.smartregister.util.Utils
+import org.smartregister.view.contract.ConfigurableRegisterFragmentContract
+import org.smartregister.view.contract.IView
 import org.smartregister.view.contract.SmartRegisterClient
 import org.smartregister.view.dialog.FilterOption
 import org.smartregister.view.dialog.ServiceModeOption
@@ -31,7 +33,7 @@ import org.smartregister.configurableviews.model.View as ConfigurableView
 open class ReferralRegisterProvider(
         private val context: Context, private val paginationClickListener: View.OnClickListener,
         private var onClickListener: View.OnClickListener,
-        private val visibleColumns: Set<ConfigurableView>?
+        private val visibleColumns: MutableSet<IView>?
 ) : RecyclerViewProvider<ReferralRegisterProvider.RegisterViewHolder> {
 
     private val inflater =

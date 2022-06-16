@@ -5,7 +5,7 @@ import org.smartregister.view.contract.BaseRegisterContract
 interface BaseReferralRegisterContract {
 
     interface View : BaseRegisterContract.View {
-        fun presenter(): Presenter?
+        override fun presenter(): Presenter?
     }
 
     interface Presenter: BaseRegisterContract.Presenter {

@@ -15,6 +15,7 @@ import org.smartregister.configurableviews.model.ViewConfiguration
 import org.smartregister.cursoradapter.SmartRegisterQueryBuilder
 import org.smartregister.domain.Response
 import org.smartregister.domain.ResponseStatus
+import org.smartregister.view.contract.IView
 import timber.log.Timber
 import java.util.*
 
@@ -31,7 +32,7 @@ open class BaseReferralRegisterFragmentModel :
         ConfigurableViewsLibrary.getInstance().configurableViewsHelper
             .getViewConfiguration(viewConfigurationIdentifier)
 
-    override fun getRegisterActiveColumns(viewConfigurationIdentifier: String?): Set<View>? {
+    override fun getRegisterActiveColumns(viewConfigurationIdentifier: String?): MutableSet<IView>? {
         return ConfigurableViewsLibrary.getInstance().configurableViewsHelper
             .getRegisterActiveColumns(viewConfigurationIdentifier)
     }

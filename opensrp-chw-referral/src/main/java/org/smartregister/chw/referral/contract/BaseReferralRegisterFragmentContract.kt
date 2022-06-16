@@ -7,38 +7,27 @@ import org.smartregister.configurableviews.model.RegisterConfiguration
 import org.smartregister.configurableviews.model.ViewConfiguration
 import org.smartregister.domain.Response
 import org.smartregister.view.contract.BaseRegisterFragmentContract
+import org.smartregister.view.contract.IView
 
 interface BaseReferralRegisterFragmentContract {
 
-    interface View : BaseRegisterFragmentContract.View {
-
-        fun initializeAdapter(visibleColumns: Set<org.smartregister.configurableviews.model.View>?)
-
-        fun presenter(): Presenter?
-    }
-
     interface Presenter : BaseRegisterFragmentContract.Presenter {
 
-        fun getView() : View?
+        fun getView(): BaseRegisterFragmentContract.View?
 
         fun updateSortAndFilter(filterList: List<Field>, sortField: Field)
 
-        fun getMainCondition(): String
-
-        fun getDefaultSortQuery(): String
-
         fun getMainTable(): String
 
-        fun getDueFilterCondition(): String
     }
 
-    interface Model: KoinComponent {
+    interface Model : KoinComponent {
 
         fun defaultRegisterConfiguration(): RegisterConfiguration?
 
         fun getViewConfiguration(viewConfigurationIdentifier: String?): ViewConfiguration?
 
-        fun getRegisterActiveColumns(viewConfigurationIdentifier: String?): Set<org.smartregister.configurableviews.model.View>?
+        fun getRegisterActiveColumns(viewConfigurationIdentifier: String?): MutableSet<IView>?
 
         fun countSelect(tableName: String?, mainCondition: String?): String?
 
