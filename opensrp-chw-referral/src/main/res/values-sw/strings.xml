@@ -112,6 +112,8 @@
     <string name="suspected_gbv">Huduma ya kuzuia ukatili wa kijinsia</string>
     <string name="suspected_child_gbv">Huduma ya kuzuia ukatili wa kijinsia (mtoto)</string>
     <string name="pregnancy_confirmation">Uhakiki wa mimba</string>
+    <string name="anc_male_engagement">Ushirikishwaji wa mwenza katika hudhurio la kliniki ya wajawazito</string>
+    <string name="pmtct_referral">Rufaa ya PMTCT</string>
     <string name="reason">Sababu</string>
 
 </resources>
