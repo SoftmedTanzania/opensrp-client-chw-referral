@@ -125,7 +125,7 @@ publishing {
             groupId 'org.smartregister' // Library groupID
             artifactId getArtificatId()
             version getVersionName()
-            artifact("$buildDir/outputs/aar/opensrp-chw-referral-debug.aar")
+            artifact("$buildDir/outputs/aar/opensrp-chw-referral-release.aar")
 
             //This is to carter for transitive dependencies within this library
             pom.withXml {
@@ -153,7 +153,7 @@ publishing {
                 }
                 configurations.compile.getDependencies().each { dep -> addDependency(dep, 'compile') }
                 configurations.api.getDependencies().each { dep -> addDependency(dep, 'compile') }
-                configurations.implementation.getDependencies().each { dep -> addDependency(dep, 'runtime') }
+                configurations.implementation.getDependencies().each { dep -> addDependency(dep, 'compile') }
             }
 
         }
