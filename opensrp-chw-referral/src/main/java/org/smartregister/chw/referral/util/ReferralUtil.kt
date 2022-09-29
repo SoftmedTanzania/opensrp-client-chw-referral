@@ -106,7 +106,7 @@ object ReferralUtil {
                 return context.getString(R.string.anc_male_engagement)
             }
             Constants.ReferralServiceType.PMTCT_REFERRAL.toLowerCase(Locale.getDefault()) -> {
-                return context.getString(R.string.pregnancy_confirmation)
+                return context.getString(R.string.pmtct_referral)
             }
         }
         return type
