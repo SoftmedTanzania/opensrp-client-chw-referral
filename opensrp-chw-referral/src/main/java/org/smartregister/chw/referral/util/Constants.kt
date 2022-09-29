@@ -40,6 +40,8 @@ object Constants {
         const val SUSPECTED_GBV = "Suspected GBV"
         const val SUSPECTED_CHILD_GBV = "Suspected Child GBV"
         const val PREGNANCY_CONFIRMATION = "Pregnancy Confirmation"
+        const val ANC_MALE_ENGAGEMENT = "ANC Male Engagement Referral"
+        const val PMTCT_REFERRAL = "PMTCT Referral"
     }
 
     /**

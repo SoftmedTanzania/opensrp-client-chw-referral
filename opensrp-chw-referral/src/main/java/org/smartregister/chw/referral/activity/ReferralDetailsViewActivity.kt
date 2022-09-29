@@ -112,7 +112,7 @@ open class ReferralDetailsViewActivity : SecuredActivity() {
                     R.string.phone_not_provided
                 ) else familyMemberContacts
             updateProblemDisplay(this)
-            updatePreReferralServicesDisplay()
+            updatePreReferralServicesDisplay(this)
         }
     }
 
@@ -170,17 +170,47 @@ open class ReferralDetailsViewActivity : SecuredActivity() {
         }
     }
 
-    private fun updatePreReferralServicesDisplay() {
+    private fun updatePreReferralServicesDisplay(context: Context) {
         memberObject?.run {
             when {
                 servicesBeforeReferral != null -> {
-                    if (servicesBeforeReferral?.startsWith("[")!! &&
-                        servicesBeforeReferral?.endsWith("]")!!
-                    ) {
-                        preReferralManagement.text = servicesBeforeReferral
-                            ?.substring(1, servicesBeforeReferral!!.length - 1)
+                    if (servicesBeforeReferral?.startsWith("[")!! && servicesBeforeReferral?.endsWith("]")!!) {
+                        var servicesBeforeReferralStrings: String = ""
+                        val servicesBeforeReferralList =
+                            servicesBeforeReferral?.substring(1, servicesBeforeReferral!!.length - 1)?.trim()?.split(",")
+                        val servicesBefore = servicesBeforeReferralList?.size
+                        servicesBeforeReferralList?.forEachIndexed { index, it ->
+                            val resourceId = context.resources.getIdentifier(
+                                "pre_referral_management_${it.trim()}",
+                                "string",
+                                context.packageName
+                            )
+                            servicesBeforeReferralStrings += if (index < servicesBefore!! - 1) {
+                                if (resourceId != 0) {
+                                    context.getString(resourceId) + ", "
+                                } else {
+                                    "${it.trim()}, "
+                                }
+                            } else {
+                                if (resourceId != 0) {
+                                    context.getString(resourceId)
+                                } else {
+                                    it
+                                }
+                            }
+                        }
+                        preReferralManagement.text = servicesBeforeReferralStrings
                     } else {
-                        preReferralManagement.text = servicesBeforeReferral
+                        val resourceId = context.resources.getIdentifier(
+                            "pre_referral_management_$servicesBeforeReferral",
+                            "string",
+                            context.packageName
+                        )
+                        preReferralManagement.text = if (resourceId != 0) {
+                            context.getString(resourceId)
+                        } else {
+                            servicesBeforeReferral
+                        }
                     }
                     if (!StringUtils.isEmpty(servicesBeforeReferralOther)) {
                         preReferralManagement.append(", $servicesBeforeReferralOther")
