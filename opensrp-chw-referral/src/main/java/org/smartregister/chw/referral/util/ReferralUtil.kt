@@ -108,6 +108,12 @@ object ReferralUtil {
             Constants.ReferralServiceType.PMTCT_REFERRAL.toLowerCase(Locale.getDefault()) -> {
                 return context.getString(R.string.pmtct_referral)
             }
+            Constants.ReferralServiceType.KVP_FRIENDLY_SERVICES.toLowerCase(Locale.getDefault()) -> {
+                return context.getString(R.string.kvp_friendly_services)
+            }
+            Constants.ReferralServiceType.STI_REFERRAL.toLowerCase(Locale.getDefault()) -> {
+                return context.getString(R.string.sti_services)
+            }
         }
         return type
     }

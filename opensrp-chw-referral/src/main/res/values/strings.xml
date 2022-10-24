@@ -116,6 +116,8 @@
     <string name="pregnancy_confirmation">Pregnancy Confirmation</string>
     <string name="anc_male_engagement">ANC Male Engagement</string>
     <string name="pmtct_referral">PMTCT Referral</string>
+    <string name="kvp_friendly_services">KVP Friendly Services</string>
+    <string name="sti_services">Magonjwa ya ngono</string>
     <string name="reason">Reason</string>
 
 </resources>
