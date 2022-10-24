@@ -114,6 +114,7 @@
     <string name="pregnancy_confirmation">Uhakiki wa mimba</string>
     <string name="anc_male_engagement">Ushirikishwaji wa mwenza katika hudhurio la kliniki ya wajawazito</string>
     <string name="pmtct_referral">Rufaa ya PMTCT</string>
+    <string name="kvp_friendly_services">Huduma rafiki za makundi maalumu</string>
     <string name="reason">Sababu</string>
 
 </resources>

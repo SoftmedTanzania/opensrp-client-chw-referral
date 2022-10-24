@@ -42,6 +42,7 @@ object Constants {
         const val PREGNANCY_CONFIRMATION = "Pregnancy Confirmation"
         const val ANC_MALE_ENGAGEMENT = "ANC Male Engagement Referral"
         const val PMTCT_REFERRAL = "PMTCT Referral"
+        const val KVP_FRIENDLY_SERVICES = "KVP Friendly Services";
     }
 
     /**
