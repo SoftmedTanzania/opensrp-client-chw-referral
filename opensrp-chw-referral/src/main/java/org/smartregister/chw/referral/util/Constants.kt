@@ -4,8 +4,8 @@ package org.smartregister.chw.referral.util
  * Contains constants used thought the application
  */
 object Constants {
-    const val EN ="en"
-    const val SW ="sw"
+    const val EN = "en"
+    const val SW = "sw"
     const val REQUEST_CODE_GET_JSON = 2244
     const val ENCOUNTER_TYPE = "encounter_type"
     const val STEP_ONE = "step1"
@@ -39,6 +39,11 @@ object Constants {
         const val SUSPECTED_TB = "Suspected TB"
         const val SUSPECTED_GBV = "Suspected GBV"
         const val SUSPECTED_CHILD_GBV = "Suspected Child GBV"
+        const val PREGNANCY_CONFIRMATION = "Pregnancy Confirmation"
+        const val ANC_MALE_ENGAGEMENT = "ANC Male Engagement Referral"
+        const val PMTCT_REFERRAL = "PMTCT Referral"
+        const val KVP_FRIENDLY_SERVICES = "KVP Friendly Services"
+        const val STI_REFERRAL = "STI Services"
     }
 
     /**
@@ -66,7 +71,7 @@ object Constants {
         const val PLAN_ID = "5270285b-5a3b-4647-b772-c0b3c52e2b71"
         const val CODE = "Referral"
     }
-    
+
     /**
      * JsonFormExtra constants used thought the application
      */

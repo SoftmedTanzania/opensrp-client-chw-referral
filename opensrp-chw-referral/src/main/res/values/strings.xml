@@ -108,9 +108,16 @@
     <string name="anc_danger_signs">ANC danger signs</string>
     <string name="suspected_malaria">Suspected Malaria</string>
     <string name="fp_initiation">FP Initiation</string>
-    <string name="suspected_hiv">Suspected HIV</string>
-    <string name="suspected_tb">Suspected TB</string>
-    <string name="suspected_gbv">Suspected GBV</string>
-    <string name="suspected_child_gbv">Suspected Child GBV</string>
+    <string name="suspected_hiv">HIV Testing Services</string>
+    <string name="suspected_tb">TB Clinic</string>
+    <string name="suspected_gbv">Gender Based Violence</string>
+    <string name="sick_hiv">Clinic of Treatment and Care</string>
+    <string name="suspected_child_gbv">Child GBV</string>
+    <string name="pregnancy_confirmation">Pregnancy Confirmation</string>
+    <string name="anc_male_engagement">ANC Male Engagement</string>
+    <string name="pmtct_referral">PMTCT Referral</string>
+    <string name="kvp_friendly_services">KVP Friendly Services</string>
+    <string name="sti_services">Magonjwa ya ngono</string>
+    <string name="reason">Reason</string>
 
 </resources>

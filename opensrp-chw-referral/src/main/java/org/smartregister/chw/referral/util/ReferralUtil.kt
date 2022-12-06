@@ -99,6 +99,21 @@ object ReferralUtil {
             Constants.ReferralServiceType.SUSPECTED_CHILD_GBV.toLowerCase(Locale.getDefault()) -> {
                 return context.getString(R.string.suspected_child_gbv)
             }
+            Constants.ReferralServiceType.PREGNANCY_CONFIRMATION.toLowerCase(Locale.getDefault()) -> {
+                return context.getString(R.string.pregnancy_confirmation)
+            }
+            Constants.ReferralServiceType.ANC_MALE_ENGAGEMENT.toLowerCase(Locale.getDefault()) -> {
+                return context.getString(R.string.anc_male_engagement)
+            }
+            Constants.ReferralServiceType.PMTCT_REFERRAL.toLowerCase(Locale.getDefault()) -> {
+                return context.getString(R.string.pmtct_referral)
+            }
+            Constants.ReferralServiceType.KVP_FRIENDLY_SERVICES.toLowerCase(Locale.getDefault()) -> {
+                return context.getString(R.string.kvp_friendly_services)
+            }
+            Constants.ReferralServiceType.STI_REFERRAL.toLowerCase(Locale.getDefault()) -> {
+                return context.getString(R.string.sti_services)
+            }
         }
         return type
     }
