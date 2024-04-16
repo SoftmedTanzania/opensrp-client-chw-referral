@@ -61,6 +61,8 @@ open class BaseIssueReferralActivity : SecuredActivity(), BaseIssueReferralContr
     private val referralLibrary by inject<ReferralLibrary>()
     private var useCustomLayout = false
 
+    private var isAddoLinkage: Boolean =  false
+
     protected val locationID: String
         get() = org.smartregister.Context.getInstance().allSharedPreferences()
                 .getPreference(AllConstants.CURRENT_LOCATION_ID)
@@ -73,6 +75,8 @@ open class BaseIssueReferralActivity : SecuredActivity(), BaseIssueReferralContr
             action = getStringExtra(Constants.ActivityPayload.ACTION)
             formName = getStringExtra(Constants.ActivityPayload.REFERRAL_FORM_NAME)
             useCustomLayout = getBooleanExtra(Constants.ActivityPayload.USE_CUSTOM_LAYOUT, false)
+            isAddoLinkage = getBooleanExtra(Constants.ActivityPayload.IS_ADDO_LINKAGE, false)
+
             try {
                 jsonForm = JSONObject(getStringExtra(Constants.ActivityPayload.JSON_FORM))
             } catch (e: JSONException) {
@@ -121,8 +125,6 @@ open class BaseIssueReferralActivity : SecuredActivity(), BaseIssueReferralContr
                             val referralTaskFocus =
                                     jsonForm!!.getString(JsonFormConstants.REFERRAL_TASK_FOCUS)
                                             ?: ""
-                            val isAddoLinkage: Boolean =
-                                    jsonForm!!.getBoolean(JsonFormConstants.IS_ADDO_LINKAGE)
                             formData[JsonFormConstants.CHW_REFERRAL_SERVICE] =
                                     NFormViewData().apply { value = referralTaskFocus }
                             formData[JsonFormConstants.CHW_REFERRAL_SERVICE] =
