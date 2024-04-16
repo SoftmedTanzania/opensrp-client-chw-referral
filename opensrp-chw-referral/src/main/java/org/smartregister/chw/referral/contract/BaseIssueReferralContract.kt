@@ -69,7 +69,7 @@ interface BaseIssueReferralContract {
          * Saves referral data retrieved from [valuesHashMap] and uses the [jsonObject] to create a
          * referral event
          */
-        fun saveForm(valuesHashMap: HashMap<String, NFormViewData>, jsonObject: JSONObject)
+        fun saveForm(valuesHashMap: HashMap<String, NFormViewData>, jsonObject: JSONObject, isAddoLinkage: Boolean)
     }
 
     /**
@@ -105,7 +105,7 @@ interface BaseIssueReferralContract {
         @Throws(Exception::class)
         fun saveRegistration(
             baseEntityId: String, valuesHashMap: HashMap<String, NFormViewData>,
-            jsonObject: JSONObject, callBack: InteractorCallBack
+            jsonObject: JSONObject, callBack: InteractorCallBack, isAddoLinkage: Boolean
         )
     }
 
@@ -115,6 +115,6 @@ interface BaseIssueReferralContract {
 
         fun onNoUniqueId()
 
-        fun onRegistrationSaved(saveSuccessful: Boolean)
+        fun onRegistrationSaved(saveSuccessful: Boolean, isAddoLinkage: Boolean)
     }
 }

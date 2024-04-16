@@ -20,4 +20,5 @@ object JsonFormConstants {
     const val STEP1 = "step1"
     const val VALUE = "value"
     const val KEY = "key"
+    const val IS_ADDO_LINKAGE = "is_addo_linkage"
 }

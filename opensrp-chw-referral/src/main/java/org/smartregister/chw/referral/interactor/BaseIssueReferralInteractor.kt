@@ -11,6 +11,7 @@ import org.smartregister.chw.referral.domain.ReferralTask
 import org.smartregister.chw.referral.util.Constants
 import org.smartregister.chw.referral.util.JsonFormConstants
 import org.smartregister.chw.referral.util.JsonFormUtils
+import org.smartregister.chw.referral.util.ReferralUtil.createAddoLinkageTask
 import org.smartregister.chw.referral.util.ReferralUtil.createReferralTask
 import org.smartregister.chw.referral.util.Util.extractReferralProblems
 import org.smartregister.chw.referral.util.Util.processEvent
@@ -29,7 +30,7 @@ open class BaseIssueReferralInteractor : BaseIssueReferralContract.Interactor {
     @Throws(Exception::class)
     override fun saveRegistration(
         baseEntityId: String, valuesHashMap: HashMap<String, NFormViewData>,
-        jsonObject: JSONObject, callBack: BaseIssueReferralContract.InteractorCallBack
+        jsonObject: JSONObject, callBack: BaseIssueReferralContract.InteractorCallBack, isAddoLinkage: Boolean
     ) {
         val extractReferralProblems = extractReferralProblems(valuesHashMap)
         val hasProblems = !extractReferralProblems.isNullOrEmpty()
@@ -54,9 +55,14 @@ open class BaseIssueReferralInteractor : BaseIssueReferralContract.Interactor {
             Timber.i("Referral Event = %s", Gson().toJson(referralTask))
 
             processEvent(referralLibrary, referralTask.event)
-            createReferralTask(referralTask, referralLibrary)
+
+            if (isAddoLinkage) {
+                createAddoLinkageTask(referralTask, referralLibrary)
+            } else {
+                createReferralTask(referralTask, referralLibrary)
+            }
         }
-        callBack.onRegistrationSaved(hasProblems)
+        callBack.onRegistrationSaved(hasProblems, isAddoLinkage)
     }
 
 }

@@ -117,4 +117,38 @@ object ReferralUtil {
         }
         return type
     }
+
+    /**
+     * Adds [referralTask] to the task repository defined in the [referralLibrary]
+     */
+    @JvmStatic
+    fun createAddoLinkageTask(
+            referralTask: ReferralTask, referralLibrary: ReferralLibrary
+    ) {
+        val allSharedPreferences = referralLibrary.context.allSharedPreferences()
+        val task = Task().apply {
+            identifier = UUID.randomUUID().toString()
+            planIdentifier = Constants.Addo.PLAN_ID
+            groupIdentifier = referralTask.groupId
+            status = Task.TaskStatus.READY
+            businessStatus = BusinessStatus.LINKED
+            priority = 3
+            code = Constants.Addo.CODE
+            description = referralTask.referralDescription
+            focus = referralTask.focus
+            forEntity = referralTask.event.baseEntityId
+            val now = DateTime()
+            executionStartDate = now
+            authoredOn = now
+            lastModified = now
+            reasonReference = referralTask.event.formSubmissionId
+            owner = allSharedPreferences.fetchRegisteredANM()
+            syncStatus = BaseRepository.TYPE_Created
+            requester =
+                    allSharedPreferences.getANMPreferredName(allSharedPreferences.fetchRegisteredANM())
+            location =
+                    allSharedPreferences.fetchUserLocalityId(allSharedPreferences.fetchRegisteredANM())
+        }
+        referralLibrary.taskRepository.addOrUpdate(task)
+    }
 }

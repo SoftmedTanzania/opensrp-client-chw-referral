@@ -62,6 +62,7 @@ object Constants {
         const val IN_PROGRESS = "In-Progress"
         const val COMPLETE = "Complete"
         const val EXPIRED = "Expired"
+        const val LINKED = "Linked"
     }
 
     /**
@@ -70,6 +71,11 @@ object Constants {
     object Referral {
         const val PLAN_ID = "5270285b-5a3b-4647-b772-c0b3c52e2b71"
         const val CODE = "Referral"
+    }
+
+    object Addo {
+        const val PLAN_ID = "6270285b-5a3b-4647-b772-c0b3c52e2b72"
+        const val CODE = "Linkage"
     }
 
     /**
@@ -117,6 +123,7 @@ object Constants {
         const val JSON_FORM = "JSON_FORM"
         const val REFERRAL_SERVICE_IDS = "REFERRAL_SERVICE_IDS"
         const val USE_CUSTOM_LAYOUT = "USE_CUSTOM_LAYOUT"
+        const val IS_ADDO_LINKAGE = "IS_ADDO_LINKAGE"
     }
 
     /**
