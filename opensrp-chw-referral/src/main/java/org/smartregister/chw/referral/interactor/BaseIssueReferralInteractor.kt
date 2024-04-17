@@ -29,27 +29,41 @@ open class BaseIssueReferralInteractor : BaseIssueReferralContract.Interactor {
 
     @Throws(Exception::class)
     override fun saveRegistration(
-        baseEntityId: String, valuesHashMap: HashMap<String, NFormViewData>,
-        jsonObject: JSONObject, callBack: BaseIssueReferralContract.InteractorCallBack, isAddoLinkage: Boolean
+            baseEntityId: String, valuesHashMap: HashMap<String, NFormViewData>,
+            jsonObject: JSONObject, callBack: BaseIssueReferralContract.InteractorCallBack, isAddoLinkage: Boolean
     ) {
+        val allSharedPreferences = referralLibrary.context.allSharedPreferences()
         val extractReferralProblems = extractReferralProblems(valuesHashMap)
         val hasProblems = !extractReferralProblems.isNullOrEmpty()
         if (hasProblems) {
             val referralTask: ReferralTask =
-                JsonFormUtils.processJsonForm(
-                    referralLibrary, baseEntityId, valuesHashMap,
-                    jsonObject, Constants.EventType.REGISTRATION
-                )
+                    JsonFormUtils.processJsonForm(
+                            referralLibrary, baseEntityId, valuesHashMap,
+                            jsonObject, Constants.EventType.REGISTRATION
+                    )
 
-            referralTask.apply {
-                groupId =
-                    (valuesHashMap[JsonFormConstants.CHW_REFERRAL_HF]?.value as NFormViewData?)
-                        ?.metadata?.get(JsonFormConstants.OPENMRS_ENTITY_ID)
-                        .toString()
-                focus =
-                    WordUtils.capitalize(jsonObject.getString(JsonFormConstants.REFERRAL_TASK_FOCUS))
-                referralDescription = extractReferralProblems
-                event.eventId = UUID.randomUUID().toString()
+            if (isAddoLinkage) {
+                referralTask.apply {
+                    groupId =
+                            (allSharedPreferences.fetchUserLocalityId(allSharedPreferences.fetchRegisteredANM()) as NFormViewData?)
+                                    ?.metadata?.get(JsonFormConstants.OPENMRS_ENTITY_ID)
+                                    .toString()
+                    focus =
+                            WordUtils.capitalize(jsonObject.getString(JsonFormConstants.REFERRAL_TASK_FOCUS))
+                    referralDescription = extractReferralProblems
+                    event.eventId = UUID.randomUUID().toString()
+                }
+            } else {
+                referralTask.apply {
+                    groupId =
+                            (valuesHashMap[JsonFormConstants.CHW_REFERRAL_HF]?.value as NFormViewData?)
+                                    ?.metadata?.get(JsonFormConstants.OPENMRS_ENTITY_ID)
+                                    .toString()
+                    focus =
+                            WordUtils.capitalize(jsonObject.getString(JsonFormConstants.REFERRAL_TASK_FOCUS))
+                    referralDescription = extractReferralProblems
+                    event.eventId = UUID.randomUUID().toString()
+                }
             }
 
             Timber.i("Referral Event = %s", Gson().toJson(referralTask))
