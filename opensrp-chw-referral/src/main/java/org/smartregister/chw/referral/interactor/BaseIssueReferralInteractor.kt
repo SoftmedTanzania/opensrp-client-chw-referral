@@ -44,12 +44,8 @@ open class BaseIssueReferralInteractor : BaseIssueReferralContract.Interactor {
 
             if (isAddoLinkage) {
                 referralTask.apply {
-                    groupId =
-                            (allSharedPreferences.fetchUserLocalityId(allSharedPreferences.fetchRegisteredANM()) as NFormViewData?)
-                                    ?.metadata?.get(JsonFormConstants.OPENMRS_ENTITY_ID)
-                                    .toString()
-                    focus =
-                            WordUtils.capitalize(jsonObject.getString(JsonFormConstants.REFERRAL_TASK_FOCUS))
+                    groupId = allSharedPreferences.fetchUserLocalityId(allSharedPreferences.fetchRegisteredANM())
+                    focus = WordUtils.capitalize(jsonObject.getString(JsonFormConstants.REFERRAL_TASK_FOCUS))
                     referralDescription = extractReferralProblems
                     event.eventId = UUID.randomUUID().toString()
                 }
