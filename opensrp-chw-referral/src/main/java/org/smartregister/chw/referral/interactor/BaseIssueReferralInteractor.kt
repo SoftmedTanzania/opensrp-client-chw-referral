@@ -42,24 +42,14 @@ open class BaseIssueReferralInteractor : BaseIssueReferralContract.Interactor {
                             jsonObject, Constants.EventType.REGISTRATION
                     )
 
-            if (isAddoLinkage) {
-                referralTask.apply {
-                    groupId = allSharedPreferences.fetchUserLocalityId(allSharedPreferences.fetchRegisteredANM())
-                    focus = WordUtils.capitalize(jsonObject.getString(JsonFormConstants.REFERRAL_TASK_FOCUS))
-                    referralDescription = extractReferralProblems
-                    event.eventId = UUID.randomUUID().toString()
-                }
-            } else {
-                referralTask.apply {
-                    groupId =
-                            (valuesHashMap[JsonFormConstants.CHW_REFERRAL_HF]?.value as NFormViewData?)
-                                    ?.metadata?.get(JsonFormConstants.OPENMRS_ENTITY_ID)
-                                    .toString()
-                    focus =
-                            WordUtils.capitalize(jsonObject.getString(JsonFormConstants.REFERRAL_TASK_FOCUS))
-                    referralDescription = extractReferralProblems
-                    event.eventId = UUID.randomUUID().toString()
-                }
+            referralTask.apply {
+                groupId = if (isAddoLinkage) allSharedPreferences.fetchUserLocalityId(allSharedPreferences.fetchRegisteredANM())
+                else (valuesHashMap[JsonFormConstants.CHW_REFERRAL_HF]?.value as NFormViewData?)
+                    ?.metadata?.get(JsonFormConstants.OPENMRS_ENTITY_ID)
+                    .toString()
+                focus = WordUtils.capitalize(jsonObject.getString(JsonFormConstants.REFERRAL_TASK_FOCUS))
+                referralDescription = extractReferralProblems
+                event.eventId = UUID.randomUUID().toString()
             }
 
             Timber.i("Referral Event = %s", Gson().toJson(referralTask))
