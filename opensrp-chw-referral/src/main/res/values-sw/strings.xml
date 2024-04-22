@@ -122,4 +122,10 @@
     <string name="linkage_not_submitted">Linkage not sent to Addo</string>
     <string name="linkage_submitted">Linkage sent to Addo</string>
 
+    <!--Addo Minor Ailments-->
+    <string name="child_minor_ailments"> Maradhi ya mtoto </string>
+    <string name="anc_minor_ailments"> Maradhi ya mama mjamzito </string>
+    <string name="pnc_minor_ailments"> Maradhi ya mama liyejifungua </string>
+    <string name="adolescent_minor_ailments"> Maradhi ya kijana balehe </string>
+
 </resources>

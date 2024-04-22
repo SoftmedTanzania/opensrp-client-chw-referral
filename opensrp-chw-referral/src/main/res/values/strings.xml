@@ -124,4 +124,10 @@
     <string name="linkage_not_submitted">Linkage not sent to Addo</string>
     <string name="hello">Linkage not sent to Addo</string>
 
+    <!--Addo Minor Ailments-->
+    <string name="child_minor_ailments"> Child Minor Ailments </string>
+    <string name="anc_minor_ailments"> ANC Minor Ailments </string>
+    <string name="pnc_minor_ailments"> PNC Minor Ailments </string>
+    <string name="adolescent_minor_ailments"> Adolescent Minor Ailments </string>
+
 </resources>
