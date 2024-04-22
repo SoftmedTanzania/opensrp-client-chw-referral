@@ -44,6 +44,14 @@ object Constants {
         const val PMTCT_REFERRAL = "PMTCT Referral"
         const val KVP_FRIENDLY_SERVICES = "KVP Friendly Services"
         const val STI_REFERRAL = "STI Services"
+
+        object ADDO {
+            const val CHILD_MINOR_AILMENTS = "Child Minor Ailments"
+            const val ANC_MINOR_AILMENTS = "ANC Minor Ailments"
+            const val PNC_MINOR_AILMENTS = "ANC Minor Ailments"
+            const val ADOLESCENT_MINOR_AILMENTS = "Adolescent Minor Ailments"
+        }
+
     }
 
     /**
