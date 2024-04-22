@@ -114,6 +114,19 @@ object ReferralUtil {
             Constants.ReferralServiceType.STI_REFERRAL.toLowerCase(Locale.getDefault()) -> {
                 return context.getString(R.string.sti_services)
             }
+
+            Constants.ReferralServiceType.ADDO.CHILD_MINOR_AILMENTS.toLowerCase(Locale.getDefault()) -> {
+                return context.getString(R.string.child_minor_ailments)
+            }
+            Constants.ReferralServiceType.ADDO.ANC_MINOR_AILMENTS.toLowerCase(Locale.getDefault()) -> {
+                return context.getString(R.string.anc_minor_ailments)
+            }
+            Constants.ReferralServiceType.ADDO.PNC_MINOR_AILMENTS.toLowerCase(Locale.getDefault()) -> {
+                return context.getString(R.string.pnc_minor_ailments)
+            }
+            Constants.ReferralServiceType.ADDO.ADOLESCENT_MINOR_AILMENTS.toLowerCase(Locale.getDefault()) -> {
+                return context.getString(R.string.adolescent_minor_ailments)
+            }
         }
         return type
     }
