@@ -107,6 +107,7 @@ interface BaseIssueReferralContract {
             baseEntityId: String, valuesHashMap: HashMap<String, NFormViewData>,
             jsonObject: JSONObject, callBack: InteractorCallBack, isAddoLinkage: Boolean
         )
+
     }
 
     interface InteractorCallBack {
@@ -114,6 +115,8 @@ interface BaseIssueReferralContract {
         fun onUniqueIdFetched(triple: Triple<String, String, String>, entityId: String)
 
         fun onNoUniqueId()
+
+        fun onRegistrationSaved(saveSuccessful: Boolean)
 
         fun onRegistrationSaved(saveSuccessful: Boolean, isAddoLinkage: Boolean)
     }

@@ -66,13 +66,15 @@ open class BaseIssueReferralPresenter(
 
     override fun onNoUniqueId() = Unit
 
+    override fun onRegistrationSaved(saveSuccessful: Boolean) {
+        val context = getView() as Activity
+        val messageId = if (saveSuccessful) R.string.referral_submitted else R.string.referral_not_submitted
+        Utils.showToast(context, context.getString(messageId))
+    }
+
     override fun onRegistrationSaved(saveSuccessful: Boolean, isAddoLinkage: Boolean) {
         val context = getView() as Activity
-        val messageId = if (isAddoLinkage) {
-            if (saveSuccessful) R.string.linkage_submitted else R.string.linkage_not_submitted
-        } else {
-            if (saveSuccessful) R.string.referral_submitted else R.string.referral_not_submitted
-        }
+        val messageId = if (saveSuccessful) R.string.linkage_submitted else R.string.linkage_not_submitted
         Utils.showToast(context, context.getString(messageId))
     }
 }
