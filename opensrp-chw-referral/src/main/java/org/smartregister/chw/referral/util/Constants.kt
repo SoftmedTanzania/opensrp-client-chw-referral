@@ -45,6 +45,9 @@ object Constants {
         const val KVP_FRIENDLY_SERVICES = "KVP Friendly Services"
         const val STI_REFERRAL = "STI Services"
 
+        /**
+         *  Linkage service constants for linking to ADDO
+         */
         object ADDO {
             const val CHILD_MINOR_AILMENTS = "Child Minor Ailments"
             const val ANC_MINOR_AILMENTS = "ANC Minor Ailments"
@@ -81,6 +84,9 @@ object Constants {
         const val CODE = "Referral"
     }
 
+    /**
+     *  ADDO Linkage (Task) constants
+     */
     object Addo {
         const val PLAN_ID = "6270285b-5a3b-4647-b772-c0b3c52e2b72"
         const val CODE = "Linkage"

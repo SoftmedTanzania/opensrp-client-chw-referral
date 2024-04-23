@@ -118,6 +118,9 @@ interface BaseIssueReferralContract {
 
         fun onRegistrationSaved(saveSuccessful: Boolean)
 
+        /**
+         *  Call back method for when a referral registration process has completed
+         */
         fun onRegistrationSaved(saveSuccessful: Boolean, isAddoLinkage: Boolean)
     }
 }
