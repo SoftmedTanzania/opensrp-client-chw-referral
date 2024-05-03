@@ -11,6 +11,7 @@ import org.smartregister.chw.referral.domain.ReferralTask
 import org.smartregister.chw.referral.util.Constants
 import org.smartregister.chw.referral.util.JsonFormConstants
 import org.smartregister.chw.referral.util.JsonFormUtils
+import org.smartregister.chw.referral.util.LocationUtils
 import org.smartregister.chw.referral.util.ReferralUtil.createAddoLinkageTask
 import org.smartregister.chw.referral.util.ReferralUtil.createReferralTask
 import org.smartregister.chw.referral.util.Util.extractReferralProblems
@@ -43,7 +44,7 @@ open class BaseIssueReferralInteractor : BaseIssueReferralContract.Interactor {
                     )
 
             referralTask.apply {
-                groupId = if (isAddoLinkage) allSharedPreferences.fetchUserLocalityId(allSharedPreferences.fetchRegisteredANM())
+                groupId = if (isAddoLinkage) LocationUtils.getWardId()
                 else (valuesHashMap[JsonFormConstants.CHW_REFERRAL_HF]?.value as NFormViewData?)
                     ?.metadata?.get(JsonFormConstants.OPENMRS_ENTITY_ID)
                     .toString()
