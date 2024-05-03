@@ -10,14 +10,7 @@ import org.smartregister.repository.LocationTagRepository
  * Utility class for location-related operations.
  */
 object LocationUtils {
-    /**
-     * Recursively searches for the parent location ID that has a specific tag associated with it.
-     *
-     * @param locations A list of Location objects to search within.
-     * @param locationId The ID of the current location being searched.
-     * @param tagName The name of the tag to search for.
-     * @return The ID of the parent location that has the specified tag, or null if not found.
-     */
+
     private fun getParentLocationIdWithTags(
             locations: List<Location>,
             locationId: String,
