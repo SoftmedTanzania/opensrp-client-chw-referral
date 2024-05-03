@@ -4,6 +4,7 @@ import org.smartregister.AllConstants
 import org.smartregister.Context
 import org.smartregister.domain.Location
 import org.smartregister.repository.LocationRepository
+import org.smartregister.repository.LocationTagRepository
 
 object LocationUtils {
     private fun getParentLocationIdWithTags(
@@ -11,13 +12,15 @@ object LocationUtils {
         locationId: String,
         tagName: String
     ): String? {
+        val locationTagReposity = LocationTagRepository()
+        val allLocationTags = locationTagReposity.allLocationTags
         for (location in locations) {
-            val locationTags = location.locationTags
+            val locationTags = allLocationTags.filter { it.locationId == location.id }
             if (location.id == locationId) {
-                if (locationTags.iterator().next().name.equals(tagName, ignoreCase = true)) {
+                if (locationTags.any { it.name.equals(tagName, ignoreCase = true) }) {
                     return location.id
                 } else {
-                    getParentLocationIdWithTags(locations, location.properties.parentId, tagName)
+                    return getParentLocationIdWithTags(locations, location.properties.parentId, tagName)
                 }
             }
         }
