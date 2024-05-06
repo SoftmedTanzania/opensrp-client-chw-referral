@@ -4,10 +4,8 @@ import android.app.Activity
 import android.app.AlertDialog
 import android.content.DialogInterface
 import android.content.Intent
-import android.os.Bundle
 import android.view.View
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.google.gson.Gson
 import com.nerdstone.neatandroidstepper.core.domain.StepperActions
@@ -63,9 +61,11 @@ open class BaseIssueReferralActivity : SecuredActivity(), BaseIssueReferralContr
     private val referralLibrary by inject<ReferralLibrary>()
     private var useCustomLayout = false
 
+    private var isAddoLinkage: Boolean =  false
+
     protected val locationID: String
         get() = org.smartregister.Context.getInstance().allSharedPreferences()
-            .getPreference(AllConstants.CURRENT_LOCATION_ID)
+                .getPreference(AllConstants.CURRENT_LOCATION_ID)
 
     override fun onCreation() {
         setContentView(R.layout.activity_referral_registration)
@@ -75,6 +75,8 @@ open class BaseIssueReferralActivity : SecuredActivity(), BaseIssueReferralContr
             action = getStringExtra(Constants.ActivityPayload.ACTION)
             formName = getStringExtra(Constants.ActivityPayload.REFERRAL_FORM_NAME)
             useCustomLayout = getBooleanExtra(Constants.ActivityPayload.USE_CUSTOM_LAYOUT, false)
+            isAddoLinkage = getBooleanExtra(Constants.ActivityPayload.IS_ADDO_LINKAGE, false)
+
             try {
                 jsonForm = JSONObject(getStringExtra(Constants.ActivityPayload.JSON_FORM))
             } catch (e: JSONException) {
@@ -128,13 +130,22 @@ open class BaseIssueReferralActivity : SecuredActivity(), BaseIssueReferralContr
                             formData[JsonFormConstants.CHW_REFERRAL_SERVICE] =
                                     NFormViewData().apply { value = referralTaskFocus }
 
-                            presenter!!.saveForm(formData, jsonForm!!)
+                            presenter!!.saveForm(formData, jsonForm!!, isAddoLinkage)
 
-                            Toast.makeText(
-                                    applicationContext,
-                                    getString(R.string.referral_submitted_successfully),
-                                    Toast.LENGTH_LONG
-                            ).show()
+                            if (!isAddoLinkage) {
+                                Toast.makeText(
+                                        applicationContext,
+                                        getString(R.string.referral_submitted_successfully),
+                                        Toast.LENGTH_LONG
+                                ).show()
+                            } else {
+                                Toast.makeText(
+                                        applicationContext,
+                                        getString(R.string.addo_linkage_submitted_successfully),
+                                        Toast.LENGTH_LONG
+                                ).show()
+                            }
+
                             Timber.d("Saved Data = %s", formBuilder?.getFormDataAsJson())
                             val intent = Intent()
                             setResult(Activity.RESULT_OK, intent);
@@ -178,7 +189,7 @@ open class BaseIssueReferralActivity : SecuredActivity(), BaseIssueReferralContr
     }
 
     override fun presenter() = BaseIssueReferralPresenter(
-        baseEntityId!!, this, BaseIssueReferralModel::class.java, BaseIssueReferralInteractor()
+            baseEntityId!!, this, BaseIssueReferralModel::class.java, BaseIssueReferralInteractor()
     )
 
     override fun setProfileViewWithData() = Unit
@@ -188,12 +199,12 @@ open class BaseIssueReferralActivity : SecuredActivity(), BaseIssueReferralContr
         val locations = viewModel!!.healthFacilities
         if (locations != null && form != null) {
             val fields = form.getJSONArray(JsonFormConstants.STEPS)
-                .getJSONObject(0)
-                .getJSONArray(JsonFormConstants.FIELDS)
+                    .getJSONObject(0)
+                    .getJSONArray(JsonFormConstants.FIELDS)
             var referralHealthFacilities: JSONObject? = null
             for (i in 0 until (fields?.length() ?: 0)) {
                 if (fields!!.getJSONObject(i)
-                        .getString(JsonFormConstants.NAME) == JsonFormConstants.CHW_REFERRAL_HF
+                                .getString(JsonFormConstants.NAME) == JsonFormConstants.CHW_REFERRAL_HF
                 ) {
                     referralHealthFacilities = fields.getJSONObject(i)
                     break
@@ -215,11 +226,11 @@ open class BaseIssueReferralActivity : SecuredActivity(), BaseIssueReferralContr
             if (referralHealthFacilities != null) {
                 val optionsArray = JSONArray()
                 (0 until referralHealthFacilities.getJSONArray(JsonFormConstants.OPTIONS)
-                    .length()).forEach { i ->
+                        .length()).forEach { i ->
                     optionsArray.put(referralHealthFacilities.getJSONArray(JsonFormConstants.OPTIONS)[i])
                 }
                 referralHealthFacilities.put(
-                    JsonFormConstants.OPTIONS, JSONArray(Gson().toJson(healthFacilitiesOptions))
+                        JsonFormConstants.OPTIONS, JSONArray(Gson().toJson(healthFacilitiesOptions))
                 )
             }
         }
@@ -234,15 +245,15 @@ open class BaseIssueReferralActivity : SecuredActivity(), BaseIssueReferralContr
             with(commonRepository.rawCustomQueryForAdapter(query)) {
                 if (moveToFirst()) {
                     commonRepository.readAllcommonforCursorAdapter(this)
-                        .also { commonPersonObject ->
-                            CommonPersonObjectClient(
-                                commonPersonObject.caseId, commonPersonObject.details, ""
-                            ).apply {
-                                this.columnmaps = commonPersonObject.columnmaps
-                            }.also {
-                                viewModel!!.memberObject = MemberObject(it)
+                            .also { commonPersonObject ->
+                                CommonPersonObjectClient(
+                                        commonPersonObject.caseId, commonPersonObject.details, ""
+                                ).apply {
+                                    this.columnmaps = commonPersonObject.columnmaps
+                                }.also {
+                                    viewModel!!.memberObject = MemberObject(it)
+                                }
                             }
-                        }
                 }
 
             }

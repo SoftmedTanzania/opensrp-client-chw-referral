@@ -11,6 +11,8 @@ import org.smartregister.chw.referral.domain.ReferralTask
 import org.smartregister.chw.referral.util.Constants
 import org.smartregister.chw.referral.util.JsonFormConstants
 import org.smartregister.chw.referral.util.JsonFormUtils
+import org.smartregister.chw.referral.util.LocationUtils
+import org.smartregister.chw.referral.util.ReferralUtil.createAddoLinkageTask
 import org.smartregister.chw.referral.util.ReferralUtil.createReferralTask
 import org.smartregister.chw.referral.util.Util.extractReferralProblems
 import org.smartregister.chw.referral.util.Util.processEvent
@@ -28,25 +30,25 @@ open class BaseIssueReferralInteractor : BaseIssueReferralContract.Interactor {
 
     @Throws(Exception::class)
     override fun saveRegistration(
-        baseEntityId: String, valuesHashMap: HashMap<String, NFormViewData>,
-        jsonObject: JSONObject, callBack: BaseIssueReferralContract.InteractorCallBack
+            baseEntityId: String, valuesHashMap: HashMap<String, NFormViewData>,
+            jsonObject: JSONObject, callBack: BaseIssueReferralContract.InteractorCallBack, isAddoLinkage: Boolean
     ) {
+        val allSharedPreferences = referralLibrary.context.allSharedPreferences()
         val extractReferralProblems = extractReferralProblems(valuesHashMap)
         val hasProblems = !extractReferralProblems.isNullOrEmpty()
         if (hasProblems) {
             val referralTask: ReferralTask =
-                JsonFormUtils.processJsonForm(
-                    referralLibrary, baseEntityId, valuesHashMap,
-                    jsonObject, Constants.EventType.REGISTRATION
-                )
+                    JsonFormUtils.processJsonForm(
+                            referralLibrary, baseEntityId, valuesHashMap,
+                            jsonObject, Constants.EventType.REGISTRATION
+                    )
 
             referralTask.apply {
-                groupId =
-                    (valuesHashMap[JsonFormConstants.CHW_REFERRAL_HF]?.value as NFormViewData?)
-                        ?.metadata?.get(JsonFormConstants.OPENMRS_ENTITY_ID)
-                        .toString()
-                focus =
-                    WordUtils.capitalize(jsonObject.getString(JsonFormConstants.REFERRAL_TASK_FOCUS))
+                groupId = if (isAddoLinkage) LocationUtils.getWardId()
+                else (valuesHashMap[JsonFormConstants.CHW_REFERRAL_HF]?.value as NFormViewData?)
+                    ?.metadata?.get(JsonFormConstants.OPENMRS_ENTITY_ID)
+                    .toString()
+                focus = WordUtils.capitalize(jsonObject.getString(JsonFormConstants.REFERRAL_TASK_FOCUS))
                 referralDescription = extractReferralProblems
                 event.eventId = UUID.randomUUID().toString()
             }
@@ -54,9 +56,14 @@ open class BaseIssueReferralInteractor : BaseIssueReferralContract.Interactor {
             Timber.i("Referral Event = %s", Gson().toJson(referralTask))
 
             processEvent(referralLibrary, referralTask.event)
-            createReferralTask(referralTask, referralLibrary)
+
+            if (isAddoLinkage) {
+                createAddoLinkageTask(referralTask, referralLibrary)
+            } else {
+                createReferralTask(referralTask, referralLibrary)
+            }
         }
-        callBack.onRegistrationSaved(hasProblems)
+        callBack.onRegistrationSaved(hasProblems, isAddoLinkage)
     }
 
 }

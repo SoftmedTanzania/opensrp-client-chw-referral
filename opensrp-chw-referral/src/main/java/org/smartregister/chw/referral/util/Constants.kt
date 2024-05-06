@@ -44,6 +44,17 @@ object Constants {
         const val PMTCT_REFERRAL = "PMTCT Referral"
         const val KVP_FRIENDLY_SERVICES = "KVP Friendly Services"
         const val STI_REFERRAL = "STI Services"
+
+        /**
+         *  Linkage service constants for linking to ADDO
+         */
+        object ADDO {
+            const val CHILD_MINOR_AILMENTS = "Child Minor Ailments"
+            const val ANC_MINOR_AILMENTS = "ANC Minor Ailments"
+            const val PNC_MINOR_AILMENTS = "ANC Minor Ailments"
+            const val ADOLESCENT_MINOR_AILMENTS = "Adolescent Minor Ailments"
+        }
+
     }
 
     /**
@@ -62,6 +73,7 @@ object Constants {
         const val IN_PROGRESS = "In-Progress"
         const val COMPLETE = "Complete"
         const val EXPIRED = "Expired"
+        const val LINKED = "Linked"
     }
 
     /**
@@ -70,6 +82,14 @@ object Constants {
     object Referral {
         const val PLAN_ID = "5270285b-5a3b-4647-b772-c0b3c52e2b71"
         const val CODE = "Referral"
+    }
+
+    /**
+     *  ADDO Linkage (Task) constants
+     */
+    object Addo {
+        const val PLAN_ID = "6270285b-5a3b-4647-b772-c0b3c52e2b72"
+        const val CODE = "Linkage"
     }
 
     /**
@@ -117,6 +137,7 @@ object Constants {
         const val JSON_FORM = "JSON_FORM"
         const val REFERRAL_SERVICE_IDS = "REFERRAL_SERVICE_IDS"
         const val USE_CUSTOM_LAYOUT = "USE_CUSTOM_LAYOUT"
+        const val IS_ADDO_LINKAGE = "IS_ADDO_LINKAGE"
     }
 
     /**

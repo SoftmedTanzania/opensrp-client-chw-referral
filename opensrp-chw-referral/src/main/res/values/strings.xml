@@ -119,5 +119,15 @@
     <string name="kvp_friendly_services">KVP Friendly Services</string>
     <string name="sti_services">Magonjwa ya ngono</string>
     <string name="reason">Reason</string>
+    <string name="addo_linkage_submitted_successfully">Linkage sent to the Addo</string>
+    <string name="linkage_submitted">Linkage sent to Addo</string>
+    <string name="linkage_not_submitted">Linkage not sent to Addo</string>
+    <string name="hello">Linkage not sent to Addo</string>
+
+    <!--Addo Minor Ailments-->
+    <string name="child_minor_ailments"> Child Minor Ailments </string>
+    <string name="anc_minor_ailments"> ANC Minor Ailments </string>
+    <string name="pnc_minor_ailments"> PNC Minor Ailments </string>
+    <string name="adolescent_minor_ailments"> Adolescent Minor Ailments </string>
 
 </resources>
