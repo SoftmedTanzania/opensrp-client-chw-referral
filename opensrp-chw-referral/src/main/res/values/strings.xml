@@ -117,7 +117,9 @@
     <string name="anc_male_engagement">ANC Male Engagement</string>
     <string name="pmtct_referral">PMTCT Referral</string>
     <string name="kvp_friendly_services">KVP Friendly Services</string>
-    <string name="sti_services">Magonjwa ya ngono</string>
+    <string name="sti_services">STI Services</string>
+    <string name="cecap_referral">Reproductive Cancer Services</string>
+    <string name="aysrh_referral">AYSRH Friendly Services</string>
     <string name="reason">Reason</string>
     <string name="addo_linkage_submitted_successfully">Linkage sent to the Addo</string>
     <string name="linkage_submitted">Linkage sent to Addo</string>

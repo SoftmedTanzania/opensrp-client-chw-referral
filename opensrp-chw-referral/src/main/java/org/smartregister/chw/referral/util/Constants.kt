@@ -44,6 +44,8 @@ object Constants {
         const val PMTCT_REFERRAL = "PMTCT Referral"
         const val KVP_FRIENDLY_SERVICES = "KVP Friendly Services"
         const val STI_REFERRAL = "STI Services"
+        const val AYSRH_FRIENDLY_SERVICES = "AYSRH Friendly Services"
+        const val CECAP_REFERRAL = "Reproductive Cancer Services";
 
         /**
          *  Linkage service constants for linking to ADDO

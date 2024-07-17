@@ -116,6 +116,8 @@
     <string name="pmtct_referral">Rufaa ya PMTCT</string>
     <string name="kvp_friendly_services">Huduma rafiki za makundi maalumu</string>
     <string name="sti_services">Magonjwa ya ngono</string>
+    <string name="cecap_referral">Huduma ya saratani ya via vya uzazi</string>
+    <string name="aysrh_referral">Huduma rafiki za afya ya uzazi kwa vijana</string>
     <string name="reason">Sababu</string>
 
     <string name="addo_linkage_submitted_successfully">Linkage sent to the Addo</string>

@@ -114,6 +114,12 @@ object ReferralUtil {
             Constants.ReferralServiceType.STI_REFERRAL.toLowerCase(Locale.getDefault()) -> {
                 return context.getString(R.string.sti_services)
             }
+            Constants.ReferralServiceType.AYSRH_FRIENDLY_SERVICES.toLowerCase(Locale.getDefault()) -> {
+                return context.getString(R.string.aysrh_referral)
+            }
+            Constants.ReferralServiceType.CECAP_REFERRAL.toLowerCase(Locale.getDefault()) -> {
+                return context.getString(R.string.cecap_referral)
+            }
 
             Constants.ReferralServiceType.ADDO.CHILD_MINOR_AILMENTS.toLowerCase(Locale.getDefault()) -> {
                 return context.getString(R.string.child_minor_ailments)
