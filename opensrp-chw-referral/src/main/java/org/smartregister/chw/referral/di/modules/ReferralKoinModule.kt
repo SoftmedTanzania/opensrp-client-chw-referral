@@ -22,7 +22,7 @@ object ReferralKoinModule {
         single { ReferralLibrary.getInstance() }
         single { Context.getInstance() }
         single { ClientProcessorForJava.getInstance(androidApplication()) }
-        single { Compressor.getDefault(androidApplication()) }
+        single { Compressor(androidApplication()) }
         single { ECSyncHelper.getInstance(androidApplication()) }
         single { TaskRepository(get()) }
         single { TaskNotesRepository() }

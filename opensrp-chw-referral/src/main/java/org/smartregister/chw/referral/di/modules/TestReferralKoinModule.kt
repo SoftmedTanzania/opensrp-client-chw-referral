@@ -23,7 +23,7 @@ object TestReferralKoinModule {
         single { ECSyncHelper.getInstance(androidApplication()) }
         single { Context.getInstance() }
         single { ClientProcessorForJava.getInstance(androidApplication()) }
-        single { Compressor.getDefault(androidApplication()) }
+        single { Compressor(androidApplication()) }
         single { CoreLibrary.init(get()) }
         single { TaskRepository(get()) }
         single { TaskNotesRepository() }
