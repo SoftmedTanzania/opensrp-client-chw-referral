@@ -1,15 +1,11 @@
 
 package org.smartregister.chw.referral.util
 
-import org.json.JSONArray
-import org.json.JSONObject
 import org.smartregister.AllConstants
-import org.smartregister.AllConstants.JSON
 import org.smartregister.Context
 import org.smartregister.domain.Location
 import org.smartregister.repository.LocationRepository
 import org.smartregister.repository.LocationTagRepository
-import rx.internal.util.LinkedArrayList
 import java.util.Locale
 
 /**
