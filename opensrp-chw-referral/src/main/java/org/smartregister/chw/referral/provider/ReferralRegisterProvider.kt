@@ -9,6 +9,7 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.nerdstone.neatformcore.utils.isNotNull
 import org.joda.time.DateTime
 import org.joda.time.Period
 import org.smartregister.chw.referral.R
@@ -16,8 +17,10 @@ import org.smartregister.chw.referral.fragment.BaseReferralRegisterFragment
 import org.smartregister.chw.referral.util.Constants
 import org.smartregister.chw.referral.util.DBConstants
 import org.smartregister.chw.referral.util.ReferralUtil
+import org.smartregister.chw.referral.util.Util
 import org.smartregister.commonregistry.CommonPersonObjectClient
 import org.smartregister.cursoradapter.RecyclerViewProvider
+import org.smartregister.domain.Task
 import org.smartregister.util.Utils
 import org.smartregister.view.contract.SmartRegisterClient
 import org.smartregister.view.dialog.FilterOption
@@ -100,6 +103,8 @@ open class ReferralRegisterProvider(
             val patientName = Utils.getName(
                     firstName, Utils.getValue(pc.columnmaps, DBConstants.Key.LAST_NAME, true)
             )
+            val baseEntityId = Utils.getValue(pc.columnmaps, DBConstants.Key.BASE_ENTITY_ID, false)
+
             with(viewHolder) {
                 this.patientName.text = String.format(
                         Locale.getDefault(), "%s, %d", patientName, age
@@ -129,10 +134,41 @@ open class ReferralRegisterProvider(
                 }
                 registerColumns.setOnClickListener(onClickListener)
                 registerColumns.setOnClickListener { patientColumn.performClick() }
+
+                dueWrapper.setOnClickListener(onClickListener)
+
                 setReferralStatusColor(
                         context, textReferralStatus,
                         Utils.getValue(pc.columnmaps, DBConstants.Key.REFERRAL_STATUS, true)
                 )
+
+                val taskId = Utils.getValue(pc.columnmaps, Constants.Task.Key.TASK_ID, false);
+
+                val task = Util.getFollowUpTask(taskId)
+
+                task?.let {
+                    if (it.status == Task.TaskStatus.READY){
+                        //Follow up task is available and not followed up on
+                        followUpWrapper.apply {
+                            visibility = View.VISIBLE
+                            setOnClickListener(onClickListener)
+                            tag = pc
+                            setTag(R.id.VIEW_ID, BaseReferralRegisterFragment.LINKAGE_FOLLOWUP)
+                            setTag(R.id.FOLLOW_UP_TASK, task )
+                        }
+                    }else{
+                        //Follow up task is already followed up on
+                        followUpWrapper.visibility = View.INVISIBLE
+                        val statusValue = Utils.getValue(pc.columnmaps, DBConstants.Key.STATUS, true)
+                        setReferralStatusColor( context, textReferralStatus, statusValue)
+                    }
+                }
+                task?:let {
+                    //Follow up task is not available
+                    followUpWrapper.visibility = View.INVISIBLE
+                    val statusValue = Utils.getValue(pc.columnmaps, DBConstants.Key.STATUS, true)
+                    setReferralStatusColor(context, textReferralStatus, statusValue)
+                }
             }
         } catch (e: IllegalStateException) {
             Timber.e(e)
@@ -153,7 +189,7 @@ open class ReferralRegisterProvider(
                 )
                 textViewStatus.text = context.getString(R.string.referral_status_failed)
             }
-            Constants.BusinessStatus.COMPLETE -> {
+            Constants.Task.Status.COMPLETED -> {
                 textViewStatus.setTextColor(
                         ContextCompat.getColor(context, R.color.alert_complete_green)
                 )
@@ -172,6 +208,7 @@ open class ReferralRegisterProvider(
         var textViewFacility: TextView = itemView.findViewById(R.id.text_view_facility)
         var registerColumns: View = itemView.findViewById(R.id.register_columns)
         var dueWrapper: View = itemView.findViewById(R.id.due_button_wrapper)
+        var followUpWrapper: View = itemView.findViewById(R.id.followup_button_wrapper);
     }
 
     open inner class FooterViewHolder(view: View) : RecyclerView.ViewHolder(view) {

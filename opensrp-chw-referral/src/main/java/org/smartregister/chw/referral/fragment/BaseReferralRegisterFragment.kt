@@ -13,6 +13,7 @@ import org.smartregister.commonregistry.CommonPersonObjectClient
 import org.smartregister.configurableviews.model.View
 import org.smartregister.cursoradapter.RecyclerViewPaginatedAdapter
 import org.smartregister.cursoradapter.RecyclerViewProvider
+import org.smartregister.domain.Task
 import org.smartregister.view.customcontrols.CustomFontTextView
 import org.smartregister.view.customcontrols.FontVariant
 import org.smartregister.view.fragment.BaseRegisterFragment
@@ -105,16 +106,23 @@ open class BaseReferralRegisterFragment : BaseRegisterFragment(),
         if (view.tag is CommonPersonObjectClient && view.getTag(R.id.VIEW_ID) === CLICK_VIEW_NORMAL) {
             openProfile(view.tag as CommonPersonObjectClient)
         }
+        if (view.getTag(R.id.VIEW_ID) === LINKAGE_FOLLOWUP){
+            openFollowUpVisit(view.tag as CommonPersonObjectClient)
+            //openLinkageFollowUp(view.tag as CommonPersonObjectClient, view.tag as Task)
+        }
     }
 
     protected open fun openProfile(client: CommonPersonObjectClient?) = Unit
 
     protected open fun openFollowUpVisit(client: CommonPersonObjectClient?) = Unit
 
+    protected open fun openLinkageFollowUp(client: CommonPersonObjectClient?, task: Task) = Unit
+
     override fun showNotFoundPopup(s: String) = Unit
 
     companion object {
         const val CLICK_VIEW_NORMAL = "click_view_normal"
         const val FOLLOW_UP_VISIT = "follow_up_visit"
+        const val LINKAGE_FOLLOWUP = "linkage_follow_up"
     }
 }

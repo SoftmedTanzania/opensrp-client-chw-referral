@@ -5,6 +5,7 @@ import org.smartregister.chw.referral.util.DBConstants
 import org.smartregister.cursoradapter.SmartRegisterQueryBuilder
 import org.smartregister.domain.Location
 import org.smartregister.repository.LocationRepository
+import org.smartregister.repository.LocationTagRepository
 import timber.log.Timber
 
 open class BaseIssueReferralModel : AbstractIssueReferralModel() {
@@ -13,7 +14,9 @@ open class BaseIssueReferralModel : AbstractIssueReferralModel() {
 
     override val healthFacilities: List<Location>?
         get() = try {
-            LocationRepository().allLocations
+            LocationRepository().allLocations.filter { location ->
+                LocationTagRepository().getLocationTagByLocationId(location.id).any { it.name.equals("Facility", ignoreCase = true) }
+            }
         } catch (e: SQLiteException) {
             Timber.e(e)
             null

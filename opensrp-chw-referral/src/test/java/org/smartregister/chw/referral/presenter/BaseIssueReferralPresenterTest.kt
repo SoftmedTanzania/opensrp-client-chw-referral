@@ -88,11 +88,12 @@ class BaseIssueReferralPresenterTest {
     fun `Should call save registration method of interactor`() {
         val valuesHashMap = hashMapOf<String, NFormViewData>()
         val jsonFormObject = JSONObject()
-        baseIssueReferralPresenter.saveForm(valuesHashMap, jsonFormObject)
+        baseIssueReferralPresenter.saveForm(valuesHashMap, jsonFormObject, false)
         verifyAll {
             issueReferralInteractor.saveRegistration(
                 sampleBaseEntityId, valuesHashMap, jsonFormObject,
-                baseIssueReferralPresenter as BaseIssueReferralPresenter
+                baseIssueReferralPresenter as BaseIssueReferralPresenter,
+                false
             )
         }
     }
